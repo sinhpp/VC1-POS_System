@@ -3,7 +3,7 @@ require_once "Router.php";
 require_once "Controllers/BaseController.php";
 require_once "Database/Database.php";
 require_once "Controllers/FormController.php";
-// require_once "Controllers/ForgotController.php";
+require_once "Controllers/ForgotPassword.php";
 
 // Create an instance of Router
 $route = new Router();
