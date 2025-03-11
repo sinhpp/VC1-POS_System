@@ -1,40 +1,16 @@
 <?php
-class Route {
-    private static $routes = [];
+require_once "Router.php";
+require_once "Controllers/BaseController.php";
+require_once "Database/Database.php";
+require_once "Controllers/FormController.php";
+// require_once "Controllers/ForgotController.php";
 
-    // Define a new route
-    public static function add($method, $uri, $controller, $action) {
-        self::$routes[] = [
-            'method' => strtoupper($method),
-            'uri' => trim($uri, '/'),
-            'controller' => $controller,
-            'action' => $action
-        ];
-    }
+// Create an instance of Router
+$route = new Router();
 
-    // Match the requested URI and method with the defined routes
-    public static function dispatch() {
-        $requestedUri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-        $requestedMethod = $_SERVER['REQUEST_METHOD'];
+// Define the routes
+$route->get("/", [FormController::class, 'form']);
+// $route->get('/forgot_password',[ForgotController:: class,'forgot_password'] );
 
-        foreach (self::$routes as $route) {
-            if ($route['uri'] === $requestedUri && $route['method'] === $requestedMethod) {
-                $controllerName = "Controllers\\" . $route['controller'];
-                $action = $route['action'];
-
-                if (class_exists($controllerName)) {
-                    $controller = new $controllerName();
-                    if (method_exists($controller, $action)) {
-                        call_user_func_array([$controller, $action], []);
-                        return;
-                    }
-                }
-            }
-        }
-
-        // If no route matches, show a 404 error
-        http_response_code(404);
-        echo "404 Not Found";
-    }
-}
-?>
+// Call the route method to process the request
+$route->route();

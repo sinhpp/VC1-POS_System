@@ -43,6 +43,6 @@ class Database {
     private function __clone() {}
 
     // Prevent object unserialization
-    private function __wakeup() {}
+    public function __wakeup() {}
 }
 ?>
