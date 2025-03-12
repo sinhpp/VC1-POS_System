@@ -1,10 +1,10 @@
 
 
 
-    <div class="container">
+<div class="container">
         <div class="form-box">
 
-            <h2>Login Form</h2>
+            <h2>Form Login</h2>
 
             <div class="toggle-buttons">
                 <button id="login-btn" class="active" onclick="showLogin()">Login</button>
@@ -16,20 +16,17 @@
             <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
 
             <!-- Login Form -->
-            <form id="login-form" action="/users/authenticate" method="post">
-
-          
+            <form id="login-form" action="/form/authenticate" method="post">
                 <input type="email" name="email" placeholder="Email Address" required>
                 <div class="password-container">
                     <input type="password" name="password" id="login-password" placeholder="Password" required>
                     <i class="fas fa-eye" id="toggle-login-password" onclick="togglePassword('login-password', 'toggle-login-password')"></i>
                 </div>
                 <a href="/views/form/forgot_password.php" class="forgot-password">Forgot password?</a>
-
-                
                 <button class="submit-btn" type="submit" name="login">Login</button>
                 <p>Not a member? <a href="#" onclick="showSignup()">Signup now</a></p>
             </form>
+
 
             <!-- Signup Form -->
             <form id="signup-form" action="/users/store" method="post" style="display: none;">
@@ -55,3 +52,4 @@
         </div>
 
     </div>
+

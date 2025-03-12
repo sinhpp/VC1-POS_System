@@ -12,8 +12,10 @@ $route = new Router();
 
 // Define the routes
 $route->get("/", [WelcomeController::class, 'welcome']);
-$route->get("/", [FormController::class, 'form']);
-$route->post("/users/authenticate", [UserController::class, 'authenticate']);
+$route->get("/", [FormController::class, 'form']); // Set as homepage
+
+$route->post("/form/authenticate", [UserController::class, 'authenticate']);
+
 
 $route->get("/users", [UserController::class, 'index']);
 $route->get("/users/create", [UserController::class, 'create']);

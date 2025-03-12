@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <div class="container mt-4">
 <h1>Users List</h1>
-<h3>List Name All Users</h3>
+
 <div class="container mt-4">
 <a href="/users/create" class="btn btn-primary">Create</a>
 
@@ -45,6 +45,6 @@ if (session_status() == PHP_SESSION_NONE) {
 </div>  
 <?php 
 else: 
-    $this->redirect("../view/users"); 
+    $this->redirect("/"); 
 endif;   
 ?>

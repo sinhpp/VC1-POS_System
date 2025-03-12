@@ -9,6 +9,6 @@ if (isset($_SESSION['user_id'])) :
 </div>
 <?php 
 else: 
-    $this->redirect("../view/form"); 
+    $this->redirect("/"); 
 endif;   
 ?>

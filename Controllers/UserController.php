@@ -20,19 +20,31 @@ class UserController extends BaseController {
     public function create() {
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
-
+    public function form() {
+        $this->view("form/form");
+    }
     public function store() {
+        session_start(); // Start session to store the message
+    
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
-        $this->users->createUser($name, $email, $encrypted_password, $role);
-        header("Location: /users");
+    
+        // Check if user creation is successful
+        if ($this->users->createUser($name, $email, $encrypted_password, $role)) {
+            $_SESSION['signup_success'] = "Your signup was successful!";
+            header("Location: /"); // Redirect to the login page
+            exit();
+        } else {
+            $_SESSION['signup_error'] = "Error during signup. Please try again.";
+            header("Location: /"); // Redirect back to signup form
+            exit();
+        }
     }
-    public function login() {
-        $this->view("form/form");
-    }
+    
+   
     public function authenticate() {
         session_start();
         $email = htmlspecialchars($_POST['email']);
