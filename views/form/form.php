@@ -1,49 +1,4 @@
-<?php
-session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['login'])) {
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
-
-        $sql = "SELECT id, password, role FROM users WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_role'] = $user['role'];
-            header("Location: welcome.php");
-            exit();
-        } else {
-            $error = "Invalid login credentials!";
-        }
-    }
-
-    if (isset($_POST['signup'])) {
-        $name = trim($_POST['name']);
-        $email = trim($_POST['email']);
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $role = $_POST['role'];
-        
-        $sql = "INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $stmt->bindParam(":password", $password, PDO::PARAM_STR);
-        $stmt->bindParam(":role", $role, PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
-            $success = "Registration successful! You can now log in.";
-        } else {
-            $error = "Registration failed. Please try again.";
-        }
-    }
-}
-
-?>
 
 
     <div class="container">
@@ -61,7 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
 
             <!-- Login Form -->
-            <form id="login-form" method="post">
+            <form id="login-form" action="/users/authenticate" method="post">
+
+          
                 <input type="email" name="email" placeholder="Email Address" required>
                 <div class="password-container">
                     <input type="password" name="password" id="login-password" placeholder="Password" required>
@@ -75,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
 
             <!-- Signup Form -->
+            <form id="signup-form" action="/users/store" method="post" style="display: none;">
             <form id="signup-form" method="post" style="display: none;">
                 <input type="text" name="name" placeholder="Full Name" required>
                 <input type="email" name="email" placeholder="Email Address" required>
@@ -97,4 +55,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
     </div>
- 
