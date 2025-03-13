@@ -62,9 +62,24 @@ class UserController extends BaseController {
             $this->view("form/form", ['error' => 'Invalid email or password']);
         }
     }
+    public function delete($id) {
+        $this->users->deleteUser($id);
+        header("Location: /users");
+    }
+    
+    public function logout() {
+        session_start();
+        
+        // Unset all session variables
+        session_unset();
+        
+        // Destroy the session
+        session_destroy();
 
-    
-    
+        // Redirect to homepage after logout
+        header("Location: /");
+    }
+   
     
 }
 ?>

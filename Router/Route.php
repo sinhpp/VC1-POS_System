@@ -21,7 +21,8 @@ $route->post("/form/authenticate", [UserController::class, 'authenticate']);
 $route->get("/users", [UserController::class, 'index']);
 $route->get("/users/create", [UserController::class, 'create']);
 $route->post("/users/store", [UserController::class, 'store']);
-
+$route->delete("/users/delete/{id}", [UserController::class, 'delete']);
+$route->get("/users/logout", [UserController::class, 'logout']);
 // $route->get('/forgot_password',[ForgotController:: class,'forgot_password'] );
 //products
 
