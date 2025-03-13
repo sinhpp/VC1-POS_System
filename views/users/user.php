@@ -77,6 +77,11 @@ if (isset($_SESSION['user_id'])) : ?>
                     <i class="material-icons">logout</i> Logout
                 </a>
             </li>
+            <li>
+                <a href="/products" class="nav-link">
+                    <i class="material-icons"></i> products
+                </a>
+            </li>
         </ul>
     </nav>
 
