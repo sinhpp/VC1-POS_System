@@ -17,7 +17,6 @@ $route = new Router();
 $route->get("/dashboard", [DashboardController::class, 'show']);
 
 // Define the routes
-$route->get("/", [WelcomeController::class, 'welcome']);
 $route->get("/", [FormController::class, 'form']); // Set as homepage
 
 $route->post("/form/authenticate", [UserController::class, 'authenticate']);
