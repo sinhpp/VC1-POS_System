@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once "../layout.php";
+require_once(__DIR__ . '/../../config.php');
+ // Include config file
+require_once(BASE_PATH . '/views/layout.php'); // Use absolute path
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['login'])) {
         $email = trim($_POST['email']);

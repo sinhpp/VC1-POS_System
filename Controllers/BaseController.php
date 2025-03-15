@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../config.php');
 
 class BaseController
 {
@@ -12,9 +13,9 @@ class BaseController
     {
         extract($data);
         ob_start();
-        require "views/{$view}.php";
+        require_once(__DIR__ . "/../views/{$view}.php");
         $content = ob_get_clean();
-        require "views/layout.php";
+        require_once(__DIR__ . "/../views/layouts/layout.php"); // Fix the layout path
     }
 
     /**
