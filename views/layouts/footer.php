@@ -15,6 +15,8 @@
     <!-- All javascript code in this project for now is just for demo DON'T RELY ON IT  -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
     <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/js/form.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
       const setup = () => {
         const getTheme = () => {
