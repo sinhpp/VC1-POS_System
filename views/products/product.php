@@ -103,6 +103,7 @@ if (isset($_SESSION['user_id'])) : ?>
                     <th>Price</th>
                     <th>Stock</th>
                     <th>Created At</th>
+                    <th>category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -115,6 +116,7 @@ if (isset($_SESSION['user_id'])) : ?>
                     <td>$<?= number_format($product['price'], 2) ?></td>
                     <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= $product['stock'] ?></span></td>
                     <td><?= $product['created_at'] ?></td>
+                    <td><?= $product['category'] ?></td>
                     <td>
                         <a href="/products/edit/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1"><i class="material-icons">edit</i></a>
                         <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1"><i class="material-icons">delete</i></a>

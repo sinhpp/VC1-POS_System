@@ -19,14 +19,15 @@ class ProductModel {
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function createProduct($name, $barcode, $price, $stock) {
+    public function createProduct($name, $barcode, $price, $stock, $category) {
         // Insert new product
-        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock) VALUES (:name, :barcode, :price, :stock)");
+        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category) VALUES (:name, :barcode, :price, :stock, :category)");
         return $stmt->execute([
             ':name' => $name,
             ':barcode' => $barcode,
             ':price' => $price,
-            ':stock' => $stock
+            ':stock' => $stock,
+            ':category' => $category
         ]);
     }
     public function deleteProduct($id) {
