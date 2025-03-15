@@ -77,6 +77,7 @@ if (isset($_SESSION['user_id'])) : ?>
 <body>
 
     <!-- Sidebar -->
+     
     <nav class="sidebar">
         <h3 class="text-center">Admin Panel</h3>
         <hr>
@@ -89,217 +90,252 @@ if (isset($_SESSION['user_id'])) : ?>
         </ul>
     </nav>
 <!-- end siderbar -->
-<body>
-<title>Add New Product</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            margin-left: 200px;
-        }
-        .container {
-            max-width: 90%;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        header input[type="search"] {
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        header button {
-            background: green;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        main {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        section {
-            background: #fafafa;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        h3 {
-            margin-top: 0;
-        }
-        input, textarea, button {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .size-gender button {
-            width: auto;
-            display: inline-block;
-            margin-right: 5px;
-            background: #ddd;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .upload-img img {
-            max-width: 100px;
-            display: block;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h2>Overview</h2>
-            <input type="search" placeholder="Search">
-            <button>Add Product</button>
-        </header>
-        
-        <main>
-            <section class="product-info">
+ 
+<div class="container">
+    <header>
+        <h2>📦 Add New Product</h2>
+    </header>
+
+    <main class="grid-container">
+        <section class="general-info">
+            <form action="/products/store" method="POST" enctype="multipart/form-data">
                 <h3>General Information</h3>
                 <label>Name Product</label>
-                <input type="text" placeholder="Puffer Jacket With Pocket Detail">
+                <input type="text" placeholder="Enter product name" name="name" required>
+                
                 <label>Description Product</label>
-                <textarea>...</textarea>
+                <textarea placeholder="Enter product description" name="description" required></textarea>
                 
                 <div class="size-gender">
-                    <div>
-                        <h4>Size</h4>
-                        <button>XS</button><button>S</button><button>M</button>
-                        <button>L</button><button>XL</button><button>XXL</button>
+                    <div class="size">
+                        <label>Size</label>
+                        <div class="size-options">
+                            <button type="button" onclick="selectSize(this)">S</button>
+                            <button type="button" onclick="selectSize(this)">M</button>
+                            <button type="button" class="selected" onclick="selectSize(this)">L</button>
+                            <button type="button" onclick="selectSize(this)">XL</button>
+                            <button type="button" onclick="selectSize(this)">XXL</button>
+                        </div>
                     </div>
-                    <div>
-                        <h4>Gender</h4>
-                        <button>Men</button><button>Women</button><button>Unisex</button>
+                    <div class="gender">
+                        <label>Gender</label>
+                        <div class="gender-options">
+                            <button type="button" onclick="selectGender(this)" class="selected">Men</button>
+                            <button type="button" onclick="selectGender(this)">Women</button>
+                            <button type="button" onclick="selectGender(this)">Unisex</button>
+                        </div>
                     </div>
                 </div>
-            </section>
-            
-            <section class="pricing-stock">
-                <h3>Pricing And Stock</h3>
-                <label>Base Pricing</label>
-                <input type="text" value="$47.15">
-                <label>Stock</label>
-                <input type="number" value="77">
-                <label>Discount</label>
-                <input type="text" value="10%">
-                <label>Discount Type</label>
-                <input type="text" value="Chinese New Year Discount">
-            </section>
-            
-            <section class="upload-img">
-                <h3>Upload Img</h3>
-                <input type="file" id="imageUpload">
-                <img id="imagePreview" src="jacket.png" alt="Jacket Preview">
-            </section>
-            
-  
-    
-    <section class="category">
-    <h3>Category</h3>
-    
-    <!-- Category Dropdown -->
-    <select id="categorySelect">
-        <option value="Uniform">Uniform</option>
-        <option value="T-shirt">T-shirt</option>
-        <option value="Sport clothes">Sport clothes</option>
-        <option value="Dresses">Dresses</option>
-        <option value="Other">Other</option>
-    </select>
+        </section>
 
-    <!-- Hidden input for custom category -->
-    <input type="text" id="customCategory" placeholder="Enter category" style="display: none;">
+     <section class="pricing-stock">
+    <h3>Pricing And Stock</h3>
+    <label>Base Pricing</label>
+    <input type="number" placeholder="$0.00" name="price" required>
+    
+    <label>Stock</label>
+    <input type="number" placeholder="Enter stock quantity" name="stock" required>
 
-    <button id="addCategory">Add Category</button>
+    <label>Discount</label>
+    <input type="text" placeholder="Enter discount" name="discount">
+
+    <label>Discount Type</label>
+    <input type="text" placeholder="Enter discount type" name="discount_type">
+
+    <label>Barcode:</label>
+    <input type="text" class="form-control" name="barcode"/>
+    <br />
+    <center><button class="btn btn-primary" name="generate">Generate</button></center>
+    <br />
+    <?php 
+    // Using the correct path to generate.php
+    if (file_exists('views/barcode/generate.php')) {
+        include 'views/barcode/generate.php';
+    } else {
+        echo '<p>Error: generate.php not found.</p>';
+    }
+    ?>
 </section>
+        <!-- Upload Image -->
+        <section class="upload-img">
+            <h3>Upload Img</h3>
+            <input type="file" id="fileUpload" name="image" accept="image/*" required>
+            <div class="image-preview" id="imagePreview">
+                <img src="" alt="Product Image" id="previewImg" style="display:none;">
+            </div>
+        </section>
 
+        <!-- Category -->
+        <section class="category">
+            <h3>Category</h3>
+            <select id="categorySelect" name="category" required>
+                <option value="Uniform">Uniform</option>
+                <option value="T-shirt">T-shirt</option>
+                <option value="Sport Clothes">Sport Clothes</option>
+                <option value="Dresses">Dresses</option>
+                <option value="Other">Other</option>
+            </select>
+        </section>
+
+        <div class="actions">
+            <button type="submit" class="add">➕ Add Product</button>
+        </div>
+        </form>
+    </main>
+</div>
 <style>
-    .category {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 250px;
-    }
-    select, input, button {
-        padding: 8px;
-        font-size: 16px;
-    }
-    input {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    button {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #218838;
-    }
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    margin-left: 300px; /* Sidebar adjustment */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    font-size: 20px;
+}
+
+.actions button {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.save {
+    background: gray;
+    color: white;
+}
+
+.add {
+    background: green;
+    color: white;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+section {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    margin-bottom: 10px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 8px;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: darkgreen;
+}
+
+.size-gender {
+    display: flex;
+    justify-content: space-between;
+}
+
+.size-options, .gender-options {
+    display: flex;
+    gap: 5px;
+}
+
+.size-options button, .gender-options button {
+    padding: 5px;
+    border: 1px solid #ccc;
+    background: white;
+    color: black; /* Text color set to black */
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.size-options .selected, .gender-options .selected {
+    background: green;
+    color: white; /* Keep selected text white for better contrast */
+}
+
+.upload-img input {
+    display: block;
+}
+
+.image-preview {
+    margin-top: 10px;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eaeaea;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+}
 </style>
-
 <script>
-    document.getElementById('categorySelect').addEventListener('change', function () {
-        let customCategoryInput = document.getElementById('customCategory');
-        if (this.value === 'Other') {
-            customCategoryInput.style.display = 'block';
-            customCategoryInput.focus();
-        } else {
-            customCategoryInput.style.display = 'none';
-            customCategoryInput.value = ''; // Clear input if another category is selected
-        }
-    });
+    document.getElementById('fileUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('previewImg'); // Use the correct ID for the image preview
+    const reader = new FileReader();
 
-    document.getElementById('addCategory').addEventListener('click', function () {
-        let selectedCategory = document.getElementById('categorySelect').value;
-        let customCategory = document.getElementById('customCategory').value;
+    reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+    };
 
-        if (selectedCategory === 'Other' && customCategory.trim() === '') {
-            alert('Please enter a category name!');
-        } else {
-            let categoryToAdd = selectedCategory === 'Other' ? customCategory : selectedCategory;
-            alert('Category added: ' + categoryToAdd);
-            // Here you can send the categoryToAdd value to your backend if needed
-        }
-    });
-    </script>
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
-        </main>
-    </div>
-
-    <script>
-        document.getElementById('imageUpload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('imagePreview').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
-</body>
-</html>
 <?php 
 else: 
     $this->redirect("/"); 

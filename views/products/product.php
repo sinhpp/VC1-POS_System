@@ -91,41 +91,55 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <!-- Table Content -->
     <div class="content" style="margin-left: 270px; padding: 20px;">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/products/create" class="btn btn-success">+ Add product</a>
-        </div>
-        <table class="table table-striped table-hover shadow-sm rounded">
-            <thead class="table-dark">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="/products/create" class="btn btn-success">+ Add Product</a>
+    </div>
+    <table class="table table-striped table-hover shadow-sm rounded">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Barcode</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Created At</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($products)): ?>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Barcode</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Created At</th>
-                    <th>category</th>
-                    <th>Actions</th>
+                    <td colspan="8" class="text-center">No products available.</td>
                 </tr>
-            </thead>
-            <tbody>
+            <?php else: ?>
                 <?php foreach ($products as $product): ?>
                 <tr>
-                    <td><?= $product['id'] ?></td>
-                    <td><?= $product['name'] ?></td>
-                    <td><?= $product['barcode'] ?></td>
+                    <td><?= htmlspecialchars($product['id']) ?></td>
+                    <td><?= htmlspecialchars($product['name']) ?></td>
+                    <td><?= htmlspecialchars($product['barcode']) ?></td>
                     <td>$<?= number_format($product['price'], 2) ?></td>
-                    <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= $product['stock'] ?></span></td>
-                    <td><?= $product['created_at'] ?></td>
-                    <td><?= $product['category'] ?></td>
                     <td>
-                        <a href="/products/edit/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1"><i class="material-icons">edit</i></a>
-                        <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1"><i class="material-icons">delete</i></a>
+                        <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
+                            <?= htmlspecialchars($product['stock']) ?>
+                        </span>
+                    </td>
+                    <td><?= htmlspecialchars($product['created_at']) ?></td>
+                    <td><?= htmlspecialchars($product['category']) ?></td>
+                    <td>
+                        <a href="/products/edit/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">
+                            <i class="material-icons">delete</i>
+                        </a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>
