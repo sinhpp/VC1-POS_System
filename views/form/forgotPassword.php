@@ -1,10 +1,16 @@
-<?php
-session_start();
-require_once "../layout.php";
 
-?>
-
-    <div class="container-forgotpassword">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/views/assets/css/form.css">
+    <link rel="stylesheet" href="/views/assets/css/form.forgot.password.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="container-forgotpassword">
         <h2>Reset your password</h2>
         <form id="resetForm" method="post">
             <!-- <label class="new_pwd" for="password">New password</label> -->
@@ -19,7 +25,11 @@ require_once "../layout.php";
             </div>
             <div class="choice">
             <button class="comfirm" type="submit">Confirm</button>
-            <button class="cancel" ><a href="/views/form/form.php"> Cancel</a></button>
+            <button class="cancel" ><a href="/"> Cancel</a></button>
         </div>
         </form>
     </div>
+
+   <script src="../assets/js/form.js"></script>
+</body>
+</html>
