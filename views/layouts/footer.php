@@ -1,4 +1,6 @@
-          <!-- Main footer -->
+        
+        <script src="../assets/js/form.js"></script>
+        <!-- Main footer -->
           <footer
             class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker"
           >
@@ -728,5 +730,6 @@
         }
       }
     </script>
+    
   </body>
 </html>
