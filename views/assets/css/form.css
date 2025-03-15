@@ -42,9 +42,9 @@ option{
     cursor: pointer;
 }
 .role_system {
-    /* margin: 20px 0; */
+   
     margin-bottom: 25px;
-    margin-top: -10px;
+    margin-top: 20px;
    
 }
 .form-control {
@@ -153,7 +153,7 @@ p a {
 .password-container i {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 59%;
     transform: translateY(-50%);
     cursor: pointer;
     color: #777;
