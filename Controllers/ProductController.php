@@ -46,6 +46,21 @@ class ProductController extends BaseController {
         }
     }
 
+    public function edit($id) {
+        $product = $this->products->getProById($id);
+        $this->view("products/create", ['product' => $product]);
+    }
+    public function update($id) {
+        $name = $_POST['name'];
+        $barcode = $_POST['barcode']; // Directly retrieve the barcode input
+        $price = floatval($_POST['price']);
+        $stock = intval($_POST['stock']);
+        $category = $_POST['category'];
+        $image = $_FILES['image'];  
+        $this->products->updateUser($name, $barcode, $email, $price, $stock, $category, $image);
+        header("Location: /products");
+    }  
+
     // Other methods remain unchanged...
 
     public function delete($id) {

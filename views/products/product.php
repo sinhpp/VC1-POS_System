@@ -222,7 +222,7 @@ if (isset($_SESSION['user_id'])) : ?>
                                 <td><?= htmlspecialchars($product['created_at']) ?></td>
                                 
                                 <td>
-                                    <a href="/products/edit/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                                    <a href="/products/create/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
                                         <i class="material-icons">edit</i>
                                     </a>
                                     <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">

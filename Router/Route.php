@@ -34,6 +34,8 @@ $route->get("/users/logout", [UserController::class, 'logout']);
 $route->get("/products", [ProductController::class, 'index']);
 $route->get("/products/create", [ProductController::class, 'create']);
 $route->post("/products/store", [ProductController::class, 'store']);
+$route->get("/products/create/{id}", [ProductController::class, 'edit']);
+$route->put("/products/update/{id}", [ProductController::class, 'update']);
 $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 

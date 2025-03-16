@@ -35,6 +35,24 @@ class ProductModel {
             ':category' => $category
         ]);
     }
+
+    public function getProById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateProduct($name, $barcode, $price, $stock, $category) {
+        $result = $this->db->query("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category WHERE id = :id", [
+            ':name' => $name,
+            ':barcode' => $barcode, // Ensure barcode is used here
+            ':price' => $price,
+            ':stock' => $stock,
+            ':category' => $category
+        ]);
+        return $result;
+    }
+
     public function deleteProduct($id) {
         // Prepare the SQL statement to delete the product based on its ID
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
