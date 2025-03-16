@@ -103,12 +103,12 @@ if (isset($_SESSION['user_id'])) : ?>
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             font-family: "Poppins", sans-serif;
-            margin-left: 50px;
+            margin-left: 18%;
         }
 
         .table-container {
-            max-width: 1700px;
-           
+            max-width: 100%;
+            margin-top: 10%;
             background: white;
             padding: 20px;
             border-radius: 8px;
@@ -163,23 +163,7 @@ if (isset($_SESSION['user_id'])) : ?>
             cursor: pointer;
         }
         /* Add this to your existing CSS */
-.btn-success {
-    background-color:rgb(64, 196, 90); /* Green background */
-    color: white;             /* White text */
-    border: none;             /* No border */
-    padding: 10px 20px;       /* Padding for the button */
-    font-size: 16px;          /* Font size */
-    border-radius: 5px;       /* Rounded corners */
-    cursor: pointer;          /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition */
-  
-    margin-top: 500px;         /* Space above the button */
-    margin-left: -300px;         /* Space above the button */
-}
 
-.btn-success:hover {
-    background-color: #218838; /* Darker green on hover */
-}
     </style>
 </head>
 <body>

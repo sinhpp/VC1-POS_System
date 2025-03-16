@@ -45,13 +45,13 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         /* Content area */
         .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
+            margin-left: 10px; /* Adjust based on sidebar width */
             padding: 50px;
         }
         /* Table Styles */
         .table {
-            width: 100%;
-            margin-left: 70px;
+            width: 80%;
+            margin-left: 30px;
         }
         .table th, .table td {
             padding: 10px;
@@ -102,7 +102,7 @@ if (isset($_SESSION['user_id'])) : ?>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <header>
-        <h1> Add New Product</h1>
+        <h2> Add New Product</h2>
     </header>
 
     <main class="grid-container">
@@ -198,13 +198,15 @@ body {
 }
 
 .container {
-    max-width: 1200px;
-    margin: auto;
-    margin-left: 270px; /* Sidebar adjustment */
+    max-width: 80%;
+    height: auto;
+    margin-left: 400px; /* Sidebar adjustment */
     background: white;
-    padding: 50px;
+    position: relative;
+    left:-10%;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   
 }
 
 header {
@@ -212,10 +214,12 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+  
 }
 
 header h2 {
-    font-size: 20px;
+    font-size: 30px;
+    margin-left:30%;
 }
 
 .actions button {
@@ -233,8 +237,10 @@ header h2 {
 
 .add {
     position: relative;
-    width: 410px;
-    left:560px;
+    width: 450px;
+    margin-top:10px;
+    margin-bottom:50px;
+    left:600px;
     background: green;
     color: white;
 }

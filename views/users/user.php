@@ -114,9 +114,39 @@ if (isset($_SESSION['user_id'])) : ?>
                             <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
                                 <i class="material-icons">edit</i>
                             </a>
-                            <a href="/users/delete/<?= $user['id'] ?>" class="btn btn-danger btn-sm mx-1">
+                           
+                                                        <!-- Delete Button -->
+                            <a href="#" class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(<?= $user['id'] ?>)">
                                 <i class="material-icons">delete</i>
                             </a>
+
+                            <script>
+                            function confirmDelete(userId) {
+                                Swal.fire({
+                                    title: 'Do you want to delete this user?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#dc3545', // Bootstrap danger color
+                                    cancelButtonColor: '#6c757d', // Bootstrap secondary color
+                                    confirmButtonText: 'Yes, delete it!',
+                                    cancelButtonText: 'Cancel'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // If user confirms, redirect to delete URL
+                                        window.location.href = '/users/delete/' + userId;
+
+                                        // Show success alert after deletion
+                                        Swal.fire(
+                                            'Deleted!',
+                                            'User has been deleted successfully.',
+                                            'success'
+                                        );
+                                    }
+                                });
+                            }
+                            </script>
+
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -131,7 +161,7 @@ if (isset($_SESSION['user_id'])) : ?>
     /* Main Content Area */
 .content {
     font-family: "Poppins", sans-serif;
-    width: 100%;
+    width: 82%;
     height: 100%;
     margin-left:18%;
     background-color: #f8f9fa; /* Light background */
