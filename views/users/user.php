@@ -100,24 +100,44 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 
     .table th, .table td {
-        text-align: left; /* Default alignment for all cells */
+        text-align: center; /* Center align text in headers and data cells */
     }
 
-    .table th:nth-child(4), .table td:nth-child(4), /* Role column */
-    .table th:nth-child(5), .table td:nth-child(5) { /* Actions column */
-        text-align: center; /* Center align only Role and Actions */
+    .table th {
+        background-color: #add8e6; /* Light blue color */
+        color: #000; /* Text color for better contrast */
     }
 
     .role-badge {
         display: inline-block; /* Ensure the badge behaves like a block */
         width: 100px; /* Set a specific width for balance */
-        text-align: center; /* Center align the text within the badge */
+        text-align: center; /* Center align the text */
+    }
+</style>
+<style>
+    .table-responsive {
+        margin: 20px; /* Optional: Add some margin to the table */
+    }
+
+    .table th, .table td {
+        text-align: center; /* Center align text in headers and data cells */
+    }
+
+    .table th {
+        background-color: #add8e6; /* Light blue color */
+        color: #000; /* Text color for better contrast */
+    }
+
+    .role-badge {
+        display: inline-block; /* Ensure the badge behaves like a block */
+        width: 100px; /* Set a specific width for balance */
+        text-align: center; /* Center align the text */
     }
 </style>
 
 <div class="table-responsive">
     <table class="table table-striped table-hover shadow-sm rounded">
-        <thead style="background-color: #96dbe4;">
+        <thead>
             <tr>
                 <th>Id</th>
                 <th>Username</th>
@@ -141,7 +161,7 @@ if (isset($_SESSION['user_id'])) : ?>
                     <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
                         <i class="material-icons">edit</i>
                     </a>
-                    <a href="/users/delete/<?= $user['id'] ?>" class="btn btn-danger btn-sm mx-1">
+                    <a href="#" class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(<?= $user['id'] ?>)">
                         <i class="material-icons">delete</i>
                     </a>
                 </td>
@@ -150,6 +170,34 @@ if (isset($_SESSION['user_id'])) : ?>
         </tbody>
     </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Do you want to delete this user?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545', // Bootstrap danger color
+            cancelButtonColor: '#6c757d', // Bootstrap secondary color
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If user confirms, redirect to delete URL
+                window.location.href = '/users/delete/' + userId;
+
+                // Show success alert after deletion
+                Swal.fire(
+                    'Deleted!',
+                    'User has been deleted successfully.',
+                    'success'
+                );
+            }
+        });
+    }
+</script>
 </body>
 </html>
 <style>
