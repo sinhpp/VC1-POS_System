@@ -42,14 +42,36 @@ class ProductModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateProduct($name, $barcode, $price, $stock, $category) {
-        $result = $this->db->query("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category WHERE id = :id", [
+    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $image) {
+        // Prepare the SQL statement
+        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category WHERE id = :id");
+    
+        // Execute the update
+        $result = $stmt->execute([
             ':name' => $name,
-            ':barcode' => $barcode, // Ensure barcode is used here
+            ':barcode' => $barcode,
             ':price' => $price,
             ':stock' => $stock,
-            ':category' => $category
+            ':category' => $category,
+            ':id' => $id
         ]);
+    
+        // Handle image upload if a new image is provided
+        if (!empty($image['name'])) {
+            // Move the uploaded file to the desired directory
+            $targetDir = "uploads/"; // Ensure this directory exists
+            $targetFile = $targetDir . basename($image['name']);
+    
+            if (move_uploaded_file($image['tmp_name'], $targetFile)) {
+                // Update the image path in the database if the upload is successful
+                $stmt = $this->db->prepare("UPDATE products SET image = :image WHERE id = :id");
+                $stmt->execute([
+                    ':image' => $targetFile,
+                    ':id' => $id
+                ]);
+            }
+        }
+    
         return $result;
     }
 

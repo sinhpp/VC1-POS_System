@@ -26,26 +26,33 @@ class ProductController extends BaseController {
     public function store() {
         session_start(); // Start session to store the message
     
+        // Collecting data from the form
         $name = $_POST['name'];
-        $barcode = $_POST['barcode']; // Directly retrieve the barcode input
+        $barcode = $_POST['barcode'];
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
         $category = $_POST['category'];
-        $image = $_FILES['image'];  // This is incorrect
-
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
     
-        // Check if product creation is successful
-        if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $image)) {
-            $_SESSION['product_success'] = "Product added successfully!";
-            header("Location: /products"); // Redirect to products list
-            exit();
+        if ($id) {
+            // Update the existing product
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product updated successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error updating product.";
+            }
         } else {
-            $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode."; // Handle duplicate barcode
-            header("Location: /products/create"); // Redirect back to product creation form
-            exit();
+            // Create a new product
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product added successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
+            }
         }
+    
+        header("Location: /products"); // Redirect to products list
+        exit();
     }
-
     public function edit($id) {
         $product = $this->products->getProById($id);
         $this->view("products/create", ['product' => $product]);
