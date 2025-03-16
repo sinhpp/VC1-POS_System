@@ -167,90 +167,94 @@ if (isset($_SESSION['user_id'])) : ?>
     </style>
 </head>
 <body>
-        <div class="table-container">
-            <table>
-                <thead>
+<style>
+    .table-container table th:nth-child(6),
+    .table-container table td:nth-child(6) {
+        width: 120px; /* Set a specific width for the stock column */
+        text-align: center; /* Center align the text */
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
+                <th onclick="sortTable(1)">Image <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(2)">NAME <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(3)">CODE <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(4)">PRICE <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(5)">STOCK <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(6)">CATEGORY <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(7)">CREATED AT <i class="fas fa-sort"></i></th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="8" class="text-center">No products available.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($products as $product): ?>
                     <tr>
-                        <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
-                        <th onclick="sortTable(1)">Image <i class="fas fa-sort"></i></th>
-                        <th onclick="sortTable(2)">NAME <i class="fas fa-sort"></i></th>
-                        <th onclick="sortTable(3)">CODE <i class="fas fa-sort"></i></th>
-                        <th onclick="sortTable(4)">PRICE <i class="fas fa-sort"></i></th>
-                        <th onclick="sortTable(5)">STOCK <i class="fas fa-sort"></i></th>
-                        <th onclick="sortTable(6)">CATEGORY <i class="fas fa-sort"></i></th>
-                        <th onclick="sortTable(7)">CREATED AT <i class="fas fa-sort"></i></th>
-                        <th>ACTION</th>
+                        <td><input type="checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td><?= htmlspecialchars($product['barcode']) ?></td>
+                        <td>$<?= number_format($product['price'], 2) ?></td>
+                        <td>
+                            <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
+                                <?= htmlspecialchars($product['stock']) ?>
+                            </span>
+                        </td>
+                        <td><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        
+                        <td>
+                            <a href="/products/create/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                                <i class="material-icons">edit</i>
+                            </a>
+                            <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">
+                                <i class="material-icons">delete</i>
+                            </a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($products)): ?>
-                        <tr>
-                            <td colspan="8" class="text-center">No products available.</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($products as $product): ?>
-                            <tr>
-                            <td><?= htmlspecialchars($product['id']) ?></td>
-                            <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+<a href="/products/create" class="btn btn-success">+ Add Product</a>
 
-                                
-                                <td><?= htmlspecialchars($product['name']) ?></td>
-                                <td><?= htmlspecialchars($product['barcode']) ?></td>
-                                <td>$<?= number_format($product['price'], 2) ?></td>
-                                <td>
-                                    <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
-                                        <?= htmlspecialchars($product['stock']) ?>
-                                    </span>
-                                </td>
-                                <td><?= htmlspecialchars($product['category']) ?></td>
-                                <td><?= htmlspecialchars($product['created_at']) ?></td>
-                                
-                                <td>
-                                    <a href="/products/create/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                    <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-        <a href="/products/create" class="btn btn-success">+ Add Product</a>
-    <script>
-        function sortTable(columnIndex) {
-            let table = document.getElementById("productTable");
-            let rows = Array.from(table.rows);
-            let isAscending = table.dataset.sortOrder === "asc";
+<script>
+    function sortTable(columnIndex) {
+        let table = document.querySelector(".table-container table");
+        let rows = Array.from(table.rows).slice(1); // Skip the header row
+        let isAscending = table.dataset.sortOrder === "asc";
 
-            rows.sort((a, b) => {
-                let aValue = a.cells[columnIndex].textContent.trim();
-                let bValue = b.cells[columnIndex].textContent.trim();
+        rows.sort((a, b) => {
+            let aValue = a.cells[columnIndex].textContent.trim();
+            let bValue = b.cells[columnIndex].textContent.trim();
 
-                if (!isNaN(aValue) && !isNaN(bValue)) {
-                    return isAscending ? aValue - bValue : bValue - aValue;
-                } else {
-                    return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-                }
-            });
+            if (!isNaN(aValue) && !isNaN(bValue)) {
+                return isAscending ? aValue - bValue : bValue - aValue;
+            } else {
+                return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            }
+        });
 
-            table.innerHTML = "";
-            rows.forEach(row => table.appendChild(row));
+        table.tBodies[0].innerHTML = ""; // Clear the existing rows
+        rows.forEach(row => table.tBodies[0].appendChild(row)); // Append sorted rows
 
-            table.dataset.sortOrder = isAscending ? "desc" : "asc";
-        }
+        table.dataset.sortOrder = isAscending ? "desc" : "asc";
+    }
 
-        function toggleAllCheckboxes(source) {
-            let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
-            checkboxes.forEach(checkbox => checkbox.checked = source.checked);
-        }
-    </script>
-
-</body>
-</html>
+    function toggleAllCheckboxes(source) {
+        let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+    }
+</script>
 
 
 <?php 

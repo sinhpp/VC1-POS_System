@@ -88,73 +88,68 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <!-- Main Content Area -->
     <div class="content">
-        <h2 class="text-center mb-4">Users List</h2>
+    <h2 class="text-center mb-4">Users List</h2>
+ 
+ <div class="d-flex justify-content-between align-items-center mb-3">
+     <a href="/users/create" class="btn btn-success">+ Create User</a>
+ </div>
 
-      
+ <style>
+    .table-responsive {
+        margin: 20px; /* Optional: Add some margin to the table */
+    }
 
-        <div class="table-responsive">
-            <table class="table table-striped table-hover shadow-sm rounded">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Id</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($users as $user): ?>
-                    <tr>
-                        <td><?= $user['id'] ?></td>
-                        <td><?= $user['name'] ?></td>
-                        <td><?= $user['email'] ?></td>
-                        <td><span class="badge bg-info text-dark"><?= $user['role'] ?></span></td>
-                        <td>
-                            <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
-                                <i class="material-icons">edit</i>
-                            </a>
-                           
-                                                        <!-- Delete Button -->
-                            <a href="#" class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(<?= $user['id'] ?>)">
-                                <i class="material-icons">delete</i>
-                            </a>
+    .table th, .table td {
+        text-align: left; /* Default alignment for all cells */
+    }
 
-                            <script>
-                            function confirmDelete(userId) {
-                                Swal.fire({
-                                    title: 'Do you want to delete this user?',
-                                    text: "You won't be able to revert this!",
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#dc3545', // Bootstrap danger color
-                                    cancelButtonColor: '#6c757d', // Bootstrap secondary color
-                                    confirmButtonText: 'Yes, delete it!',
-                                    cancelButtonText: 'Cancel'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // If user confirms, redirect to delete URL
-                                        window.location.href = '/users/delete/' + userId;
+    .table th:nth-child(4), .table td:nth-child(4), /* Role column */
+    .table th:nth-child(5), .table td:nth-child(5) { /* Actions column */
+        text-align: center; /* Center align only Role and Actions */
+    }
 
-                                        // Show success alert after deletion
-                                        Swal.fire(
-                                            'Deleted!',
-                                            'User has been deleted successfully.',
-                                            'success'
-                                        );
-                                    }
-                                });
-                            }
-                            </script>
+    .role-badge {
+        display: inline-block; /* Ensure the badge behaves like a block */
+        width: 100px; /* Set a specific width for balance */
+        text-align: center; /* Center align the text within the badge */
+    }
+</style>
 
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+<div class="table-responsive">
+    <table class="table table-striped table-hover shadow-sm rounded">
+        <thead style="background-color: #96dbe4;">
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($users as $user): ?>
+            <tr>
+                <td><?= $user['id'] ?></td>
+                <td><?= $user['name'] ?></td>
+                <td><?= $user['email'] ?></td>
+                <td>
+                    <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
+                        <?= htmlspecialchars($user['role']) ?>
+                    </span>
+                </td>
+                <td>
+                    <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a href="/users/delete/<?= $user['id'] ?>" class="btn btn-danger btn-sm mx-1">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
 <style>
@@ -174,6 +169,7 @@ if (isset($_SESSION['user_id'])) : ?>
     border-radius: 8px; /* Rounded corners for the table */
     overflow: hidden; /* Ensure corners are rounded */
 }
+.
 
 .table th {
     background-color: #343a40; /* Dark background for header */

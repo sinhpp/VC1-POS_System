@@ -109,54 +109,53 @@ if (isset($_SESSION['user_id'])) : ?>
     <section class="general-info">
         <form action="/products/store" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
-    
-            <h3>General Information</h3>
-            <label>Name Product</label>
-            <input type="text" placeholder="Enter product name" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
             
-            <label>Description Product</label>
-            <textarea placeholder="Enter product description" name="description" required><?= isset($product) ? htmlspecialchars($product['description'] ?? '') : '' ?></textarea>
-            
-            <div class="size-gender">
-                <div class="size">
-                    <label>Size</label>
-                    <div class="size-options">
-                        <button type="button" onclick="selectSize(this)">S</button>
-                        <button type="button" onclick="selectSize(this)">M</button>
-                        <button type="button" class="selected" onclick="selectSize(this)">L</button>
-                        <button type="button" onclick="selectSize(this)">XL</button>
-                        <button type="button" onclick="selectSize(this)">XXL</button>
-                    </div>
-                </div>
-                <div class="gender">
-                    <label>Gender</label>
-                    <div class="gender-options">
-                        <button type="button" onclick="selectGender(this)" class="selected">Men</button>
-                        <button type="button" onclick="selectGender(this)">Women</button>
-                    </div>
+        <h3>General Information</h3>
+        <label>Name Product</label>
+        <input type="text" placeholder="Enter product name" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
+
+        <label>Description Product</label>
+        <textarea placeholder="Enter product description" name="description" required><?= isset($product) ? htmlspecialchars($product['description'] ?? '') : '' ?></textarea>
+
+        <div class="size-gender">
+            <div class="size">
+                <label>Size</label>
+                <div class="size-options">
+                    <button type="button" onclick="selectSize(this)">S</button>
+                    <button type="button" onclick="selectSize(this)">M</button>
+                    <button type="button" class="selected" onclick="selectSize(this)">L</button>
+                    <button type="button" onclick="selectSize(this)">XL</button>
+                    <button type="button" onclick="selectSize(this)">XXL</button>
                 </div>
             </div>
-    </section>
+            <div class="gender">
+                <label>Gender</label>
+                <div class="gender-options">
+                    <button type="button" onclick="selectGender(this)" class="selected">Men</button>
+                    <button type="button" onclick="selectGender(this)">Women</button>
+                </div>
+            </div>
+        </div>
+        </section>
 
-    <section class="pricing-stock">
-        <h3>Pricing And Stocks</h3>
-        <label>Base Pricing</label>
-        <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required>
-        
-        <label>Stock</label>
-        <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required>
+        <section class="pricing-stock">
+            <h3>Pricing And Stocks</h3>
+            <label>Base Pricing</label>
+            <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
 
-        <label>Discount</label>
-        <input type="text" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>">
+            <label>Stock</label>
+            <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required min="0" step="1">
 
-        <label>Discount Type</label>
-        <input type="text" placeholder="Enter discount type" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type'] ?? '') : '' ?>">
+            <label>Discount</label>
+            <input type="number" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>" min="0" step="0.01">
 
-        <label>Barcode:</label>
-        <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
-        <br />
-        
-    </section>
+            <label>Discount Type</label>
+            <input type="text" placeholder="Enter discount type" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type'] ?? '') : '' ?>">
+
+            <label>Barcode:</label>
+            <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
+            <br />
+        </section>
 
     <!-- Upload Image -->
     <section class="upload-img">
@@ -241,7 +240,7 @@ header h2 {
     width: 450px;
     margin-top:10px;
     margin-bottom:50px;
-    left:600px;
+
     background: green;
     color: white;
 }

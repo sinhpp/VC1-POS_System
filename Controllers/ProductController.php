@@ -49,6 +49,33 @@ class ProductController extends BaseController {
                 $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
             }
         }
+        if ($price < 0) {
+            $_SESSION['product_error'] = "Price cannot be negative.";
+            header("Location: /products/create"); // Redirect back to the form
+            exit();
+        }
+    
+        if ($discount < 0) {
+            $_SESSION['product_error'] = "Discount cannot be negative.";
+            header("Location: /products/create"); // Redirect back to the form
+            exit();
+        }
+    
+        if ($id) {
+            // Update product logic
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $description, $discount, $discount_type, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product updated successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error updating product.";
+            }
+        } else {
+            // Create product logic
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $description, $discount, $discount_type, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product added successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error: Barcode already exists.";
+            }
+        }
     
         header("Location: /products"); // Redirect to products list
         exit();
