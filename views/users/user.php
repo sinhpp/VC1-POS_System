@@ -20,6 +20,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <style>
         /* Sidebar Styles */
         .sidebar {
+            font-family: "Poppins", sans-serif;
             width: 250px;
             position: fixed;
             top: 0;
@@ -34,7 +35,7 @@ if (isset($_SESSION['user_id'])) : ?>
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px;
+            padding: 15px;
         }
         .sidebar .nav-link:hover {
             background-color: #495057;
@@ -45,8 +46,8 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         /* Content area */
         .content {
-            margin-left: 270px; /* Adjust based on sidebar width */
-            padding: 20px;
+            margin-left: 170px; /* Adjust based on sidebar width */
+            padding: 50px;
         }
     </style>
 </head>
@@ -87,11 +88,9 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <!-- Main Content Area -->
     <div class="content">
-        <h1 class="text-center mb-4">Users List</h1>
+        <h2 class="text-center mb-4">Users List</h2>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/users/create" class="btn btn-success">+ Create User</a>
-        </div>
+      
 
         <div class="table-responsive">
             <table class="table table-striped table-hover shadow-sm rounded">
@@ -128,6 +127,38 @@ if (isset($_SESSION['user_id'])) : ?>
 
 </body>
 </html>
+<style>
+    /* Main Content Area */
+.content {
+    font-family: "Poppins", sans-serif;
+    width: 100%;
+    height: 100%;
+    margin-left:18%;
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Table Styles */
+.table {
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensure corners are rounded */
+}
+
+.table th {
+    background-color: #343a40; /* Dark background for header */
+    color: #ffffff; /* White text for header */
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Light gray for odd rows */
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e9ecef; /* Light gray on hover */
+}
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <?php 
 else: 

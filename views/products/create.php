@@ -19,28 +19,34 @@ if (isset($_SESSION['user_id'])) : ?>
     <style>
         /* Sidebar Styles */
         .sidebar {
+            font-family: "Poppins", sans-serif;
             width: 250px;
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            background: #343a40;
+            background-color: #343a40;
+            padding: 15px;
             color: white;
-            padding: 10px;
         }
         .sidebar .nav-link {
             color: white;
-            padding: 8px 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 15px;
         }
         .sidebar .nav-link:hover {
-            background: #495057;
+            background-color: #495057;
             border-radius: 5px;
         }
         .material-icons {
             font-size: 20px;
+        }
+        /* Content area */
+        .content {
+            margin-left: 170px; /* Adjust based on sidebar width */
+            padding: 50px;
         }
         /* Table Styles */
         .table {
@@ -92,8 +98,11 @@ if (isset($_SESSION['user_id'])) : ?>
 <!-- end siderbar -->
  
 <div class="container">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <header>
-        <h2>📦 Add New Product</h2>
+        <h1> Add New Product</h1>
     </header>
 
     <main class="grid-container">
@@ -122,40 +131,31 @@ if (isset($_SESSION['user_id'])) : ?>
                         <div class="gender-options">
                             <button type="button" onclick="selectGender(this)" class="selected">Men</button>
                             <button type="button" onclick="selectGender(this)">Women</button>
-                            <button type="button" onclick="selectGender(this)">Unisex</button>
+                          
                         </div>
                     </div>
                 </div>
         </section>
 
      <section class="pricing-stock">
-    <h3>Pricing And Stock</h3>
-    <label>Base Pricing</label>
-    <input type="number" placeholder="$0.00" name="price" required>
-    
-    <label>Stock</label>
-    <input type="number" placeholder="Enter stock quantity" name="stock" required>
+        <h3>Pricing And Stock</h3>
+        <label>Base Pricing</label>
+        <input type="number" placeholder="$0.00" name="price" required>
+        
+        <label>Stock</label>
+        <input type="number" placeholder="Enter stock quantity" name="stock" required>
 
-    <label>Discount</label>
-    <input type="text" placeholder="Enter discount" name="discount">
+        <label>Discount</label>
+        <input type="text" placeholder="Enter discount" name="discount">
 
-    <label>Discount Type</label>
-    <input type="text" placeholder="Enter discount type" name="discount_type">
+        <label>Discount Type</label>
+        <input type="text" placeholder="Enter discount type" name="discount_type">
 
-    <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
-    <br />
-    <center><button class="btn btn-primary" name="generate">Generate</button></center>
-    <br />
-    <?php 
-    // Using the correct path to generate.php
-    if (file_exists('views/barcode/generate.php')) {
-        include 'views/barcode/generate.php';
-    } else {
-        echo '<p>Error: generate.php not found.</p>';
-    }
-    ?>
-</section>
+        <label>Barcode:</label>
+        <input type="text" class="form-control" name="barcode"/>
+        <br />
+        
+    </section>
         <!-- Upload Image -->
         <section class="upload-img">
             <h3>Upload Img</h3>
@@ -175,11 +175,12 @@ if (isset($_SESSION['user_id'])) : ?>
                 <option value="Dresses">Dresses</option>
                 <option value="Other">Other</option>
             </select>
+            
         </section>
-
         <div class="actions">
             <button type="submit" class="add">➕ Add Product</button>
         </div>
+        
         </form>
     </main>
 </div>
@@ -188,20 +189,20 @@ if (isset($_SESSION['user_id'])) : ?>
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
     background: #f4f4f4;
-    padding: 20px;
+  
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: auto;
-    margin-left: 300px; /* Sidebar adjustment */
+    margin-left: 270px; /* Sidebar adjustment */
     background: white;
-    padding: 20px;
+    padding: 50px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -231,22 +232,24 @@ header h2 {
 }
 
 .add {
+    position: relative;
+    width: 410px;
+    left:560px;
     background: green;
     color: white;
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
+    grid-template-columns: 2fr 1.5fr;
+    gap: 10px;
 }
 
 section {
     background: #fff;
-    padding: 15px;
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-}
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;}
 
 h3 {
     margin-bottom: 10px;
@@ -284,13 +287,19 @@ button:hover {
     gap: 5px;
 }
 
-.size-options button, .gender-options button {
+.size-options button, .gender-options button{
     padding: 5px;
     border: 1px solid #ccc;
     background: white;
-    color: black; /* Text color set to black */
+    color: gray; /* Text color set to black */
     cursor: pointer;
     border-radius: 5px;
+}
+.size-options button {
+    width: 45px;
+}
+.gender-options button{
+    width: 70px;
 }
 
 .size-options .selected, .gender-options .selected {
@@ -320,21 +329,32 @@ button:hover {
 }
 </style>
 <script>
-    document.getElementById('fileUpload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById('previewImg'); // Use the correct ID for the image preview
-    const reader = new FileReader();
+        function selectGender(button) {
+            document.querySelectorAll(".gender-options button").forEach(btn => btn.classList.remove("selected"));
+            button.classList.add("selected");
+        }
 
-    reader.onload = function(e) {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-    };
+        function selectSize(button) {
+            document.querySelectorAll(".size-options button").forEach(btn => btn.classList.remove("selected"));
+            button.classList.add("selected");
+        }
 
-    if (file) {
-        reader.readAsDataURL(file);
-    }
-});
-</script>
+        document.querySelector("#fileUpload").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            const preview = document.querySelector("#previewImg");
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
 
 <?php 
 else: 

@@ -31,9 +31,11 @@ class ProductController extends BaseController {
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
         $category = $_POST['category'];
+        $image = $_FILES['image'];  // This is incorrect
+
     
         // Check if product creation is successful
-        if ($this->products->createProduct($name, $barcode, $price, $stock, $category)) {
+        if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $image)) {
             $_SESSION['product_success'] = "Product added successfully!";
             header("Location: /products"); // Redirect to products list
             exit();
