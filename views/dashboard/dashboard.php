@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>K-WD Dashboard</title>
+    <title>VC1</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
       rel="stylesheet"
@@ -499,7 +499,7 @@
                 href="index.html"
                 class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
               >
-                K-WD
+                Toch
               </a>
 
               <!-- Mobile sub menu button -->
@@ -1314,7 +1314,7 @@
             <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
               <h1 class="text-2xl font-semibold">Dashboard</h1>
               <a
-                href="https://github.com/Kamona-WD/kwd-dashboard"
+                href="https://github.com/sinhpp/VC1-POS_System"
                 target="_blank"
                 class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
               >
@@ -1569,11 +1569,11 @@
           <footer
             class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker"
           >
-            <div>K-WD &copy; 2021</div>
+            <div>Toch &copy; 2025</div>
             <div>
               Made by
               <a href="https://github.com/Kamona-WD" target="_blank" class="text-blue-500 hover:underline"
-                >Ahmed Kamel</a
+                >PNC Student</a
               >
             </div>
           </footer>
