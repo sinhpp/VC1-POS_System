@@ -15,7 +15,7 @@
         <form id="resetForm" method="post">
             <!-- <label class="new_pwd" for="password">New password</label> -->
             <div class="password-container">
-                <input type="password" id="password" placeholder="Enter your new password" required>
+                <input type="email" id="email" placeholder="Enter your new email" required>
                 <i class="fas fa-eye" id="togglePassword"></i>
             </div>
             <!-- <label class="com_pwd" for="confirm_password">Confirm new password</label> -->
