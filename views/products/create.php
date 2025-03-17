@@ -157,9 +157,6 @@ if (isset($_SESSION['user_id'])) : ?>
             <br />
         </section>
 
-    <!-- Upload Image -->
-    <section class="upload-img">
-        <h3>Upload Img</h3>
         <section class="upload-img">
     <h3>Upload Image</h3>
     
@@ -196,17 +193,19 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 
     </section>
 
-    <!-- Category -->
-    <section class="category">
-        <h3>Category</h3>
-        <select id="categorySelect" name="category" required>
+     <!-- Category -->
+     <section class="category">
+         <h3>Category</h3>
+         <select id="categorySelect" name="category" required>
             <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
             <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
             <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
             <option value="Dresses" <?= isset($product) && $product['category'] == 'Dresses' ? 'selected' : '' ?>>Dresses</option>
             <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
         </select>
-    </section>
+     </section>
+ 
+     
     
     <div class="actions">
         <button type="submit" class="add"><?= isset($product) ? 'Update Product' : '➕ Add Product' ?></button>

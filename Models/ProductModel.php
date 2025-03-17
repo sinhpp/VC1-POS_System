@@ -66,48 +66,62 @@ class ProductModel {
     }
 
     public function updateProduct($id, $name, $barcode, $price, $stock, $category, $image) {
-        // Retrieve the existing product image
+        error_log("Received category: " . var_export($category, true));
+        
+    
         $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
         $stmt->execute([':id' => $id]);
         $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
     
         if (!$existingProduct) {
-            return false; // Product not found
+            error_log("Product not found");
+            return false;
         }
     
-        $imagePath = $existingProduct['image']; // Keep the existing image
-    
-        // Handle image upload if a new image is provided
+        $imagePath = $existingProduct['image']; // Keep existing image
+        
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
             $uploadDir = __DIR__ . '/../uploads/';
-    
-            // Ensure the uploads directory exists
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
-    
-            // Move the new uploaded file
             $imageName = basename($image['name']);
             $newImagePath = 'uploads/' . $imageName;
             if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
-                $imagePath = $newImagePath; // Update image path only if the upload succeeds
+                $imagePath = $newImagePath;
             }
         }
     
-        // Update product details, keeping the existing image if no new one is uploaded
-        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category, image = :image WHERE id = :id");
-        return $stmt->execute([
+        $stmt = $this->db->prepare("UPDATE products SET 
+            name = :name, 
+            barcode = :barcode, 
+            price = :price, 
+            stock = :stock, 
+            category = :category,  
+            image = :image 
+            WHERE id = :id");
+    
+        $result = $stmt->execute([
             ':name' => $name,
             ':barcode' => $barcode,
             ':price' => $price,
             ':stock' => $stock,
-            ':category' => $category,
-            ':image' => $imagePath,  // Stores updated or existing image path
+            ':category' => $category,  
+            ':image' => $imagePath,  
             ':id' => $id
         ]);
+    
+        if ($result) {
+            error_log("Category updated successfully in database.");
+        } else {
+            error_log("Failed to update category: " . implode(", ", $stmt->errorInfo()));
+        }
+    
+        return $result;
     }
     
-
+    
+    
     public function deleteProduct($id) {
         // Prepare the SQL statement to delete the product based on its ID
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
