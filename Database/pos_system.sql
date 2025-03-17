@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2025 at 10:14 AM
+-- Generation Time: Mar 16, 2025 at 05:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -201,15 +201,20 @@ CREATE TABLE `products` (
   `price` decimal(10,2) NOT NULL,
   `stock` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `category` varchar(255) NOT NULL
+  `category` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `barcode`, `price`, `stock`, `created_at`, `category`) VALUES
-(8, 'T-sirt ', '223344', 5.00, 10, '2025-03-15 08:06:29', 'T-Sirt');
+INSERT INTO `products` (`id`, `name`, `barcode`, `price`, `stock`, `created_at`, `category`, `image`) VALUES
+(8, 'T-sirt ', '223344', 5.00, 10, '2025-03-15 08:06:29', 'T-Sirt', ''),
+(10, 'zaaa', '34d', 22.00, 33, '2025-03-15 12:09:46', 'Uniform', ''),
+(13, 'MESA', 'dfg', 23.00, 22, '2025-03-15 12:36:15', 'Uniform', ''),
+(15, 'shoes', '112233', 21.00, 22, '2025-03-15 12:58:18', 'Uniform', ''),
+(25, 'zaaa', '235', 435.00, 2345, '2025-03-16 04:06:06', 'Uniform', '');
 
 -- --------------------------------------------------------
 
@@ -318,9 +323,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
 (1, 'kiki', 'kiki@gmail.com', '12', 'cashier', '2025-03-11 07:42:06'),
-(72, 'zaa', 'za@gmail.com', '$2y$10$uKf1KhDtQsRHL1rEwjiqouu3d0J2Ij0.G/hctDEK3LoKuuyvKu5ge', '', '2025-03-13 02:22:19'),
 (73, 'Sinh', 'sinh.ern@gmail.com', '$2y$10$WD5OHFB5AeL30/2cZm5A7u/tX09OZ7LbiHq9UsJ1tTQbbiL4yRj7m', '', '2025-03-15 08:57:12'),
-(74, 'SinhErn', 'sinh.ern@student.passerellesnumeriques.org', '$2y$10$ijoKnlwmdgoYBp6ZzC1Lv.RDjkZ1TL..Xmfn/55/1C/2gyg1r8.pK', 'admin', '2025-03-15 08:59:29');
+(74, 'SinhErn', 'sinh.ern@student.passerellesnumeriques.org', '$2y$10$ijoKnlwmdgoYBp6ZzC1Lv.RDjkZ1TL..Xmfn/55/1C/2gyg1r8.pK', 'admin', '2025-03-15 08:59:29'),
+(76, 'sa', 'mesa@whoami.com222222', '$2y$10$aUvk0BuY/IXqJQsMB7P9JeyZSBF5.i1MohbHiw51nq6KtTvdGCsvO', 'cashier', '2025-03-15 09:30:28'),
+(77, 'zaaa', 'za@gmail.com', '$2y$10$yY5dNfZiMnsZAdAok0JQwu/yDYXULuX1800BgqwMcMw1JTeFKx3Rq', 'cashier', '2025-03-16 01:28:33');
 
 --
 -- Indexes for dumped tables
@@ -545,7 +551,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `refunds`
@@ -587,7 +593,7 @@ ALTER TABLE `tax_config`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- Constraints for dumped tables

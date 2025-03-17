@@ -9,39 +9,104 @@ class ProductController extends BaseController {
     }
 
     public function index() {
-        $products = $this->products->getProducts();
-        $this->view("products/product", ['products' => $products]); // Ensure 'products/product.php' exists
+        $products = $this->products->getProducts(); // Fetch products from the model
+        $this->view("products/product", ['products' => $products]); // Pass products to the view
     }
 
     public function showProduct($id) {
         $product = $this->products->getProductById($id);
         $this->view("products/product_details", ['product' => $product]);
     }
+
     public function create() {
         $this->view("/products/create");  // This should point to 'views/products/create_product.php'
     }
 
+  
     public function store() {
         session_start(); // Start session to store the message
     
+        // Collecting data from the form
         $name = $_POST['name'];
         $barcode = $_POST['barcode'];
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
+        $category = $_POST['category'];
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
     
-        // Check if product creation is successful
-        if ($this->products->createProduct($name, $barcode, $price, $stock)) {
-            $_SESSION['product_success'] = "Product added successfully!";
-            header("Location: /products"); // Redirect to products list
-            exit();
+        if ($id) {
+            // Update the existing product
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product updated successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error updating product.";
+            }
         } else {
-            $_SESSION['product_error'] = "Error adding product. Please try again.";
-            header("Location: /products/create"); // Redirect back to product creation form
+            // Create a new product
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product added successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
+            }
+        }
+        if ($price < 0) {
+            $_SESSION['product_error'] = "Price cannot be negative.";
+            header("Location: /products/create"); // Redirect back to the form
             exit();
         }
+    
+        if ($discount < 0) {
+            $_SESSION['product_error'] = "Discount cannot be negative.";
+            header("Location: /products/create"); // Redirect back to the form
+            exit();
+        }
+    
+        if ($id) {
+            // Update product logic
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $description, $discount, $discount_type, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product updated successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error updating product.";
+            }
+        } else {
+            // Create product logic
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $description, $discount, $discount_type, $_FILES['image'])) {
+                $_SESSION['product_success'] = "Product added successfully!";
+            } else {
+                $_SESSION['product_error'] = "Error: Barcode already exists.";
+            }
+        }
+    
+        header("Location: /products"); // Redirect to products list
+        exit();
     }
-    public function delete($id) {
-        $this->products->deleteProduct($id);
+    public function edit($id) {
+        $product = $this->products->getProById($id);
+        $this->view("products/create", ['product' => $product]);
+    }
+    public function update($id) {
+        $name = $_POST['name'];
+        $barcode = $_POST['barcode']; // Directly retrieve the barcode input
+        $price = floatval($_POST['price']);
+        $stock = intval($_POST['stock']);
+        $category = $_POST['category'];
+        $image = $_FILES['image'];  
+        $this->products->updateUser($name, $barcode, $email, $price, $stock, $category, $image);
         header("Location: /products");
+    }  
+
+    // Other methods remain unchanged...
+
+    public function delete($id) {
+        // Call the deleteProduct method from the ProductModel
+        if ($this->products->deleteProduct($id)) {
+            // Optionally set a success message
+            $_SESSION['product_success'] = "Product deleted successfully!";
+        } else {
+            // Optionally set an error message
+            $_SESSION['product_error'] = "Error deleting product.";
+        }
+        header("Location: /products");
+        exit();
     }
 }
