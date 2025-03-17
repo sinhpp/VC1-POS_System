@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/views/assets/css/form.css">
+<link rel="stylesheet" href="/views/assets/css/form.forgot.password.css">
 <div class="container">
         <div class="form-box">
 
