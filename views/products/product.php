@@ -174,12 +174,24 @@ if (isset($_SESSION['user_id'])) : ?>
         text-align: center; /* Center align the text */
     }
 </style>
+<!-- Include SweetAlert2 CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Include SweetAlert2 CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="table-container">
     <table>
         <thead>
             <tr>
-                <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
+                <th>
+                    <div class="alert" id="toast" style="display:none;">
+                        Delete all
+                    </div>
+                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+                </th>
                 <th onclick="sortTable(1)">Image <i class="fas fa-sort"></i></th>
                 <th onclick="sortTable(2)">NAME <i class="fas fa-sort"></i></th>
                 <th onclick="sortTable(3)">CODE <i class="fas fa-sort"></i></th>
@@ -198,7 +210,7 @@ if (isset($_SESSION['user_id'])) : ?>
             <?php else: ?>
                 <?php foreach ($products as $product): ?>
                     <tr>
-                        <td><input type="checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
                         <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
                         <td><?= htmlspecialchars($product['name']) ?></td>
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
@@ -227,6 +239,31 @@ if (isset($_SESSION['user_id'])) : ?>
 </div>
 <a href="/products/create" class="btn btn-success">+ Add Product</a>
 
+<style>
+    .alert {
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        position: relative;
+        margin-bottom: 5px;
+        font-size: 14px;
+        cursor: pointer; /* Change cursor to pointer */
+    }
+
+    .alert::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+    }
+</style>
+
 <script>
     function sortTable(columnIndex) {
         let table = document.querySelector(".table-container table");
@@ -254,20 +291,43 @@ if (isset($_SESSION['user_id'])) : ?>
         let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
         checkboxes.forEach(checkbox => checkbox.checked = source.checked);
 
-        // Show alert after selecting all
+        // Show toast notification after selecting all
         if (source.checked) {
-            setTimeout(() => {
-                if (confirm('Do you want to delete all selected products?')) {
-                    // Handle deletion logic here
-                    console.log("Products will be deleted.");
-                } else {
-                    // If user cancels, uncheck all checkboxes
-                    checkboxes.forEach(checkbox => checkbox.checked = false);
-                    source.checked = false; // Uncheck the "Select All" checkbox
-                }
-            }, 0);
+            showToast('Delete all');
         }
     }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000); // Hide after 2 seconds
+    }
+
+    // Add click event listener for the alert
+    document.getElementById('toast').addEventListener('click', function() {
+        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+        if (selectedCheckboxes.length > 0) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will delete all selected products.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete them!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Handle deletion logic here
+                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                    console.log("Deleting products with IDs:", selectedIds);
+                    // Perform your deletion request here
+                    // Example: send to server via AJAX or form submission
+                }
+            });
+        }
+    });
 </script>
 
 <?php 

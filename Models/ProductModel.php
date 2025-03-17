@@ -120,6 +120,24 @@ class ProductModel {
         return $result;
     }
     
+    public function deleteProducts(array $ids) {
+        // Prepare the placeholders for the SQL statement
+        $placeholders = rtrim(str_repeat('?,', count($ids)), ',');
+    
+        // Prepare the SQL statement
+        $stmt = $this->db->prepare("DELETE FROM products WHERE id IN ($placeholders)");
+    
+        // Execute the statement with the product IDs
+        $result = $stmt->execute($ids);
+    
+        if ($result) {
+            error_log("Products deleted successfully from database.");
+        } else {
+            error_log("Failed to delete products: " . implode(", ", $stmt->errorInfo()));
+        }
+    
+        return $result;
+    }
     
     
     public function deleteProduct($id) {

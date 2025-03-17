@@ -132,4 +132,29 @@ class ProductController extends BaseController {
         header("Location: /products");
         exit();
     }
+    public function deleteSelectedProducts() {
+        session_start();
+    
+        // Get the product IDs from the request
+        $ids = $_POST['ids'] ?? null;
+    
+        // Debugging
+        error_log("Deleting products with IDs: " . var_export($ids, true));
+    
+        if (!$ids || !is_array($ids)) {
+            $_SESSION['product_error'] = "No product IDs provided!";
+            header("Location: /products");
+            exit();
+        }
+    
+        // Call the model method to delete the products
+        if ($this->products->deleteProducts($ids)) {
+            $_SESSION['product_success'] = "Products deleted successfully!";
+        } else {
+            $_SESSION['product_error'] = "Failed to delete products.";
+        }
+    
+        header("Location: /products");
+        exit();
+    }
 }
