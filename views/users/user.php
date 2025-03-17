@@ -134,7 +134,6 @@ if (isset($_SESSION['user_id'])) : ?>
         text-align: center; /* Center align the text */
     }
 </style>
-
 <div class="table-responsive">
     <table class="table table-striped table-hover shadow-sm rounded">
         <thead>
@@ -147,11 +146,13 @@ if (isset($_SESSION['user_id'])) : ?>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $user): ?>
+            <?php 
+            $index = 1; // Initialize a counter for the sequential ID
+            foreach ($users as $user): ?>
             <tr>
-                <td><?= $user['id'] ?></td>
-                <td><?= $user['name'] ?></td>
-                <td><?= $user['email'] ?></td>
+                <td><?= $index++ ?></td> <!-- Use the counter for ID -->
+                <td><?= htmlspecialchars($user['name']) ?></td>
+                <td><?= htmlspecialchars($user['email']) ?></td>
                 <td>
                     <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
                         <?= htmlspecialchars($user['role']) ?>
