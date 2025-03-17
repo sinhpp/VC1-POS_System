@@ -160,10 +160,40 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Upload Image -->
     <section class="upload-img">
         <h3>Upload Img</h3>
-        <input type="file" id="fileUpload" name="image" accept="image/*" <?= !isset($product) ? 'required' : '' ?>>
-        <div class="image-preview" id="imagePreview">
-            <img src="<?= isset($product) ? htmlspecialchars($product['image']) : '' ?>" alt="Product Image" id="previewImg" style="display:<?= isset($product) ? 'block' : 'none' ?>;">
-        </div>
+        <section class="upload-img">
+    <h3>Upload Image</h3>
+    
+    <!-- File Input -->
+    <input type="file" id="fileUpload" name="image" accept="image/*" <?= !isset($product) ? 'required' : '' ?>>
+    
+    <!-- Image Preview -->
+    <div class="image-preview" id="imagePreview">
+        <img 
+            src="<?= isset($product) && !empty($product['image']) ? '/' . htmlspecialchars($product['image']) : '' ?>" 
+            alt="Product Image" 
+            id="previewImg" 
+            style="display: <?= isset($product) && !empty($product['image']) ? 'block' : 'none' ?>; max-width: 150px;">
+    </div>
+</section>
+
+<script>
+document.getElementById('fileUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewImg = document.getElementById('previewImg');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewImg.style.display = 'none';
+    }
+});
+</script>
+
     </section>
 
     <!-- Category -->

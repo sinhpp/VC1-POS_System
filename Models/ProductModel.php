@@ -66,37 +66,47 @@ class ProductModel {
     }
 
     public function updateProduct($id, $name, $barcode, $price, $stock, $category, $image) {
-        // Prepare the SQL statement
-        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category WHERE id = :id");
+        // Retrieve the existing product image
+        $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
     
-        // Execute the update
-        $result = $stmt->execute([
+        if (!$existingProduct) {
+            return false; // Product not found
+        }
+    
+        $imagePath = $existingProduct['image']; // Keep the existing image
+    
+        // Handle image upload if a new image is provided
+        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../uploads/';
+    
+            // Ensure the uploads directory exists
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+    
+            // Move the new uploaded file
+            $imageName = basename($image['name']);
+            $newImagePath = 'uploads/' . $imageName;
+            if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
+                $imagePath = $newImagePath; // Update image path only if the upload succeeds
+            }
+        }
+    
+        // Update product details, keeping the existing image if no new one is uploaded
+        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category, image = :image WHERE id = :id");
+        return $stmt->execute([
             ':name' => $name,
             ':barcode' => $barcode,
             ':price' => $price,
             ':stock' => $stock,
             ':category' => $category,
+            ':image' => $imagePath,  // Stores updated or existing image path
             ':id' => $id
         ]);
-    
-        // Handle image upload if a new image is provided
-        if (!empty($image['name'])) {
-            // Move the uploaded file to the desired directory
-            $targetDir = "uploads/"; // Ensure this directory exists
-            $targetFile = $targetDir . basename($image['name']);
-    
-            if (move_uploaded_file($image['tmp_name'], $targetFile)) {
-                // Update the image path in the database if the upload is successful
-                $stmt = $this->db->prepare("UPDATE products SET image = :image WHERE id = :id");
-                $stmt->execute([
-                    ':image' => $targetFile,
-                    ':id' => $id
-                ]);
-            }
-        }
-    
-        return $result;
     }
+    
 
     public function deleteProduct($id) {
         // Prepare the SQL statement to delete the product based on its ID

@@ -86,14 +86,19 @@ class ProductController extends BaseController {
     }
     public function update($id) {
         $name = $_POST['name'];
-        $barcode = $_POST['barcode']; // Directly retrieve the barcode input
+        $barcode = $_POST['barcode'];
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
         $category = $_POST['category'];
-        $image = $_FILES['image'];  
-        $this->products->updateUser($name, $barcode, $email, $price, $stock, $category, $image);
+        $image = $_FILES['image'] ?? null; // Handle case when no image is uploaded
+    
+        $this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $image);
+    
         header("Location: /products");
-    }  
+        exit();
+    }
+    
+    
 
     // Other methods remain unchanged...
 
