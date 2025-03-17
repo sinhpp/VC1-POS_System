@@ -45,31 +45,47 @@ if (passwordField.type === "password") {
 
 // formforgotPassword
 
-/* script.js */
-function togglePasswordVisibility(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-    icon.addEventListener("click", () => {
-        if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+    const confirmPasswordInput = document.getElementById("confirm_password");
+    const resetForm = document.getElementById("resetForm");
+
+    // Toggle password visibility
+    toggleConfirmPassword.addEventListener("click", function () {
+        if (confirmPasswordInput.type === "password") {
+            confirmPasswordInput.type = "text";
+            toggleConfirmPassword.classList.remove("fa-eye");
+            toggleConfirmPassword.classList.add("fa-eye-slash");
         } else {
-            input.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+            confirmPasswordInput.type = "password";
+            toggleConfirmPassword.classList.remove("fa-eye-slash");
+            toggleConfirmPassword.classList.add("fa-eye");
         }
     });
-}
 
-togglePasswordVisibility("password", "togglePassword");
-togglePasswordVisibility("confirm_password", "toggleConfirmPassword");
+    // Form validation before submission
+    resetForm.addEventListener("submit", function (event) {
+        const emailInput = document.getElementById("email").value.trim();
+        const confirmPassword = confirmPasswordInput.value.trim();
 
-document.getElementById("resetForm").addEventListener("submit", function(event) {
-    var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirm_password").value;
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        event.preventDefault();
+        // Email validation
+        if (!validateEmail(emailInput)) {
+            alert("Please enter a valid email address.");
+            event.preventDefault();
+            return;
+        }
+
+        // Check if password is empty
+        if (confirmPassword === "") {
+            alert("Please enter your password.");
+            event.preventDefault();
+            return;
+        }
+    });
+
+    // Function to validate email format
+    function validateEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
     }
 });

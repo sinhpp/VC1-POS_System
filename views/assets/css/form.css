@@ -184,7 +184,8 @@ p a {
 .password-container i {
     position: absolute;
     right: 10px;
-    top: 59%;
+    top: 50%;
+    
     transform: translateY(-50%);
     cursor: pointer;
     color: #777;

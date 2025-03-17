@@ -31,6 +31,6 @@
         </form>
     </div>
 
-   <script src="../assets/js/form.js"></script>
+   <script src="/views/assets/js/form.js"></script>
 </body>
 </html>
