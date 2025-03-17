@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="/views/assets/css/form.css">
 <div class="container">
         <div class="form-box">
 
@@ -41,7 +41,7 @@
                     <select name="role" id="role" class="form-control">
                         <option value="" disabled selected>Select Role</option>
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="cashier">cashier</option>
                     </select>
                 </div>
                 <button class="submit-btn" type="submit" name="signup">Signup</button>
