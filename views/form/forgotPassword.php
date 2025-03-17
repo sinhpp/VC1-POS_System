@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/views/assets/css/form.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>rest password</title>
 </head>
 <body>
 <div class="container-forgotpassword">
