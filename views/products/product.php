@@ -253,9 +253,22 @@ if (isset($_SESSION['user_id'])) : ?>
     function toggleAllCheckboxes(source) {
         let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
         checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+
+        // Show alert after selecting all
+        if (source.checked) {
+            setTimeout(() => {
+                if (confirm('Do you want to delete all selected products?')) {
+                    // Handle deletion logic here
+                    console.log("Products will be deleted.");
+                } else {
+                    // If user cancels, uncheck all checkboxes
+                    checkboxes.forEach(checkbox => checkbox.checked = false);
+                    source.checked = false; // Uncheck the "Select All" checkbox
+                }
+            }, 0);
+        }
     }
 </script>
-
 
 <?php 
 else: 

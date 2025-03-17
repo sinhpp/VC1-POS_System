@@ -157,26 +157,55 @@ if (isset($_SESSION['user_id'])) : ?>
             <br />
         </section>
 
-    <!-- Upload Image -->
-    <section class="upload-img">
-        <h3>Upload Img</h3>
-        <input type="file" id="fileUpload" name="image" accept="image/*" <?= !isset($product) ? 'required' : '' ?>>
-        <div class="image-preview" id="imagePreview">
-            <img src="<?= isset($product) ? htmlspecialchars($product['image']) : '' ?>" alt="Product Image" id="previewImg" style="display:<?= isset($product) ? 'block' : 'none' ?>;">
-        </div>
+        <section class="upload-img">
+    <h3>Upload Image</h3>
+    
+    <!-- File Input -->
+    <input type="file" id="fileUpload" name="image" accept="image/*" <?= !isset($product) ? 'required' : '' ?>>
+    
+    <!-- Image Preview -->
+    <div class="image-preview" id="imagePreview">
+        <img 
+            src="<?= isset($product) && !empty($product['image']) ? '/' . htmlspecialchars($product['image']) : '' ?>" 
+            alt="Product Image" 
+            id="previewImg" 
+            style="display: <?= isset($product) && !empty($product['image']) ? 'block' : 'none' ?>; max-width: 150px;">
+    </div>
+</section>
+
+<script>
+document.getElementById('fileUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewImg = document.getElementById('previewImg');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewImg.style.display = 'none';
+    }
+});
+</script>
+
     </section>
 
-    <!-- Category -->
-    <section class="category">
-        <h3>Category</h3>
-        <select id="categorySelect" name="category" required>
+     <!-- Category -->
+     <section class="category">
+         <h3>Category</h3>
+         <select id="categorySelect" name="category" required>
             <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
             <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
             <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
             <option value="Dresses" <?= isset($product) && $product['category'] == 'Dresses' ? 'selected' : '' ?>>Dresses</option>
             <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
         </select>
-    </section>
+     </section>
+ 
+     
     
     <div class="actions">
         <button type="submit" class="add"><?= isset($product) ? 'Update Product' : '➕ Add Product' ?></button>
