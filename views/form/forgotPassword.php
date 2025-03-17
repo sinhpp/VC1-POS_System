@@ -16,8 +16,8 @@
         <form id="resetForm" method="post">
             <!-- <label class="new_pwd" for="password">New password</label> -->
             <div class="password-container">
-                <input type="email" id="email" placeholder="Enter your new email" required>
-                
+                <input type="email" id="email" placeholder="Enter your  email" required>
+       
             </div>
             <!-- <label class="com_pwd" for="confirm_password">Confirm new password</label> -->
             <div class="password-container">

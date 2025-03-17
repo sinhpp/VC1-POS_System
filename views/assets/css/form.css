@@ -1,39 +1,65 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #a104ff, #ff3c7d);
+    /* background: linear-gradient(to right, #a104ff, #ff3c7d); */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    /* background: linear-gradient(to right, #0468ff, #3ce2ff); */
-    background-image: url(https://cdn.pixabay.com/photo/2016/04/08/18/46/shopping-mall-1316787_1280.jpg);
+    /* background: linear-gradient(to right, #70a3f1, #3ce2ffc2); */
+    background-image: url(https://png.pngtree.com/thumb_back/fh260/background/20240408/pngtree-clothing-store-in-shopping-mall-boutique-shop-interior-blur-defocused-background-image_15650933.jpg    );
     background-size: cover;
     background-position: center;
     /* backdrop-filter:blur(1px);
     z-index: -1; */
-    
+
 }
-option{
+
+option {
     border: none;
     width: 90px;
     margin-top: 90px;
-   
+
 }
+
+#signupForm {
+    display: none;
+}
+
 .container {
+    display: flex;
     width: 100%;
-    max-width: 400px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    max-width: 800px;
+    background-color: #3886f2;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border-radius: 3%;
+
 }
+
+.image-form {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgForm {
+    width: 100%;
+    object-fit: cover;
+
+}
+
 .social-icons {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin: 10px 0;
 }
-.fa-facebook-f{
+
+.fa-facebook-f {
     padding: 4px;
 }
+
 .social-icons button {
     border: 1px solid #cccccc;
     background-color: #3c90ff;
@@ -41,12 +67,14 @@ option{
     border-radius: 10%;
     cursor: pointer;
 }
+
 .role_system {
-   
+
     margin-bottom: 25px;
     margin-top: 20px;
-   
+
 }
+
 .form-control {
     width: 100%;
     padding: 10px;
@@ -68,6 +96,7 @@ option{
     background: rgb(255, 255, 255);
     padding: 20px;
     border-radius: 10px;
+    width: 100%;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -88,7 +117,7 @@ option{
 }
 
 .toggle-buttons .active {
-    background: linear-gradient(to right, #0468ff, #3ce2ff);
+    background-color: #0468ff;
     color: white;
     border-radius: 5px;
 }
@@ -116,7 +145,7 @@ input {
     width: 100%;
     padding: 10px;
     border: none;
-    background: linear-gradient(to right, #0468ff, #3ce2ff);
+    background-color: #0468ffdd;
     color: white;
     font-size: 16px;
     border-radius: 5px;
@@ -138,15 +167,17 @@ p a {
     text-decoration: none;
 }
 
-.password-container{
+.password-container {
     position: relative;
     width: 100%;
 }
-#login-password{
+
+#login-password {
     margin-top: 20px;
 }
+
 .password-container input {
-    width: 85%;
+    width: 86%;
     padding-right: 40px;
 }
 
@@ -162,5 +193,3 @@ p a {
 .password-container i:hover {
     color: #333;
 }
-
-

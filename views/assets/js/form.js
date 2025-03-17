@@ -1,15 +1,30 @@
 function showLogin() {
     document.getElementById("login-form").style.display = "block";
     document.getElementById("signup-form").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("signupForm").style.display = "none";
     document.getElementById("login-btn").classList.add("active");
     document.getElementById("signup-btn").classList.remove("active");
+    document.getElementById("login-btn").classList.add("active");
+    document.getElementById("signup-btn").classList.remove("active");                   
+   
+    if (type === 'login') {
+        document.getElementById('loginForm').classList.add('active');
+    } else {
+        document.getElementById('signupForm').classList.add('none');
+    }
+   
 }
 
 function showSignup() {
     document.getElementById("login-form").style.display = "none";
     document.getElementById("signup-form").style.display = "block";
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
     document.getElementById("signup-btn").classList.add("active");
     document.getElementById("login-btn").classList.remove("active");
+
+   
 }
 
 function togglePassword(inputId, iconId) {
