@@ -13,28 +13,51 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public function createProduct($name, $barcode, $price, $stock, $category) {
-        // Check if the barcode already exists
+    public function createProduct($name, $barcode, $price, $stock, $category, $image) {
+        // Check if barcode exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products WHERE barcode = :barcode");
         $stmt->execute([':barcode' => $barcode]);
         $count = $stmt->fetchColumn();
-
+    
         if ($count > 0) {
-            // Return false if the barcode already exists
             return false; 
         }
-
+    
+        // Ensure the uploads directory exists
+        $uploadDir = __DIR__ . '/../uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+    
+        // Handle image upload
+        $imagePath = null;
+        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+            $imageTmpPath = $image['tmp_name'];
+            $imageName = basename($image['name']);
+            $imagePath = $uploadDir . $imageName;
+    
+            // Move file and check for errors
+            if (!move_uploaded_file($imageTmpPath, $imagePath)) {
+                error_log("Error moving file: " . print_r(error_get_last(), true));
+                return false;
+            }
+        }
+    
+        // Store relative path in database
+        $dbImagePath = 'uploads/' . $imageName;
+    
         // Insert new product
-        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category) VALUES (:name, :barcode, :price, :stock, :category)");
+        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, image) VALUES (:name, :barcode, :price, :stock, :category, :image)");
         return $stmt->execute([
             ':name' => $name,
-            ':barcode' => $barcode, // Ensure barcode is used here
+            ':barcode' => $barcode,
             ':price' => $price,
             ':stock' => $stock,
-            ':category' => $category
+            ':category' => $category,
+            ':image' => $dbImagePath
         ]);
     }
+    
 
     public function getProById($id) {
         $stmt = $this->db->prepare("SELECT * FROM products WHERE id = :id");
