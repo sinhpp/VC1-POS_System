@@ -9,10 +9,10 @@
 	<!-- PAGE TITLE HERE -->
 	<title>Admin</title>
 	
-	<link href="vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
-	<link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
+	<link href="/views/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+	<link rel="stylesheet" href="/views/vendor/nouislider/nouislider.min.css">
 	<!-- Style css -->
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="/views/assets/css/dashboard.css" rel="stylesheet">
 	
 </head>
 <body>
@@ -131,7 +131,7 @@
 				<ul class="metismenu" id="menu">
 					<li class="dropdown header-profile">
 						<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-							<img src="images/ion/man (1).png" width="20" alt=""/>
+							<img src="/views/assets/images/ion/man (1).png" width="20" alt=""/>
 							<div class="header-info ms-3">
 								<span class="font-w600 ">Hi,<b>AC</b></span>
 								<small class="text-end font-w400">xyz@gmail.com</small>
@@ -278,9 +278,9 @@
 								<div class="row align-items-center">
 									<div class="col-xl-6">
 										<div class="card-bx bg-blue">
-											<img class="pattern-img" src="images/pattern/pattern6.png" alt="">
+											<img class="pattern-img" src="/views/assets/images/pattern/pattern6.png" alt="">
 											<div class="card-info text-white">
-												<img src="images/pattern/circle.png" class="mb-4" alt="">
+												<img src="/views/assets/images/pattern/circle.png" class="mb-4" alt="">
 												<h2 class="text-white card-balance">$824,571.93</h2>
 												<p class="fs-16">Wallet Balance</p>
 												<span>+0,8% than last week</span>
@@ -349,7 +349,7 @@
 							</div>
 							<div class="card-body">	
 								<div class="user-bx">
-									<img src="images/ion/man (1).png" alt="">
+									<img src="/views/assets/images/ion/man (1).png" alt="">
 									<div>
 										<h6 class="user-name">Samuel</h6>
 										<span class="meta">@sam224</span>
@@ -358,12 +358,12 @@
 								</div>
 								<h4 class="mt-3 mb-3">Recent Friend<a href="javascript:void(0);" class="fs-16 float-end text-secondary font-w600">See More</a></h4>
 								<ul class="user-list">
-									<li><img src="images/ion/bussiness-man.png" alt=""></li>
-									<li><img src="images/ion/hacker.png" alt=""></li>
-									<li><img src="images/ion/man (2).png" alt=""></li>
-									<li><img src="images/ion/woman.png" alt=""></li>
-									<li><img src="images/ion/man.png" alt=""></li>
-									<li><img src="images/ion/woman.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/bussiness-man.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/hacker.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/man (2).png" alt=""></li>
+									<li><img src="/views/assets/images/ion/woman.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/man.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/woman.png" alt=""></li>
 								
 								</ul>
 								<h4 class="mt-3 mb-0">Insert Amount</h4>
@@ -875,23 +875,23 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <!-- Required vendors -->
-    <script src="vendor/global/global.min.js"></script>
-	<script src="vendor/chart.js/Chart.bundle.min.js"></script>
-	<script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <!-- Required /views/vendors -->
+    <script src="/views/vendor/global/global.min.js"></script>
+	<script src="/views/vendor/chart.js/Chart.bundle.min.js"></script>
+	<script src="/views/vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
 	
 	<!-- Apex Chart -->
-	<script src="vendor/apexchart/apexchart.js"></script>
-	<script src="vendor/nouislider/nouislider.min.js"></script>
-	<script src="vendor/wnumb/wNumb.js"></script>
+	<script src="/views/vendor/apexchart/apexchart.js"></script>
+	<script src="/views/vendor/nouislider/nouislider.min.js"></script>
+	<script src="/views/vendor/wnumb/wNumb.js"></script>
 	
 	<!-- Dashboard 1 -->
-	<script src="js/dashboard/dashboard-1.js"></script>
+	<script src="/views/assets/js/dashboard/dashboard-1.js"></script>
 
-    <script src="js/custom.min.js"></script>
-	<script src="js/dlabnav-init.js"></script>
-	<script src="js/demo.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+    <script src="/views/assets/js/custom.min.js"></script>
+	<script src="/views/assets/js/dlabnav-init.js"></script>
+	<script src="/views/assets/js/demo.js"></script>
+    <script src="/views/assets/js/styleSwitcher.js"></script>
 	
 </body>
 
