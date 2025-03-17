@@ -19,28 +19,34 @@ if (isset($_SESSION['user_id'])) : ?>
     <style>
         /* Sidebar Styles */
         .sidebar {
+            font-family: "Poppins", sans-serif;
             width: 250px;
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            background: #343a40;
+            background-color: #343a40;
+            padding: 15px;
             color: white;
-            padding: 10px;
         }
         .sidebar .nav-link {
             color: white;
-            padding: 8px 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 15px;
         }
         .sidebar .nav-link:hover {
-            background: #495057;
+            background-color: #495057;
             border-radius: 5px;
         }
         .material-icons {
             font-size: 20px;
+        }
+        /* Content area */
+        .content {
+            margin-left: 170px; /* Adjust based on sidebar width */
+            padding: 50px;
         }
         /* Table Styles */
         .table {
@@ -77,6 +83,7 @@ if (isset($_SESSION['user_id'])) : ?>
 <body>
 
     <!-- Sidebar -->
+    
     <nav class="sidebar">
         <h3 class="text-center">Admin Panel</h3>
         <hr>
@@ -90,43 +97,165 @@ if (isset($_SESSION['user_id'])) : ?>
     </nav>
 
     <!-- Table Content -->
-    <div class="content" style="margin-left: 270px; padding: 20px;">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/products/create" class="btn btn-success">+ Add product</a>
-        </div>
-        <table class="table table-striped table-hover shadow-sm rounded">
-            <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Barcode</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($products as $product): ?>
-                <tr>
-                    <td><?= $product['id'] ?></td>
-                    <td><?= $product['name'] ?></td>
-                    <td><?= $product['barcode'] ?></td>
-                    <td>$<?= number_format($product['price'], 2) ?></td>
-                    <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= $product['stock'] ?></span></td>
-                    <td><?= $product['created_at'] ?></td>
-                    <td>
-                        <a href="/products/edit/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1"><i class="material-icons">edit</i></a>
-                        <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1"><i class="material-icons">delete</i></a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+   
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            font-family: "Poppins", sans-serif;
+            margin-left: 18%;
+        }
 
-</body>
-</html>
+        .table-container {
+            max-width: 100%;
+            margin-top: 10%;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #96dbe4;
+            cursor: pointer;
+        }
+
+        th i {
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .view { color: green; }
+        .edit { color: blue; }
+        .delete { color: red; }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        /* Add this to your existing CSS */
+
+    </style>
+</head>
+<body>
+<style>
+    .table-container table th:nth-child(6),
+    .table-container table td:nth-child(6) {
+        width: 120px; /* Set a specific width for the stock column */
+        text-align: center; /* Center align the text */
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
+                <th onclick="sortTable(1)">Image <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(2)">NAME <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(3)">CODE <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(4)">PRICE <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(5)">STOCK <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(6)">CATEGORY <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(7)">CREATED AT <i class="fas fa-sort"></i></th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="8" class="text-center">No products available.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($products as $product): ?>
+                    <tr>
+                        <td><input type="checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td><?= htmlspecialchars($product['barcode']) ?></td>
+                        <td>$<?= number_format($product['price'], 2) ?></td>
+                        <td>
+                            <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
+                                <?= htmlspecialchars($product['stock']) ?>
+                            </span>
+                        </td>
+                        <td><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        
+                        <td>
+                            <a href="/products/create/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                                <i class="material-icons">edit</i>
+                            </a>
+                            <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">
+                                <i class="material-icons">delete</i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+<a href="/products/create" class="btn btn-success">+ Add Product</a>
+
+<script>
+    function sortTable(columnIndex) {
+        let table = document.querySelector(".table-container table");
+        let rows = Array.from(table.rows).slice(1); // Skip the header row
+        let isAscending = table.dataset.sortOrder === "asc";
+
+        rows.sort((a, b) => {
+            let aValue = a.cells[columnIndex].textContent.trim();
+            let bValue = b.cells[columnIndex].textContent.trim();
+
+            if (!isNaN(aValue) && !isNaN(bValue)) {
+                return isAscending ? aValue - bValue : bValue - aValue;
+            } else {
+                return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            }
+        });
+
+        table.tBodies[0].innerHTML = ""; // Clear the existing rows
+        rows.forEach(row => table.tBodies[0].appendChild(row)); // Append sorted rows
+
+        table.dataset.sortOrder = isAscending ? "desc" : "asc";
+    }
+
+    function toggleAllCheckboxes(source) {
+        let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+    }
+</script>
+
 
 <?php 
 else: 
