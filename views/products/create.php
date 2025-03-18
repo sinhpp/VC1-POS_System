@@ -174,6 +174,7 @@ if (isset($_SESSION['user_id'])) : ?>
             <label>Barcode:</label>
             <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
             <br />
+            <button type="button" onclick="selectGender(this)">create</button>
         </section>
 
         <section class="upload-img">
