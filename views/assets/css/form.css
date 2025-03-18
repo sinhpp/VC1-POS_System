@@ -26,7 +26,7 @@ option {
     display: none;
 }
 
-.container {
+.container1 {
     display: flex;
     width: 100%;
     max-width: 800px;
@@ -123,7 +123,7 @@ option {
 }
 
 input {
-    width: 94%;
+    width: 100%;
     padding: 10px;
     margin: 10px 0;
     margin-top: 20px;
@@ -137,7 +137,7 @@ input {
     font-size: 12px;
     margin-bottom: 20px;
     color: #3cdeff;
-    margin-top: -25px;
+    margin-top: 3px;
     text-decoration: none;
 }
 
@@ -167,7 +167,7 @@ p a {
     text-decoration: none;
 }
 
-.password-container {
+.password-container1 {
     position: relative;
     width: 100%;
 }
@@ -176,12 +176,12 @@ p a {
     margin-top: 20px;
 }
 
-.password-container input {
-    width: 86%;
+.password-container1 input {
+    width: 100%;
     padding-right: 40px;
 }
 
-.password-container i {
+.password-container1 i {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -191,6 +191,6 @@ p a {
     color: #777;
 }
 
-.password-container i:hover {
+.password-container1 i:hover {
     color: #333;
 }
