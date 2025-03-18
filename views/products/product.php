@@ -227,7 +227,7 @@ if (isset($_SESSION['user_id'])) : ?>
             <tr>
                 <th>
                     <div class="alert" id="toast" style="display:none;">
-                        Delete all
+                        Delete all!
                     </div>
                     <input type="checkbox" onclick="toggleAllCheckboxes(this)">
                 </th>
