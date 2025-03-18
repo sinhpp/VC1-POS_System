@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="/views/assets/css/form.css">
 <div class="container">
     
     <div class="form-box">
