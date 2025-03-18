@@ -140,10 +140,9 @@ class ProductModel {
     }
     
     
-    public function deleteProduct($id) {
-        // Prepare the SQL statement to delete the product based on its ID
-        $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
-        return $stmt->execute([':id' => $id]);
+    public function deleteAllProducts() {
+        $stmt = $this->db->prepare("DELETE FROM products");
+        return $stmt->execute();
     }
 
     // Other methods remain unchanged...

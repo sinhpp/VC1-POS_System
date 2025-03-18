@@ -1,3 +1,22 @@
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // List of stylesheets to disable
+      const stylesToDisable = [
+          "/views/assets/css/form.css",
+          "/views/assets/css/form.forgot.password.css",
+          "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      ];
+
+      // Disable the stylesheets
+      document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
+          if (stylesToDisable.includes(link.getAttribute("href"))) {
+              link.disabled = true; // Disable the stylesheet
+          }
+      });
+  });
+</script>
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -15,6 +34,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/views/assets/js/product.js"></script>
 
     <style>
         /* Sidebar Styles */
@@ -78,27 +98,7 @@ if (isset($_SESSION['user_id'])) : ?>
         .btn-warning { background-color: #ffc107; color: black; }
         .btn-danger { background-color: #dc3545; color: white; }
         .btn:hover { background-color: #495057; }
-    </style>
-</head>
-<body>
 
-    <!-- Sidebar -->
-    
-    <nav class="sidebar">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="material-icons">dashboard</i> Dashboard</a></li>
-            <li><a href="/users" class="nav-link"><i class="material-icons">group</i> Users</a></li>
-            <li><a href="/settings" class="nav-link"><i class="material-icons">settings</i> Settings</a></li>
-            <li><a href="/" class="nav-link"><i class="material-icons">logout</i> Logout</a></li>
-            <li><a href="/products" class="nav-link"><i class="material-icons">shopping_cart</i> Products</a></li>
-        </ul>
-    </nav>
-
-    <!-- Table Content -->
-   
-    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -162,18 +162,57 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 18px;
             cursor: pointer;
         }
-        /* Add this to your existing CSS */
-
-    </style>
-</head>
-<body>
-<style>
-    .table-container table th:nth-child(6),
+        .table-container table th:nth-child(6),
     .table-container table td:nth-child(6) {
         width: 120px; /* Set a specific width for the stock column */
         text-align: center; /* Center align the text */
     }
-</style>
+
+    .alert {
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        position: relative;
+        margin-bottom: 5px;
+        font-size: 14px;
+        cursor: pointer; /* Change cursor to pointer */
+    }
+
+    .alert::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+    }
+        /* Add this to your existing CSS */
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    
+    <nav class="sidebar">
+        <h3 class="text-center">Admin Panel</h3>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="material-icons">dashboard</i> Dashboard</a></li>
+            <li><a href="/users" class="nav-link"><i class="material-icons">group</i> Users</a></li>
+            <li><a href="/settings" class="nav-link"><i class="material-icons">settings</i> Settings</a></li>
+            <li><a href="/" class="nav-link"><i class="material-icons">logout</i> Logout</a></li>
+            <li><a href="/products" class="nav-link"><i class="material-icons">shopping_cart</i> Products</a></li>
+        </ul>
+    </nav>
+
+    <!-- Table Content -->
+</head>
+<body>
+
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -239,98 +278,104 @@ if (isset($_SESSION['user_id'])) : ?>
 </div>
 <a href="/products/create" class="btn btn-success">+ Add Product</a>
 
-<style>
-    .alert {
-        display: inline-block;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        position: relative;
-        margin-bottom: 5px;
-        font-size: 14px;
-        cursor: pointer; /* Change cursor to pointer */
-    }
-
-    .alert::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
-    }
-    
-</style>
-
 <script>
-    function sortTable(columnIndex) {
-        let table = document.querySelector(".table-container table");
-        let rows = Array.from(table.rows).slice(1); // Skip the header row
-        let isAscending = table.dataset.sortOrder === "asc";
+    document.addEventListener("DOMContentLoaded", function() {
+    // List of stylesheets to disable
+    const stylesToDisable = [
+        "/views/assets/css/form.css",
+        "/views/assets/css/form.forgot.password.css",
+        "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+        "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    ];
 
-        rows.sort((a, b) => {
-            let aValue = a.cells[columnIndex].textContent.trim();
-            let bValue = b.cells[columnIndex].textContent.trim();
-
-            if (!isNaN(aValue) && !isNaN(bValue)) {
-                return isAscending ? aValue - bValue : bValue - aValue;
-            } else {
-                return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-            }
-        });
-
-        table.tBodies[0].innerHTML = ""; // Clear the existing rows
-        rows.forEach(row => table.tBodies[0].appendChild(row)); // Append sorted rows
-
-        table.dataset.sortOrder = isAscending ? "desc" : "asc";
-    }
-
-    function toggleAllCheckboxes(source) {
-        let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
-        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
-
-        // Show toast notification after selecting all
-        if (source.checked) {
-            showToast('Delete all');
-        }
-    }
-
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.style.display = 'block';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 2000); // Hide after 2 seconds
-    }
-
-    // Add click event listener for the alert
-    document.getElementById('toast').addEventListener('click', function() {
-        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-        if (selectedCheckboxes.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You will delete all selected products.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Handle deletion logic here
-                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                    console.log("Deleting products with IDs:", selectedIds);
-                    // Perform your deletion request here
-                    // Example: send to server via AJAX or form submission
-                }
-            });
+    // Disable the stylesheets
+    document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
+        if (stylesToDisable.includes(link.getAttribute("href"))) {
+            link.disabled = true; // Disable the stylesheet
         }
     });
-</script>
+});
 
+function sortTable(columnIndex) {
+    let table = document.querySelector(".table-container table");
+    let rows = Array.from(table.rows).slice(1); // Skip the header row
+    let isAscending = table.dataset.sortOrder === "asc";
+
+    rows.sort((a, b) => {
+        let aValue = a.cells[columnIndex].textContent.trim();
+        let bValue = b.cells[columnIndex].textContent.trim();
+
+        if (!isNaN(aValue) && !isNaN(bValue)) {
+            return isAscending ? aValue - bValue : bValue - aValue;
+        } else {
+            return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+        }
+    });
+
+    table.tBodies[0].innerHTML = ""; // Clear the existing rows
+    rows.forEach(row => table.tBodies[0].appendChild(row)); // Append sorted rows
+
+    table.dataset.sortOrder = isAscending ? "desc" : "asc";
+}
+
+function toggleAllCheckboxes(source) {
+    let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+
+    // Show toast notification after selecting all
+    if (source.checked) {
+        showToast('Delete all');
+    }
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 2000); // Hide after 2 seconds
+}
+
+// Add click event listener for the alert
+document.getElementById('toast').addEventListener('click', function() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    if (selectedCheckboxes.length > 0) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete all selected products.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete them!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+
+                fetch('/products/delete_all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // Refresh the page on success
+                    } else {
+                        Swal.fire('Error', 'Failed to delete products.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'An error occurred while deleting products.', 'error');
+                });
+            }
+        });
+    }
+});
+</script>
 <?php 
 else: 
     $this->redirect("/"); 

@@ -114,10 +114,6 @@ class ProductController extends BaseController {
         exit();
     }
     
-    
-
-
-
     // Other methods remain unchanged...
 
     public function delete($id) {
@@ -132,29 +128,16 @@ class ProductController extends BaseController {
         header("Location: /products");
         exit();
     }
-    public function deleteSelectedProducts() {
+    public function deleteAllProducts() {
         session_start();
-    
-        // Get the product IDs from the request
-        $ids = $_POST['ids'] ?? null;
-    
-        // Debugging
-        error_log("Deleting products with IDs: " . var_export($ids, true));
-    
-        if (!$ids || !is_array($ids)) {
-            $_SESSION['product_error'] = "No product IDs provided!";
-            header("Location: /products");
-            exit();
-        }
-    
-        // Call the model method to delete the products
-        if ($this->products->deleteProducts($ids)) {
-            $_SESSION['product_success'] = "Products deleted successfully!";
+        header('Content-Type: application/json'); // Set the content type to JSON
+
+        // Call the model method to delete all products
+        if ($this->products->deleteAllProducts()) {
+            echo json_encode(['success' => true]);
         } else {
-            $_SESSION['product_error'] = "Failed to delete products.";
+            echo json_encode(['success' => false, 'message' => 'Failed to delete products.']);
         }
-    
-        header("Location: /products");
         exit();
     }
 }
