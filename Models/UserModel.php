@@ -61,14 +61,16 @@ class UserModel {
     }
 
     public function updateUser($id, $name, $email, $role) {
-        $result = $this->db->query("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id", [
-            'id' => $id,
-            'name' => $name,
-            'email' => $email,
-            'role' => $role
+        $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id");
+        $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':email' => $email,
+            ':role' => $role
         ]);
-        return $result;
+        return $stmt->rowCount(); // Returns affected rows
     }
+    
     
 }
 ?>
