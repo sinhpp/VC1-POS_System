@@ -44,7 +44,7 @@
                     <select name="role" id="role" class="form-control">
                         <option value="" disabled selected>Select Role</option>
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="user">Cashier</option>
                     </select>
                 </div>
                 <button class="submit-btn" type="submit" name="signup">Signup</button>

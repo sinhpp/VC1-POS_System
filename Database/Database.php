@@ -45,4 +45,7 @@ class Database {
     // Prevent object unserialization
     public function __wakeup() {}
 }
+
+
+
 ?>

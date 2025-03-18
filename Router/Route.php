@@ -8,6 +8,7 @@ require_once "Controllers/ForgotPassword.php";
 require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
+require_once "Controllers/OrderController.php";
 
 // require_once "Controllers/ForgotController.php";
 
@@ -40,6 +41,11 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 
 
-
+//order receipt
+$route->get("/orders", [OrderController::class, 'index']);
+$route->get("/orders/view/{id}", [OrderController::class, 'view']);
+$route->post("/orders/store", [OrderController::class, 'store']);
+$route->delete("/orders/delete/{id}", [OrderController::class, 'delete']);
+$route->get("/orders/receipt/{id}", [OrderController::class, 'receipt']);
 // Call the route method to process the request
 $route->route();
