@@ -16,5 +16,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <!-- SweetAlert JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link href="/views/vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet">
+	<link rel="stylesheet" href="/views/vendor/nouislider/nouislider.min.css">
+	<!-- Style css -->
+    <link href="/views/assets/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
