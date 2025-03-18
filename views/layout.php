@@ -5,7 +5,7 @@ require_once('layouts/header.php');
 $currentRoute = $_SERVER['REQUEST_URI'];
 
 // Define routes where navbar, sidebar, styles, and scripts should NOT be loaded
-$hiddenRoutes = ['/', '/form', '/views/form/form.php'];
+$hiddenRoutes = ['/', '/form', '/views/form/form.php', '/form/authenticate', 'authenticate'];
 
 ?>
 
@@ -14,7 +14,7 @@ $hiddenRoutes = ['/', '/form', '/views/form/form.php'];
 if (!in_array($currentRoute, $hiddenRoutes)) {
     require_once('layouts/navbar.php'); 
     require_once('layouts/sidebar.php'); 
-}; 
+} 
 ?>
 
 <?= $content; ?>
