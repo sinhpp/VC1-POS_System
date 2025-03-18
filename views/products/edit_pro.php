@@ -129,7 +129,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <main class="grid-container">
     <section class="general-info">
-        <form action="/products/store" method="POST" enctype="multipart/form-data">
+    <form action="/products/update/<?= $product['id']; ?>" method="POST">
             <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
             
         <h3>General Information</h3>
@@ -159,22 +159,22 @@ if (isset($_SESSION['user_id'])) : ?>
             </div>
         </div>
         </section>
-        <section class="pricing-stock">
+       <section class="pricing-stock">
     <h3>Pricing And Stocks</h3>
     <label>Base Pricing</label>
-    <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
+    <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
 
     <label>Stock</label>
-    <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
+    <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required min="0" step="1">
 
     <label>Discount</label>
-    <input type="number" placeholder="Enter discount" name="discount" min="0" step="0.01">
+    <input type="number" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>" min="0" step="0.01">
 
     <label>Discount Type</label>
-    <input type="text" placeholder="Enter discount type" name="discount_type">
+    <input type="text" placeholder="Enter discount type" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type'] ?? '') : '' ?>">
 
     <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
+    <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
     <br />
     <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
     <br />
@@ -190,19 +190,19 @@ if (isset($_SESSION['user_id'])) : ?>
     ?>
 </section>
 
-<section class="upload-img">
+        <section class="upload-img">
     <h3>Upload Image</h3>
     
     <!-- File Input -->
-    <input type="file" id="fileUpload" name="image" accept="image/*" required>
+    <input type="file" id="fileUpload" name="image" accept="image/*" <?= !isset($product) ? 'required' : '' ?>>
     
     <!-- Image Preview -->
     <div class="image-preview" id="imagePreview">
         <img 
-            src="" 
+            src="<?= isset($product) && !empty($product['image']) ? '/' . htmlspecialchars($product['image']) : '' ?>" 
             alt="Product Image" 
             id="previewImg" 
-            style="display: none; max-width: 150px;">
+            style="display: <?= isset($product) && !empty($product['image']) ? 'block' : 'none' ?>; max-width: 150px;">
     </div>
 </section>
 
