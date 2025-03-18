@@ -48,5 +48,27 @@ class UserModel {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
+    public function usercreate($name, $email, $password, $role) {
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) 
+                                    VALUES (:name, :email, :password, :role)");
+        $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':password' => $password,
+            ':role' => $role
+        ]);
+        return $stmt->rowCount(); // Returns the number of affected rows
+    }
+
+    public function updateUser($id, $name, $email, $role) {
+        $result = $this->db->query("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id", [
+            'id' => $id,
+            'name' => $name,
+            'email' => $email,
+            'role' => $role
+        ]);
+        return $result;
+    }
+    
 }
 ?>
