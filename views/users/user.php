@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <style>
+    <!-- <style> -->
         /* Sidebar Styles */
         .sidebar {
             font-family: "Poppins", sans-serif;
@@ -49,12 +49,12 @@ if (isset($_SESSION['user_id'])) : ?>
             margin-left: 170px; /* Adjust based on sidebar width */
             padding: 50px;
         }
-    </style>
-</head>
-<body>
+    <!-- </style> -->
+<!-- </head> -->
+<!-- <body> -->
 
     <!-- Sidebar -->
-    <nav class="sidebar d-flex flex-column flex-shrink-0">
+    <!-- <nav class="sidebar d-flex flex-column flex-shrink-0">
         <h3 class="text-center">Admin Panel</h3>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav> -->
 
     <!-- Main Content Area -->
     <div class="content">
@@ -205,12 +205,12 @@ if (isset($_SESSION['user_id'])) : ?>
     /* Main Content Area */
 .content {
     font-family: "Poppins", sans-serif;
-    width: 82%;
-    height: 100%;
-    margin-left:18%;
-    background-color: #f8f9fa; /* Light background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    /* width: 82%; */
+    /* height: 100%; */
+    margin-left:23.3%;
+    background-color: #f8f9fa;
+    /* border-radius: 8px; Rounded corners */
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); Subtle shadow */
 }
 
 /* Table Styles */
@@ -218,7 +218,7 @@ if (isset($_SESSION['user_id'])) : ?>
     border-radius: 8px; /* Rounded corners for the table */
     overflow: hidden; /* Ensure corners are rounded */
 }
-.
+
 
 .table th {
     background-color: #343a40; /* Dark background for header */

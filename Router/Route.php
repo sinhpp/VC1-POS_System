@@ -1,5 +1,5 @@
 <?php
-require_once "Router.php";
+require_once(__DIR__ . '/Router.php');
 require_once "Controllers/BaseController.php";
 require_once "Database/Database.php";
 require_once "Controllers/FormController.php";
