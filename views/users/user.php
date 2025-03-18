@@ -172,7 +172,9 @@ if (isset($_SESSION['user_id'])) : ?>
     </table>
 </div>
 
+<!-- Include SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     function confirmDelete(userId) {
         Swal.fire({
@@ -180,25 +182,41 @@ if (isset($_SESSION['user_id'])) : ?>
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#dc3545', // Bootstrap danger color
-            cancelButtonColor: '#6c757d', // Bootstrap secondary color
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
             confirmButtonText: 'Yes, delete it!',
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // If user confirms, redirect to delete URL
-                window.location.href = '/users/delete/' + userId;
+                // Store success message
+                sessionStorage.setItem('deleteSuccess', 'true');
 
-                // Show success alert after deletion
-                Swal.fire(
-                    'Deleted!',
-                    'User has been deleted successfully.',
-                    'success'
-                );
+                // Redirect to delete URL
+                window.location.href = '/users/delete/' + userId;
             }
         });
     }
+
+    // Show the success alert after page reload
+    document.addEventListener("DOMContentLoaded", function () {
+        if (sessionStorage.getItem('deleteSuccess')) {
+            Swal.fire({
+                title: 'Deleted!',
+                text: 'User has been deleted successfully.',
+                icon: 'success',
+                timer: 1000, // Auto close after 3 seconds
+                showConfirmButton: false
+            });
+
+            // Remove the session storage flag
+            sessionStorage.removeItem('deleteSuccess');
+        }
+    });
 </script>
+
+<!-- Optional: Add a placeholder for success alert -->
+<div id="success-alert" style="display: none;"></div>
+
 </body>
 </html>
 <style>

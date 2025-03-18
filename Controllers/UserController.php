@@ -17,9 +17,7 @@ class UserController extends BaseController {
         $user = $this->users->getUserById($id);
         $this->view("users/user_details", ['user' => $user]);
     }
-    public function create() {
-        $this->view("users/create");  // This should point to 'views/users/create_user.php'
-    }
+
     public function form() {
         $this->view("form/form");
     }
@@ -79,6 +77,36 @@ class UserController extends BaseController {
         // Redirect to homepage after logout
         header("Location: /");
     }
+
+    public function createuser() {
+        $this->view("users/create");  // This should point to 'views/users/create_user.php'
+    }
+    public function storeuser() {
+        $name = htmlspecialchars($_POST['name']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
+        $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+        $role = htmlspecialchars($_POST['role']);
+        $this->users->usercreate($name, $email, $encrypted_password, $role);
+        header("Location: /users");
+    }
+
+    public function edit($id) {
+        $user = $this->users->getUserById($id); // Fetch user details from model
+        if (!$user) {
+            die("User not found");
+        }
+        $this->view("users/edit", ['user' => $user]); // Pass user data to view
+    }
+    
+    public function update($id) {
+        $name = htmlspecialchars($_POST['name']);
+        $email = htmlspecialchars($_POST['email']);
+        $role = htmlspecialchars($_POST['role']);
+        $this->users->updateUser($id, $name, $email, $role);
+        header("Location: /users");
+    }  
+
    
     
 }

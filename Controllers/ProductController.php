@@ -119,10 +119,8 @@ class ProductController extends BaseController {
     public function delete($id) {
         // Call the deleteProduct method from the ProductModel
         if ($this->products->deleteProduct($id)) {
-            // Optionally set a success message
             $_SESSION['product_success'] = "Product deleted successfully!";
         } else {
-            // Optionally set an error message
             $_SESSION['product_error'] = "Error deleting product.";
         }
         header("Location: /products");
