@@ -262,6 +262,7 @@ if (isset($_SESSION['user_id'])) : ?>
         border-style: solid;
         border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
     }
+    
 </style>
 
 <script>
