@@ -42,14 +42,4 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 
 // Call the route method to process the request
-$route->route();?>
-<?php
-// Router/Route.php
-
-use Bramus\Router\Router;
-
-$router = new Route();
-
-$router->post('/place-order', 'Controllers\OrderController@placeOrder');
-$router->run();
-?>
+$route->route();
