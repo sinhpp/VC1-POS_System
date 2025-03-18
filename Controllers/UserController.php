@@ -92,9 +92,13 @@ class UserController extends BaseController {
     }
 
     public function edit($id) {
-        $user = $this->users->getUserById($id);
-        $this->view("users/edit", ['user' => $user]);
+        $user = $this->users->getUserById($id); // Fetch user details from model
+        if (!$user) {
+            die("User not found");
+        }
+        $this->view("users/edit", ['user' => $user]); // Pass user data to view
     }
+    
     public function update($id) {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
