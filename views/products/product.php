@@ -37,38 +37,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <script src="/views/assets/js/product.js"></script>
 
     <style>
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-        /* Table Styles */
+        
         .table {
             width: 100%;
             margin-left: 70px;
@@ -101,7 +70,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+          
             font-family: "Poppins", sans-serif;
             margin-left: 18%;
         }
@@ -194,25 +163,6 @@ if (isset($_SESSION['user_id'])) : ?>
     </style>
 </head>
 <body>
-
-    <!-- Sidebar -->
-    
-    <nav class="sidebar">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="material-icons">dashboard</i> Dashboard</a></li>
-            <li><a href="/users" class="nav-link"><i class="material-icons">group</i> Users</a></li>
-            <li><a href="/settings" class="nav-link"><i class="material-icons">settings</i> Settings</a></li>
-            <li><a href="/" class="nav-link"><i class="material-icons">logout</i> Logout</a></li>
-            <li><a href="/products" class="nav-link"><i class="material-icons">shopping_cart</i> Products</a></li>
-        </ul>
-    </nav>
-
-    <!-- Table Content -->
-</head>
-<body>
-
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
