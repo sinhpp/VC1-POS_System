@@ -82,14 +82,20 @@ class UserController extends BaseController {
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
     public function storeuser() {
+        if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) {
+            die("Missing required fields.");
+        }
+    
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
+    
         $this->users->usercreate($name, $email, $encrypted_password, $role);
         header("Location: /users");
     }
+    
 
     public function edit($id) {
         $user = $this->users->getUserById($id); // Fetch user details from model

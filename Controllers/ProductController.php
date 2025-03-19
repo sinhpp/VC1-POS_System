@@ -82,7 +82,7 @@ class ProductController extends BaseController {
     }
     public function edit($id) {
         $product = $this->products->getProById($id);
-        $this->view("products/create", ['product' => $product]);
+        $this->view("products/edit_pro", ['product' => $product]);
     }
     public function update($id) {
         session_start(); 
