@@ -29,14 +29,14 @@
 							<span class="nav-text">Charts</span>
 						</a>
                     </li>
-                    <li><a href="/products" aria-expanded="false">
+                    <li><a href="/users" aria-expanded="false">
 							<i class="flaticon-086-star"></i>
-							<span class="nav-text">Products</span>
+							<span class="nav-text">User</span>
 						</a>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="/products" aria-expanded="false">
 							<i class="flaticon-045-heart"></i>
-							<span class="nav-text">Plugins</span>
+							<span class="nav-text">Products</span>
 						</a>
                     </li>
                     <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">

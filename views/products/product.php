@@ -40,7 +40,7 @@ if (isset($_SESSION['user_id'])) : ?>
         
         .table {
             width: 100%;
-            margin-left: 70px;
+            margin-left: 50%;
         }
         .table th, .table td {
             padding: 10px;
@@ -76,7 +76,8 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .table-container {
-            max-width: 100%;
+            max-width: 90%;
+            margin-left: 20%;
             margin-top: 10%;
             background: white;
             padding: 20px;
@@ -225,8 +226,9 @@ if (isset($_SESSION['user_id'])) : ?>
             <?php endif; ?>
         </tbody>
     </table>
+    <a href="/products/create" class="btn btn-success">+ Add Product</a>
 </div>
-<a href="/products/create" class="btn btn-success">+ Add Product</a>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -274,7 +276,7 @@ function sortTable(columnIndex) {
     }
 </script>
 
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php 
 else: 
     $this->redirect("/"); 
