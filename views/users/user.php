@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <style>
+    <!-- <style> -->
         /* Sidebar Styles */
         .sidebar {
             font-family: "Poppins", sans-serif;
@@ -49,12 +49,12 @@ if (isset($_SESSION['user_id'])) : ?>
             margin-left: 170px; /* Adjust based on sidebar width */
             padding: 50px;
         }
-    </style>
-</head>
-<body>
+    <!-- </style> -->
+<!-- </head> -->
+<!-- <body> -->
 
     <!-- Sidebar -->
-    <nav class="sidebar d-flex flex-column flex-shrink-0">
+    <!-- <nav class="sidebar d-flex flex-column flex-shrink-0">
         <h3 class="text-center">Admin Panel</h3>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 </a>
             </li>
         </ul>
-    </nav>
+    </nav> -->
 
     <!-- Main Content Area -->
     <div class="content">
@@ -172,7 +172,9 @@ if (isset($_SESSION['user_id'])) : ?>
     </table>
 </div>
 
+<!-- Include SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     function confirmDelete(userId) {
         Swal.fire({
@@ -180,37 +182,53 @@ if (isset($_SESSION['user_id'])) : ?>
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#dc3545', // Bootstrap danger color
-            cancelButtonColor: '#6c757d', // Bootstrap secondary color
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
             confirmButtonText: 'Yes, delete it!',
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // If user confirms, redirect to delete URL
-                window.location.href = '/users/delete/' + userId;
+                // Store success message
+                sessionStorage.setItem('deleteSuccess', 'true');
 
-                // Show success alert after deletion
-                Swal.fire(
-                    'Deleted!',
-                    'User has been deleted successfully.',
-                    'success'
-                );
+                // Redirect to delete URL
+                window.location.href = '/users/delete/' + userId;
             }
         });
     }
+
+    // Show the success alert after page reload
+    document.addEventListener("DOMContentLoaded", function () {
+        if (sessionStorage.getItem('deleteSuccess')) {
+            Swal.fire({
+                title: 'Deleted!',
+                text: 'User has been deleted successfully.',
+                icon: 'success',
+                timer: 1000, // Auto close after 3 seconds
+                showConfirmButton: false
+            });
+
+            // Remove the session storage flag
+            sessionStorage.removeItem('deleteSuccess');
+        }
+    });
 </script>
+
+<!-- Optional: Add a placeholder for success alert -->
+<div id="success-alert" style="display: none;"></div>
+
 </body>
 </html>
 <style>
     /* Main Content Area */
 .content {
     font-family: "Poppins", sans-serif;
-    width: 82%;
-    height: 100%;
-    margin-left:18%;
-    background-color: #f8f9fa; /* Light background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    /* width: 82%; */
+    /* height: 100%; */
+    margin-left:23.3%;
+    background-color: #f8f9fa;
+    /* border-radius: 8px; Rounded corners */
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); Subtle shadow */
 }
 
 /* Table Styles */
@@ -218,7 +236,7 @@ if (isset($_SESSION['user_id'])) : ?>
     border-radius: 8px; /* Rounded corners for the table */
     overflow: hidden; /* Ensure corners are rounded */
 }
-.
+
 
 .table th {
     background-color: #343a40; /* Dark background for header */

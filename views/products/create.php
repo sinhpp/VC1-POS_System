@@ -97,7 +97,10 @@ if (isset($_SESSION['user_id'])) : ?>
         .btn-warning { background-color: #ffc107; color: black; }
         .btn-danger { background-color: #dc3545; color: white; }
         .btn:hover { background-color: #495057; }
+        
     </style>
+
+
 </head>
 <body>
 
@@ -158,23 +161,35 @@ if (isset($_SESSION['user_id'])) : ?>
         </section>
 
         <section class="pricing-stock">
-            <h3>Pricing And Stocks</h3>
-            <label>Base Pricing</label>
-            <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
+    <h3>Pricing And Stocks</h3>
+    <label>Base Pricing</label>
+    <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
 
-            <label>Stock</label>
-            <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required min="0" step="1">
+    <label>Stock</label>
+    <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required min="0" step="1">
 
-            <label>Discount</label>
-            <input type="number" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>" min="0" step="0.01">
+    <label>Discount</label>
+    <input type="number" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>" min="0" step="0.01">
 
-            <label>Discount Type</label>
-            <input type="text" placeholder="Enter discount type" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type'] ?? '') : '' ?>">
+    <label>Discount Type</label>
+    <input type="text" placeholder="Enter discount type" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type'] ?? '') : '' ?>">
 
-            <label>Barcode:</label>
-            <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
-            <br />
-        </section>
+    <label>Barcode:</label>
+    <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
+    <br />
+    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
+    <br />
+
+    <?php
+    $file = __DIR__ . '/../../barcode/generate.php';
+
+    if (!file_exists($file)) {
+        echo "<p style='color: red; text-align:center;'>Error: Barcode generator file not found.</p>";
+    } else {
+        include $file;
+    }
+    ?>
+</section>
 
         <section class="upload-img">
     <h3>Upload Image</h3>

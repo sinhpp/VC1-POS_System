@@ -227,7 +227,7 @@ if (isset($_SESSION['user_id'])) : ?>
             <tr>
                 <th>
                     <div class="alert" id="toast" style="display:none;">
-                        Delete all
+                        Delete all!
                     </div>
                     <input type="checkbox" onclick="toggleAllCheckboxes(this)">
                 </th>
@@ -262,7 +262,7 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
                         
-                        <td>
+                        <td class="action-icons">
                             <a href="/products/create/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
                                 <i class="material-icons">edit</i>
                             </a>

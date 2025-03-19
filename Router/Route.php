@@ -1,5 +1,5 @@
 <?php
-require_once "Router.php";
+require_once(__DIR__ . '/Router.php');
 require_once "Controllers/BaseController.php";
 require_once "Database/Database.php";
 require_once "Controllers/FormController.php";
@@ -23,6 +23,10 @@ $route->get("/users/create", [UserController::class, 'create']);
 $route->post("/users/store", [UserController::class, 'store']);
 $route->delete("/users/delete/{id}", [UserController::class, 'delete']);
 $route->get("/users/logout", [UserController::class, 'logout']);
+$route->get("/users/create", [UserController::class, 'createuser']);
+$route->post("/users/storeuser", [UserController::class, 'storeuser']);
+$route->get("/users/edit/{id}", [UserController::class, 'edit']);
+$route->post("/users/update/{id}", [UserController::class, 'update']); 
 
 // Products
 $route->get("/products", [ProductController::class, 'index']);
