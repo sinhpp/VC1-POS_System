@@ -165,8 +165,83 @@ if (isset($_SESSION['user_id'])) : ?>
     <label>Base Pricing</label>
     <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
 
-    <label>Stock</label>
-    <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required min="0" step="1">
+    <style>
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; /* Adds spacing */
+    width: 100%; /* Ensures it spans the full width */
+  }
+
+  .input-container label,
+  .input-container input {
+    flex: 1; /* Makes both take equal space */
+  }
+
+  .input-container label {
+    white-space: nowrap; /* Prevents label from breaking */
+  }
+
+  .right-input {
+    text-align: right; /* Aligns the second input to the right */
+  }
+</style>
+
+<style>
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-group label {
+    margin-bottom: 5px;
+  }
+
+  .input-group input {
+    padding: 8px;
+    width: 100%;
+  }
+</style>
+
+<div class="input-container">
+    <!-- First Input Group -->
+    <div class="input-group">
+        <label>Stock</label>
+        <input type="number" id="stockInput" placeholder="Enter stock quantity" name="stock" 
+               value="<?= isset($product) ? htmlspecialchars($product['stock']) : '45' ?>" 
+               required min="0" step="1">
+    </div>
+
+    <!-- Second Input Group -->
+    <div class="input-group">
+        <label>Stock Adjustment</label>
+        <input type="number" id="addStockInput" placeholder="Enter stock quantity to add or subtract" name="add_stock" required min="0" step="1">
+    </div>
+</div>
+
+<script>
+  // Select the first and second inputs
+  const stockInput = document.getElementById('stockInput');
+  const addStockInput = document.getElementById('addStockInput');
+
+  // Add event listener to the second input
+  addStockInput.addEventListener('blur', function() {  // Use blur instead of input
+    // Get the value of the first and second input
+    const currentStock = parseFloat(stockInput.value) || 0; // Default to 0 if the value is NaN
+    const addedStock = parseFloat(addStockInput.value) || 0; // Default to 0 if the value is NaN
+    
+    // Update the first input based on the value entered in the second input (once on blur)
+    stockInput.value = currentStock + addedStock;
+  });
+</script>
 
     <label>Discount</label>
     <input type="number" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>" min="0" step="0.01">
