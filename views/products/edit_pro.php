@@ -31,43 +31,13 @@ if (isset($_SESSION['user_id'])) : ?>
     <title>Admin Panel</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 10px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
+        
         /* Table Styles */
         .table {
             width: 80%;
@@ -105,24 +75,8 @@ if (isset($_SESSION['user_id'])) : ?>
 </head>
 <body>
 
-    <!-- Sidebar -->
-     
-    <nav class="sidebar">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="material-icons">dashboard</i> Dashboard</a></li>
-            <li><a href="/users" class="nav-link"><i class="material-icons">group</i> Users</a></li>
-            <li><a href="/settings" class="nav-link"><i class="material-icons">settings</i> Settings</a></li>
-            <li><a href="/" class="nav-link"><i class="material-icons">logout</i> Logout</a></li>
-            <li><a href="/products" class="nav-link"><i class="material-icons">shopping_cart</i> Products</a></li>
-        </ul>
-    </nav>
-<!-- end siderbar -->
- 
 <div class="container">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <header>
         <h2> Add New Product</h2>
@@ -354,20 +308,14 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     font-family: "Poppins", sans-serif;
 }
 
-body {
-    background: #f4f4f4;
-  
-}
-
 .container {
     max-width: 80%;
     height: auto;
     margin-left: 400px; /* Sidebar adjustment */
     background: white;
     position: relative;
-    left:-10%;
+    margin-top:10%;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
    
 }
 
@@ -522,8 +470,6 @@ button:hover {
             }
         });
     </script>
-
-
 <?php 
 else: 
     $this->redirect("/"); 

@@ -1,21 +1,3 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      // List of stylesheets to disable
-      const stylesToDisable = [
-          "/views/assets/css/form.css",
-          "/views/assets/css/form.forgot.password.css",
-          "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
-          "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-      ];
-
-      // Disable the stylesheets
-      document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
-          if (stylesToDisable.includes(link.getAttribute("href"))) {
-              link.disabled = true; // Disable the stylesheet
-          }
-      });
-  });
-</script>
 
 <?php
 if (session_status() == PHP_SESSION_NONE) {
