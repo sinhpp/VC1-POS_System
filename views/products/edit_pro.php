@@ -226,17 +226,41 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 
     </section>
 
-     <!-- Category -->
-     <section class="category">
-         <h3>Category</h3>
-         <select id="categorySelect" name="category" required>
-            <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
-            <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
-            <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
-            <option value="Dresses" <?= isset($product) && $product['category'] == 'Dresses' ? 'selected' : '' ?>>Dresses</option>
-            <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
-        </select>
-     </section>
+ <!-- Category -->
+<section class="category">
+    <h3>Category</h3>
+    <select id="categorySelect" name="category" required>
+        <!-- General Categories -->
+        <div class="cat"></div>
+        <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
+        <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
+        <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
+        <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
+        <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
+        <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
+        <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
+        <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
+        
+        <!-- Student Material Option -->
+        <option value="Student Material" <?= isset($product) && $product['category'] == 'Student Material' ? 'selected' : '' ?>>Student Material</option>
+        
+        <!-- Other Category Option -->
+        <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
+    </select>
+
+    <!-- Additional Dropdown for Student Material (hidden by default) -->
+    <select id="studentMaterialOptions" name="student_material" style="display: none;">
+        <option value="Book" <?= isset($product) && $product['category'] == 'Book' ? 'selected' : '' ?>>Book</option>
+        <option value="Pen" <?= isset($product) && $product['category'] == 'Pen' ? 'selected' : '' ?>>Pen</option>
+        <option value="Ruler" <?= isset($product) && $product['category'] == 'Ruler' ? 'selected' : '' ?>>Ruler</option>
+    </select>
+
+    <!-- Input for "Other" Category (hidden by default) -->
+    <div id="otherCategoryInput" style="display: none;">
+        <label for="otherInput">Please specify:</label>
+        <input type="text" id="otherInput" name="other_category_input" placeholder="Enter other category" value="<?= isset($product) && $product['category'] == 'Other' ? htmlspecialchars($product['other_category_input'] ?? '') : '' ?>">
+    </div>
+</section>
  
      
     
