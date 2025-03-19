@@ -14,7 +14,7 @@
 						</a>
 						
 					</li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="/dashboard" aria-expanded="false">
 							<i class="flaticon-025-dashboard"></i>
 							<span class="nav-text">Dashboard</span>
 						</a>
@@ -29,9 +29,9 @@
 							<span class="nav-text">Charts</span>
 						</a>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="/products" aria-expanded="false">
 							<i class="flaticon-086-star"></i>
-							<span class="nav-text">Bootstrap</span>
+							<span class="nav-text">Products</span>
 						</a>
                     </li>
                     <li><a href="javascript:void()" aria-expanded="false">
