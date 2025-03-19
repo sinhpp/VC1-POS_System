@@ -30,7 +30,7 @@ $route->post("/users/update/{id}", [UserController::class, 'update']);
 
 // Products
 $route->get("/products", [ProductController::class, 'index']);
-$route->get("/products/create", [ProductController::class, 'create']);
+$route->get("/products/create", [ProductController::class, 'create_pro']);
 $route->post("/products/store", [ProductController::class, 'store']);
 $route->get("/products/edit_pro/{id}", [ProductController::class, 'edit']);
 $route->put("/products/update/{id}", [ProductController::class, 'update']);

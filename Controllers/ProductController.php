@@ -1,26 +1,68 @@
 <?php
 require_once "Models/ProductModel.php";
 
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
 class ProductController extends BaseController {
     private $products;
+    private $users;
 
     public function __construct() {
+        // Initialize models
         $this->products = new ProductModel();
+        $this->users = new UserModel();
     }
 
+    // Display list of products (Existing functionality)
     public function index() {
-        $products = $this->products->getProducts(); // Fetch products from the model
-        $this->view("products/product", ['products' => $products]); // Pass products to the view
+        $products = $this->products->getProducts();  // Assuming 'getProducts' fetches all products
+        $this->view("products/index", ['products' => $products]);
     }
-
     public function showProduct($id) {
-        $product = $this->products->getProductById($id);
+        $product = $this->products->getProductById($id);  // Assuming 'getProductById' fetches product by ID
         $this->view("products/product_details", ['product' => $product]);
     }
 
-    public function create() {
-        $this->view("/products/create");  // This should point to 'views/products/create_product.php'
+    // Create product and generate barcode (New functionality for barcode generation)
+    public function create_pro() {
+        $barcode = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['generate']) && !empty($_POST['barcode'])) {
+                // Initialize the barcode generator
+                $generator = new BarcodeGeneratorPNG();
+                
+                // Generate the barcode for the input value
+                $barcode = base64_encode($generator->getBarcode($_POST['barcode'], $generator::TYPE_CODE_128));
+
+                // Optionally, save the barcode to a file
+                $barcodeFile = 'path/to/save/barcode.png'; // Set the correct file path
+                file_put_contents($barcodeFile, base64_decode($barcode));
+            }
+
+            // Handle product creation logic (after barcode generation)
+            if (isset($_POST['name'], $_POST['price'], $_POST['stock'], $_POST['category'])) {
+                // Assuming you have a method for adding products
+                $productData = [
+                    'name' => $_POST['name'],
+                    'price' => $_POST['price'],
+                    'stock' => $_POST['stock'],
+                    'category' => $_POST['category'],
+                    'barcode' => $_POST['barcode'],  // Store barcode generated
+                    'image' => $_POST['image'] ?? null, // Assuming image is uploaded
+                ];
+                $this->products->addProduct($productData);  // Assuming you have 'addProduct' in your ProductModel
+
+                // Redirect to product list or success page
+                header("Location: /products/create_pro"); // Change the location to where you want to redirect
+                exit();
+            }
+        } else {
+            // Load the create form (create.php)
+            $this->view("products/create");
+        }
     }
+
 
   
     public function store() {
@@ -139,3 +181,7 @@ class ProductController extends BaseController {
         exit();
     }
 }
+
+?>
+
+

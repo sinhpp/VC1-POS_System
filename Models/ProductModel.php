@@ -1,11 +1,16 @@
 <?php
-require_once "Database/Database.php";
-
 class ProductModel {
     private $db;
 
     public function __construct() {
         $this->db = Database::getInstance(); // Get PDO instance
+    }
+
+    public function saveProduct($name, $barcode, $price, $stock, $category, $image) {
+        // Prepare and execute the SQL to save the product
+        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, image) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdiis", $name, $barcode, $price, $stock, $category, $image);
+        $stmt->execute();
     }
 
     public function getProducts() {
@@ -28,7 +33,6 @@ class ProductModel {
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-    
         // Handle image upload
         $imagePath = null;
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
@@ -132,5 +136,6 @@ class ProductModel {
         return $stmt->execute();
     }
 
-    // Other methods remain unchanged...
 }
+?>
+

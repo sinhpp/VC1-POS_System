@@ -180,12 +180,22 @@ if (isset($_SESSION['user_id'])) : ?>
                     <td colspan="8" class="text-center">No products available.</td>
                 </tr>
             <?php else: ?>
+                <?php
+                require_once 'vendor/autoload.php'; // Load the barcode generator class
+                $barcodeGenerator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+                ?>
                 <?php foreach ($products as $product): ?>
                     <tr>
                         <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
                         <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
                         <td><?= htmlspecialchars($product['name']) ?></td>
-                        <td><?= htmlspecialchars($product['barcode']) ?></td>
+                        <td>
+                            <?php
+                            // Generate barcode image from product barcode
+                            $barcodeImage = $barcodeGenerator->getBarcode($product['barcode'], $barcodeGenerator::TYPE_CODE_128);
+                            ?>
+                            <img src="data:image/png;base64,<?= base64_encode($barcodeImage) ?>" alt="Barcode" style="height: 30px;">
+                        </td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td>
                             <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
@@ -194,7 +204,6 @@ if (isset($_SESSION['user_id'])) : ?>
                         </td>
                         <td><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
-                        
                         <td class="action-icons">
                             <a href="/products/edit_pro/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
                                 <i class="material-icons">edit</i>

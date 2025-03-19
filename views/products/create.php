@@ -112,34 +112,58 @@ if (isset($_SESSION['user_id'])) : ?>
         </div>
         </section>
         <section class="pricing-stock">
-    <h3>Pricing And Stocks</h3>
-    <label>Base Pricing</label>
-    <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
+        <h3>Pricing And Stocks</h3>
+<label>Base Pricing</label>
+<input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
 
-    <label>Stock</label>
-    <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
+<label>Stock</label>
+<input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
 
-    <label>Discount</label>
-    <input type="number" placeholder="Enter discount" name="discount" min="0" step="0.01">
+<label>Discount</label>
+<input type="number" placeholder="Enter discount" name="discount" min="0" step="0.01">
 
-    <label>Discount Type</label>
-    <input type="text" placeholder="Enter discount type" name="discount_type">
+<label>Discount Type</label>
+<input type="text" placeholder="Enter discount type" name="discount_type">
 
-    <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
-    <br />
-    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
-    <br />
+<label>Barcode:</label>
+<input type="text" class="form-control" name="barcode"/>
+<br />
+<center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
+<br />
 
-    <?php
-    $file = __DIR__ . '/../../barcode/generate.php';
+<?php
+require_once 'vendor/autoload.php'; // Include barcode generator
 
-    if (!file_exists($file)) {
-        echo "<p style='color: red; text-align:center;'>Error: Barcode generator file not found.</p>";
-    } else {
-        include $file;
+if (isset($_POST['generate'])) {
+    $barcode = $_POST['barcode']; // Get barcode value from form input
+
+    // Create barcode image using Picqer Barcode Generator
+    $barcodeGenerator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+    $barcodeImage = $barcodeGenerator->getBarcode($barcode, $barcodeGenerator::TYPE_CODE_128);
+    
+    // Save the barcode image to a folder (e.g., /barcodes/)
+    $barcodeFile = 'barcodes/' . $barcode . '.png';  // Define the path to store the barcode image
+    file_put_contents($barcodeFile, $barcodeImage); // Save the file
+
+    // Now store the product details in the database
+    if (isset($_POST['price'], $_POST['stock'])) {
+        // Assuming you have a PDO or MySQLi connection established
+        $price = $_POST['price'];
+        $stock = $_POST['stock'];
+        $discount = isset($_POST['discount']) ? $_POST['discount'] : 0;
+        $discountType = isset($_POST['discount_type']) ? $_POST['discount_type'] : '';
+
+        // Prepare the SQL statement to insert product data
+        $stmt = $pdo->prepare("INSERT INTO products (name, price, stock, barcode) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$_POST['name'], $price, $stock, $barcodeFile]); // Store the barcode file path in the database
+
+        // Redirect or display a success message
+        echo "<p>Product created successfully with barcode!</p>";
     }
-    ?>
+}
+?>
+
+
 </section>
 
 <section class="upload-img">
