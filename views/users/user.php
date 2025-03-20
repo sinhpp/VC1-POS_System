@@ -49,44 +49,7 @@ if (isset($_SESSION['user_id'])) : ?>
             margin-left: 170px; /* Adjust based on sidebar width */
             padding: 50px;
         }
-    <!-- </style> -->
-<!-- </head> -->
-<!-- <body> -->
-
-    <!-- Sidebar -->
-    <!-- <nav class="sidebar d-flex flex-column flex-shrink-0">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                    <i class="material-icons">dashboard</i> Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="/users" class="nav-link">
-                    <i class="material-icons">group</i> Users
-                </a>
-            </li>
-            <li>
-                <a href="/settings" class="nav-link">
-                    <i class="material-icons">settings</i> Settings
-                </a>
-            </li>
-            <li>
-                <a href="/" class="nav-link">
-                    <i class="material-icons">logout</i> Logout
-                </a>
-            </li>
-            <li>
-                <a href="/products" class="nav-link">
-                    <i class="material-icons"></i> products
-                </a>
-            </li>
-        </ul>
-    </nav> -->
-
-    <!-- Main Content Area -->
+   
     <div class="content">
     <h2 class="text-center mb-4">Users List</h2>
  

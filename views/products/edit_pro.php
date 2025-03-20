@@ -1,23 +1,4 @@
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      // List of stylesheets to disable
-      const stylesToDisable = [
-          "/views/assets/css/form.css",
-          "/views/assets/css/form.forgot.password.css",
-          "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
-          "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-      ];
-
-      // Disable the stylesheets
-      document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
-          if (stylesToDisable.includes(link.getAttribute("href"))) {
-              link.disabled = true; // Disable the stylesheet
-          }
-      });
-  });
-</script>
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -37,6 +18,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
+        
         
         /* Table Styles */
         .table {
@@ -120,13 +102,13 @@ if (isset($_SESSION['user_id'])) : ?>
     <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
 
     <style>
-  .input-container {
+  /* .input-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px; /* Adds spacing */
-    width: 100%; /* Ensures it spans the full width */
-  }
+    gap: 10px; 
+    width: 100%; 
+  } */
 
   .input-container label,
   .input-container input {
@@ -146,11 +128,11 @@ if (isset($_SESSION['user_id'])) : ?>
   .input-container {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+ 
     width: 100%;
   }
 
-  .input-group {
+  /* .input-group {
     display: flex;
     flex-direction: column;
   }
@@ -162,7 +144,7 @@ if (isset($_SESSION['user_id'])) : ?>
   .input-group input {
     padding: 8px;
     width: 100%;
-  }
+  } */
 </style>
 
 <div class="input-container">
