@@ -296,7 +296,7 @@ h2 {
 
 .grid-container {
   
-    margin-left:10%;
+    margin-left:20%;
     display: grid;
     grid-template-columns: 2fr 1.5fr;
     gap: 10px;

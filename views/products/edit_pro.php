@@ -309,9 +309,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 }
 
 .container {
-    max-width: 80%;
+    max-width: 78%;
     height: auto;
-    margin-left: 400px; /* Sidebar adjustment */
+    margin-left: 22%; /* Sidebar adjustment */
     background: white;
     position: relative;
     margin-top:10%;
