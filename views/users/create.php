@@ -8,18 +8,17 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">      
 </head>
 <body>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             
             min-height: 100vh;
-            
+           
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,7 +29,7 @@
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             width: 500px;
-            margin-left:18%;
+            margin-left:30%;
         }
         .form-control:focus {
             border-color:rgb(57, 132, 194);
@@ -88,6 +87,6 @@
         <a href="/users" class="btn btn-secondary w-100 mt-2">Cancel</a>
     </form>
 </div>
-
+        
 </body>
 </html>

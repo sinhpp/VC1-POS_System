@@ -254,8 +254,6 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     font-family: "Poppins", sans-serif;
 }
 
-
-
 .container {
     max-width: 90%;
     height: auto;
