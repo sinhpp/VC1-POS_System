@@ -8,8 +8,8 @@
 						<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
 							<img src="/views/assets/images/ion/man (1).png" width="20" alt=""/>
 							<div class="header-info ms-3">
-								<span class="font-w600 ">Hi,<b>AC</b></span>
-								<small class="text-end font-w400">xyz@gmail.com</small>
+								<span class="font-w600 ">Sinh Ern</span>
+								<small class="text-end font-w400">sinh.ern@gamil.com</small>
 							</div>
 						</a>
 						
