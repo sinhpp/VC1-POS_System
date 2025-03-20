@@ -10,77 +10,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <style>
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">      
 </head>
 <body>
-
-    <!-- Sidebar -->
-    <nav class="sidebar d-flex flex-column flex-shrink-0">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                    <i class="material-icons">dashboard</i> Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="/users" class="nav-link">
-                    <i class="material-icons">group</i> Users
-                </a>
-            </li>
-            <li>
-                <a href="/settings" class="nav-link">
-                    <i class="material-icons">settings</i> Settings
-                </a>
-            </li>
-            <li>
-                <a href="/" class="nav-link">
-                    <i class="material-icons">logout</i> Logout
-                </a>
-            </li>
-            <li>
-                <a href="/products" class="nav-link">
-                    <i class="material-icons"></i> products
-                </a>
-            </li>
-        </ul>
-    </nav>
-
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
