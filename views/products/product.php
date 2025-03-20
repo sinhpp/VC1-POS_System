@@ -59,7 +59,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
         .table-container {
             max-width: 80%;
-            margin-left: 20%;
+            margin-left: 22%;
             margin-top: 10%;
             background: white;
             padding: 20px;
