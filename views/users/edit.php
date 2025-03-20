@@ -19,77 +19,7 @@
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <style>
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Sidebar -->
-    <nav class="sidebar d-flex flex-column flex-shrink-0">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                    <i class="material-icons">dashboard</i> Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="/users" class="nav-link">
-                    <i class="material-icons">group</i> Users
-                </a>
-            </li>
-            <li>
-                <a href="/settings" class="nav-link">
-                    <i class="material-icons">settings</i> Settings
-                </a>
-            </li>
-            <li>
-                <a href="/" class="nav-link">
-                    <i class="material-icons">logout</i> Logout
-                </a>
-            </li>
-            <li>
-                <a href="/products" class="nav-link">
-                    <i class="material-icons"></i> products
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-    <style>
+<style>
         
         body {
             margin-left:18%;
@@ -346,29 +276,27 @@
     </div>
     <div class="profile-form">
         <h2>Edit Profile</h2>
-        <form action="/users/storeuser" method="POST">
-            <input type="hidden" name="user_id" value="<?= $user_id; ?>">
-            <div class="input-group">
-                <label>Full Name</label>
-                <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>">
-            </div>
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>">
-            </div>
-            <div class="input-group">
-                <label>Role</label>
-                <select name="role" class="role">
-                    <?php if ($user['role'] == 'cashier'): ?>
-                        <option value="cashier" selected>Cashier</option>
-                        <option value="admin">Admin</option>
-                    <?php elseif ($user['role'] == 'admin'): ?>
-                        <option value="admin" selected>Admin</option>
-                        <option value="cashier">Cashier</option>
-                    <?php endif; ?>
-                </select>
-            </div>
-            <button type="submit" class="update-btn">Update Info</button>
-        </form>
+        <form action="/users/update/<?= $user['id']; ?>" method="POST">
+    <input type="hidden" name="user_id" value="<?= $user['id']; ?>">
+
+    <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
     </div>
-</div>
+    
+    <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
+    </div>
+    
+    <div class="input-group">
+        <label>Role</label>
+        <select name="role" class="role" required>
+            <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
+            <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+        </select>
+    </div>
+
+    <button type="submit" class="update-btn">Update Info</button>
+</form>
+

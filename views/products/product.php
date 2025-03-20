@@ -1,21 +1,3 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      // List of stylesheets to disable
-      const stylesToDisable = [
-          "/views/assets/css/form.css",
-          "/views/assets/css/form.forgot.password.css",
-          "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
-          "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-      ];
-
-      // Disable the stylesheets
-      document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
-          if (stylesToDisable.includes(link.getAttribute("href"))) {
-              link.disabled = true; // Disable the stylesheet
-          }
-      });
-  });
-</script>
 
 <?php
 if (session_status() == PHP_SESSION_NONE) {
@@ -37,41 +19,10 @@ if (isset($_SESSION['user_id'])) : ?>
     <script src="/views/assets/js/product.js"></script>
 
     <style>
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-        /* Table Styles */
+        
         .table {
             width: 100%;
-            margin-left: 70px;
+            margin-left: 50%;
         }
         .table th, .table td {
             padding: 10px;
@@ -101,13 +52,14 @@ if (isset($_SESSION['user_id'])) : ?>
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+          
             font-family: "Poppins", sans-serif;
             margin-left: 18%;
         }
 
         .table-container {
-            max-width: 100%;
+            max-width: 80%;
+            margin-left: 22%;
             margin-top: 10%;
             background: white;
             padding: 20px;
@@ -194,25 +146,6 @@ if (isset($_SESSION['user_id'])) : ?>
     </style>
 </head>
 <body>
-
-    <!-- Sidebar -->
-    
-    <nav class="sidebar">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="material-icons">dashboard</i> Dashboard</a></li>
-            <li><a href="/users" class="nav-link"><i class="material-icons">group</i> Users</a></li>
-            <li><a href="/settings" class="nav-link"><i class="material-icons">settings</i> Settings</a></li>
-            <li><a href="/" class="nav-link"><i class="material-icons">logout</i> Logout</a></li>
-            <li><a href="/products" class="nav-link"><i class="material-icons">shopping_cart</i> Products</a></li>
-        </ul>
-    </nav>
-
-    <!-- Table Content -->
-</head>
-<body>
-
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -263,7 +196,7 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
                         
                         <td class="action-icons">
-                            <a href="/products/create/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                            <a href="/products/edit_pro/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
                                 <i class="material-icons">edit</i>
                             </a>
                             <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">
@@ -275,8 +208,9 @@ if (isset($_SESSION['user_id'])) : ?>
             <?php endif; ?>
         </tbody>
     </table>
+    <a href="/products/create" class="btn btn-success">+ Add Product</a>
 </div>
-<a href="/products/create" class="btn btn-success">+ Add Product</a>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -324,7 +258,7 @@ function sortTable(columnIndex) {
     }
 </script>
 
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php 
 else: 
     $this->redirect("/"); 

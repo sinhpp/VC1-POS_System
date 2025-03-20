@@ -8,13 +8,13 @@
 						<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
 							<img src="/views/assets/images/ion/man (1).png" width="20" alt=""/>
 							<div class="header-info ms-3">
-								<span class="font-w600 ">Hi,<b>AC</b></span>
-								<small class="text-end font-w400">xyz@gmail.com</small>
+								<span class="font-w600 ">Sinh Ern</span>
+								<small class="text-end font-w400">sinh.ern@gamil.com</small>
 							</div>
 						</a>
 						
 					</li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="/dashboard" aria-expanded="false">
 							<i class="flaticon-025-dashboard"></i>
 							<span class="nav-text">Dashboard</span>
 						</a>
@@ -29,14 +29,14 @@
 							<span class="nav-text">Charts</span>
 						</a>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="/users" aria-expanded="false">
 							<i class="flaticon-086-star"></i>
-							<span class="nav-text">Bootstrap</span>
+							<span class="nav-text">User</span>
 						</a>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="/products" aria-expanded="false">
 							<i class="flaticon-045-heart"></i>
-							<span class="nav-text">Plugins</span>
+							<span class="nav-text">Products</span>
 						</a>
                     </li>
                     <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">

@@ -226,6 +226,7 @@ if (isset($_SESSION['user_id'])) : ?>
     /* width: 82%; */
     /* height: 100%; */
     margin-left:23.3%;
+    margin-top:100px;
     background-color: #f8f9fa;
     /* border-radius: 8px; Rounded corners */
     /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); Subtle shadow */
