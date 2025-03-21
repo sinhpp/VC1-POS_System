@@ -273,11 +273,10 @@ if (isset($_SESSION['user_id'])) : ?>
 });
 
 function toggleSortOptions(event) {
-    event.stopPropagation(); // Prevents unwanted bubbling
-    const options = document.getElementById("sort-options");
-
-    // Toggle dropdown only when clicking the icon
-    options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
+    event.stopPropagation(); // Prevents event from bubbling up to other elements
+    closeAllSortOptions();  // Close other filters (Stock filter)
+    const priceOptions = document.getElementById("price-sort-options"); // Get the Price dropdown
+    priceOptions.style.display = priceOptions.style.display === "none" || priceOptions.style.display === "" ? "block" : "none"; // Toggle the dropdown
 }
 
     function sortTable(columnIndex) {
@@ -418,13 +417,13 @@ document.addEventListener("click", function(event) {
     });
 
     // Toggle the stock sort options dropdown
-    function toggleStockSortOptions(event) {
-        event.stopPropagation(); // Prevents unwanted bubbling
-        const options = document.getElementById("stock-sort-options");
-
-        // Toggle dropdown visibility for stock sort options
-        options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
-    }
+    // Function to toggle visibility of Stock filter
+function toggleStockSortOptions(event) {
+    event.stopPropagation(); // Prevents the event from bubbling up to other elements
+    closeAllSortOptions();  // Close other filters (Price filter)
+    const stockOptions = document.getElementById("stock-sort-options"); // Get the Stock dropdown
+    stockOptions.style.display = stockOptions.style.display === "none" || stockOptions.style.display === "" ? "block" : "none"; // Toggle the dropdown
+}
 
     // Function to sort by stock (high or low)
     function sortStock(order) {
@@ -472,6 +471,15 @@ document.addEventListener("click", function(event) {
         const toast = document.getElementById('toast');
         toast.style.display = 'none';
     }
+
+    // Function to close all open filter dropdowns
+function closeAllSortOptions() {
+    const allSortOptions = document.querySelectorAll(".sort-options");
+    allSortOptions.forEach(option => {
+        option.style.display = "none"; // Close all dropdowns
+    });
+}
+
 </script>
 <style>
 
