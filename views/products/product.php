@@ -75,10 +75,12 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         .badge.bg-success { background-color: #28a745; color: white; }
         .badge.bg-danger { background-color: #dc3545; color: white; }
+        
         .btn {
             padding: 5px 10px;
             border-radius: 5px;
             text-decoration: none;
+            margin-bottom:2%;
         }
         .btn-warning { background-color: #ffc107; color: black; }
         .btn-danger { background-color: #dc3545; color: white; }
@@ -92,7 +94,7 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .table-container {
-            margin-top: 10%;
+            margin-top: 5%;
             padding: 20px;
             border-radius: 8px;
             margin-left: 23%;
@@ -145,6 +147,7 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 18px;
             cursor: pointer;
         }
+
         .table-container table th:nth-child(6),
     .table-container table td:nth-child(6) {
         width: 120px; /* Set a specific width for the stock column */
@@ -174,6 +177,26 @@ if (isset($_SESSION['user_id'])) : ?>
         border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
     }
         /* Add this to your existing CSS */
+    #delete-icon {
+    display: none; /* Initially hidden */
+    background-color: red; /* Background */
+    padding: 5px;
+    border-radius: 5px; /* Rounded */
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;  /* Set width */
+    height: 30px; /* Set height */
+}
+
+/* Change text color */
+#delete-icon {
+    font-size: 18px; /* Adjust icon size */
+    color: white !important; /* Ensure text is white */
+}
+
     </style>
 </head>
 <body>
@@ -181,6 +204,7 @@ if (isset($_SESSION['user_id'])) : ?>
 <body>
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="table-container">
 <a href="/products/create" class="btn btn-success">+ Add Product</a>
@@ -217,11 +241,13 @@ if (isset($_SESSION['user_id'])) : ?>
             <i class="fas fa-arrow-up"></i> Low
         </button>
     </div>
-</th>
+                </th>
                 <th >CATEGORY</th>
                 <th >CREATED AT</th>
-                <th>ACTION</th>
-            </tr>
+           <th>ACTION
+                <i class="material-icons" id="delete-icon" onclick="handleDelete()">delete</i>
+            </th>
+         </tr>
         </thead>
         <tbody>
             <?php if (empty($products)): ?>
@@ -272,12 +298,14 @@ if (isset($_SESSION['user_id'])) : ?>
     });
 });
 
+// Function to toggle visibility of Price filter
 function toggleSortOptions(event) {
     event.stopPropagation(); // Prevents event from bubbling up to other elements
-    closeAllSortOptions();  // Close other filters (Stock filter)
+    closeAllSortOptions();  // Close any other open filters (Stock filter)
     const priceOptions = document.getElementById("price-sort-options"); // Get the Price dropdown
     priceOptions.style.display = priceOptions.style.display === "none" || priceOptions.style.display === "" ? "block" : "none"; // Toggle the dropdown
 }
+
 
     function sortTable(columnIndex) {
         let table = document.querySelector(".table-container table");
@@ -361,50 +389,19 @@ document.addEventListener("click", function(event) {
         sortOptions.style.display = "none";
     }
 });
+document.addEventListener("DOMContentLoaded", function() {
+    // Attach event listener to both input fields
+    document.getElementById("priceSearch").addEventListener("keydown", handleEnterKey);
+    document.getElementById("stockSearch").addEventListener("keydown", handleEnterKey);
+});
 
-  
+function handleEnterKey(event) {
+    if (event.key === "Enter") { 
+        event.preventDefault(); // Prevent form submission if inside a form
+        closeAllSortOptions();  // Close all dropdowns
+    }
+}
 
-    // function toggleAllCheckboxes(source) {
-    //     document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-    //     if (source.checked) showToast('Delete all');
-    // }
-    // function sortPrice(order) {
-    // let table = document.querySelector(".table-container table");
-    // let rows = Array.from(table.rows).slice(1);
-    
-    // rows.sort((a, b) => {
-    //     let aPrice = parseFloat(a.cells[4].textContent.replace('$', '').replace(',', ''));
-    //     let bPrice = parseFloat(b.cells[4].textContent.replace('$', '').replace(',', ''));
-    //     return order === 'high' ? bPrice - aPrice : aPrice - bPrice;
-    // });
-
-    // table.tBodies[0].innerHTML = "";
-    // rows.forEach(row => table.tBodies[0].appendChild(row));
-
-    // Show alert and then hide it after 2 seconds
-    // showToast(`Sorted by ${order === 'high' ? 'highest' : 'lowest'} price`);
-    
-    // Hide alert immediately when sorting is done
-    // setTimeout(() => { hideToast(); }, 2000);
-
-    // Also hide the dropdown
-//     document.getElementById("sort-options").style.display = "none";
-
-
-// function showToast(message) {
-//     const toast = document.getElementById('toast');
-//     toast.textContent = message;
-//     toast.style.display = 'block';
-// }
-
-// function hideToast() {
-//     const toast = document.getElementById('toast');
-//     toast.style.display = 'none';
-// }
-
-
-</script>
-<script>
     document.addEventListener("DOMContentLoaded", function() {
         document.addEventListener("click", function(event) {
             const stockSortOptions = document.getElementById("stock-sort-options");
@@ -473,12 +470,13 @@ function toggleStockSortOptions(event) {
     }
 
     // Function to close all open filter dropdowns
-function closeAllSortOptions() {
+    function closeAllSortOptions() {
     const allSortOptions = document.querySelectorAll(".sort-options");
     allSortOptions.forEach(option => {
         option.style.display = "none"; // Close all dropdowns
     });
 }
+
 
 </script>
 <style>
@@ -503,46 +501,49 @@ function closeAllSortOptions() {
     }
 </style>
 <script>
-//     function toggleAllCheckboxes(source) {
-//         document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-//         if (source.checked) showToast('Delete all');
-//     }
+    function toggleAllCheckboxes(source) {
+    document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+    updateDeleteIcon();
+}
 
-//     function showToast(message) {
-//         const toast = document.getElementById('toast');
-//         toast.textContent = message;
-//         toast.style.display = 'block';
-//         setTimeout(() => { toast.style.display = 'none'; }, 2000);
-//     }
+function updateDeleteIcon() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    const deleteIcon = document.getElementById('delete-icon');
 
-//     document.getElementById('toast').addEventListener('click', function() {
-//         const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-//         if (selectedCheckboxes.length > 0) {
-//             Swal.fire({
-//                 title: 'Are you sure?',
-//                 text: "You will delete all selected products.",
-//                 icon: 'warning',
-//                 showCancelButton: true,
-//                 confirmButtonText: 'Yes, delete them!',
-//                 cancelButtonText: 'Cancel'
-//             }).then((result) => {
-//                 if (result.isConfirmed) {
-//                     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-//                     fetch('/products/delete_all', {
-//                         method: 'POST',
-//                         headers: { 'Content-Type': 'application/json' },
-//                         body: JSON.stringify({ ids: selectedIds })
-//                     })
-//                     .then(response => response.json())
-//                     .then(data => {
-//                         if (data.success) location.reload();
-//                         else Swal.fire('Error', 'Failed to delete products.', 'error');
-//                     })
-//                     .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
-//                 }
-//             });
-//         }
-//     });
+    // Show trash icon if checkboxes are selected, otherwise hide it
+    deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+}
+
+function handleDelete() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+
+    if (selectedCheckboxes.length > 0) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete all selected products.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete them!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                fetch('/products/delete_all', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) location.reload();
+                    else Swal.fire('Error', 'Failed to delete products.', 'error');
+                })
+                .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+            }
+        });
+    }
+}
+
 // </script>
 // <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 // <?php else: $this->redirect("/"); endif; ?>
