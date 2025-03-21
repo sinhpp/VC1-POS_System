@@ -245,7 +245,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 <th >CATEGORY</th>
                 <th >CREATED AT</th>
            <th>ACTION
-                <i class="material-icons" id="delete-icon" onclick="handleDelete()">delete</i>
+                <i class="material-icons" id="delete-icon" onclick="handleDelete()" style="display: none; color: red; cursor: pointer;">delete</i>
             </th>
          </tr>
         </thead>
