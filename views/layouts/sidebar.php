@@ -19,34 +19,34 @@
 							<span class="nav-text">Dashboard</span>
 						</a>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
-						<i class="flaticon-050-info"></i>
-							<span class="nav-text">Apps</span>
+					<li><a href="/users" aria-expanded="false">
+					<i class="fa-solid fa-user"></i>
+						<span class="nav-text">User</span>
 						</a>
-                    </li>
+					</li>
                     <li><a href="javascript:void()" aria-expanded="false">
 							<i class="flaticon-041-graph"></i>
-							<span class="nav-text">Charts</span>
+							<span class="nav-text">Order List</span>
 						</a>
                     </li>
-                    <li><a href="/users" aria-expanded="false">
-							<i class="flaticon-086-star"></i>
-							<span class="nav-text">User</span>
+                    <li><a href="javascript:void()" aria-expanded="false">
+						<i class="flaticon-050-info"></i>
+							<span class="nav-text">Reports</span>
 						</a>
                     </li>
                     <li><a href="/products" aria-expanded="false">
 							<i class="flaticon-045-heart"></i>
-							<span class="nav-text">Products</span>
+							<span class="nav-text">Products List</span>
 						</a>
                     </li>
                     <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
-							<i class="flaticon-013-checkmark"></i>
-							<span class="nav-text">Widget</span>
+					<i class="fa-solid fa-window-maximize"></i>
+							<span class="nav-text">Expenses</span>
 						</a>
 					</li>
-                    <li><a href="javascript:void()" aria-expanded="false">
-							<i class="flaticon-072-printer"></i>
-							<span class="nav-text">Forms</span>
+                    <li><a href="/" aria-expanded="false">
+					<i class="fa-solid fa-right-from-bracket"></i>
+							<span class="nav-text">Logout</span>
 						</a>
                     </li>
                     <li><a href="javascript:void()" aria-expanded="false">

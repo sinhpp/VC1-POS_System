@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
         
-        body {
+        /* body {
             margin-left:18%;
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -29,8 +29,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-        }
-        .container {
+        } */
+        /* .container {
             display: flex;
             background: white;
             padding: 20px;
@@ -92,7 +92,7 @@
             cursor: pointer;
             border-radius: 5px;
         }
-    </style>
+    </style> */
 </head>
 <!DOCTYPE html>
 <html lang="en">

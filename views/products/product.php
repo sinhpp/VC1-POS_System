@@ -13,16 +13,50 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
-
+       <!-- <style> -->
+        /* Sidebar Styles */
+        .sidebar {
+            font-family: "Poppins", sans-serif;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: #343a40;
+            padding: 15px;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+            border-radius: 5px;
+        }
+        .material-icons {
+            font-size: 20px;
+        }
+        /* Content area */
+        .content {
+            margin-left: 170px; /* Adjust based on sidebar width */
+            padding: 50px;
+        }
+   
     <style>
         
         .table {
             width: 100%;
-            margin-left: 50%;
+            margin-left: 70px;
         }
         .table th, .table td {
             padding: 10px;
@@ -52,23 +86,20 @@ if (isset($_SESSION['user_id'])) : ?>
 
         body {
             font-family: Arial, sans-serif;
-          
+            background-color: #f8f9fa;
             font-family: "Poppins", sans-serif;
-            margin-left: 18%;
+            
         }
 
         .table-container {
-            max-width: 80%;
-            margin-left: 22%;
             margin-top: 10%;
-            background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-left: 23%;
         }
 
         table {
-            width: 100%;
+            width: 100%%;
             border-collapse: collapse;
         }
 
@@ -146,31 +177,35 @@ if (isset($_SESSION['user_id'])) : ?>
     </style>
 </head>
 <body>
+</head>
+<body>
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- Include SweetAlert2 CSS and JS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <div class="table-container">
+<a href="/products/create" class="btn btn-success">+ Add Product</a>
     <table>
         <thead>
             <tr>
                 <th>
-                    <div class="alert" id="toast" style="display:none;">
-                        Delete all!
-                    </div>
+                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
                     <input type="checkbox" onclick="toggleAllCheckboxes(this)">
                 </th>
-                <th onclick="sortTable(1)">Image <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(2)">NAME <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(3)">CODE <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(4)">PRICE <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(5)">STOCK <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(6)">CATEGORY <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(7)">CREATED AT <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(1)">Image</th>
+                <th onclick="sortTable(2)">NAME</th>
+                <th onclick="sortTable(3)">CODE</th>
+                    <th>
+                        PRICE 
+                        <i class="fas fa-chevron-down"  onclick="toggleSortOptions(event)"></i></span>
+                    
+                        <div class="sort-options" style="display: none;">
+                            <button onclick="sortPrice('high')"><i class="fas fa-arrow-down"></i> High</button>
+                            <button onclick="sortPrice('low')"><i class="fas fa-arrow-up"></i> Low</button>
+                        </div>
+                    </th>
+                <th onclick="sortTable(5)">STOCK</th>
+                <th onclick="sortTable(6)">CATEGORY</th>
+                <th onclick="sortTable(7)">CREATED AT</th>
                 <th>ACTION</th>
             </tr>
         </thead>
@@ -194,7 +229,6 @@ if (isset($_SESSION['user_id'])) : ?>
                         </td>
                         <td><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
-                        
                         <td class="action-icons">
                             <a href="/products/edit_pro/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
                                 <i class="material-icons">edit</i>
@@ -208,59 +242,122 @@ if (isset($_SESSION['user_id'])) : ?>
             <?php endif; ?>
         </tbody>
     </table>
-    <a href="/products/create" class="btn btn-success">+ Add Product</a>
+  
 </div>
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    // List of stylesheets to disable
-    const stylesToDisable = [
-        "/views/assets/css/form.css",
-        "/views/assets/css/form.forgot.password.css",
-        "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
-        "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-    ];
+    function sortTable(columnIndex) {
+        let table = document.querySelector(".table-container table");
+        let rows = Array.from(table.rows).slice(1);
+        let isAscending = table.dataset.sortOrder === "asc";
 
-    // Disable the stylesheets
-    document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
-        if (stylesToDisable.includes(link.getAttribute("href"))) {
-            link.disabled = true; // Disable the stylesheet
-        }
-    });
-});
-
-function sortTable(columnIndex) {
-    let table = document.querySelector(".table-container table");
-    let rows = Array.from(table.rows).slice(1); // Skip the header row
-    let isAscending = table.dataset.sortOrder === "asc";
-
-    rows.sort((a, b) => {
-        let aValue = a.cells[columnIndex].textContent.trim();
-        let bValue = b.cells[columnIndex].textContent.trim();
-
-        if (!isNaN(aValue) && !isNaN(bValue)) {
-            return isAscending ? aValue - bValue : bValue - aValue;
-        } else {
+        rows.sort((a, b) => {
+            let aValue = a.cells[columnIndex].textContent.trim();
+            let bValue = b.cells[columnIndex].textContent.trim();
             return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-        }
-    });
+        });
 
-    table.tBodies[0].innerHTML = ""; // Clear the existing rows
-    rows.forEach(row => table.tBodies[0].appendChild(row)); // Append sorted rows
+        table.tBodies[0].innerHTML = "";
+        rows.forEach(row => table.tBodies[0].appendChild(row));
+        table.dataset.sortOrder = isAscending ? "desc" : "asc";
+    }
 
-    table.dataset.sortOrder = isAscending ? "desc" : "asc";
-}
+    function sortPrice(order) {
+        let table = document.querySelector(".table-container table");
+        let rows = Array.from(table.rows).slice(1);
+        
+        rows.sort((a, b) => {
+            let aPrice = parseFloat(a.cells[4].textContent.replace('$', '').replace(',', ''));
+            let bPrice = parseFloat(b.cells[4].textContent.replace('$', '').replace(',', ''));
+            return order === 'high' ? bPrice - aPrice : aPrice - bPrice;
+        });
+
+        table.tBodies[0].innerHTML = "";
+        rows.forEach(row => table.tBodies[0].appendChild(row));
+    }
+
+    function toggleSortOptions(event) {
+        const options = event.target.nextElementSibling;
+        options.style.display = options.style.display === 'none' ? 'block' : 'none';
+    }
 
     function toggleAllCheckboxes(source) {
-        let checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
-        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+        if (source.checked) showToast('Delete all');
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
     }
 </script>
 
+<style>{
+    margin-left:30%;
+}
+    .btn
+    .sort-options {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        z-index: 1000;
+    }
+    .sort-options button {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+    .sort-options button:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+<script>
+    function toggleAllCheckboxes(source) {
+        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+        if (source.checked) showToast('Delete all');
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    }
+
+    document.getElementById('toast').addEventListener('click', function() {
+        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+        if (selectedCheckboxes.length > 0) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will delete all selected products.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete them!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                    fetch('/products/delete_all', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ids: selectedIds })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) location.reload();
+                        else Swal.fire('Error', 'Failed to delete products.', 'error');
+                    })
+                    .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+                }
+            });
+        }
+    });
+</script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<?php 
-else: 
-    $this->redirect("/"); 
-endif;   
-?>
+<?php else: $this->redirect("/"); endif; ?>
