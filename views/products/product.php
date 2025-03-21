@@ -191,21 +191,35 @@ if (isset($_SESSION['user_id'])) : ?>
                     <div class="alert" id="toast" style="display:none;">Delete all!</div>
                     <input type="checkbox" onclick="toggleAllCheckboxes(this)">
                 </th>
-                <th onclick="sortTable(1)">Image</th>
-                <th onclick="sortTable(2)">NAME</th>
-                <th onclick="sortTable(3)">CODE</th>
-                    <th>
-                        PRICE 
-                        <i class="fas fa-chevron-down"  onclick="toggleSortOptions(event)"></i></span>
-                    
-                        <div class="sort-options" style="display: none;">
-                            <button onclick="sortPrice('high')"><i class="fas fa-arrow-down"></i> High</button>
-                            <button onclick="sortPrice('low')"><i class="fas fa-arrow-up"></i> Low</button>
-                        </div>
-                    </th>
-                <th onclick="sortTable(5)">STOCK</th>
-                <th onclick="sortTable(6)">CATEGORY</th>
-                <th onclick="sortTable(7)">CREATED AT</th>
+                <th >Image</th>
+                <th >NAME</th>
+                <th>CODE</th>
+                <th>
+                PRICE 
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)"></i>
+
+                
+                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-down"></i> High</button>
+                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-up"></i> Low</button>
+                </div>
+            </th>
+
+            <th>STOCK
+    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+            <i class="fas fa-arrow-down"></i> High
+        </button>
+        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+            <i class="fas fa-arrow-up"></i> Low
+        </button>
+    </div>
+</th>
+                <th >CATEGORY</th>
+                <th >CREATED AT</th>
                 <th>ACTION</th>
             </tr>
         </thead>
@@ -245,8 +259,27 @@ if (isset($_SESSION['user_id'])) : ?>
   
 </div>
 
-
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("click", function(event) {
+        const sortOptions = document.getElementById("sort-options");
+        const sortIcon = document.querySelector(".sort-icon");
+
+        // Close dropdown if clicking outside (not on icon or options)
+        if (sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
+            sortOptions.style.display = "none";
+        }
+    });
+});
+
+function toggleSortOptions(event) {
+    event.stopPropagation(); // Prevents unwanted bubbling
+    const options = document.getElementById("sort-options");
+
+    // Toggle dropdown only when clicking the icon
+    options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
+}
+
     function sortTable(columnIndex) {
         let table = document.querySelector(".table-container table");
         let rows = Array.from(table.rows).slice(1);
@@ -264,40 +297,184 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 
     function sortPrice(order) {
+    let table = document.querySelector(".table-container table");
+    let rows = Array.from(table.rows).slice(1);
+    
+    rows.sort((a, b) => {
+        let aPrice = parseFloat(a.cells[4].textContent.replace('$', '').replace(',', ''));
+        let bPrice = parseFloat(b.cells[4].textContent.replace('$', '').replace(',', ''));
+        return order === 'high' ? bPrice - aPrice : aPrice - bPrice;
+    });
+
+    table.tBodies[0].innerHTML = "";
+    rows.forEach(row => table.tBodies[0].appendChild(row));
+
+    // Show alert and hide it after 2 seconds
+    showToast(`Sorted by ${order === 'high' ? 'highest' : 'lowest'} price`);
+    
+    // Hide alert after sorting
+    setTimeout(() => { hideToast(); });
+
+    // Hide dropdown
+    document.getElementById("sort-options").style.display = "none";
+}
+
+function searchPrice() {
+    let input = document.getElementById("priceSearch").value.trim();
+    let table = document.querySelector(".table-container table");
+    let rows = Array.from(table.rows).slice(1);
+    
+    rows.forEach(row => {
+        let priceText = row.cells[4].textContent.replace('$', '').replace(',', '').trim();
+        let priceValue = parseFloat(priceText);
+        
+        // Show row if price matches, otherwise hide
+        row.style.display = input === "" || priceText.includes(input) ? "" : "none";
+    });
+
+    // Hide alert when searching
+    hideToast();
+}
+
+function toggleSortOptions(event) {
+    event.stopPropagation();
+    const options = document.getElementById("sort-options");
+    options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+}
+
+function hideToast() {
+    const toast = document.getElementById('toast');
+    toast.style.display = 'none';
+}
+
+// Hide dropdown if clicking outside
+document.addEventListener("click", function(event) {
+    const sortOptions = document.getElementById("sort-options");
+    const sortIcon = document.querySelector(".sort-icon");
+
+    if (sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
+        sortOptions.style.display = "none";
+    }
+});
+
+  
+
+    // function toggleAllCheckboxes(source) {
+    //     document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+    //     if (source.checked) showToast('Delete all');
+    // }
+    // function sortPrice(order) {
+    // let table = document.querySelector(".table-container table");
+    // let rows = Array.from(table.rows).slice(1);
+    
+    // rows.sort((a, b) => {
+    //     let aPrice = parseFloat(a.cells[4].textContent.replace('$', '').replace(',', ''));
+    //     let bPrice = parseFloat(b.cells[4].textContent.replace('$', '').replace(',', ''));
+    //     return order === 'high' ? bPrice - aPrice : aPrice - bPrice;
+    // });
+
+    // table.tBodies[0].innerHTML = "";
+    // rows.forEach(row => table.tBodies[0].appendChild(row));
+
+    // Show alert and then hide it after 2 seconds
+    // showToast(`Sorted by ${order === 'high' ? 'highest' : 'lowest'} price`);
+    
+    // Hide alert immediately when sorting is done
+    // setTimeout(() => { hideToast(); }, 2000);
+
+    // Also hide the dropdown
+//     document.getElementById("sort-options").style.display = "none";
+
+
+// function showToast(message) {
+//     const toast = document.getElementById('toast');
+//     toast.textContent = message;
+//     toast.style.display = 'block';
+// }
+
+// function hideToast() {
+//     const toast = document.getElementById('toast');
+//     toast.style.display = 'none';
+// }
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("click", function(event) {
+            const stockSortOptions = document.getElementById("stock-sort-options");
+
+            // Close dropdown if clicking outside the stock sort options
+            if (stockSortOptions.style.display === "block" && !stockSortOptions.contains(event.target)) {
+                stockSortOptions.style.display = "none";
+            }
+        });
+    });
+
+    // Toggle the stock sort options dropdown
+    function toggleStockSortOptions(event) {
+        event.stopPropagation(); // Prevents unwanted bubbling
+        const options = document.getElementById("stock-sort-options");
+
+        // Toggle dropdown visibility for stock sort options
+        options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
+    }
+
+    // Function to sort by stock (high or low)
+    function sortStock(order) {
         let table = document.querySelector(".table-container table");
-        let rows = Array.from(table.rows).slice(1);
+        let rows = Array.from(table.rows).slice(1); // Get all rows except the header
         
         rows.sort((a, b) => {
-            let aPrice = parseFloat(a.cells[4].textContent.replace('$', '').replace(',', ''));
-            let bPrice = parseFloat(b.cells[4].textContent.replace('$', '').replace(',', ''));
-            return order === 'high' ? bPrice - aPrice : aPrice - bPrice;
+            let aStock = parseInt(a.cells[5].textContent.trim()); // Assuming stock is in column 6 (index 5)
+            let bStock = parseInt(b.cells[5].textContent.trim());
+            return order === 'high' ? bStock - aStock : aStock - bStock;
         });
 
         table.tBodies[0].innerHTML = "";
         rows.forEach(row => table.tBodies[0].appendChild(row));
+
+        // showToast(`Sorted by ${order === 'high' ? 'highest' : 'lowest'} stock`);
+        
+        // Hide dropdown after sorting
+        document.getElementById("stock-sort-options").style.display = "none";
     }
 
-    function toggleSortOptions(event) {
-        const options = event.target.nextElementSibling;
-        options.style.display = options.style.display === 'none' ? 'block' : 'none';
+    // Function to search within the stock column
+    function searchStock() {
+        let input = document.getElementById("stockSearch").value.trim();
+        let table = document.querySelector(".table-container table");
+        let rows = Array.from(table.rows).slice(1); // Get all rows except the header
+
+        rows.forEach(row => {
+            let stockText = row.cells[5].textContent.trim(); // Assuming stock is in column 6 (index 5)
+            row.style.display = input === "" || stockText.includes(input) ? "" : "none";
+        });
+
+        hideToast(); // Hide toast when searching
     }
 
-    function toggleAllCheckboxes(source) {
-        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-        if (source.checked) showToast('Delete all');
-    }
-
+    // Function to show toast messages
     function showToast(message) {
         const toast = document.getElementById('toast');
         toast.textContent = message;
         toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    }
+
+    // Function to hide toast messages
+    function hideToast() {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'none';
     }
 </script>
+<style>
 
-<style>{
-    margin-left:30%;
-}
     .btn
     .sort-options {
         position: absolute;
@@ -318,46 +495,46 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 </style>
 <script>
-    function toggleAllCheckboxes(source) {
-        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-        if (source.checked) showToast('Delete all');
-    }
+//     function toggleAllCheckboxes(source) {
+//         document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+//         if (source.checked) showToast('Delete all');
+//     }
 
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2000);
-    }
+//     function showToast(message) {
+//         const toast = document.getElementById('toast');
+//         toast.textContent = message;
+//         toast.style.display = 'block';
+//         setTimeout(() => { toast.style.display = 'none'; }, 2000);
+//     }
 
-    document.getElementById('toast').addEventListener('click', function() {
-        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-        if (selectedCheckboxes.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You will delete all selected products.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                    fetch('/products/delete_all', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ids: selectedIds })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) location.reload();
-                        else Swal.fire('Error', 'Failed to delete products.', 'error');
-                    })
-                    .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
-                }
-            });
-        }
-    });
-</script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<?php else: $this->redirect("/"); endif; ?>
+//     document.getElementById('toast').addEventListener('click', function() {
+//         const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+//         if (selectedCheckboxes.length > 0) {
+//             Swal.fire({
+//                 title: 'Are you sure?',
+//                 text: "You will delete all selected products.",
+//                 icon: 'warning',
+//                 showCancelButton: true,
+//                 confirmButtonText: 'Yes, delete them!',
+//                 cancelButtonText: 'Cancel'
+//             }).then((result) => {
+//                 if (result.isConfirmed) {
+//                     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+//                     fetch('/products/delete_all', {
+//                         method: 'POST',
+//                         headers: { 'Content-Type': 'application/json' },
+//                         body: JSON.stringify({ ids: selectedIds })
+//                     })
+//                     .then(response => response.json())
+//                     .then(data => {
+//                         if (data.success) location.reload();
+//                         else Swal.fire('Error', 'Failed to delete products.', 'error');
+//                     })
+//                     .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+//                 }
+//             });
+//         }
+//     });
+// </script>
+// <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+// <?php else: $this->redirect("/"); endif; ?>
