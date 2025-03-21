@@ -99,7 +99,7 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         table {
-            width: 90%;
+            width: 100%%;
             border-collapse: collapse;
         }
 
@@ -191,21 +191,21 @@ if (isset($_SESSION['user_id'])) : ?>
                     <div class="alert" id="toast" style="display:none;">Delete all!</div>
                     <input type="checkbox" onclick="toggleAllCheckboxes(this)">
                 </th>
-                <th onclick="sortTable(1)">Image <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(2)">NAME <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(3)">CODE <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(1)">Image</th>
+                <th onclick="sortTable(2)">NAME</th>
+                <th onclick="sortTable(3)">CODE</th>
                     <th>
                         PRICE 
                         <i class="fas fa-chevron-down"  onclick="toggleSortOptions(event)"></i></span>
                     
                         <div class="sort-options" style="display: none;">
-                            <button onclick="sortPrice('high')"><i class="fas fa-arrow-down"></i> High to Low</button>
-                            <button onclick="sortPrice('low')"><i class="fas fa-arrow-up"></i> Low to High</button>
+                            <button onclick="sortPrice('high')"><i class="fas fa-arrow-down"></i> High</button>
+                            <button onclick="sortPrice('low')"><i class="fas fa-arrow-up"></i> Low</button>
                         </div>
                     </th>
-                <th onclick="sortTable(5)">STOCK <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(6)">CATEGORY <i class="fas fa-sort"></i></th>
-                <th onclick="sortTable(7)">CREATED AT <i class="fas fa-sort"></i></th>
+                <th onclick="sortTable(5)">STOCK</th>
+                <th onclick="sortTable(6)">CATEGORY</th>
+                <th onclick="sortTable(7)">CREATED AT</th>
                 <th>ACTION</th>
             </tr>
         </thead>
