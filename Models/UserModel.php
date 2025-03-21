@@ -1,5 +1,6 @@
 <?php
-require_once "Database/Database.php";
+require_once __DIR__ . "/../Database/Database.php";
+
 
 class UserModel {
     private $db;
@@ -70,6 +71,18 @@ class UserModel {
         ]);
         return $stmt->rowCount(); // Returns affected rows
     }
+
+    public function loginUser($email, $password) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user && password_verify($password, $user['password'])) {
+            return $user;
+        }
+        return false; // Invalid login
+    }
+    
     
     
 }

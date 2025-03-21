@@ -1,102 +1,54 @@
 <?php
 require_once(__DIR__ . '/../Controllers/FormController.php');
-$router = new Router();
-$router->get('/form', [new FormController(), 'form']); // Route to form
 
-class Router 
+$router = new Router();
+$router->get('/form', [FormController::class, 'form']); // Use class name instead of instance
+
+class Router
 {
     private $uri;
     private $method;
     private $routes = [];
 
-    /**
-     * Constructor to initialize the URI and request method.
-     */
     public function __construct()
     {
         $this->uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $this->method = $_SERVER['REQUEST_METHOD'];
     }
 
-    /**
-     * Registers a GET route.
-     *
-     * @param string $uri The URI of the route.
-     * @param array $action The controller class and method to be executed.
-     */
-    public function get($uri, $action)
+    private function addRoute($method, $uri, $action)
     {
-        $this->routes[$uri] = [
-            'method' => 'GET',
+        $this->routes[] = [
+            'method' => $method,
+            'uri' => trim($uri, '/'),
             'action' => $action
         ];
     }
 
-    /**
-     * Registers a POST route.
-     *
-     * @param string $uri The URI of the route.
-     * @param array $action The controller class and method to be executed.
-     */
-    public function post($uri, $action)
-    {
-        $this->routes[$uri] = [
-            'method' => 'POST',
-            'action' => $action
-        ];
-    }
+    public function get($uri, $action) { $this->addRoute('GET', $uri, $action); }
+    public function post($uri, $action) { $this->addRoute('POST', $uri, $action); }
+    public function put($uri, $action) { $this->addRoute('PUT', $uri, $action); }
+    public function delete($uri, $action) { $this->addRoute('DELETE', $uri, $action); }
 
-    /**
-     * Registers a PUT route.
-     *
-     * @param string $uri The URI of the route.
-     * @param array $action The controller class and method to be executed.
-     */
-    public function put($uri, $action)
-    {
-        $this->routes[$uri] = [
-            'method' => 'PUT',
-            'action' => $action
-        ];
-    }
-
-    /**
-     * Registers a DELETE route.
-     *
-     * @param string $uri The URI of the route.
-     * @param array $action The controller class and method to be executed.
-     */
-    public function delete($uri, $action)
-    {
-        $this->routes[$uri] = [
-            'method' => 'DELETE',
-            'action' => $action
-        ];
-    }
-
-    /**
-     * Routes the request to the appropriate controller and method.
-     */
     public function route()
     {
-        foreach ($this->routes as $uri => $route) {
-            // Convert route pattern to a regex that matches numbers (for IDs)
-            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([0-9]+)', trim($uri, '/'));
+        foreach ($this->routes as $route) {
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([^/]+)', $route['uri']);
 
-            if (preg_match("#^$pattern$#", trim($this->uri, '/'), $matches)) {
+            if ($this->method === $route['method'] && preg_match("#^$pattern$#", trim($this->uri, '/'), $matches)) {
                 array_shift($matches); // Remove full match
                 $controllerClass = $route['action'][0];
                 $function = $route['action'][1];
 
-                $controller = new $controllerClass();
-                $controller->$function(...$matches); // Pass extracted parameters
-                exit;
+                if (class_exists($controllerClass) && method_exists($controllerClass, $function)) {
+                    $controller = new $controllerClass();
+                    call_user_func_array([$controller, $function], $matches);
+                    exit;
+                }
             }
         }
 
         http_response_code(404);
         require_once 'views/errors/404.php';
     }
-
-    
 }
