@@ -249,50 +249,61 @@ if (isset($_SESSION['user_id'])) : ?>
 <div class="table-container">
     <a href="/products/create" class="btn btn-success">+ Add Product</a>
 
-    <!-- Pagination Buttons -->
-    <div class="pagination" id="pagination-buttons"></div>
-
     <table>
         <thead>
             <tr>
                 <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
                 <th>Image</th>
-                <th>NAME</th>
-                <th>CODE</th>
-                <th>
-                    PRICE 
-                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)"></i>
-                    <div class="sort-options" id="sort-options" style="display: none;">
-                        <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()">
-                        <button onclick="sortPrice('high')"><i class="fas fa-arrow-down"></i> High</button>
-                        <button onclick="sortPrice('low')"><i class="fas fa-arrow-up"></i> Low</button>
-                    </div>
-                </th>
-                <th>STOCK
-                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
-                    <div class="sort-options" id="stock-sort-options" style="display: none;">
-                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()">
-                        <button onclick="sortStock('high')"><i class="fas fa-arrow-down"></i> High</button>
-                        <button onclick="sortStock('low')"><i class="fas fa-arrow-up"></i> Low</button>
-                    </div>
-                </th>
-                <th>CATEGORY</th>
-                <th>CREATED AT</th>
-                <th>ACTION</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Created At</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody id="product-list">
-            <!-- JavaScript will dynamically add products here -->
+            <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="9" class="text-center">No products available.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($products as $product): ?>
+                    <tr>
+                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td><?= htmlspecialchars($product['barcode']) ?></td>
+                        <td>$<?= number_format($product['price'], 2) ?></td>
+                        <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
+                        <td><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        <td class="action-icons">
+                            <div class="dropdown">
+                                <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                                <div class="dropdown-menu">
+                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                                    <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    <a href="/products/detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
+
+    <!-- Pagination Buttons (Now at the bottom) -->
+    <div class="pagination" id="pagination-buttons"></div>
 </div>
 
 <script>
-// Convert PHP product data to JavaScript
-const products = <?= json_encode($products); ?>;
+const products = <?= json_encode($products); ?>; // Convert PHP array to JavaScript
 const productsPerPage = 10;
 let currentPage = 1;
-const totalPages = Math.ceil(products.length / productsPerPage);
+let totalPages = Math.ceil(products.length / productsPerPage);
 
 function renderProducts(page) {
     currentPage = page;
@@ -301,7 +312,7 @@ function renderProducts(page) {
     const currentProducts = products.slice(start, end);
 
     const tbody = document.getElementById('product-list');
-    tbody.innerHTML = ''; // Clear existing rows
+    tbody.innerHTML = '';
 
     if (currentProducts.length === 0) {
         tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products available.</td></tr>';
@@ -321,15 +332,9 @@ function renderProducts(page) {
                     <div class="dropdown">
                         <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
                         <div class="dropdown-menu">
-                            <a href="/products/edit_pro/${product.id}" class="dropdown-item">
-                                <i class="fa-solid fa-pen"></i> Edit
-                            </a>
-                            <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this product?');">
-                                <i class="fa-solid fa-trash"></i> Delete
-                            </a>
-                            <a href="/products/detail/${product.id}" class="dropdown-item">
-                                <i class="fa-solid fa-eye"></i> Detail
-                            </a>
+                            <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                            <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                            <a href="/products/detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                         </div>
                     </div>
                 </td>
@@ -337,13 +342,15 @@ function renderProducts(page) {
             tbody.appendChild(row);
         });
     }
+
+    renderPagination(); // Update pagination
 }
 
 function renderPagination() {
     const paginationDiv = document.getElementById('pagination-buttons');
-    paginationDiv.innerHTML = ''; // Clear previous buttons
+    paginationDiv.innerHTML = ''; // Clear previous pagination buttons
 
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = 1; i <= Math.min(5, totalPages); i++) {
         const button = document.createElement('button');
         button.classList.add('page-btn');
         button.textContent = i;
@@ -360,33 +367,46 @@ function renderPagination() {
     }
 }
 
+// Highlight active page button
 function updateActivePage(page) {
-    document.querySelectorAll('.page-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.page-btn')[page - 1].classList.add('active');
+    const buttons = document.querySelectorAll('.page-btn');
+    buttons.forEach(button => {
+        button.classList.remove('active');
+        if (parseInt(button.textContent) === page) {
+            button.classList.add('active');
+        }
+    });
 }
 
-// Initial Load
+// Initial load - Now only 10 products will show on page 1
 function init() {
     renderProducts(1);
-    renderPagination();
 }
 
 init();
 </script>
+
 
 <style>
 /* Pagination Button Styling */
 .pagination {
     margin-top: 10px;
     text-align: center;
+    padding: 10px 0;
 }
 
 .page-btn {
     background-color: #f8f9fa;
+    background: #000;
     border: 1px solid #ddd;
-    padding: 5px 10px;
+    padding: 8px 12px;
     margin: 2px;
     cursor: pointer;
+    border-radius: 4px;
+}
+
+.page-btn:hover {
+    background-color: #e9ecef;
 }
 
 .page-btn.active {
@@ -394,6 +414,8 @@ init();
     color: white;
 }
 </style>
+
+
 
 
 
