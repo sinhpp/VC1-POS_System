@@ -1,29 +1,9 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">      
-</head>
-<body>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* body {
-            
-            min-height: 100vh;
-            
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        } */
+         .header{
+            margin-left:-37%;
+        }
         .form-container {
             background: #fff;
             padding: 30px;
@@ -31,6 +11,7 @@
             box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
             width: 500px;
             margin-left:10%;
+            margin-top:20%;
         }
         .form-control:focus {
             border-color:rgb(57, 132, 194);
