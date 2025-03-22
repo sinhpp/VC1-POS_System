@@ -20,15 +20,17 @@ if (isset($_SESSION['user_id'])) : ?>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
     <style>
-
+        .header{
+            margin-left:-14%;
+        }
         
         .table {
-            width: 108%;
+            width: 100%;
             
         }
         .table th, .table td {
             
-            padding: 20px;
+            padding: 12px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
@@ -63,16 +65,16 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .table-container {
-            max-width: 108%;
-            margin-top: 10%;
-            margin-left:22%;
-            padding: 24px;
+            max-width: 100%;
+            margin-top: 15%;
+            margin-left:15%;
+            padding: 20px;
             border-radius: 8px;
            
         }
 
         table {
-            width: 108%;
+            width: 105%;
             border-collapse: collapse;
         }
 
@@ -232,6 +234,7 @@ if (isset($_SESSION['user_id'])) : ?>
     color: white;
 }
 
+
     </style>
 </head>
 <body>
@@ -310,7 +313,7 @@ if (isset($_SESSION['user_id'])) : ?>
                                 <div class="dropdown-menu">
                                     <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                                     <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                                    <a href="/products/detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                                 </div>
                             </div>
                         </td>
@@ -359,7 +362,7 @@ function renderProducts(page) {
                         <div class="dropdown-menu">
                             <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                             <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                            <a href="/products/detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                            <a href="/products/product_detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                         </div>
                     </div>
                 </td>
