@@ -397,7 +397,7 @@ init();
 
 .page-btn {
     background-color: #f8f9fa;
-    background: #000;
+
     border: 1px solid #ddd;
     padding: 8px 12px;
     margin: 2px;
