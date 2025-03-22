@@ -252,15 +252,43 @@ if (isset($_SESSION['user_id'])) : ?>
     <table>
         <thead>
             <tr>
-                <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
+                <th>
+                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
+                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+                </th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Code</th>
-                <th>Price</th>
-                <th>Stock</th>
+                <th>Price
+
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
+                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-down"></i> High</button>
+                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-up"></i> Low</button>
+                </div>
+                </th>
+
+                <th>Stock
+
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                    <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                    <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+                        <i class="fas fa-arrow-down"></i> High
+                    </button>
+                    <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+                        <i class="fas fa-arrow-up"></i> Low
+                    </button>
+                </div>
+                </th>
+
                 <th>Category</th>
                 <th>Created At</th>
-                <th>Action</th>
+                <th>Action
+
+                    <i class="material-icons" id="delete-icon" onclick="handleDelete()" style="display: none; color: red; cursor: pointer;">delete</i>
+                </th>
             </tr>
         </thead>
         <tbody id="product-list">
@@ -397,7 +425,7 @@ init();
 
 .page-btn {
     background-color: #f8f9fa;
-    background: #000;
+ 
     border: 1px solid #ddd;
     padding: 8px 12px;
     margin: 2px;
@@ -414,10 +442,6 @@ init();
     color: white;
 }
 </style>
-
-
-
-
 
 
 <script>
@@ -502,6 +526,9 @@ function toggleSortOptions(event) {
     event.stopPropagation();
     const options = document.getElementById("sort-options");
     options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
+
+    closeAllSortOptions();  // Close other filters (Price filter)
+    options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none"; // Toggle the dropdown
 }
 
 function showToast(message) {
@@ -551,6 +578,7 @@ function handleEnterKey(event) {
     // Toggle the stock sort options dropdown
     // Function to toggle visibility of Stock filter
 function toggleStockSortOptions(event) {
+    
     event.stopPropagation(); // Prevents the event from bubbling up to other elements
     closeAllSortOptions();  // Close other filters (Price filter)
     const stockOptions = document.getElementById("stock-sort-options"); // Get the Stock dropdown
