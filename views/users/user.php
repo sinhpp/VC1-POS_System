@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) : ?>
         }
    
     <div class="content">
-    <h2 class="text-center mb-4">Users List</h2>
+    <h2 class="text-center mb-4"></h2>
  
  <div class="d-flex justify-content-between align-items-center mb-3">
      <a href="/users/create" class="btn btn-success">+ Create User</a>
