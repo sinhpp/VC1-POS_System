@@ -154,7 +154,7 @@ if (isset($_SESSION['user_id'])) : ?>
         /* Add this to your existing CSS */
     #delete-icon {
     display: none; /* Initially hidden */
-    background-color: red; /* Background */
+ 
     padding: 5px;
     border-radius: 5px; /* Rounded */
     cursor: pointer;
@@ -169,7 +169,7 @@ if (isset($_SESSION['user_id'])) : ?>
 /* Change text color */
 #delete-icon {
     font-size: 18px; /* Adjust icon size */
-    color: white !important; /* Ensure text is white */
+    /* color: white !important;  */
 }
 .fa-ellipsis-vertical{
     margin-left:50px;
@@ -287,7 +287,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 <th>Created At</th>
                 <th>Action
 
-                    <i class="material-icons" id="delete-icon" onclick="handleDelete()" style="display: none; color: red; cursor: pointer;">delete</i>
+                <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
                 </th>
             </tr>
         </thead>
