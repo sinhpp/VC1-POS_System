@@ -1,25 +1,9 @@
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_SESSION['user_id'])) : ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-       
-    </style>  
   
     <script>
         function previewImage(event) {
@@ -41,6 +25,9 @@ if (isset($_SESSION['user_id'])) : ?>
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+        .header{
+            margin-left:-18%;
         }
         .container {
             margin-left:20%;
@@ -121,39 +108,41 @@ if (isset($_SESSION['user_id'])) : ?>
         }
     </script>
 </head>
-<body>
-<div class="container">
-    <div class="profile-sidebar">
-        <img id="profile-pic" src="profile.jpg" alt="Profile Picture" class="profile-pic">
-        <h2><?= htmlspecialchars($user['name']); ?></h2>
-        <input id="file-input" type="file" accept="image/*" onchange="previewImage(event)">
-    </div>
-    <div class="profile-form">
-        <h2>Edit Profile</h2>
-        <form action="/users/update/<?= $user['id']; ?>" method="POST">
-    <input type="hidden" name="user_id" value="<?= $user['id']; ?>">
+<div class="content-body">
+    <!-- row -->
+	<div class="container-fluid">
+        <div class="container">
+            <div class="profile-sidebar">
+                <img id="profile-pic" src="profile.jpg" alt="Profile Picture" class="profile-pic">
+                <h2><?= htmlspecialchars($user['name']); ?></h2>
+                <input id="file-input" type="file" accept="image/*" onchange="previewImage(event)">
+            </div>
+        <div class="profile-form">
+            <h2>Edit Profile</h2>
+            <form action="/users/update/<?= $user['id']; ?>" method="POST">
+        <input type="hidden" name="user_id" value="<?= $user['id']; ?>">
 
-    <div class="input-group">
-        <label>Full Name</label>
-        <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
-    </div>
-    
-    <div class="input-group">
-        <label>Email Address</label>
-        <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
-    </div>
-    
-    <div class="input-group">
-        <label>Role</label>
-        <select name="role" class="role" required>
-            <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
-            <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
-        </select>
-    </div>
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Role</label>
+            <select name="role" class="role" required>
+                <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
+                <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+            </select>
+        </div>
 
-    <button type="submit" class="update-btn">Update Info</button>
-</form>
-
+        <button type="submit" class="update-btn">Update Info</button>
+    </form>
+</div>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <?php 

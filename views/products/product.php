@@ -19,48 +19,19 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
-       <!-- <style> -->
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-   
     <style>
+        .header{
+            margin-left:-14%;
+        }
         
         .table {
             width: 100%;
-            margin-left: 70px;
+            
         }
         .table th, .table td {
-            padding: 10px;
-            text-align: left;
+            
+            padding: 12px;
+            text-align: center;
             border-bottom: 1px solid #ddd;
         }
         .table-striped tbody tr:nth-child(odd) {
@@ -94,20 +65,23 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .table-container {
-            margin-top: 5%;
+            max-width: 100%;
+            margin-top: 15%;
+            margin-left:15%;
             padding: 20px;
             border-radius: 8px;
-            margin-left: 23%;
+           
         }
 
         table {
-            width: 100%%;
+            width: 105%;
             border-collapse: collapse;
         }
 
         th, td {
-            padding: 12px;
-            text-align: left;
+            width: 150px;
+            padding: 13px;
+            text-align: center;
             border-bottom: 1px solid #ddd;
         }
 
@@ -126,6 +100,7 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 50px;
             object-fit: cover;
             border-radius: 5px;
+            margin-left:-10%;
         }
 
         .action-icons {
@@ -196,6 +171,69 @@ if (isset($_SESSION['user_id'])) : ?>
     font-size: 18px; /* Adjust icon size */
     color: white !important; /* Ensure text is white */
 }
+.fa-ellipsis-vertical{
+    margin-left:50px;
+}
+/*  actoin-------------------------------------------*/
+.action-icons {
+    text-align: end ; /* Center the icon horizontally */
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    font-size: 18px;
+    padding: 10px;
+    display: flex;
+    justify-content: end; /* Center horizontally */
+    align-items: end; /* Center vertically */
+    height: 100%; /* Ensure it takes full height of the cell */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 120px;
+    z-index: 1000;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: end;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+.dropdown-menu a i {
+    margin-right: 8px;
+}
+
+.dropdown-menu a:hover {
+    background: #f1f1f1;
+}
+.page-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.page-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
 
     </style>
 </head>
@@ -203,87 +241,162 @@ if (isset($_SESSION['user_id'])) : ?>
 </head>
 <body>
 <!-- Include SweetAlert2 CSS and JS -->
+<!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="table-container">
-<a href="/products/create" class="btn btn-success">+ Add Product</a>
+    <a href="/products/create" class="btn btn-success">+ Add Product</a>
+
+    <!-- Pagination Buttons -->
+    <div class="pagination" id="pagination-buttons"></div>
+
     <table>
         <thead>
             <tr>
-                <th>
-                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
-                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
-                </th>
-                <th >Image</th>
-                <th >NAME</th>
+                <th><input type="checkbox" onclick="toggleAllCheckboxes(this)"></th>
+                <th>Image</th>
+                <th>NAME</th>
                 <th>CODE</th>
                 <th>
-                PRICE 
-                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)"></i>
-
-                
-                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
-                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-down"></i> High</button>
-                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-up"></i> Low</button>
-                </div>
-            </th>
-
-            <th>STOCK
-    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
-    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
-        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
-            <i class="fas fa-arrow-down"></i> High
-        </button>
-        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
-            <i class="fas fa-arrow-up"></i> Low
-        </button>
-    </div>
+                    PRICE 
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)"></i>
+                    <div class="sort-options" id="sort-options" style="display: none;">
+                        <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()">
+                        <button onclick="sortPrice('high')"><i class="fas fa-arrow-down"></i> High</button>
+                        <button onclick="sortPrice('low')"><i class="fas fa-arrow-up"></i> Low</button>
+                    </div>
                 </th>
-                <th >CATEGORY</th>
-                <th >CREATED AT</th>
-           <th>ACTION
-                <i class="material-icons" id="delete-icon" onclick="handleDelete()" style="display: none; color: red; cursor: pointer;">delete</i>
-            </th>
-         </tr>
+                <th>STOCK
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                    <div class="sort-options" id="stock-sort-options" style="display: none;">
+                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()">
+                        <button onclick="sortStock('high')"><i class="fas fa-arrow-down"></i> High</button>
+                        <button onclick="sortStock('low')"><i class="fas fa-arrow-up"></i> Low</button>
+                    </div>
+                </th>
+                <th>CATEGORY</th>
+                <th>CREATED AT</th>
+                <th>ACTION</th>
+            </tr>
         </thead>
-        <tbody>
-            <?php if (empty($products)): ?>
-                <tr>
-                    <td colspan="8" class="text-center">No products available.</td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($products as $product): ?>
-                    <tr>
-                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
-                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
-                        <td><?= htmlspecialchars($product['name']) ?></td>
-                        <td><?= htmlspecialchars($product['barcode']) ?></td>
-                        <td>$<?= number_format($product['price'], 2) ?></td>
-                        <td>
-                            <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
-                                <?= htmlspecialchars($product['stock']) ?>
-                            </span>
-                        </td>
-                        <td><?= htmlspecialchars($product['category']) ?></td>
-                        <td><?= htmlspecialchars($product['created_at']) ?></td>
-                        <td class="action-icons">
-                            <a href="/products/edit_pro/<?= $product['id'] ?>" class="btn btn-warning btn-sm mx-1">
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <a href="/products/delete/<?= $product['id'] ?>" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Are you sure you want to delete this product?');">
-                                <i class="material-icons">delete</i>
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
+        <tbody id="product-list">
+            <!-- JavaScript will dynamically add products here -->
         </tbody>
     </table>
-  
 </div>
+
+<script>
+// Convert PHP product data to JavaScript
+const products = <?= json_encode($products); ?>;
+const productsPerPage = 10;
+let currentPage = 1;
+const totalPages = Math.ceil(products.length / productsPerPage);
+
+function renderProducts(page) {
+    currentPage = page;
+    const start = (currentPage - 1) * productsPerPage;
+    const end = start + productsPerPage;
+    const currentProducts = products.slice(start, end);
+
+    const tbody = document.getElementById('product-list');
+    tbody.innerHTML = ''; // Clear existing rows
+
+    if (currentProducts.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products available.</td></tr>';
+    } else {
+        currentProducts.forEach(product => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="checkbox" class="product-checkbox" value="${product.id}"></td>
+                <td><img src="/${product.image}" alt="Product Image" class="product-image"></td>
+                <td>${product.name}</td>
+                <td>${product.barcode}</td>
+                <td>$${product.price}</td>
+                <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
+                <td>${product.category}</td>
+                <td>${product.created_at}</td>
+                <td class="action-icons">
+                    <div class="dropdown">
+                        <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="/products/edit_pro/${product.id}" class="dropdown-item">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </a>
+                            <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this product?');">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </a>
+                            <a href="/products/detail/${product.id}" class="dropdown-item">
+                                <i class="fa-solid fa-eye"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+function renderPagination() {
+    const paginationDiv = document.getElementById('pagination-buttons');
+    paginationDiv.innerHTML = ''; // Clear previous buttons
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.classList.add('page-btn');
+        button.textContent = i;
+        button.onclick = function () {
+            renderProducts(i);
+            updateActivePage(i);
+        };
+
+        if (i === currentPage) {
+            button.classList.add('active'); // Highlight active page
+        }
+
+        paginationDiv.appendChild(button);
+    }
+}
+
+function updateActivePage(page) {
+    document.querySelectorAll('.page-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.page-btn')[page - 1].classList.add('active');
+}
+
+// Initial Load
+function init() {
+    renderProducts(1);
+    renderPagination();
+}
+
+init();
+</script>
+
+<style>
+/* Pagination Button Styling */
+.pagination {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.page-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+</style>
+
+
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -476,6 +589,20 @@ function toggleStockSortOptions(event) {
         option.style.display = "none"; // Close all dropdowns
     });
 }
+// drop down for action
+
+function toggleDropdown(icon) {
+    let dropdownMenu = icon.nextElementSibling;
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function closeDropdown(event) {
+        if (!icon.parentElement.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+            document.removeEventListener('click', closeDropdown);
+        }
+    });
+}
 
 
 </script>
@@ -544,6 +671,6 @@ function handleDelete() {
     }
 }
 
-// </script>
-// <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-// <?php else: $this->redirect("/"); endif; ?>
+ </script>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ <?php else: $this->redirect("/"); endif; ?>

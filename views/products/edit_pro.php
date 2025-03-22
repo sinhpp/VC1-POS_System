@@ -11,49 +11,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
 
-    <!-- Bootstrap CSS -->
-
-
-    <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <style>
-        
-        
-        /* Table Styles */
-        .table {
-            width: 80%;
-            margin-left: 30px;
-        }
-        .table th, .table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .table-dark {
-            background-color: #343a40;
-            color: white;
-        }
-        .badge.bg-success { background-color: #28a745; color: white; }
-        .badge.bg-danger { background-color: #dc3545; color: white; }
-        .btn {
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .btn-warning { background-color: #ffc107; color: black; }
-        .btn-danger { background-color: #dc3545; color: white; }
-        .btn:hover { background-color: #495057; }
-        
-    </style>
-
-
 </head>
 <body>
 
@@ -100,52 +58,6 @@ if (isset($_SESSION['user_id'])) : ?>
     <h3>Pricing And Stocks</h3>
     <label>Base Pricing</label>
     <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
-
-    <style>
-  /* .input-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px; 
-    width: 100%; 
-  } */
-
-  .input-container label,
-  .input-container input {
-    flex: 1; /* Makes both take equal space */
-  }
-
-  .input-container label {
-    white-space: nowrap; /* Prevents label from breaking */
-  }
-
-  .right-input {
-    text-align: right; /* Aligns the second input to the right */
-  }
-</style>
-
-<style>
-  .input-container {
-    display: flex;
-    justify-content: space-between;
- 
-    width: 100%;
-  }
-
-  /* .input-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-group label {
-    margin-bottom: 5px;
-  }
-
-  .input-group input {
-    padding: 8px;
-    width: 100%;
-  } */
-</style>
 
 <div class="input-container">
     <!-- First Input Group -->
@@ -288,7 +200,59 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-}
+    }
+        .header{
+            margin-left:-11.6%;
+        
+        }
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+        
+            width: 100%;
+        }
+        .input-container label,
+        .input-container input {
+            flex: 1; /* Makes both take equal space */
+        }
+
+        .input-container label {
+            white-space: nowrap; /* Prevents label from breaking */
+        }
+
+        .right-input {
+            text-align: right; /* Aligns the second input to the right */
+        }
+        .table {
+            width: 80%;
+            margin-left: 30px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .table-dark {
+            background-color: #343a40;
+            color: white;
+        }
+        .badge.bg-success { background-color: #28a745; color: white; }
+        .badge.bg-danger { background-color: #dc3545; color: white; }
+        .btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn:hover { background-color: #495057; }
+        
 
 .container {
     max-width: 78%;
