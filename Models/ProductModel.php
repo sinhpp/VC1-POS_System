@@ -132,5 +132,19 @@ class ProductModel {
         return $stmt->execute();
     }
 
+    public function getProductByBarcode($barcode) {
+        $query = "SELECT * FROM products WHERE barcode = :barcode";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':barcode' => $barcode]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateStock($productId, $quantity) {
+        $query = "UPDATE products SET stock = stock - :quantity WHERE id = :id AND stock >= :quantity";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':quantity' => $quantity, ':id' => $productId]);
+        return $stmt->rowCount() > 0;
+    }
+
     // Other methods remain unchanged...
 }

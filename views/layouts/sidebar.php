@@ -39,6 +39,11 @@
 							<span class="nav-text">Products</span>
 						</a>
                     </li>
+					<li><a href="/views/order/product-scanning.php" class="ai-icon" aria-expanded="false">
+							<i class="flaticon-013-checkmark"></i>
+							<span class="nav-text">Order scan</span>
+						</a>
+					</li>
                     <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
 							<i class="flaticon-013-checkmark"></i>
 							<span class="nav-text">Widget</span>

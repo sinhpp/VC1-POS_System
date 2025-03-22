@@ -3,7 +3,7 @@ require_once "Models/ProductModel.php";
 
 class ProductController extends BaseController {
     private $products;
-
+    
     public function __construct() {
         $this->products = new ProductModel();
     }

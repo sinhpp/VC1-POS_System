@@ -1,37 +1,218 @@
-body {
-    background-color: #f8f9fa;
-}
 
-.card {
-    border-radius: 10px;
-    border: none;
-}
+    /* General container styling */
+    .container-order {
+        display: flex;
+        flex-direction: column;
+        /* margin: 0 auto; */
+        /* padding-top: 2%; */
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        margin-left: 20px;
+        justify-content: center;
+        padding-right: 30px;
+       height: 60vh;
+       
+    }
 
-.card-preview {
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-    border-radius: 8px;
-    font-family: monospace;
-}
+    /* Product Scanner Section */
+    .scanner-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        margin-left: 350px;
+        border-radius: 8px;
+        margin-top: 52px;
+        width: 70%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        
+    }
 
-.form-control[readonly] {
-    background-color: #e9ecef;
-}
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 16px;
+    }
 
-.btn-warning {
-    background-color: #ffc107;
-    border: none;
-    font-weight: bold;
-}
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        outline: none;
+    }
 
-.form-label {
-    font-size: 0.9rem;
-    color: #6c757d;
-}
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
 
-h5 {
-    color: #6c757d;
-}
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
 
-h6 {
-    font-weight: bold;
-}
+    /* Product Card Styling */
+    .product-card {
+        max-width: 18rem;
+        margin: 0 auto;
+        transition: transform 0.2s ease;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        padding: 8px 15px;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    /* Order Table Styling */
+   .order-page{
+    margin-left: 200px;
+    
+   }
+    .order-table {
+        margin-top: 20px;
+        margin-right: 50px;
+        width: 20%;
+       
+    }
+
+    .table {
+        width: 70%;
+        border-collapse: collapse;
+        font-size: 14px;
+        
+    }
+ 
+
+    .table thead {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .table th {
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table img {
+        border-radius: 5px;
+        object-fit: cover;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 5px 10px;
+        font-size: 12px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+    /* Proceed to Checkout Button */
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-info:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+
+    /* Error Message */
+    .text-danger {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .scanner-section {
+            padding: 15px;
+        }
+
+        .product-card {
+            max-width: 100%;
+        }
+
+        .table {
+            font-size: 12px;
+        }
+
+        .table th, .table td {
+            padding: 8px 10px;
+        }
+
+        .table img {
+            width: 40px;
+        }
+
+        .btn-primary, .btn-info {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .btn-danger {
+            padding: 4px 8px;
+            font-size: 10px;
+        }
+    }
