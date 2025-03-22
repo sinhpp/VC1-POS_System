@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) : ?>
         }
    
     <div class="content">
-    <h2 class="text-center mb-4">Users List</h2>
+    <h2 class="text-center mb-4"></h2>
  
  <div class="d-flex justify-content-between align-items-center mb-3">
      <a href="/users/create" class="btn btn-success">+ Create User</a>
@@ -105,8 +105,8 @@ if (isset($_SESSION['user_id'])) : ?>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Actions</th>
-            </tr>
+                <th>Actions</th> 
+        </tr>
         </thead>
         <tbody>
             <?php 
@@ -132,58 +132,75 @@ if (isset($_SESSION['user_id'])) : ?>
             </tr>
             <?php endforeach; ?>
         </tbody>
-    </table>
-</div>
+        </table>
+        </div>
 
-<!-- Include SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- Include SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-    function confirmDelete(userId) {
-        Swal.fire({
-            title: 'Do you want to delete this user?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Store success message
-                sessionStorage.setItem('deleteSuccess', 'true');
+        <!-- Live Alert Placeholder -->
+        <div id="liveAlertPlaceholder"></div>
+        <button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
 
-                // Redirect to delete URL
-                window.location.href = '/users/delete/' + userId;
+        <script>
+            function confirmDelete(userId) {
+                Swal.fire({
+                    title: 'Do you want to delete this user?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show live alert instead of SweetAlert2 success message
+                        showLiveAlert('User has been deleted successfully.', 'success');
+                        
+                        // Redirect to delete URL after short delay
+                        setTimeout(() => {
+                            window.location.href = '/users/delete/' + userId;
+                        }, 1000);
+                    }
+                });
             }
-        });
-    }
 
-    // Show the success alert after page reload
-    document.addEventListener("DOMContentLoaded", function () {
-        if (sessionStorage.getItem('deleteSuccess')) {
-            Swal.fire({
-                title: 'Deleted!',
-                text: 'User has been deleted successfully.',
-                icon: 'success',
-                timer: 1000, // Auto close after 3 seconds
-                showConfirmButton: false
-            });
-
-            // Remove the session storage flag
-            sessionStorage.removeItem('deleteSuccess');
-        }
-    });
-</script>
-
-<!-- Optional: Add a placeholder for success alert -->
-<div id="success-alert" style="display: none;"></div>
+            function showLiveAlert(message, type) {
+                const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = `
+                    <div class="alert alert-${type} alert-dismissible" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                alertPlaceholder.appendChild(wrapper);
+            }
+        </script>
+        <!-- Optional: Add a placeholder for success alert -->
+        <!-- <div id="success-alert" style="display: none;"></div> -->
 
 </body>
 </html>
 <style>
     /* Main Content Area */
+
+    #liveAlertPlaceholder {
+    position: fixed; /* Makes it stay on screen */
+    top: 130px; /* Adjust this to move it up/down */
+    right: 20px; /* Adjust this to move it left/right */
+    z-index: 1050; /* Ensures it stays above other elements */
+    width: 600px; /* Adjust width if needed */
+}
+
+.alert {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a slight shadow */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
 .content {
     font-family: "Poppins", sans-serif;
     /* width: 82%; */
