@@ -12,7 +12,7 @@
             <div class="col-md-7">
                 <div class="card p-4 shadow-sm">
                     <h5 class="mb-4">Payment method</h5>
-                    <form method="POST" action="/product/process-checkout">
+                    <form method="POST" action="../order/checkout.php">
                         <input type="hidden" name="checkout" value="1">
                         <div class="mb-3">
                             <label for="customerName" class="form-label">Customer Name:</label>

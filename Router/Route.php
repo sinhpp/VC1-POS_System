@@ -43,9 +43,10 @@ $route->post("/products/delete_all", [ProductController::class, 'deleteAllProduc
 // Product Scanning Routes
 $route->get("/order", [ProductScanController::class, 'index']);
 $route->post("/order/add", [ProductScanController::class, 'add']);
-$route->post("/product/delete", [ProductScanController::class, 'delete']);
 $route->get("/product/checkout", [ProductScanController::class, 'checkout']);
 $route->post("/product/process-checkout", [ProductScanController::class, 'processCheckout']);
-
+$route->post("/productDetails", [ProductScanController::class, 'scan']); // For scanning
+$route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
+$route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
 // Call the route method to process the request
 $route->route();

@@ -1,53 +1,60 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Focus on barcode input when the page loads
     const barcodeInput = document.getElementById('barcodeInput');
+    const productDetailsContainer = document.getElementById('productDetailsContainer');
+    const productDetails = document.getElementById('productDetails');
+    const errorMessage = document.getElementById('errorMessage');
+    const orderItems = document.getElementById('orderItems');
+
     barcodeInput.focus();
 
     // Handle scanner form submission
-    const scannerForm = document.querySelector('form');
-    scannerForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
-        const barcode = barcodeInput.value;
+    document.getElementById('scannerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const barcode = barcodeInput.value.trim();
+        if (!barcode) return;
 
-        fetch('scan_product.php', {
+        fetch('checkout.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `barcode=${encodeURIComponent(barcode)}`
         })
         .then(response => response.json())
         .then(data => {
-            const productDetails = document.getElementById('productDetails');
             if (data.success) {
-                // Display product details
                 const product = data.product;
                 productDetails.innerHTML = `
                     <div class="card product-card">
-                        <img src="${product.image}" class="card-img-top" alt="${product.name}" width="30px">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}" width="50">
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">Barcode: ${product.barcode}</p>
                             <p class="card-text">Price: $${product.price}</p>
                             <p class="card-text">Stock: ${product.stock}</p>
-                            <p class="card-text">Category: ${product.category}</p>
                             <p class="card-text">Created At: ${product.created_at}</p>
                             <button class="btn btn-success add-to-order" data-barcode="${product.barcode}">Add to Order</button>
                         </div>
                     </div>
                 `;
+                productDetailsContainer.style.display = 'block'; // Show product details
+                errorMessage.style.display = 'none'; // Hide error message if any
             } else {
-                // Display error message
-                productDetails.innerHTML = `<p class="text-danger">${data.error}</p>`;
+                errorMessage.textContent = data.error;
+                errorMessage.style.display = 'block';
+                productDetailsContainer.style.display = 'none';
             }
         })
         .catch(() => {
-            document.getElementById('productDetails').innerHTML = `<p class="text-danger">Error fetching product details.</p>`;
+            errorMessage.textContent = "Error fetching product details.";
+            errorMessage.style.display = 'block';
+            productDetailsContainer.style.display = 'none';
         });
     });
 
-    // Handle "Add to Order" button clicks (delegated event)
-    document.getElementById('productDetails').addEventListener('click', function(e) {
+    // Handle "Add to Order" button click
+    productDetailsContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('add-to-order')) {
             const barcode = e.target.getAttribute('data-barcode');
+
             fetch('add_to_order.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -57,8 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     updateOrderList(data.order);
-                    barcodeInput.value = ''; // Clear input
-                    barcodeInput.focus(); // Refocus on input
+                    barcodeInput.value = '';
+                    barcodeInput.focus();
+                    productDetailsContainer.style.display = 'none'; // Hide product details
                 } else {
                     alert(data.error);
                 }
@@ -67,10 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle "Cancel" button clicks (delegated event)
-    document.getElementById('orderItems').addEventListener('click', function(e) {
+    // Handle "Cancel" button clicks
+    orderItems.addEventListener('click', function(e) {
         if (e.target.classList.contains('btn-danger')) {
-            e.preventDefault(); // Prevent form submission
+            e.preventDefault();
             const form = e.target.closest('form');
             const index = form.querySelector('input[name="index"]').value;
 
@@ -93,27 +101,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update the order list
     function updateOrderList(order) {
-        const orderItems = document.getElementById('orderItems');
-        let html = '';
-        order.forEach((item, index) => {
-            html += `
-                <tr>
-                    <td><img src="${item.image}" width="50" alt="${item.name}"></td>
-                    <td>${item.name}</td>
-                    <td>${item.barcode}</td>
-                    <td>$${item.price}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.stock}</td>
-                    <td>${item.created_at}</td>
-                    <td>
-                        <form action="checkout.php" method="POST">
-                            <input type="hidden" name="index" value="${index}">
-                            <button type="submit" name="delete" class="btn btn-danger btn-sm">Cancel</button>
-                        </form>
-                    </td>
-                </tr>
-            `;
-        });
-        orderItems.innerHTML = html;
+        orderItems.innerHTML = order.map((item, index) => `
+            <tr>
+                <td><img src="${item.image}" width="50" alt="${item.name}"></td>
+                <td>${item.name}</td>
+                <td>${item.barcode}</td>
+                <td>$${item.price}</td>
+                <td>${item.quantity}</td>
+                <td>${item.stock}</td>
+                <td>${item.created_at}</td>
+                <td>
+                    <form class="deleteForm">
+                        <input type="hidden" name="index" value="${index}">
+                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+        `).join('');
     }
 });

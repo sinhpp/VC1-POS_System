@@ -9,11 +9,8 @@ class OrderModel {
     }
 
     public function saveOrder($customerName, $shippingAddress, $billingAddress, $contactDetails, $paymentMethod, $totalPrice, $orderItems) {
-        // Start a transaction
         $this->db->beginTransaction();
-
         try {
-            // Insert into orders table
             $query = "INSERT INTO orders (customer_name, shipping_address, billing_address, contact_details, payment_method, total_price, status)
                       VALUES (:customer_name, :shipping_address, :billing_address, :contact_details, :payment_method, :total_price, 'Completed')";
             $stmt = $this->db->prepare($query);
@@ -25,13 +22,14 @@ class OrderModel {
                 ':payment_method' => $paymentMethod,
                 ':total_price' => $totalPrice
             ]);
-
-            // Get the last inserted order ID
+    
             $orderId = $this->db->lastInsertId();
-
-            // Insert order items
+    
             $query = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (:order_id, :product_id, :quantity, :price)";
             $stmt = $this->db->prepare($query);
+            $stockQuery = "UPDATE products SET stock = stock - :quantity WHERE id = :product_id AND stock >= :quantity";
+            $stockStmt = $this->db->prepare($stockQuery);
+    
             foreach ($orderItems as $item) {
                 $stmt->execute([
                     ':order_id' => $orderId,
@@ -39,13 +37,19 @@ class OrderModel {
                     ':quantity' => $item['quantity'],
                     ':price' => $item['price']
                 ]);
+    
+                $stockStmt->execute([
+                    ':quantity' => $item['quantity'],
+                    ':product_id' => $item['id']
+                ]);
+                if ($stockStmt->rowCount() == 0) {
+                    throw new Exception("Insufficient stock for product ID: " . $item['id']);
+                }
             }
-
-            // Commit the transaction
+    
             $this->db->commit();
             return $orderId;
         } catch (Exception $e) {
-            // Rollback on error
             $this->db->rollBack();
             throw new Exception("Error saving order: " . $e->getMessage());
         }

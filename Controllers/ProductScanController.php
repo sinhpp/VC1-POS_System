@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../Database/Database.php';
-require_once __DIR__ . '/../Models/ProductModel.php';
-require_once __DIR__ . '/../Models/OrderModel.php';
+require_once 'Database/Database.php';
+require_once 'Models/ProductModel.php';
+require_once 'Models/OrderModel.php';
 
 class ProductScanController extends BaseController {
     private $productModel;
@@ -42,15 +42,13 @@ class ProductScanController extends BaseController {
         if (isset($_POST['scan'])) {
             $barcode = filter_input(INPUT_POST, 'barcode');
             $product = $this->productModel->getProductByBarcode($barcode);
-
             if ($product) {
                 $_SESSION['product'] = $product;
             } else {
                 $_SESSION['error'] = "Product not found!";
             }
         }
-        header("Location: 
-        /order");
+        header("Location: /order");
         exit();
     }
 
@@ -59,7 +57,6 @@ class ProductScanController extends BaseController {
         if (isset($_POST['add'])) {
             $barcode = filter_input(INPUT_POST, 'barcode');
             $product = $this->productModel->getProductByBarcode($barcode);
-
             if ($product) {
                 $found = false;
                 foreach ($_SESSION['order'] as &$item) {
@@ -76,13 +73,8 @@ class ProductScanController extends BaseController {
                 if (!$found && $product['stock'] > 0) {
                     $product['quantity'] = 1;
                     $_SESSION['order'][] = $product;
-                } elseif ($product['stock'] <= 0) {
-                    $_SESSION['error'] = "Product out of stock!";
                 }
-                // Keep the product in $_SESSION['product'] to display it
                 $_SESSION['product'] = $product;
-            } else {
-                $_SESSION['error'] = "Product not found!";
             }
         }
         header("Location: /order");
@@ -98,8 +90,7 @@ class ProductScanController extends BaseController {
                 $_SESSION['order'] = array_values($_SESSION['order']);
             }
         }
-        header("Location: 
-        /order");
+        header("Location: /order");
         exit();
     }
 
