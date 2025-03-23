@@ -29,9 +29,9 @@
 							<span class="nav-text">Order List</span>
 						</a>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="../../views/barcode/barcode.php" aria-expanded="false">
 						<i class="flaticon-050-info"></i>
-							<span class="nav-text">Reports</span>
+							<span class="nav-text">Barcode</span>
 						</a>
                     </li>
                     <li><a href="/products" aria-expanded="false">
