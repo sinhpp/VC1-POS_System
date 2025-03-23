@@ -1,3 +1,4 @@
+<!-- RECEIPT Confirmation -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
