@@ -1,4 +1,7 @@
 <?php
+require_once(__DIR__ . '/../Controllers/FormController.php');
+$router = new Router();
+$router->get('/form', [new FormController(), 'form']); // Route to form
 
 class Router 
 {
@@ -94,4 +97,6 @@ class Router
         http_response_code(404);
         require_once 'views/errors/404.php';
     }
+
+    
 }

@@ -16,2283 +16,665 @@
     <div x-data="setup()" x-init="$refs.loading.classList.add('hidden'); setColors(color);" :class="{ 'dark': isDark}">
       <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light">
 
-        <div
-          x-ref="loading"
-          class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-primary-darker"
-        >
-          Loading.....
+		
+		<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="row invoice-card-row">
+					<div class="col-xl-3 col-xxl-3 col-sm-6">
+						<div class="card bg-warning invoice-card">
+							<div class="card-body d-flex">
+								<div class="icon me-3">
+									<svg  width="33px" height="32px">
+									<path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+									 d="M31.963,30.931 C31.818,31.160 31.609,31.342 31.363,31.455 C31.175,31.538 30.972,31.582 30.767,31.583 C30.429,31.583 30.102,31.463 29.845,31.243 L25.802,27.786 L21.758,31.243 C21.502,31.463 21.175,31.583 20.837,31.583 C20.498,31.583 20.172,31.463 19.915,31.243 L15.872,27.786 L11.829,31.243 C11.622,31.420 11.370,31.534 11.101,31.572 C10.832,31.609 10.558,31.569 10.311,31.455 C10.065,31.342 9.857,31.160 9.710,30.931 C9.565,30.703 9.488,30.437 9.488,30.167 L9.488,17.416 L2.395,17.416 C2.019,17.416 1.658,17.267 1.392,17.001 C1.126,16.736 0.976,16.375 0.976,16.000 L0.976,6.083 C0.976,4.580 1.574,3.139 2.639,2.076 C3.703,1.014 5.146,0.417 6.651,0.417 L26.511,0.417 C28.016,0.417 29.459,1.014 30.524,2.076 C31.588,3.139 32.186,4.580 32.186,6.083 L32.186,30.167 C32.186,30.437 32.109,30.703 31.963,30.931 ZM9.488,6.083 C9.488,5.332 9.189,4.611 8.657,4.080 C8.125,3.548 7.403,3.250 6.651,3.250 C5.898,3.250 5.177,3.548 4.645,4.080 C4.113,4.611 3.814,5.332 3.814,6.083 L3.814,14.583 L9.488,14.583 L9.488,6.083 ZM29.348,6.083 C29.348,5.332 29.050,4.611 28.517,4.080 C27.985,3.548 27.263,3.250 26.511,3.250 L11.559,3.250 C12.059,4.111 12.324,5.088 12.325,6.083 L12.325,27.092 L14.950,24.840 C15.207,24.620 15.534,24.500 15.872,24.500 C16.210,24.500 16.537,24.620 16.794,24.840 L20.837,28.296 L24.880,24.840 C25.137,24.620 25.463,24.500 25.802,24.500 C26.140,24.500 26.467,24.620 26.724,24.840 L29.348,27.092 L29.348,6.083 ZM25.092,20.250 L16.581,20.250 C16.205,20.250 15.844,20.101 15.578,19.835 C15.312,19.569 15.162,19.209 15.162,18.833 C15.162,18.457 15.312,18.097 15.578,17.831 C15.844,17.566 16.205,17.416 16.581,17.416 L25.092,17.416 C25.469,17.416 25.829,17.566 26.096,17.831 C26.362,18.097 26.511,18.457 26.511,18.833 C26.511,19.209 26.362,19.569 26.096,19.835 C25.829,20.101 25.469,20.250 25.092,20.250 ZM25.092,14.583 L16.581,14.583 C16.205,14.583 15.844,14.434 15.578,14.168 C15.312,13.903 15.162,13.542 15.162,13.167 C15.162,12.791 15.312,12.430 15.578,12.165 C15.844,11.899 16.205,11.750 16.581,11.750 L25.092,11.750 C25.469,11.750 25.829,11.899 26.096,12.165 C26.362,12.430 26.511,12.791 26.511,13.167 C26.511,13.542 26.362,13.903 26.096,14.168 C25.829,14.434 25.469,14.583 25.092,14.583 ZM25.092,8.916 L16.581,8.916 C16.205,8.916 15.844,8.767 15.578,8.501 C15.312,8.236 15.162,7.875 15.162,7.500 C15.162,7.124 15.312,6.764 15.578,6.498 C15.844,6.232 16.205,6.083 16.581,6.083 L25.092,6.083 C25.469,6.083 25.829,6.232 26.096,6.498 C26.362,6.764 26.511,7.124 26.511,7.500 C26.511,7.875 26.362,8.236 26.096,8.501 C25.829,8.767 25.469,8.916 25.092,8.916 Z"/>
+									</svg>
+									
+								</div>
+								<div>
+									<h2 class="text-white invoice-num">2478</h2>
+									<span class="text-white fs-18">Total Invoices</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-3 col-sm-6">
+						<div class="card bg-success invoice-card">
+							<div class="card-body d-flex">
+								<div class="icon me-3">
+									<svg width="35px" height="34px">
+									<path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+									 d="M32.482,9.730 C31.092,6.789 28.892,4.319 26.120,2.586 C22.265,0.183 17.698,-0.580 13.271,0.442 C8.843,1.458 5.074,4.140 2.668,7.990 C0.255,11.840 -0.509,16.394 0.514,20.822 C1.538,25.244 4.224,29.008 8.072,31.411 C10.785,33.104 13.896,34.000 17.080,34.000 L17.286,34.000 C20.456,33.960 23.541,33.044 26.213,31.358 C26.991,30.866 27.217,29.844 26.725,29.067 C26.234,28.291 25.210,28.065 24.432,28.556 C22.285,29.917 19.799,30.654 17.246,30.687 C14.627,30.720 12.067,29.997 9.834,28.609 C6.730,26.671 4.569,23.644 3.752,20.085 C2.934,16.527 3.546,12.863 5.486,9.763 C9.488,3.370 17.957,1.418 24.359,5.414 C26.592,6.808 28.360,8.793 29.477,11.157 C30.568,13.460 30.993,16.016 30.707,18.539 C30.607,19.448 31.259,20.271 32.177,20.371 C33.087,20.470 33.911,19.820 34.011,18.904 C34.363,15.764 33.832,12.591 32.482,9.730 L32.482,9.730 Z"/>
+									<path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+									 d="M22.593,11.237 L14.575,19.244 L11.604,16.277 C10.952,15.626 9.902,15.626 9.250,16.277 C8.599,16.927 8.599,17.976 9.250,18.627 L13.399,22.770 C13.725,23.095 14.150,23.254 14.575,23.254 C15.001,23.254 15.427,23.095 15.753,22.770 L24.940,13.588 C25.592,12.937 25.592,11.888 24.940,11.237 C24.289,10.593 23.238,10.593 22.593,11.237 L22.593,11.237 Z"/>
+									</svg>
+									
+								</div>
+								<div>
+									<h2 class="text-white invoice-num">983</h2>
+									<span class="text-white fs-18">Paid Invoices</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-3 col-sm-6">
+						<div class="card bg-info invoice-card">
+							<div class="card-body d-flex">
+								<div class="icon me-3">
+									<svg  width="35px" height="34px">
+									<path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+									 d="M33.002,9.728 C31.612,6.787 29.411,4.316 26.638,2.583 C22.781,0.179 18.219,-0.584 13.784,0.438 C9.356,1.454 5.585,4.137 3.178,7.989 C0.764,11.840 -0.000,16.396 1.023,20.825 C2.048,25.247 4.734,29.013 8.584,31.417 C11.297,33.110 14.409,34.006 17.594,34.006 L17.800,34.006 C20.973,33.967 24.058,33.050 26.731,31.363 C27.509,30.872 27.735,29.849 27.243,29.072 C26.751,28.296 25.727,28.070 24.949,28.561 C22.801,29.922 20.314,30.660 17.761,30.693 C15.141,30.726 12.581,30.002 10.346,28.614 C7.241,26.675 5.080,23.647 4.262,20.088 C3.444,16.515 4.056,12.850 5.997,9.748 C10.001,3.353 18.473,1.401 24.876,5.399 C27.110,6.793 28.879,8.779 29.996,11.143 C31.087,13.447 31.513,16.004 31.227,18.527 C31.126,19.437 31.778,20.260 32.696,20.360 C33.607,20.459 34.432,19.809 34.531,18.892 C34.884,15.765 34.352,12.591 33.002,9.728 L33.002,9.728 Z"/>
+									<path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+									 d="M23.380,11.236 C22.728,10.585 21.678,10.585 21.026,11.236 L17.608,14.656 L14.190,11.243 C13.539,10.592 12.488,10.592 11.836,11.243 C11.184,11.893 11.184,12.942 11.836,13.593 L15.254,17.006 L11.836,20.420 C11.184,21.071 11.184,22.120 11.836,22.770 C12.162,23.096 12.588,23.255 13.014,23.255 C13.438,23.255 13.864,23.096 14.190,22.770 L17.608,19.357 L21.026,22.770 C21.352,23.096 21.777,23.255 22.203,23.255 C22.629,23.255 23.054,23.096 23.380,22.770 C24.031,22.120 24.031,21.071 23.380,20.420 L19.962,17.000 L23.380,13.587 C24.031,12.936 24.031,11.887 23.380,11.236 L23.380,11.236 Z"/>
+									</svg>
+									
+								</div>
+								<div>
+									<h2 class="text-white invoice-num">1256</h2>
+									<span class="text-white fs-18">Unpaid Invoices</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-3 col-sm-6">
+						<div class="card bg-secondary invoice-card">
+							<div class="card-body d-flex">
+								<div class="icon me-3">
+									<svg  width="33px" height="32px">
+									<path fill-rule="evenodd"  fill="rgb(255, 255, 255)"
+									 d="M31.963,30.931 C31.818,31.160 31.609,31.342 31.363,31.455 C31.175,31.538 30.972,31.582 30.767,31.583 C30.429,31.583 30.102,31.463 29.845,31.243 L25.802,27.786 L21.758,31.243 C21.502,31.463 21.175,31.583 20.837,31.583 C20.498,31.583 20.172,31.463 19.915,31.243 L15.872,27.786 L11.829,31.243 C11.622,31.420 11.370,31.534 11.101,31.572 C10.832,31.609 10.558,31.569 10.311,31.455 C10.065,31.342 9.857,31.160 9.710,30.931 C9.565,30.703 9.488,30.437 9.488,30.167 L9.488,17.416 L2.395,17.416 C2.019,17.416 1.658,17.267 1.392,17.001 C1.126,16.736 0.976,16.375 0.976,16.000 L0.976,6.083 C0.976,4.580 1.574,3.139 2.639,2.076 C3.703,1.014 5.146,0.417 6.651,0.417 L26.511,0.417 C28.016,0.417 29.459,1.014 30.524,2.076 C31.588,3.139 32.186,4.580 32.186,6.083 L32.186,30.167 C32.186,30.437 32.109,30.703 31.963,30.931 ZM9.488,6.083 C9.488,5.332 9.189,4.611 8.657,4.080 C8.125,3.548 7.403,3.250 6.651,3.250 C5.898,3.250 5.177,3.548 4.645,4.080 C4.113,4.611 3.814,5.332 3.814,6.083 L3.814,14.583 L9.488,14.583 L9.488,6.083 ZM29.348,6.083 C29.348,5.332 29.050,4.611 28.517,4.080 C27.985,3.548 27.263,3.250 26.511,3.250 L11.559,3.250 C12.059,4.111 12.324,5.088 12.325,6.083 L12.325,27.092 L14.950,24.840 C15.207,24.620 15.534,24.500 15.872,24.500 C16.210,24.500 16.537,24.620 16.794,24.840 L20.837,28.296 L24.880,24.840 C25.137,24.620 25.463,24.500 25.802,24.500 C26.140,24.500 26.467,24.620 26.724,24.840 L29.348,27.092 L29.348,6.083 ZM25.092,20.250 L16.581,20.250 C16.205,20.250 15.844,20.101 15.578,19.835 C15.312,19.569 15.162,19.209 15.162,18.833 C15.162,18.457 15.312,18.097 15.578,17.831 C15.844,17.566 16.205,17.416 16.581,17.416 L25.092,17.416 C25.469,17.416 25.829,17.566 26.096,17.831 C26.362,18.097 26.511,18.457 26.511,18.833 C26.511,19.209 26.362,19.569 26.096,19.835 C25.829,20.101 25.469,20.250 25.092,20.250 ZM25.092,14.583 L16.581,14.583 C16.205,14.583 15.844,14.434 15.578,14.168 C15.312,13.903 15.162,13.542 15.162,13.167 C15.162,12.791 15.312,12.430 15.578,12.165 C15.844,11.899 16.205,11.750 16.581,11.750 L25.092,11.750 C25.469,11.750 25.829,11.899 26.096,12.165 C26.362,12.430 26.511,12.791 26.511,13.167 C26.511,13.542 26.362,13.903 26.096,14.168 C25.829,14.434 25.469,14.583 25.092,14.583 ZM25.092,8.916 L16.581,8.916 C16.205,8.916 15.844,8.767 15.578,8.501 C15.312,8.236 15.162,7.875 15.162,7.500 C15.162,7.124 15.312,6.764 15.578,6.498 C15.844,6.232 16.205,6.083 16.581,6.083 L25.092,6.083 C25.469,6.083 25.829,6.232 26.096,6.498 C26.362,6.764 26.511,7.124 26.511,7.500 C26.511,7.875 26.362,8.236 26.096,8.501 C25.829,8.767 25.469,8.916 25.092,8.916 Z"/>
+									</svg>
+								
+								</div>
+								<div>
+									<h2 class="text-white invoice-num">652</h2>
+									<span class="text-white fs-18">Total Invoices Sent</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-9 col-xxl-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row align-items-center">
+									<div class="col-xl-6">
+										<div class="card-bx bg-blue">
+											<img class="pattern-img" src="/views/assets/images/pattern/pattern6.png" alt="">
+											<div class="card-info text-white">
+												<img src="/views/assets/images/pattern/circle.png" class="mb-4" alt="">
+												<h2 class="text-white card-balance">$824,571.93</h2>
+												<p class="fs-16">Wallet Balance</p>
+												<span>+0,8% than last week</span>
+											</div>
+											<a class="change-btn" href="javascript:void(0);"><i class="fa fa-caret-up up-ico"></i>Change<span class="reload-icon"><i class="fas fa-sync-alt reload active"></i></span></a>
+										</div>
+									</div>
+									<div class="col-xl-6">
+										<div class="row  mt-xl-0 mt-4">
+											<div class="col-md-6">
+												<h4 class="card-title">Card's Overview</h4>
+												<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit psu olor</span>
+												<ul class="card-list mt-4">
+													<li><span class="bg-blue circle"></span>Account<span>20%</span></li>
+													<li><span class="bg-success circle"></span>Services<span>40%</span></li>
+													<li><span class="bg-warning circle"></span>Restaurant<span>15%</span></li>
+													<li><span class="bg-light circle"></span>Others<span>15%</span></li>
+												</ul>
+											</div>
+											<div class="col-md-6">
+												<canvas id="polarChart"></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-5">
+						<div class="card">
+							<div class="card-header pb-0 border-0">
+								<div>
+									<h4 class="card-title mb-2">Activity</h4>
+									<h2 class="mb-0">$78120</h2>
+								</div>
+								<ul class="card-list">
+									<li class="justify-content-end">Income<span class="bg-success circle me-0 ms-2"></span></li>
+									<li class="justify-content-end">Outcome<span class="bg-danger circle me-0 ms-2"></span></li>
+								</ul>
+							</div>
+							<div class="card-body pb-0 pt-3">
+								<div id="chartBar" class="bar-chart"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-7">
+						<div class="card">
+							<div class="card-header border-0 pb-0">
+								<div>
+									<h4 class="card-title mb-2">Quick Transfer</h4>
+									<span class="fs-12">Lorem ipsum dolor sit amet, consectetur</span>
+								</div>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											<path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											<path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+										</svg>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item" href="javascript:void(0);">Delete</a>
+										<a class="dropdown-item" href="javascript:void(0);">Edit</a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">	
+								<div class="user-bx">
+									<img src="/views/assets/images/ion/man (1).png" alt="">
+									<div>
+										<h6 class="user-name">Samuel</h6>
+										<span class="meta">@sam224</span>
+									</div>
+									<i class="las la-check-circle check-icon"></i>
+								</div>
+								<h4 class="mt-3 mb-3">Recent Friend<a href="javascript:void(0);" class="fs-16 float-end text-secondary font-w600">See More</a></h4>
+								<ul class="user-list">
+									<li><img src="/views/assets/images/ion/bussiness-man.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/hacker.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/man (2).png" alt=""></li>
+									<li><img src="/views/assets/images/ion/woman.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/man.png" alt=""></li>
+									<li><img src="/views/assets/images/ion/woman.png" alt=""></li>
+								
+								</ul>
+								<h4 class="mt-3 mb-0">Insert Amount</h4>
+								<div class="format-slider">
+                                    <input class="form-control amount-input"  title="Formatted number" id="input-format">
+                                    <div id="slider-format"></div>
+                                </div>
+								<div class="text-secondary fs-16 d-flex justify-content-between font-w600 mt-4">
+									<span>Your Balance</span>
+									<span>$ 456,345.62</span>
+								</div>
+							</div>
+							<div class="card-footer border-0 pt-0">
+								<a href="javascript:void(0);" class="btn btn-primary d-block btn-lg text-uppercase">Transfer Now</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-5">
+						<div class="card">
+							<div class="card-header border-0 pb-0">
+								<div>
+									<h4 class="card-title mb-2">Spendings</h4>
+									<span class="fs-12">Lorem ipsum dolor sit amet, consectetur</span>
+								</div>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											<path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											<path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+										</svg>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item" href="javascript:void(0);">Delete</a>
+										<a class="dropdown-item" href="javascript:void(0);">Edit</a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">	
+								<div class="progress default-progress">
+                                    <div class="progress-bar bg-gradient-1 progress-animated" style="width: 45%; height:20px;" role="progressbar">
+                                        <span class="sr-only">45% Complete</span>
+                                    </div>
+                                </div>
+								<div class="d-flex align-items-end mt-2 pb-3 justify-content-between">
+									<span>Investment</span>
+									<span class="fs-18"><span class="text-black pe-2">$1415</span>/$2000</span>
+								</div>
+								<div class="progress default-progress mt-4">
+                                    <div class="progress-bar bg-gradient-2 progress-animated" style="width: 70%; height:20px;" role="progressbar">
+                                        <span class="sr-only">70% Complete</span>
+                                    </div>
+                                </div>
+								<div class="d-flex align-items-end mt-2 pb-3 justify-content-between">
+									<span>Restaurant</span>
+									<span class="fs-18"><span class="text-black pe-2">$1567</span>/$5000</span>
+								</div>
+								<div class="progress default-progress mt-4">
+                                    <div class="progress-bar bg-gradient-3 progress-animated" style="width: 35%; height:20px;" role="progressbar">
+                                        <span class="sr-only">35% Complete</span>
+                                    </div>
+                                </div>
+								<div class="d-flex align-items-end mt-2 pb-3 justify-content-between">
+									<span>Installment</span>
+									<span class="fs-18"><span class="text-black pe-2">$487</span>/$10000</span>
+								</div>
+								<div class="progress default-progress mt-4">
+                                    <div class="progress-bar bg-gradient-4 progress-animated" style="width: 95%; height:20px;" role="progressbar">
+                                        <span class="sr-only">95% Complete</span>
+                                    </div>
+                                </div>
+								<div class="d-flex align-items-end mt-2 justify-content-between">
+									<span>Property</span>
+									<span class="fs-18"><span class="text-black pe-2">$3890</span>/$4000</span>
+								</div>
+							</div>
+							<div class="card-footer border-0 pt-0">
+								<a href="javascript:void(0);" class="btn btn-outline-primary d-block btn-lg">View More</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-xxl-7">
+						<div class="card">
+							<div class="card-header d-flex flex-wrap border-0 pb-0">
+								<div class="me-auto mb-sm-0 mb-3">
+									<h4 class="card-title mb-2">Transaction Overview</h4>
+									<span class="fs-12">Lorem ipsum dolor sit amet, consectetur</span>
+								</div>
+								<a href="javascript:void(0)" class="btn btn-rounded btn-md btn-primary me-3 me-3"><i class="las la-download scale5 me-3"></i>Download Report</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											<path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											<path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="#575757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+										</svg>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item" href="javascript:void(0);">Delete</a>
+										<a class="dropdown-item" href="javascript:void(0);">Edit</a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body pb-2">
+								<div class="d-sm-flex d-block">
+									<div class="form-check toggle-switch text-end form-switch me-4">
+									  <input checked class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+									  <label class="form-check-label" for="flexSwitchCheckDefault">Number</label>
+									</div>
+									<div class="form-check toggle-switch text-end form-switch me-auto">
+									  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1">
+									  <label class="form-check-label" for="flexSwitchCheckDefault1">Analytics</label>
+									</div>
+									<ul class="card-list d-flex mt-sm-0 mt-3">
+										<li class="me-3"><span class="bg-success circle"></span>Income</li>
+										<li><span class="bg-danger circle"></span>Outcome</li>
+									</ul>
+								</div>
+								<div id="chartBar2" class="bar-chart"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-xxl-12">
+						<div class="card">
+							<div class="card-header d-block d-sm-flex border-0">
+								<div class="me-3">
+									<h4 class="card-title mb-2">Previous Transactions</h4>
+									<span class="fs-12">Lorem ipsum dolor sit amet, consectetur</span>
+								</div>
+								<div class="card-tabs mt-3 mt-sm-0">
+									<ul class="nav nav-tabs" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link active" data-bs-toggle="tab" href="#monthly" role="tab">Monthly</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" data-bs-toggle="tab" href="#Weekly" role="tab">Weekly</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" data-bs-toggle="tab" href="#Today" role="tab">Today</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-body tab-content p-0">
+								<div class="tab-pane active show fade" id="monthly" role="tabpanel">
+									<div class="table-responsive">
+										<table class="table table-responsive-md card-table transactions-table">
+											<tbody>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">XYZ Store ID</a></h6>
+														<span class="fs-14">Cashback</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-danger tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 19.0125C34.8937 19.6906 35.1836 20.5109 35.8617 20.8391C37.7484 21.7469 39.3453 23.1578 40.4828 24.9242C41.6476 26.7344 42.2656 28.8344 42.2656 31C42.2656 37.2125 37.2125 42.2656 31 42.2656C24.7875 42.2656 19.7344 37.2125 19.7344 31C19.7344 28.8344 20.3523 26.7344 21.5117 24.9187C22.6437 23.1523 24.2461 21.7414 26.1328 20.8336C26.8109 20.5055 27.1008 19.6906 26.7726 19.007C26.4445 18.3289 25.6297 18.0391 24.9461 18.3672C22.6 19.4937 20.6148 21.2437 19.2094 23.4422C17.7656 25.6953 17 28.3094 17 31C17 34.7406 18.4547 38.257 21.1015 40.8984C23.743 43.5453 27.2594 45 31 45C34.7406 45 38.257 43.5453 40.8984 40.8984C43.5453 38.2516 45 34.7406 45 31C45 28.3094 44.2344 25.6953 42.7851 23.4422C41.3742 21.2492 39.389 19.4937 37.0484 18.3672C36.3648 18.0445 35.55 18.3289 35.2219 19.0125Z" fill="#FF2E2E"></path><path d="M36.3211 30.2726C36.589 30.0047 36.7203 29.6547 36.7203 29.3047C36.7203 28.9547 36.589 28.6047 36.3211 28.3367L32.8812 24.8969C32.3781 24.3937 31.7109 24.1203 31.0055 24.1203C30.3 24.1203 29.6273 24.3992 29.1297 24.8969L25.6898 28.3367C25.1539 28.8726 25.1539 29.7367 25.6898 30.2726C26.2258 30.8086 27.0898 30.8086 27.6258 30.2726L29.6437 28.2547L29.6437 36.0258C29.6437 36.7804 30.2562 37.3929 31.0109 37.3929C31.7656 37.3929 32.3781 36.7804 32.3781 36.0258L32.3781 28.2492L34.3961 30.2672C34.9211 30.8031 35.7851 30.8031 36.3211 30.2726Z" fill="#FF2E2E"></path></g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Chef Renata</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">-$167</span></td>
+													<td><span class="text-light fs-16 font-w500 text-end d-block">Pending</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Cindy Alexandro</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Paipal</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-danger tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 19.0125C34.8937 19.6906 35.1836 20.5109 35.8617 20.8391C37.7484 21.7469 39.3453 23.1578 40.4828 24.9242C41.6476 26.7344 42.2656 28.8344 42.2656 31C42.2656 37.2125 37.2125 42.2656 31 42.2656C24.7875 42.2656 19.7344 37.2125 19.7344 31C19.7344 28.8344 20.3523 26.7344 21.5117 24.9187C22.6437 23.1523 24.2461 21.7414 26.1328 20.8336C26.8109 20.5055 27.1008 19.6906 26.7726 19.007C26.4445 18.3289 25.6297 18.0391 24.9461 18.3672C22.6 19.4937 20.6148 21.2437 19.2094 23.4422C17.7656 25.6953 17 28.3094 17 31C17 34.7406 18.4547 38.257 21.1015 40.8984C23.743 43.5453 27.2594 45 31 45C34.7406 45 38.257 43.5453 40.8984 40.8984C43.5453 38.2516 45 34.7406 45 31C45 28.3094 44.2344 25.6953 42.7851 23.4422C41.3742 21.2492 39.389 19.4937 37.0484 18.3672C36.3648 18.0445 35.55 18.3289 35.2219 19.0125Z" fill="#FF2E2E"></path><path d="M36.3211 30.2726C36.589 30.0047 36.7203 29.6547 36.7203 29.3047C36.7203 28.9547 36.589 28.6047 36.3211 28.3367L32.8812 24.8969C32.3781 24.3937 31.7109 24.1203 31.0055 24.1203C30.3 24.1203 29.6273 24.3992 29.1297 24.8969L25.6898 28.3367C25.1539 28.8726 25.1539 29.7367 25.6898 30.2726C26.2258 30.8086 27.0898 30.8086 27.6258 30.2726L29.6437 28.2547L29.6437 36.0258C29.6437 36.7804 30.2562 37.3929 31.0109 37.3929C31.7656 37.3929 32.3781 36.7804 32.3781 36.0258L32.3781 28.2492L34.3961 30.2672C34.9211 30.8031 35.7851 30.8031 36.3211 30.2726Z" fill="#FF2E2E"></path></g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Hawkins Jr.</a></h6>
+														<span class="fs-14">Cashback</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane" id="Weekly" role="tabpanel">
+									<div class="table-responsive">
+										<table class="table table-responsive-md card-table transactions-table">
+											<tbody>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">XYZ Store ID</a></h6>
+														<span class="fs-14">Cashback</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-danger tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 19.0125C34.8937 19.6906 35.1836 20.5109 35.8617 20.8391C37.7484 21.7469 39.3453 23.1578 40.4828 24.9242C41.6476 26.7344 42.2656 28.8344 42.2656 31C42.2656 37.2125 37.2125 42.2656 31 42.2656C24.7875 42.2656 19.7344 37.2125 19.7344 31C19.7344 28.8344 20.3523 26.7344 21.5117 24.9187C22.6437 23.1523 24.2461 21.7414 26.1328 20.8336C26.8109 20.5055 27.1008 19.6906 26.7726 19.007C26.4445 18.3289 25.6297 18.0391 24.9461 18.3672C22.6 19.4937 20.6148 21.2437 19.2094 23.4422C17.7656 25.6953 17 28.3094 17 31C17 34.7406 18.4547 38.257 21.1015 40.8984C23.743 43.5453 27.2594 45 31 45C34.7406 45 38.257 43.5453 40.8984 40.8984C43.5453 38.2516 45 34.7406 45 31C45 28.3094 44.2344 25.6953 42.7851 23.4422C41.3742 21.2492 39.389 19.4937 37.0484 18.3672C36.3648 18.0445 35.55 18.3289 35.2219 19.0125Z" fill="#FF2E2E"></path><path d="M36.3211 30.2726C36.589 30.0047 36.7203 29.6547 36.7203 29.3047C36.7203 28.9547 36.589 28.6047 36.3211 28.3367L32.8812 24.8969C32.3781 24.3937 31.7109 24.1203 31.0055 24.1203C30.3 24.1203 29.6273 24.3992 29.1297 24.8969L25.6898 28.3367C25.1539 28.8726 25.1539 29.7367 25.6898 30.2726C26.2258 30.8086 27.0898 30.8086 27.6258 30.2726L29.6437 28.2547L29.6437 36.0258C29.6437 36.7804 30.2562 37.3929 31.0109 37.3929C31.7656 37.3929 32.3781 36.7804 32.3781 36.0258L32.3781 28.2492L34.3961 30.2672C34.9211 30.8031 35.7851 30.8031 36.3211 30.2726Z" fill="#FF2E2E"></path></g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Chef Renata</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">-$167</span></td>
+													<td><span class="text-light fs-16 font-w500 text-end d-block">Pending</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Cindy Alexandro</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane" id="Today" role="tabpanel">
+									<div class="table-responsive">
+										<table class="table table-responsive-md card-table transactions-table">
+											<tbody>
+												<tr>
+													<td>
+														<svg class="bgl-danger tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 19.0125C34.8937 19.6906 35.1836 20.5109 35.8617 20.8391C37.7484 21.7469 39.3453 23.1578 40.4828 24.9242C41.6476 26.7344 42.2656 28.8344 42.2656 31C42.2656 37.2125 37.2125 42.2656 31 42.2656C24.7875 42.2656 19.7344 37.2125 19.7344 31C19.7344 28.8344 20.3523 26.7344 21.5117 24.9187C22.6437 23.1523 24.2461 21.7414 26.1328 20.8336C26.8109 20.5055 27.1008 19.6906 26.7726 19.007C26.4445 18.3289 25.6297 18.0391 24.9461 18.3672C22.6 19.4937 20.6148 21.2437 19.2094 23.4422C17.7656 25.6953 17 28.3094 17 31C17 34.7406 18.4547 38.257 21.1015 40.8984C23.743 43.5453 27.2594 45 31 45C34.7406 45 38.257 43.5453 40.8984 40.8984C43.5453 38.2516 45 34.7406 45 31C45 28.3094 44.2344 25.6953 42.7851 23.4422C41.3742 21.2492 39.389 19.4937 37.0484 18.3672C36.3648 18.0445 35.55 18.3289 35.2219 19.0125Z" fill="#FF2E2E"></path><path d="M36.3211 30.2726C36.589 30.0047 36.7203 29.6547 36.7203 29.3047C36.7203 28.9547 36.589 28.6047 36.3211 28.3367L32.8812 24.8969C32.3781 24.3937 31.7109 24.1203 31.0055 24.1203C30.3 24.1203 29.6273 24.3992 29.1297 24.8969L25.6898 28.3367C25.1539 28.8726 25.1539 29.7367 25.6898 30.2726C26.2258 30.8086 27.0898 30.8086 27.6258 30.2726L29.6437 28.2547L29.6437 36.0258C29.6437 36.7804 30.2562 37.3929 31.0109 37.3929C31.7656 37.3929 32.3781 36.7804 32.3781 36.0258L32.3781 28.2492L34.3961 30.2672C34.9211 30.8031 35.7851 30.8031 36.3211 30.2726Z" fill="#FF2E2E"></path></g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Chef Renata</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">-$167</span></td>
+													<td><span class="text-light fs-16 font-w500 text-end d-block">Pending</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Cindy Alexandro</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-success tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 42.9875C34.8938 42.3094 35.1836 41.4891 35.8617 41.1609C37.7484 40.2531 39.3453 38.8422 40.4828 37.0758C41.6477 35.2656 42.2656 33.1656 42.2656 31C42.2656 24.7875 37.2125 19.7344 31 19.7344C24.7875 19.7344 19.7344 24.7875 19.7344 31C19.7344 33.1656 20.3523 35.2656 21.5117 37.0813C22.6437 38.8477 24.2461 40.2586 26.1328 41.1664C26.8109 41.4945 27.1008 42.3094 26.7727 42.993C26.4445 43.6711 25.6297 43.9609 24.9461 43.6328C22.6 42.5063 20.6148 40.7563 19.2094 38.5578C17.7656 36.3047 17 33.6906 17 31C17 27.2594 18.4547 23.743 21.1016 21.1016C23.743 18.4547 27.2594 17 31 17C34.7406 17 38.257 18.4547 40.8984 21.1016C43.5453 23.7484 45 27.2594 45 31C45 33.6906 44.2344 36.3047 42.7852 38.5578C41.3742 40.7508 39.3891 42.5063 37.0484 43.6328C36.3648 43.9555 35.55 43.6711 35.2219 42.9875Z" fill="#2BC155"></path><path d="M36.3211 31.7274C36.5891 31.9953 36.7203 32.3453 36.7203 32.6953C36.7203 33.0453 36.5891 33.3953 36.3211 33.6633L32.8812 37.1031C32.3781 37.6063 31.7109 37.8797 31.0055 37.8797C30.3 37.8797 29.6273 37.6008 29.1297 37.1031L25.6898 33.6633C25.1539 33.1274 25.1539 32.2633 25.6898 31.7274C26.2258 31.1914 27.0898 31.1914 27.6258 31.7274L29.6437 33.7453L29.6437 25.9742C29.6437 25.2196 30.2562 24.6071 31.0109 24.6071C31.7656 24.6071 32.3781 25.2196 32.3781 25.9742L32.3781 33.7508L34.3961 31.7328C34.9211 31.1969 35.7852 31.1969 36.3211 31.7274Z" fill="#2BC155"></path>
+															</g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Paipal</a></h6>
+														<span class="fs-14">Transfer</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
+												</tr>
+												<tr>
+													<td>
+														<svg class="bgl-danger tr-icon" width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<g><path d="M35.2219 19.0125C34.8937 19.6906 35.1836 20.5109 35.8617 20.8391C37.7484 21.7469 39.3453 23.1578 40.4828 24.9242C41.6476 26.7344 42.2656 28.8344 42.2656 31C42.2656 37.2125 37.2125 42.2656 31 42.2656C24.7875 42.2656 19.7344 37.2125 19.7344 31C19.7344 28.8344 20.3523 26.7344 21.5117 24.9187C22.6437 23.1523 24.2461 21.7414 26.1328 20.8336C26.8109 20.5055 27.1008 19.6906 26.7726 19.007C26.4445 18.3289 25.6297 18.0391 24.9461 18.3672C22.6 19.4937 20.6148 21.2437 19.2094 23.4422C17.7656 25.6953 17 28.3094 17 31C17 34.7406 18.4547 38.257 21.1015 40.8984C23.743 43.5453 27.2594 45 31 45C34.7406 45 38.257 43.5453 40.8984 40.8984C43.5453 38.2516 45 34.7406 45 31C45 28.3094 44.2344 25.6953 42.7851 23.4422C41.3742 21.2492 39.389 19.4937 37.0484 18.3672C36.3648 18.0445 35.55 18.3289 35.2219 19.0125Z" fill="#FF2E2E"></path><path d="M36.3211 30.2726C36.589 30.0047 36.7203 29.6547 36.7203 29.3047C36.7203 28.9547 36.589 28.6047 36.3211 28.3367L32.8812 24.8969C32.3781 24.3937 31.7109 24.1203 31.0055 24.1203C30.3 24.1203 29.6273 24.3992 29.1297 24.8969L25.6898 28.3367C25.1539 28.8726 25.1539 29.7367 25.6898 30.2726C26.2258 30.8086 27.0898 30.8086 27.6258 30.2726L29.6437 28.2547L29.6437 36.0258C29.6437 36.7804 30.2562 37.3929 31.0109 37.3929C31.7656 37.3929 32.3781 36.7804 32.3781 36.0258L32.3781 28.2492L34.3961 30.2672C34.9211 30.8031 35.7851 30.8031 36.3211 30.2726Z" fill="#FF2E2E"></path></g>
+														</svg>
+													</td>
+													<td>
+														<h6 class="fs-16 font-w600 mb-0"><a href="javascript:void(0);" class="text-black">Hawkins Jr.</a></h6>
+														<span class="fs-14">Cashback</span>
+													</td>
+													<td>
+														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
+														<span class="fs-14">05:34:45 AM</span>
+													</td>
+													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-xxl-12">
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="card coin-card">
+									<div class="card-body d-sm-flex d-block align-items-center">
+										<span class="coin-icon">
+											<svg width="38" height="41" viewBox="0 0 38 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<g><path d="M14.0413 32.5832C15.7416 32.5934 17.4269 32.2659 18.9997 31.6199C20.5708 32.2714 22.2572 32.5991 23.958 32.5832C29.1218 32.5832 33.1663 29.8278 33.1663 26.3088V20.441C33.1663 16.922 29.1218 14.1666 23.958 14.1666C23.7186 14.1666 23.4834 14.1779 23.2497 14.1906V7.55498C23.2497 4.10823 19.2051 1.41656 14.0413 1.41656C8.87759 1.41656 4.83301 4.10823 4.83301 7.55498V26.4448C4.83301 29.8916 8.87759 32.5832 14.0413 32.5832ZM30.333 26.3088C30.333 27.9366 27.715 29.7499 23.958 29.7499C20.201 29.7499 17.583 27.9366 17.583 26.3088V24.9984C19.5015 26.1652 21.7131 26.7604 23.958 26.714C26.203 26.7604 28.4145 26.1652 30.333 24.9984V26.3088ZM23.958 16.9999C27.715 16.9999 30.333 18.8132 30.333 20.441C30.333 22.0687 27.715 23.8807 23.958 23.8807C20.201 23.8807 17.583 22.0673 17.583 20.441C17.583 18.8147 20.201 16.9999 23.958 16.9999ZM14.0413 4.2499C17.7983 4.2499 20.4163 5.9924 20.4163 7.55498C20.4163 9.11757 17.7983 10.8615 14.0413 10.8615C10.2843 10.8615 7.66634 9.11898 7.66634 7.55498C7.66634 5.99098 10.2843 4.2499 14.0413 4.2499ZM7.66634 12.0161C9.59282 13.1601 11.8012 13.7417 14.0413 13.6948C16.2814 13.7417 18.4899 13.1601 20.4163 12.0161V14.6341C18.8724 15.0232 17.4565 15.8078 16.308 16.9107C15.5631 17.0718 14.8034 17.1545 14.0413 17.1572C10.2843 17.1572 7.66634 15.4146 7.66634 13.8521V12.0161ZM7.66634 18.3132C9.59323 19.4561 11.8015 20.0371 14.0413 19.9905C14.2935 19.9905 14.5372 19.9593 14.7851 19.9466C14.764 20.1106 14.7522 20.2756 14.7497 20.441V23.3947C14.5117 23.4089 14.2822 23.4542 14.0413 23.4542C10.2843 23.4542 7.66634 21.7117 7.66634 20.1477V18.3132ZM7.66634 24.6088C9.59282 25.7529 11.8012 26.3344 14.0413 26.2876C14.2793 26.2876 14.5131 26.2692 14.7497 26.2578V26.3088C14.7699 27.5148 15.2334 28.6711 16.0516 29.5572C15.3887 29.6824 14.7159 29.7469 14.0413 29.7499C10.2843 29.7499 7.66634 28.0074 7.66634 26.4448V24.6088Z" fill="#fff"></path></g>
+											</svg>
+										</span>
+										<div>
+											<h3 class="text-white">Get managed by Dompet’s Virtual Assistant</h3>
+											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim </p>
+											<a class="text-white" href="javascript:void(0);">Learn more >></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card progress-card">
+									<div class="card-body d-flex">
+										<div class="me-auto">
+											<h4 class="card-title">Total Transactions</h4>
+											<div class="d-flex align-items-center">
+												<h2 class="fs-38 mb-0">98k</h2>
+												<div class="text-success transaction-caret">
+													<i class="fas fa-sort-up"></i>
+													<p class="mb-0">+0.5%</p>
+												</div>
+											</div>
+										</div>		
+										<div class="progress progress-vertical-bottom" style="min-height:110px;min-width:10px;">
+											<div class="progress-bar bg-primary" style="width:10px; height:40%;" role="progressbar">
+												<span class="sr-only">40% Complete</span>
+											</div>
+										</div>
+										<div class="progress progress-vertical-bottom" style="min-height:110px;min-width:10px;">
+											<div class="progress-bar bg-primary" style="width:10px; height:55%;" role="progressbar">
+												<span class="sr-only">55% Complete</span>
+											</div>
+										</div>
+										<div class="progress progress-vertical-bottom" style="min-height:110px;min-width:10px;">
+											<div class="progress-bar bg-primary" style="width:10px; height:80%;" role="progressbar">
+												<span class="sr-only">80% Complete</span>
+											</div>
+										</div>
+										<div class="progress progress-vertical-bottom" style="min-height:110px;min-width:10px;">
+											<div class="progress-bar bg-primary" style="width:10px; height:50%;" role="progressbar">
+												<span class="sr-only">50% Complete</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title">Invoice Remaining</h4>
+										<div class="d-flex align-items-center">
+											<div class="me-auto">
+												<div class="progress mt-4" style="height:10px;">
+													<div class="progress-bar bg-primary progress-animated" style="width: 45%; height:10px;" role="progressbar">
+														<span class="sr-only">60% Complete</span>
+													</div>
+												</div>
+												<p class="fs-16 mb-0 mt-2"><span class="text-danger">-0,8% </span>from last month</p>
+											</div>
+											<h2 class="fs-38">854</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title mt-2">Invoice Sent</h4>
+										<div class="d-flex align-items-center mt-3 mb-2">
+											<h2 class="fs-38 mb-0 me-3">456</h2>
+											<span class="badge badge-success badge-xl">+0.5%</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title mt-2">Invoice Compeleted</h4>
+										<div class="d-flex align-items-center mt-3 mb-2">
+											<h2 class="fs-38 mb-0 me-3">1467</h2>
+											<span class="badge badge-danger badge-xl">-6.4%</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
         </div>
-<!--   Sidebar  -->
-        <aside class="flex-shrink-0 hidden w-64 bg-white border-r dark:border-primary-darker dark:bg-darker md:block">
-          <div class="flex flex-col h-full">
-            <!-- Sidebar links -->
-            <nav aria-label="Main" class="flex-1 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto">
-              <!-- Dashboards links -->
-              <div x-data="{ isActive: true, open: true}">
-                <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                <a
-                  href="#"
-                  @click="$event.preventDefault(); open = !open"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                  :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                      />
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Dashboards </span>
-                  <span class="ml-auto" aria-hidden="true">
-                    <!-- active class 'rotate-180' -->
-                    <svg
-                      class="w-4 h-4 transition-transform transform"
-                      :class="{ 'rotate-180': open }"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </a>
-                <div role="menu" x-show="open" class="mt-2 space-y-2 px-7" aria-label="Dashboards">
-                  <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                  <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                  <a
-                    href="index.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-700 transition-colors duration-200 rounded-md dark:text-light dark:hover:text-light hover:text-gray-700"
-                  >
-                    Default
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Project Mangement (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    E-Commerce (soon)
-                  </a>
-                </div>
-              </div>
-
-              <!-- Components links -->
-              <div x-data="{ isActive: false, open: false }">
-                <!-- active classes 'bg-primary-100 dark:bg-primary' -->
-                <a
-                  href="#"
-                  @click="$event.preventDefault(); open = !open"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                  :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                      />
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Components </span>
-                  <span aria-hidden="true" class="ml-auto">
-                    <!-- active class 'rotate-180' -->
-                    <svg
-                      class="w-4 h-4 transition-transform transform"
-                      :class="{ 'rotate-180': open }"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </a>
-                <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="Components">
-                  <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                  <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Alerts (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Buttons (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Cards (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Dropdowns (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Forms (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Lists (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Modals (soon)
-                  </a>
-                </div>
-              </div>
-
-              <!-- Pages links -->
-              <div x-data="{ isActive: false, open: false }">
-                <!-- active classes 'bg-primary-100 dark:bg-primary' -->
-                <a
-                  href="#"
-                  @click="$event.preventDefault(); open = !open"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                  :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Pages </span>
-                  <span aria-hidden="true" class="ml-auto">
-                    <!-- active class 'rotate-180' -->
-                    <svg
-                      class="w-4 h-4 transition-transform transform"
-                      :class="{ 'rotate-180': open }"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </a>
-                <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="Pages">
-                  <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                  <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                  <a
-                    href="pages/blank.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Blank
-                  </a>
-                  <a
-                    href="pages/404.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    404
-                  </a>
-                  <a
-                    href="pages/500.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    500
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Profile (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Pricing (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Kanban (soon)
-                  </a>
-                  <a
-                    href="#"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Feed (soon)
-                  </a>
-                </div>
-              </div>
-
-              <!-- Authentication links -->
-              <div x-data="{ isActive: false, open: false}">
-                <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                <a
-                  href="#"
-                  @click="$event.preventDefault(); open = !open"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                  :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Authentication </span>
-                  <span aria-hidden="true" class="ml-auto">
-                    <!-- active class 'rotate-180' -->
-                    <svg
-                      class="w-4 h-4 transition-transform transform"
-                      :class="{ 'rotate-180': open }"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </a>
-                <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" aria-label="Authentication">
-                  <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                  <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                  <a
-                    href="auth/register.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Register
-                  </a>
-                  <a
-                    href="auth/login.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Login
-                  </a>
-                  <a
-                    href="auth/forgot-password.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Forgot Password
-                  </a>
-                  <a
-                    href="auth/reset-password.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                  >
-                    Reset Password
-                  </a>
-                </div>
-              </div>
-
-              <!-- Layouts links -->
-              <div x-data="{ isActive: false, open: false}">
-                <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                <a
-                  href="#"
-                  @click="$event.preventDefault(); open = !open"
-                  class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                  :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                  role="button"
-                  aria-haspopup="true"
-                  :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                >
-                  <span aria-hidden="true">
-                    <svg
-                      class="w-5 h-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-                      />
-                    </svg>
-                  </span>
-                  <span class="ml-2 text-sm"> Layouts </span>
-                  <span aria-hidden="true" class="ml-auto">
-                    <!-- active class 'rotate-180' -->
-                    <svg
-                      class="w-4 h-4 transition-transform transform"
-                      :class="{ 'rotate-180': open }"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </span>
-                </a>
-                <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" aria-label="Layouts">
-                  <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                  <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                  <a
-                    href="layouts/two-columns-sidebar.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Two Columns Sidebar
-                  </a>
-                  <a
-                    href="layouts/mini-plus-one-columns-sidebar.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Mini + One Columns Sidebar
-                  </a>
-                  <a
-                    href="layouts/mini-column-sidebar.html"
-                    role="menuitem"
-                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                  >
-                    Mini Column Sidebar
-                  </a>
-                </div>
-              </div>
-            </nav>
-
-            <!-- Sidebar footer -->
-            <div class="flex-shrink-0 px-2 py-4 space-y-2">
-              <button
-                @click="openSettingsPanel"
-                type="button"
-                class="flex items-center justify-center w-full px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary-dark focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
-              >
-                <span aria-hidden="true">
-                  <svg
-                    class="w-4 h-4 mr-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                    />
-                  </svg>
-                </span>
-                <span>Customize</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <div class="flex-1 h-full overflow-x-hidden overflow-y-auto">
-          <!-- Navbar -->
-          <header class="relative bg-white dark:bg-darker">
-            <div class="flex items-center justify-between p-2 border-b dark:border-primary-darker">
-              <!-- Mobile menu button -->
-              <button
-                @click="isMobileMainMenuOpen = !isMobileMainMenuOpen"
-                class="p-1 transition-colors duration-200 rounded-md text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark md:hidden focus:outline-none focus:ring"
-              >
-                <span class="sr-only">Open main manu</span>
-                <span aria-hidden="true">
-                  <svg
-                    class="w-8 h-8"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </span>
-              </button>
-
-              <!-- Brand -->
-              <a
-                href="index.html"
-                class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
-              >
-                Toch
-              </a>
-
-              <!-- Mobile sub menu button -->
-              <button
-                @click="isMobileSubMenuOpen = !isMobileSubMenuOpen"
-                class="p-1 transition-colors duration-200 rounded-md text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark md:hidden focus:outline-none focus:ring"
-              >
-                <span class="sr-only">Open sub manu</span>
-                <span aria-hidden="true">
-                  <svg
-                    class="w-8 h-8"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                    />
-                  </svg>
-                </span>
-              </button>
-
-              <!-- Desktop Right buttons -->
-              <nav aria-label="Secondary" class="hidden space-x-2 md:flex md:items-center">
-                <!-- Toggle dark theme button -->
-                <button aria-hidden="true" class="relative focus:outline-none" x-cloak @click="toggleTheme">
-                  <div
-                    class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-lighter"
-                  ></div>
-                  <div
-                    class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-150 transform scale-110 rounded-full shadow-sm"
-                    :class="{ 'translate-x-0 -translate-y-px  bg-white text-primary-dark': !isDark, 'translate-x-6 text-primary-100 bg-primary-darker': isDark }"
-                  >
-                    <svg
-                      x-show="!isDark"
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                      />
-                    </svg>
-                    <svg
-                      x-show="isDark"
-                      class="w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                      />
-                    </svg>
-                  </div>
-                </button>
-
-                <!-- Notification button -->
-                <button
-                  @click="openNotificationsPanel"
-                  class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
-                >
-                  <span class="sr-only">Open Notification panel</span>
-                  <svg
-                    class="w-7 h-7"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    />
-                  </svg>
-                </button>
-
-                <!-- Search button -->
-                <button
-                  @click="openSearchPanel"
-                  class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
-                >
-                  <span class="sr-only">Open search panel</span>
-                  <svg
-                    class="w-7 h-7"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
-
-                <!-- Settings button -->
-                <button
-                  @click="openSettingsPanel"
-                  class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
-                >
-                  <span class="sr-only">Open settings panel</span>
-                  <svg
-                    class="w-7 h-7"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </button>
-
-                <!-- User avatar button -->
-                <div class="relative" x-data="{ open: false }">
-                  <button
-                    @click="open = !open; $nextTick(() => { if(open){ $refs.userMenu.focus() } })"
-                    type="button"
-                    aria-haspopup="true"
-                    :aria-expanded="open ? 'true' : 'false'"
-                    class="transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100"
-                  >
-                    <span class="sr-only">User menu</span>
-                    <img class="w-10 h-10 rounded-full" src="build/images/avatar.jpg" alt="Ahmed Kamel" />
-                  </button>
-
-                  <!-- User dropdown menu -->
-                  <div
-                    x-show="open"
-                    x-ref="userMenu"
-                    x-transition:enter="transition-all transform ease-out"
-                    x-transition:enter-start="translate-y-1/2 opacity-0"
-                    x-transition:enter-end="translate-y-0 opacity-100"
-                    x-transition:leave="transition-all transform ease-in"
-                    x-transition:leave-start="translate-y-0 opacity-100"
-                    x-transition:leave-end="translate-y-1/2 opacity-0"
-                    @click.away="open = false"
-                    @keydown.escape="open = false"
-                    class="absolute right-0 w-48 py-1 bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none"
-                    tabindex="-1"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-label="User menu"
-                  >
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Your Profile
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Settings
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Logout
-                    </a>
-                  </div>
-                </div>
-              </nav>
-
-              <!-- Mobile sub menu -->
-              <nav
-                x-transition:enter="transition duration-200 ease-in-out transform sm:duration-500"
-                x-transition:enter-start="-translate-y-full opacity-0"
-                x-transition:enter-end="translate-y-0 opacity-100"
-                x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
-                x-transition:leave-start="translate-y-0 opacity-100"
-                x-transition:leave-end="-translate-y-full opacity-0"
-                x-show="isMobileSubMenuOpen"
-                @click.away="isMobileSubMenuOpen = false"
-                class="absolute flex items-center p-4 bg-white rounded-md shadow-lg dark:bg-darker top-16 inset-x-4 md:hidden"
-                aria-label="Secondary"
-              >
-                <div class="space-x-2">
-                  <!-- Toggle dark theme button -->
-                  <button aria-hidden="true" class="relative focus:outline-none" x-cloak @click="toggleTheme">
-                    <div
-                      class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-lighter"
-                    ></div>
-                    <div
-                      class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 transform scale-110 rounded-full shadow-sm"
-                      :class="{ 'translate-x-0 -translate-y-px  bg-white text-primary-dark': !isDark, 'translate-x-6 text-primary-100 bg-primary-darker': isDark }"
-                    >
-                      <svg
-                        x-show="!isDark"
-                        class="w-4 h-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                        />
-                      </svg>
-                      <svg
-                        x-show="isDark"
-                        class="w-4 h-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                        />
-                      </svg>
-                    </div>
-                  </button>
-
-                  <!-- Notification button -->
-                  <button
-                    @click="openNotificationsPanel(); $nextTick(() => { isMobileSubMenuOpen = false })"
-                    class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
-                  >
-                    <span class="sr-only">Open notifications panel</span>
-                    <svg
-                      class="w-7 h-7"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                      />
-                    </svg>
-                  </button>
-
-                  <!-- Search button -->
-                  <button
-                    @click="openSearchPanel(); $nextTick(() => { $refs.searchInput.focus(); setTimeout(() => {isMobileSubMenuOpen= false}, 100) })"
-                    class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
-                  >
-                    <span class="sr-only">Open search panel</span>
-                    <svg
-                      class="w-7 h-7"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </button>
-
-                  <!-- Settings button -->
-                  <button
-                    @click="openSettingsPanel(); $nextTick(() => { isMobileSubMenuOpen = false })"
-                    class="p-2 transition-colors duration-200 rounded-full text-primary-lighter bg-primary-50 hover:text-primary hover:bg-primary-100 dark:hover:text-light dark:hover:bg-primary-dark dark:bg-dark focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-dark focus:ring-primary-darker"
-                  >
-                    <span class="sr-only">Open settings panel</span>
-                    <svg
-                      class="w-7 h-7"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                      />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <!-- User avatar button -->
-                <div class="relative ml-auto" x-data="{ open: false }">
-                  <button
-                    @click="open = !open"
-                    type="button"
-                    aria-haspopup="true"
-                    :aria-expanded="open ? 'true' : 'false'"
-                    class="block transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100"
-                  >
-                    <span class="sr-only">User menu</span>
-                    <img class="w-10 h-10 rounded-full" src="build/images/avatar.jpg" alt="Ahmed Kamel" />
-                  </button>
-
-                  <!-- User dropdown menu -->
-                  <div
-                    x-show="open"
-                    x-transition:enter="transition-all transform ease-out"
-                    x-transition:enter-start="translate-y-1/2 opacity-0"
-                    x-transition:enter-end="translate-y-0 opacity-100"
-                    x-transition:leave="transition-all transform ease-in"
-                    x-transition:leave-start="translate-y-0 opacity-100"
-                    x-transition:leave-end="translate-y-1/2 opacity-0"
-                    @click.away="open = false"
-                    class="absolute right-0 w-48 py-1 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-label="User menu"
-                  >
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Your Profile
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Settings
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary"
-                    >
-                      Logout
-                    </a>
-                  </div>
-                </div>
-              </nav>
-            </div>
-            <!-- Mobile main manu -->
-            <div
-              class="border-b md:hidden dark:border-primary-darker"
-              x-show="isMobileMainMenuOpen"
-              @click.away="isMobileMainMenuOpen = false"
-            >
-              <nav aria-label="Main" class="px-2 py-4 space-y-2">
-                <!-- Dashboards links -->
-                <div x-data="{ isActive: true, open: true}">
-                  <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="#"
-                    @click="$event.preventDefault(); open = !open"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                    :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg
-                        class="w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                        />
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Dashboards </span>
-                    <span class="ml-auto" aria-hidden="true">
-                      <!-- active class 'rotate-180' -->
-                      <svg
-                        class="w-4 h-4 transition-transform transform"
-                        :class="{ 'rotate-180': open }"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </span>
-                  </a>
-                  <div role="menu" x-show="open" class="mt-2 space-y-2 px-7" aria-label="Dashboards">
-                    <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                    <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                    <a
-                      href="index.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-700 transition-colors duration-200 rounded-md dark:text-light dark:hover:text-light hover:text-gray-700"
-                    >
-                      Default
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Project Mangement (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      E-Commerce (soon)
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Components links -->
-                <div x-data="{ isActive: false, open: false }">
-                  <!-- active classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="#"
-                    @click="$event.preventDefault(); open = !open"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                    :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg
-                        class="w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                        />
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Components </span>
-                    <span aria-hidden="true" class="ml-auto">
-                      <!-- active class 'rotate-180' -->
-                      <svg
-                        class="w-4 h-4 transition-transform transform"
-                        :class="{ 'rotate-180': open }"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </span>
-                  </a>
-                  <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="Components">
-                    <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                    <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Alerts (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Buttons (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Cards (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Dropdowns (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Forms (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Lists (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Modals (soon)
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Pages links -->
-                <div x-data="{ isActive: false, open: false }">
-                  <!-- active classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="#"
-                    @click="$event.preventDefault(); open = !open"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                    :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg
-                        class="w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Pages </span>
-                    <span aria-hidden="true" class="ml-auto">
-                      <!-- active class 'rotate-180' -->
-                      <svg
-                        class="w-4 h-4 transition-transform transform"
-                        :class="{ 'rotate-180': open }"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </span>
-                  </a>
-                  <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="Pages">
-                    <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                    <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                    <a
-                      href="pages/blank.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Blank
-                    </a>
-                    <a
-                      href="pages/404.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      404
-                    </a>
-                    <a
-                      href="pages/500.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      500
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Profile (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Pricing (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Kanban (soon)
-                    </a>
-                    <a
-                      href="#"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Feed (soon)
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Authentication links -->
-                <div x-data="{ isActive: false, open: false}">
-                  <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="#"
-                    @click="$event.preventDefault(); open = !open"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                    :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg
-                        class="w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Authentication </span>
-                    <span aria-hidden="true" class="ml-auto">
-                      <!-- active class 'rotate-180' -->
-                      <svg
-                        class="w-4 h-4 transition-transform transform"
-                        :class="{ 'rotate-180': open }"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </span>
-                  </a>
-                  <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" aria-label="Authentication">
-                    <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                    <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                    <a
-                      href="auth/register.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Register
-                    </a>
-                    <a
-                      href="auth/login.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Login
-                    </a>
-                    <a
-                      href="auth/forgot-password.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Forgot Password
-                    </a>
-                    <a
-                      href="auth/reset-password.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                      Reset Password
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Layouts links -->
-                <div x-data="{ isActive: false, open: false}">
-                  <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
-                  <a
-                    href="#"
-                    @click="$event.preventDefault(); open = !open"
-                    class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
-                    :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
-                    role="button"
-                    aria-haspopup="true"
-                    :aria-expanded="(open || isActive) ? 'true' : 'false'"
-                  >
-                    <span aria-hidden="true">
-                      <svg
-                        class="w-5 h-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
-                        />
-                      </svg>
-                    </span>
-                    <span class="ml-2 text-sm"> Layouts </span>
-                    <span aria-hidden="true" class="ml-auto">
-                      <!-- active class 'rotate-180' -->
-                      <svg
-                        class="w-4 h-4 transition-transform transform"
-                        :class="{ 'rotate-180': open }"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </span>
-                  </a>
-                  <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" aria-label="Layouts">
-                    <!-- active & hover classes 'text-gray-700 dark:text-light' -->
-                    <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
-                    <a
-                      href="layouts/two-columns-sidebar.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Two Columns Sidebar
-                    </a>
-                    <a
-                      href="layouts/mini-plus-one-columns-sidebar.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Mini + One Columns Sidebar
-                    </a>
-                    <a
-                      href="layouts/mini-column-sidebar.html"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-light hover:text-gray-700"
-                    >
-                      Mini Column Sidebar
-                    </a>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          </header>
-
-          <!-- Main content -->
-          <main>
-            <!-- Content header -->
-            <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
-              <h1 class="text-2xl font-semibold">Dashboard</h1>
-              <a
-                href="https://github.com/sinhpp/VC1-POS_System"
-                target="_blank"
-                class="px-4 py-2 text-sm text-white rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark"
-              >
-                View on github
-              </a>
-            </div>
-
-            <!-- Content -->
-            <div class="mt-2">
-              <!-- State cards -->
-              <div class="grid grid-cols-1 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
-                <!-- Value card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Value
-                    </h6>
-                    <span class="text-xl font-semibold">$30,000</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +4.4%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Users card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Users
-                    </h6>
-                    <span class="text-xl font-semibold">50,021</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +2.6%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Orders card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Orders
-                    </h6>
-                    <span class="text-xl font-semibold">45,021</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +3.1%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <!-- Tickets card -->
-                <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
-                  <div>
-                    <h6
-                      class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
-                    >
-                      Tickets
-                    </h6>
-                    <span class="text-xl font-semibold">20,516</span>
-                    <span class="inline-block px-2 py-px ml-2 text-xs text-green-500 bg-green-100 rounded-md">
-                      +3.1%
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <svg
-                        class="w-12 h-12 text-gray-300 dark:text-primary-dark"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Charts -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
-                <!-- Bar chart card -->
-                <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-                  <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Bar Chart</h4>
-                    <div class="flex items-center space-x-2">
-                      <span class="text-sm text-gray-500 dark:text-light">Last year</span>
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateBarChart(isOn)"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="barChart"></canvas>
-                  </div>
-                </div>
-
-                <!-- Doughnut chart card -->
-                <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-                  <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Doughnut Chart</h4>
-                    <div class="flex items-center">
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateDoughnutChart(isOn)"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="doughnutChart"></canvas>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Two grid columns -->
-              <div class="grid grid-cols-1 p-4 space-y-8 lg:gap-8 lg:space-y-0 lg:grid-cols-3">
-                <!-- Active users chart -->
-                <div class="col-span-1 bg-white rounded-md dark:bg-darker">
-                  <!-- Card header -->
-                  <div class="p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Active users right now</h4>
-                  </div>
-                  <p class="p-4">
-                    <span class="text-2xl font-medium text-gray-500 dark:text-light" id="usersCount">0</span>
-                    <span class="text-sm font-medium text-gray-500 dark:text-primary">Users</span>
-                  </p>
-                  <!-- Chart -->
-                  <div class="relative p-4">
-                    <canvas id="activeUsersChart"></canvas>
-                  </div>
-                </div>
-
-                <!-- Line chart card -->
-                <div class="col-span-2 bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
-                  <!-- Card header -->
-                  <div class="flex items-center justify-between p-4 border-b dark:border-primary">
-                    <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Line Chart</h4>
-                    <div class="flex items-center">
-                      <button
-                        class="relative focus:outline-none"
-                        x-cloak
-                        @click="isOn = !isOn; $parent.updateLineChart()"
-                      >
-                        <div
-                          class="w-12 h-6 transition rounded-full outline-none bg-primary-100 dark:bg-primary-darker"
-                        ></div>
-                        <div
-                          class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
-                          :class="{ 'translate-x-0  bg-white dark:bg-primary-100': !isOn, 'translate-x-6 bg-primary-light dark:bg-primary': isOn }"
-                        ></div>
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Chart -->
-                  <div class="relative p-4 h-72">
-                    <canvas id="lineChart"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-
-          <!-- Main footer -->
-          <footer
-            class="flex items-center justify-between p-4 bg-white border-t dark:bg-darker dark:border-primary-darker"
-          >
-            <div>Toch &copy; 2025</div>
-            <div>
-              Made by
-              <a href="https://github.com/Kamona-WD" target="_blank" class="text-blue-500 hover:underline"
-                >PNC Student</a
-              >
-            </div>
-          </footer>
-        </div>
-
-        <!-- Panels -->
-
-        <!-- Settings Panel -->
-        <!-- Backdrop -->
-        <div
-          x-transition:enter="transition duration-300 ease-in-out"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition duration-300 ease-in-out"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          x-show="isSettingsPanelOpen"
-          @click="isSettingsPanelOpen = false"
-          class="fixed inset-0 z-10 bg-primary-darker"
-          style="opacity: 0.5"
-          aria-hidden="true"
-        ></div>
-        <!-- Panel -->
-        <section
-          x-transition:enter="transition duration-300 ease-in-out transform sm:duration-500"
-          x-transition:enter-start="translate-x-full"
-          x-transition:enter-end="translate-x-0"
-          x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
-          x-transition:leave-start="translate-x-0"
-          x-transition:leave-end="translate-x-full"
-          x-ref="settingsPanel"
-          tabindex="-1"
-          x-show="isSettingsPanelOpen"
-          @keydown.escape="isSettingsPanelOpen = false"
-          class="fixed inset-y-0 right-0 z-20 w-full max-w-xs bg-white shadow-xl dark:bg-darker dark:text-light sm:max-w-md focus:outline-none"
-          aria-labelledby="settinsPanelLabel"
-        >
-          <div class="absolute left-0 p-2 transform -translate-x-full">
-            <!-- Close button -->
-            <button
-              @click="isSettingsPanelOpen = false"
-              class="p-2 text-white rounded-md focus:outline-none focus:ring"
-            >
-              <svg
-                class="w-5 h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <!-- Panel content -->
-          <div class="flex flex-col h-screen">
-            <!-- Panel header -->
-            <div
-              class="flex flex-col items-center justify-center flex-shrink-0 px-4 py-8 space-y-4 border-b dark:border-primary-dark"
-            >
-              <span aria-hidden="true" class="text-gray-500 dark:text-primary">
-                <svg
-                  class="w-8 h-8"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                  />
-                </svg>
-              </span>
-              <h2 id="settinsPanelLabel" class="text-xl font-medium text-gray-500 dark:text-light">Settings</h2>
-            </div>
-            <!-- Content -->
-            <div class="flex-1 overflow-hidden hover:overflow-y-auto">
-              <!-- Theme -->
-              <div class="p-4 space-y-4 md:p-8">
-                <h6 class="text-lg font-medium text-gray-400 dark:text-light">Mode</h6>
-                <div class="flex items-center space-x-8">
-                  <!-- Light button -->
-                  <button
-                    @click="setLightTheme"
-                    class="flex items-center justify-center px-4 py-2 space-x-4 transition-colors border rounded-md hover:text-gray-900 hover:border-gray-900 dark:border-primary dark:hover:text-primary-100 dark:hover:border-primary-light focus:outline-none focus:ring focus:ring-primary-lighter focus:ring-offset-2 dark:focus:ring-offset-dark dark:focus:ring-primary-dark"
-                    :class="{ 'border-gray-900 text-gray-900 dark:border-primary-light dark:text-primary-100': !isDark, 'text-gray-500 dark:text-primary-light': isDark }"
-                  >
-                    <span>
-                      <svg
-                        class="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                        />
-                      </svg>
-                    </span>
-                    <span>Light</span>
-                  </button>
-
-                  <!-- Dark button -->
-                  <button
-                    @click="setDarkTheme"
-                    class="flex items-center justify-center px-4 py-2 space-x-4 transition-colors border rounded-md hover:text-gray-900 hover:border-gray-900 dark:border-primary dark:hover:text-primary-100 dark:hover:border-primary-light focus:outline-none focus:ring focus:ring-primary-lighter focus:ring-offset-2 dark:focus:ring-offset-dark dark:focus:ring-primary-dark"
-                    :class="{ 'border-gray-900 text-gray-900 dark:border-primary-light dark:text-primary-100': isDark, 'text-gray-500 dark:text-primary-light': !isDark }"
-                  >
-                    <span>
-                      <svg
-                        class="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                        />
-                      </svg>
-                    </span>
-                    <span>Dark</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Colors -->
-              <div class="p-4 space-y-4 md:p-8">
-                <h6 class="text-lg font-medium text-gray-400 dark:text-light">Colors</h6>
-                <div>
-                  <button
-                    @click="setColors('cyan')"
-                    class="w-10 h-10 rounded-full"
-                    style="background-color: var(--color-cyan)"
-                  ></button>
-                  <button
-                    @click="setColors('teal')"
-                    class="w-10 h-10 rounded-full"
-                    style="background-color: var(--color-teal)"
-                  ></button>
-                  <button
-                    @click="setColors('green')"
-                    class="w-10 h-10 rounded-full"
-                    style="background-color: var(--color-green)"
-                  ></button>
-                  <button
-                    @click="setColors('fuchsia')"
-                    class="w-10 h-10 rounded-full"
-                    style="background-color: var(--color-fuchsia)"
-                  ></button>
-                  <button
-                    @click="setColors('blue')"
-                    class="w-10 h-10 rounded-full"
-                    style="background-color: var(--color-blue)"
-                  ></button>
-                  <button
-                    @click="setColors('violet')"
-                    class="w-10 h-10 rounded-full"
-                    style="background-color: var(--color-violet)"
-                  ></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Notification panel -->
-        <!-- Backdrop -->
-        <div
-          x-transition:enter="transition duration-300 ease-in-out"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition duration-300 ease-in-out"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          x-show="isNotificationsPanelOpen"
-          @click="isNotificationsPanelOpen = false"
-          class="fixed inset-0 z-10 bg-primary-darker"
-          style="opacity: 0.5"
-          aria-hidden="true"
-        ></div>
-        <!-- Panel -->
-        <section
-          x-transition:enter="transition duration-300 ease-in-out transform sm:duration-500"
-          x-transition:enter-start="-translate-x-full"
-          x-transition:enter-end="translate-x-0"
-          x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
-          x-transition:leave-start="translate-x-0"
-          x-transition:leave-end="-translate-x-full"
-          x-ref="notificationsPanel"
-          x-show="isNotificationsPanelOpen"
-          @keydown.escape="isNotificationsPanelOpen = false"
-          tabindex="-1"
-          aria-labelledby="notificationPanelLabel"
-          class="fixed inset-y-0 z-20 w-full max-w-xs bg-white dark:bg-darker dark:text-light sm:max-w-md focus:outline-none"
-        >
-          <div class="absolute right-0 p-2 transform translate-x-full">
-            <!-- Close button -->
-            <button
-              @click="isNotificationsPanelOpen = false"
-              class="p-2 text-white rounded-md focus:outline-none focus:ring"
-            >
-              <svg
-                class="w-5 h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div class="flex flex-col h-screen" x-data="{ activeTabe: 'action' }">
-            <!-- Panel header -->
-            <div class="flex-shrink-0">
-              <div class="flex items-center justify-between px-4 pt-4 border-b dark:border-primary-darker">
-                <h2 id="notificationPanelLabel" class="pb-4 font-semibold">Notifications</h2>
-                <div class="space-x-2">
-                  <button
-                    @click.prevent="activeTabe = 'action'"
-                    class="px-px pb-4 transition-all duration-200 transform translate-y-px border-b focus:outline-none"
-                    :class="{'border-primary-dark dark:border-primary': activeTabe == 'action', 'border-transparent': activeTabe != 'action'}"
-                  >
-                    Action
-                  </button>
-                  <button
-                    @click.prevent="activeTabe = 'user'"
-                    class="px-px pb-4 transition-all duration-200 transform translate-y-px border-b focus:outline-none"
-                    :class="{'border-primary-dark dark:border-primary': activeTabe == 'user', 'border-transparent': activeTabe != 'user'}"
-                  >
-                    User
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Panel content (tabs) -->
-            <div class="flex-1 pt-4 overflow-y-hidden hover:overflow-y-auto">
-              <!-- Action tab -->
-              <div class="space-y-4" x-show.transition.in="activeTabe == 'action'">
-                <a href="#" class="block">
-                  <div class="flex px-4 space-x-4">
-                    <div class="relative flex-shrink-0">
-                      <span
-                        class="z-10 inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-light dark:bg-primary-darker"
-                      >
-                        <svg
-                          class="w-7 h-7"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                          />
-                        </svg>
-                      </span>
-                      <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"></div>
-                    </div>
-                    <div class="flex-1 overflow-hidden">
-                      <h5 class="text-sm font-semibold text-gray-600 dark:text-light">
-                        New project "KWD Dashboard" created
-                      </h5>
-                      <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                        Looks like there might be a new theme soon
-                      </p>
-                      <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 9h ago </span>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="block">
-                  <div class="flex px-4 space-x-4">
-                    <div class="relative flex-shrink-0">
-                      <span
-                        class="inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-light dark:bg-primary-darker"
-                      >
-                        <svg
-                          class="w-7 h-7"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                          />
-                        </svg>
-                      </span>
-                      <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"></div>
-                    </div>
-                    <div class="flex-1 overflow-hidden">
-                      <h5 class="text-sm font-semibold text-gray-600 dark:text-light">
-                        KWD Dashboard v0.0.2 was released
-                      </h5>
-                      <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                        Successful new version was released
-                      </p>
-                      <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 2d ago </span>
-                    </div>
-                  </div>
-                </a>
-                <template x-for="i in 20" x-key="i">
-                  <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                      <div class="relative flex-shrink-0">
-                        <span
-                          class="inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-light dark:bg-primary-darker"
-                        >
-                          <svg
-                            class="w-7 h-7"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                            />
-                          </svg>
-                        </span>
-                        <div
-                          class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"
-                        ></div>
-                      </div>
-                      <div class="flex-1 overflow-hidden">
-                        <h5 class="text-sm font-semibold text-gray-600 dark:text-light">
-                          New project "KWD Dashboard" created
-                        </h5>
-                        <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                          Looks like there might be a new theme soon
-                        </p>
-                        <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 9h ago </span>
-                      </div>
-                    </div>
-                  </a>
-                </template>
-              </div>
-
-              <!-- User tab -->
-              <div class="space-y-4" x-show.transition.in="activeTabe == 'user'">
-                <a href="#" class="block">
-                  <div class="flex px-4 space-x-4">
-                    <div class="relative flex-shrink-0">
-                      <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                        <img
-                          class="object-cover rounded-full w-9 h-9"
-                          src="build/images/avatar.jpg"
-                          alt="Ahmed kamel"
-                        />
-                      </span>
-                      <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"></div>
-                    </div>
-                    <div class="flex-1 overflow-hidden">
-                      <h5 class="text-sm font-semibold text-gray-600 dark:text-light">Ahmed Kamel</h5>
-                      <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                        Shared new project "K-WD Dashboard"
-                      </p>
-                      <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 1d ago </span>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="block">
-                  <div class="flex px-4 space-x-4">
-                    <div class="relative flex-shrink-0">
-                      <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                        <img
-                          class="object-cover rounded-full w-9 h-9"
-                          src="build/images/avatar-1.jpg"
-                          alt="Ahmed kamel"
-                        />
-                      </span>
-                      <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"></div>
-                    </div>
-                    <div class="flex-1 overflow-hidden">
-                      <h5 class="text-sm font-semibold text-gray-600 dark:text-light">John</h5>
-                      <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                        Commit new changes to K-WD Dashboard project.
-                      </p>
-                      <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 10h ago </span>
-                    </div>
-                  </div>
-                </a>
-                <a href="#" class="block">
-                  <div class="flex px-4 space-x-4">
-                    <div class="relative flex-shrink-0">
-                      <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                        <img
-                          class="object-cover rounded-full w-9 h-9"
-                          src="build/images/avatar.jpg"
-                          alt="Ahmed kamel"
-                        />
-                      </span>
-                      <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"></div>
-                    </div>
-                    <div class="flex-1 overflow-hidden">
-                      <h5 class="text-sm font-semibold text-gray-600 dark:text-light">Ahmed Kamel</h5>
-                      <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                        Release new version "K-WD Dashboard"
-                      </p>
-                      <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 20d ago </span>
-                    </div>
-                  </div>
-                </a>
-                <template x-for="i in 10" x-key="i">
-                  <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                      <div class="relative flex-shrink-0">
-                        <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                          <img
-                            class="object-cover rounded-full w-9 h-9"
-                            src="build/images/avatar.jpg"
-                            alt="Ahmed kamel"
-                          />
-                        </span>
-                        <div
-                          class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-darker"
-                        ></div>
-                      </div>
-                      <div class="flex-1 overflow-hidden">
-                        <h5 class="text-sm font-semibold text-gray-600 dark:text-light">Ahmed Kamel</h5>
-                        <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                          Release new version "K-WD Dashboard"
-                        </p>
-                        <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> 20d ago </span>
-                      </div>
-                    </div>
-                  </a>
-                </template>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Search panel -->
-        <!-- Backdrop -->
-        <div
-          x-transition:enter="transition duration-300 ease-in-out"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition duration-300 ease-in-out"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          x-show="isSearchPanelOpen"
-          @click="isSearchPanelOpen = false"
-          class="fixed inset-0 z-10 bg-primary-darker"
-          style="opacity: 0.5"
-          aria-hidden="ture"
-        ></div>
-        <!-- Panel -->
-        <section
-          x-transition:enter="transition duration-300 ease-in-out transform sm:duration-500"
-          x-transition:enter-start="-translate-x-full"
-          x-transition:enter-end="translate-x-0"
-          x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
-          x-transition:leave-start="translate-x-0"
-          x-transition:leave-end="-translate-x-full"
-          x-show="isSearchPanelOpen"
-          @keydown.escape="isSearchPanelOpen = false"
-          class="fixed inset-y-0 z-20 w-full max-w-xs bg-white shadow-xl dark:bg-darker dark:text-light sm:max-w-md focus:outline-none"
-        >
-          <div class="absolute right-0 p-2 transform translate-x-full">
-            <!-- Close button -->
-            <button @click="isSearchPanelOpen = false" class="p-2 text-white rounded-md focus:outline-none focus:ring">
-              <svg
-                class="w-5 h-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-
-          <h2 class="sr-only">Search panel</h2>
-          <!-- Panel content -->
-          <div class="flex flex-col h-screen">
-            <!-- Panel header (Search input) -->
-            <div
-              class="relative flex-shrink-0 px-4 py-8 text-gray-400 border-b dark:border-primary-darker dark:focus-within:text-light focus-within:text-gray-700"
-            >
-              <span class="absolute inset-y-0 inline-flex items-center px-4">
-                <svg
-                  class="w-5 h-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </span>
-              <input
-                x-ref="searchInput"
-                type="text"
-                class="w-full py-2 pl-10 pr-4 border rounded-full dark:bg-dark dark:border-transparent dark:text-light focus:outline-none focus:ring"
-                placeholder="Search..."
-              />
-            </div>
-
-            <!-- Panel content (Search result) -->
-            <div class="flex-1 px-4 pb-4 space-y-4 overflow-y-hidden h hover:overflow-y-auto">
-              <h3 class="py-2 text-sm font-semibold text-gray-600 dark:text-light">History</h3>
-              <a href="#" class="flex space-x-4">
-                <div class="flex-shrink-0">
-                  <img class="w-10 h-10 rounded-lg" src="build/images/cover.jpg" alt="Post cover" />
-                </div>
-                <div class="flex-1 max-w-xs overflow-hidden">
-                  <h4 class="text-sm font-semibold text-gray-600 dark:text-light">Header</h4>
-                  <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                    Lorem ipsum dolor, sit amet consectetur.
-                  </p>
-                  <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> Post </span>
-                </div>
-              </a>
-              <a href="#" class="flex space-x-4">
-                <div class="flex-shrink-0">
-                  <img class="w-10 h-10 rounded-lg" src="build/images/avatar.jpg" alt="Ahmed Kamel" />
-                </div>
-                <div class="flex-1 max-w-xs overflow-hidden">
-                  <h4 class="text-sm font-semibold text-gray-600 dark:text-light">Ahmed Kamel</h4>
-                  <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                    Last activity 3h ago.
-                  </p>
-                  <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> Offline </span>
-                </div>
-              </a>
-              <a href="#" class="flex space-x-4">
-                <div class="flex-shrink-0">
-                  <img class="w-10 h-10 rounded-lg" src="build/images/cover-2.jpg" alt="K-WD Dashboard" />
-                </div>
-                <div class="flex-1 max-w-xs overflow-hidden">
-                  <h4 class="text-sm font-semibold text-gray-600 dark:text-light">K-WD Dashboard</h4>
-                  <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </p>
-                  <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> Updated 3h ago. </span>
-                </div>
-              </a>
-              <template x-for="i in 10" x-key="i">
-                <a href="#" class="flex space-x-4">
-                  <div class="flex-shrink-0">
-                    <img class="w-10 h-10 rounded-lg" src="build/images/cover-3.jpg" alt="K-WD Dashboard" />
-                  </div>
-                  <div class="flex-1 max-w-xs overflow-hidden">
-                    <h4 class="text-sm font-semibold text-gray-600 dark:text-light">K-WD Dashboard</h4>
-                    <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-lighter">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    </p>
-                    <span class="text-sm font-normal text-gray-400 dark:text-primary-light"> Updated 3h ago. </span>
-                  </div>
-                </a>
-              </template>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <!-- All javascript code in this project for now is just for demo DON'T RELY ON IT  -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
-    <script>
-      const setup = () => {
-        const getTheme = () => {
-          if (window.localStorage.getItem('dark')) {
-            return JSON.parse(window.localStorage.getItem('dark'))
-          }
-
-          return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-        }
-
-        const setTheme = (value) => {
-          window.localStorage.setItem('dark', value)
-        }
-
-        const getColor = () => {
-          if (window.localStorage.getItem('color')) {
-            return window.localStorage.getItem('color')
-          }
-          return 'cyan'
-        }
-
-        const setColors = (color) => {
-          const root = document.documentElement
-          root.style.setProperty('--color-primary', `var(--color-${color})`)
-          root.style.setProperty('--color-primary-50', `var(--color-${color}-50)`)
-          root.style.setProperty('--color-primary-100', `var(--color-${color}-100)`)
-          root.style.setProperty('--color-primary-light', `var(--color-${color}-light)`)
-          root.style.setProperty('--color-primary-lighter', `var(--color-${color}-lighter)`)
-          root.style.setProperty('--color-primary-dark', `var(--color-${color}-dark)`)
-          root.style.setProperty('--color-primary-darker', `var(--color-${color}-darker)`)
-          this.selectedColor = color
-          window.localStorage.setItem('color', color)
-          //
-        }
-
-        const updateBarChart = (on) => {
-          const data = {
-            data: randomData(),
-            backgroundColor: 'rgb(207, 250, 254)',
-          }
-          if (on) {
-            barChart.data.datasets.push(data)
-            barChart.update()
-          } else {
-            barChart.data.datasets.splice(1)
-            barChart.update()
-          }
-        }
-
-        const updateDoughnutChart = (on) => {
-          const data = random()
-          const color = 'rgb(207, 250, 254)'
-          if (on) {
-            doughnutChart.data.labels.unshift('Seb')
-            doughnutChart.data.datasets[0].data.unshift(data)
-            doughnutChart.data.datasets[0].backgroundColor.unshift(color)
-            doughnutChart.update()
-          } else {
-            doughnutChart.data.labels.splice(0, 1)
-            doughnutChart.data.datasets[0].data.splice(0, 1)
-            doughnutChart.data.datasets[0].backgroundColor.splice(0, 1)
-            doughnutChart.update()
-          }
-        }
-
-        const updateLineChart = () => {
-          lineChart.data.datasets[0].data.reverse()
-          lineChart.update()
-        }
-
-        return {
-          loading: true,
-          isDark: getTheme(),
-          toggleTheme() {
-            this.isDark = !this.isDark
-            setTheme(this.isDark)
-          },
-          setLightTheme() {
-            this.isDark = false
-            setTheme(this.isDark)
-          },
-          setDarkTheme() {
-            this.isDark = true
-            setTheme(this.isDark)
-          },
-          color: getColor(),
-          selectedColor: 'cyan',
-          setColors,
-          toggleSidbarMenu() {
-            this.isSidebarOpen = !this.isSidebarOpen
-          },
-          isSettingsPanelOpen: false,
-          openSettingsPanel() {
-            this.isSettingsPanelOpen = true
-            this.$nextTick(() => {
-              this.$refs.settingsPanel.focus()
-            })
-          },
-          isNotificationsPanelOpen: false,
-          openNotificationsPanel() {
-            this.isNotificationsPanelOpen = true
-            this.$nextTick(() => {
-              this.$refs.notificationsPanel.focus()
-            })
-          },
-          isSearchPanelOpen: false,
-          openSearchPanel() {
-            this.isSearchPanelOpen = true
-            this.$nextTick(() => {
-              this.$refs.searchInput.focus()
-            })
-          },
-          isMobileSubMenuOpen: false,
-          openMobileSubMenu() {
-            this.isMobileSubMenuOpen = true
-            this.$nextTick(() => {
-              this.$refs.mobileSubMenu.focus()
-            })
-          },
-          isMobileMainMenuOpen: false,
-          openMobileMainMenu() {
-            this.isMobileMainMenuOpen = true
-            this.$nextTick(() => {
-              this.$refs.mobileMainMenu.focus()
-            })
-          },
-          updateBarChart,
-          updateDoughnutChart,
-          updateLineChart,
-        }
-      }
-    </script>
-  </body>
-</html> --> -->
+        <!--**********************************
+            Content body end
+        ***********************************-->
+		
+		
+		
+       
