@@ -26,30 +26,20 @@ class ProductController extends BaseController {
   
     public function store() {
         session_start(); // Start session to store the message
-    
+        var_dump($_POST);
         // Collecting data from the form
         $name = $_POST['name'];
         $barcode = $_POST['barcode'];
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
         $category = $_POST['category'];
+        $size = $_POST['size'] ?? 'N/A'; // Default to 'N/A' if not provided
+        $discount = floatval($_POST['discount']);
+        $description = $_POST['description'];
+        $gender = $_POST['gender'] ?? 'Unisex'; // Default value if not provided
         $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
     
-        if ($id) {
-            // Update the existing product
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $_FILES['image'])) {
-                $_SESSION['product_success'] = "Product updated successfully!";
-            } else {
-                $_SESSION['product_error'] = "Error updating product.";
-            }
-        } else {
-            // Create a new product
-            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $_FILES['image'])) {
-                $_SESSION['product_success'] = "Product added successfully!";
-            } else {
-                $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
-            }
-        }
+        // Validate price and discount
         if ($price < 0) {
             $_SESSION['product_error'] = "Price cannot be negative.";
             header("Location: /products/create"); // Redirect back to the form
@@ -63,28 +53,30 @@ class ProductController extends BaseController {
         }
     
         if ($id) {
-            // Update product logic
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $description, $discount, $discount_type, $_FILES['image'])) {
+            // Update the existing product
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $_FILES['image'])) {
                 $_SESSION['product_success'] = "Product updated successfully!";
             } else {
                 $_SESSION['product_error'] = "Error updating product.";
             }
         } else {
-            // Create product logic
-            if ($this->products->createProduct($name, $barcode, $price, $stock, $description, $discount, $discount_type, $_FILES['image'])) {
+            // Create a new product
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $_FILES['image'])) {
                 $_SESSION['product_success'] = "Product added successfully!";
             } else {
-                $_SESSION['product_error'] = "Error: Barcode already exists.";
+                $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
             }
         }
     
         header("Location: /products"); // Redirect to products list
         exit();
     }
+    
     public function edit($id) {
         $product = $this->products->getProById($id);
         $this->view("products/edit_pro", ['product' => $product]);
     }
+    
     public function update($id) {
         session_start(); 
     
@@ -93,6 +85,10 @@ class ProductController extends BaseController {
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
         $category = $_POST['category'] ?? null;
+        $size = $_POST['size'] ?? null;
+        $discount = floatval($_POST['discount'] ?? 0);
+        $description = $_POST['description'] ?? null;
+        $gender = $_POST['gender'] ?? null;
         $image = $_FILES['image'] ?? null;
     
         // Debugging
@@ -105,7 +101,7 @@ class ProductController extends BaseController {
             exit();
         }
     
-        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $image)) {
+        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
             $_SESSION['product_error'] = "Failed to update product.";
@@ -114,7 +110,6 @@ class ProductController extends BaseController {
         header("Location: /products");
         exit();
     }
-    
     // Other methods remain unchanged...
 
     public function delete($id) {

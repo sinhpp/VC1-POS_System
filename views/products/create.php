@@ -92,25 +92,87 @@ if (isset($_SESSION['user_id'])) : ?>
         <textarea placeholder="Enter product description" name="description" required><?= isset($product) ? htmlspecialchars($product['description'] ?? '') : '' ?></textarea>
 
         <div class="size-gender">
-            <div class="size">
-                <label>Size</label>
-                <div class="size-options">
-                    <button type="button" onclick="selectSize(this)">S</button>
-                    <button type="button" onclick="selectSize(this)">M</button>
-                    <button type="button" class="selected" onclick="selectSize(this)">L</button>
-                    <button type="button" onclick="selectSize(this)">XL</button>
-                    <button type="button" onclick="selectSize(this)">XXL</button>
-                </div>
+        <div class="size">
+            <label>Size</label>
+            <div class="size-options">
+                <button type="button" onclick="selectSize(this, 'S')">S</button>
+                <button type="button" onclick="selectSize(this, 'M')">M</button>
+                <button type="button" class="selected" onclick="selectSize(this, 'L')">L</button>
+                <button type="button" onclick="selectSize(this, 'XL')">XL</button>
+                <button type="button" onclick="selectSize(this, 'XXL')">XXL</button>
             </div>
-            <div class="gender">
-                <label>Gender</label>
-                <div class="gender-options">
-                    <button type="button" onclick="selectGender(this)" class="selected">Men</button>
-                    <button type="button" onclick="selectGender(this)">Women</button>
-                </div>
-            </div>
+            <input type="hidden" name="size" id="size" value="L"> <!-- Default value -->
         </div>
+        <div class="gender">
+            <label>Gender</label>
+            <div class="gender-options">
+                <button type="button" onclick="selectGender(this, 'Men')" class="selected">Men</button>
+                <button type="button" onclick="selectGender(this, 'Women')">Women</button>
+            </div>
+            <input type="hidden" name="gender" id="gender" value="Men"> <!-- Default value -->
+        </div>
+    </div>
+
         </section>
+        <script>
+    function selectSize(button, size) {
+        // Remove 'selected' class from all size buttons
+        document.querySelectorAll('.size-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('size').value = size;
+    }
+
+    function selectGender(button, gender) {
+        // Remove 'selected' class from all gender buttons
+        document.querySelectorAll('.gender-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('gender').value = gender;
+    }
+</script>
+
+<script>
+    function selectSize(button, size) {
+        // Remove 'selected' class from all size buttons
+        document.querySelectorAll('.size-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('size').value = size;
+        console.log('Selected Size:', size); // Debugging
+    }
+
+    function selectGender(button, gender) {
+        // Remove 'selected' class from all gender buttons
+        document.querySelectorAll('.gender-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('gender').value = gender;
+        console.log('Selected Gender:', gender); // Debugging
+    }
+</script>
+
+
         <section class="pricing-stock">
     <h3>Pricing And Stocks</h3>
     <label>Base Pricing</label>

@@ -421,6 +421,7 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
                         <td><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
+
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
@@ -431,6 +432,12 @@ if (isset($_SESSION['user_id'])) : ?>
                                 </div>
                             </div>
                         </td>
+                        <td><?= htmlspecialchars($product['size']) ?></td>
+                        <td><?= htmlspecialchars($product['discount']) ?></td>
+                        <td><?= htmlspecialchars($product['description']) ?></td>
+                        <td><?= htmlspecialchars($product['gender']) ?></td>
+                        
+                        
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -480,6 +487,12 @@ function renderProducts(page) {
                         </div>
                     </div>
                 </td>
+                <td>${product.size}</td>
+                <td>${product.discount}</td>
+                <td>${product.description}</td>
+                <td>${product.gender}</td>
+                
+                
             `;
             tbody.appendChild(row);
         });
