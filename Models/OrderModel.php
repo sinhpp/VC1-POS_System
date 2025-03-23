@@ -1,5 +1,5 @@
-<?PHP
-// Models/Order.php
+<?php
+// Models/OrderModel.php
 class OrderModel {
     private $db;
 

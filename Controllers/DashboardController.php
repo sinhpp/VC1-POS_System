@@ -1,5 +1,6 @@
 <?php
-require_once 'BaseController.php';
+require_once __DIR__ . '/../BaseController.php';
+require_once __DIR__ . '/../Models/OrderModel.php';
 
 class DashboardController extends BaseController {
     public function show() {
@@ -44,6 +45,3 @@ class DashboardController extends BaseController {
         return $this->db->fetchAll($query, $filterStatus ? [$filterStatus] : []);
     }
 }
-
-
-
