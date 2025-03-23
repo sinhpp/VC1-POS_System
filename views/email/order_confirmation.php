@@ -1,115 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Order Confirmation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .header {
-            text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        .order-details {
-            margin: 20px 0;
-        }
-        .order-items {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        .order-items th, .order-items td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        .order-items th {
-            background-color: #f5f5f5;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            font-size: 12px;
-            color: #777;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Order Confirmation</h1>
-            <p>Thank you for your order!</p>
-        </div>
-        
-        <div class="order-details">
-            <h2>Order #<?php echo $order['id']; ?></h2>
-            <p><strong>Date:</strong> <?php echo date('F j, Y', strtotime($order['created_at'])); ?></p>
-            <p><strong>Name:</strong> <?php echo $order['customer_name']; ?></p>
-            <p><strong>Email:</strong> <?php echo $order['customer_email']; ?></p>
-            <p><strong>Shipping Address:</strong> <?php echo $order['customer_address']; ?></p>
-        </div>
-        
-        <h3>Order Summary</h3>
-        <table class="order-items">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $subtotal = 0;
-                foreach ($order['items'] as $item): 
-                    $itemTotal = $item['quantity'] * $item['price'];
-                    $subtotal += $itemTotal;
-                ?>
-                <tr>
-                    <td><?php echo $item['product_name']; ?></td>
-                    <td><?php echo $item['quantity']; ?></td>
-                    <td>$<?php echo number_format($item['price'], 2); ?></td>
-                    <td>$<?php echo number_format($itemTotal, 2); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3"><strong>Subtotal</strong></td>
-                    <td>$<?php echo number_format($subtotal, 2); ?></td>
-                </tr>
-                <tr>
-                    <td colspan="3"><strong>Tax</strong></td>
-                    <td>$<?php echo number_format($order['tax'], 2); ?></td>
-                </tr>
-                <tr>
-                    <td colspan="3"><strong>Total</strong></td>
-                    <td>$<?php echo number_format($subtotal + $order['tax'], 2); ?></td>
-                </tr>
-            </tfoot>
-        </table>
-        
-        <p>You can download your invoice <a href="<?php echo 'https://example.com/order/' . $order['id'] . '/invoice'; ?>">here</a>.</p>
-        
-        <div class="footer">
-            <p>If you have any questions, please contact our customer support at support@example.com</p>
-            <p>&copy; <?php echo date('Y'); ?> Your Company. All rights reserved.</p>
-        </div>
-    </div>
-</body>
-</html>
+<?php
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+//Load Composer's autoloader
+require '../../vendor/autoload.php';
 
+
+// Get value from input
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['email']) && isset($_POST['content'])) {
+        $email = $_POST['email'];
+        $content = "<div width='100%'><h4>Hello</h4></div>";
+
+        //Create an instance; passing `true` enables exceptions
+        $mail = new PHPMailer(true);
+
+        try {
+            //Server settings
+            $mail->isSMTP();                                            //Send using SMTP
+            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+            $mail->Username   = 'zenngii168@gmail.com';                     //SMTP username
+            $mail->Password   = 'hdzj larg wckf ziyq';                               //SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+            //Recipients
+            $mail->setFrom('zenngii168@gmail.com', 'POS-Group11');
+            $mail->addAddress($email, $name);     //Add a recipient
+
+            // $mail->addAddress('ellen@example.com');               //Name is optional
+            // $mail->addReplyTo('info@example.com', 'Information');
+            $mail->addCC('zenngii168@gmail.com');
+            // $mail->addBCC('bcc@example.com');
+
+            //Attachments
+            // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+            $mail->addAttachment('../../assets/document/Company List.xlsx', 'Company Name');    //Optional name
+            $mail->addAttachment('../../assets/images/testing_image.png', 'Image Test');    //Optional name
+
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Here is the subject';
+            $mail->Body    = $content;
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+            $mail->send();
+            echo 'Message has been sent';
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+    }
+}
