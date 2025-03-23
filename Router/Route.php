@@ -40,7 +40,21 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
+$route->get("/products/search", [ProductController::class, 'search']);
 
+// Order
+$route->get("/orders", [OrderController::class, 'index']);
+$route->get("/orders/create", [OrderController::class, 'create']);
+$route->post("/orders/store", [OrderController::class, 'store']);
+$route->get("/orders/edit/{id}", [OrderController::class, 'edit']);
+$route->put("/orders/update/{id}", [OrderController::class, 'update']);
+$route->get("/orders/delete/{id}", [OrderController::class, 'delete']);
+$route->get("/orders/search", [OrderController::class, 'search']);
+
+
+// Order confirmation email receiver
+$route->post("/email/order_confirmation", [OrderController::class, 'sendOrderConfirmation']);
+$route->get("/email/order_confirmation", [OrderController::class, 'orderConfirmation']);
 
 
 // Call the route method to process the request

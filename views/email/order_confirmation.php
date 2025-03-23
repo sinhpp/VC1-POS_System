@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             //Recipients
             $mail->setFrom('zenngii168@gmail.com', 'POS-Group11');
-            $mail->addAddress($email, $name);     //Add a recipient
+            $mail->addAddress($email, $name, $passord);     //Add a recipient
 
             // $mail->addAddress('ellen@example.com');               //Name is optional
             // $mail->addReplyTo('info@example.com', 'Information');
@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             //Attachments
             // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-            $mail->addAttachment('../../assets/document/Company List.xlsx', 'Company Name');    //Optional name
-            $mail->addAttachment('../../assets/images/testing_image.png', 'Image Test');    //Optional name
+            // $mail->addAttachment('../../assets/document/Company List.xlsx', 'Company Name');    //Optional name
+            // $mail->addAttachment('../../assets/images/testing_image.png', 'Image Test');    //Optional name
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
