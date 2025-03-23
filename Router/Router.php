@@ -100,3 +100,14 @@ class Router
 
     
 }
+// // Order routes
+// Route::post('/order/create', [OrderController::class, 'create']);
+// Route::get('/order/{id}', [OrderController::class, 'show']);
+// Route::get('/order/{id}/invoice', [OrderController::class, 'generateInvoice']);
+
+// // Admin dashboard routes
+// Route::get('/admin/orders', [OrderController::class, 'index']);
+// Route::get('/admin/orders/{id}', [OrderController::class, 'adminShow']);
+
+// // Dispatch the routes
+// Route::dispatch();

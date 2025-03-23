@@ -28,7 +28,7 @@ $route->get("/users/create", [UserController::class, 'createuser']);
 $route->post("/users/storeuser", [UserController::class, 'storeuser']);
 $route->get("/users/edit/{id}", [UserController::class, 'edit']);
 $route->post("/users/update/{id}", [UserController::class, 'update']); 
-
+$route->get("/users/order/{id}", [OrderController::class, 'show']);
 // Products
 
 $route->get("/products", [ProductController::class, 'index']);
