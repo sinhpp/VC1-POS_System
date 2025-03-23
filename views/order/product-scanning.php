@@ -1,7 +1,8 @@
 <?php
+
 // Ensure variables are defined before use
 $error = $error ?? ''; // Set $error to an empty string if not defined
-$order = $order ?? []; // Set $order to an empty array if not defined
+$order = $order ?? ($_SESSION['order'] ?? []); // Use session for order if applicable
 ?>
 <div class="container-order mt-2">
     <div class="row">
@@ -11,26 +12,37 @@ $order = $order ?? []; // Set $order to an empty array if not defined
                 <h4>Product Scanner</h4>
                 <form action="/productDetails" method="POST">
                     <input type="text" id="barcodeInput" name="barcode" class="form-control mb-3" placeholder="Scan or enter barcode">
-                    <button type="submit" name="scan" class="btn btn-primary">Scan Product</button>
+                    <button type="submit" name="scan" value="1" class="btn btn-primary">Scan Product</button>
                 </form>
                 <div id="productDetails" class="mt-3">
-                    <?php if (!empty($products)): ?>
-                        <?php $product = $products[0]; ?>
-                        <div class='card product-card'>
-                            <img src='<?php echo $product['image']; ?>' class='card-img-top' alt='<?php echo $product['name']; ?>' width='30px'>
-                            <div class='card-body'>
-                                <h5 class='card-title'><?php echo $product['name']; ?></h5>
-                                <p class='card-text'>Barcode: <?php echo $product['barcode']; ?></p>
-                                <p class='card-text'>Price: $<?php echo $product['price']; ?></p>
-                                <p class='card-text'>Stock: <?php echo $product['stock']; ?></p>
-                                <p class='card-text'>Created At: <?php echo $product['created_at']; ?></p>
-                                <form action='/order/add' method='POST'>
-                                    <input type='hidden' name='barcode' value='<?php echo $product['barcode']; ?>'>
-                                    <button type='submit' name='add' class='btn btn-success'>Add to Order</button>
-                                </form>
+                    <?php
+                    if (isset($_SESSION['product'])) {
+                        $product = $_SESSION['product'];
+                        echo "
+                            <div class='card product-card'>
+                                <img src='{$product['image']}' class='card-img-top' alt='{$product['name']}' width='30px'>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>{$product['name']}</h5>
+                                    <p class='card-text'>Barcode: {$product['barcode']}</p>
+                                    <p class='card-text'>Price: \${$product['price']}</p>
+                                    <p class='card-text'>Stock: {$product['stock']}</p>
+                                    <p class='card-text'>Category: {$product['category']}</p>
+                                    <p class='card-text'>Created At: {$product['created_at']}</p>
+                                    <form action='/order/add' method='POST'>
+                                        <input type='hidden' name='barcode' value='{$product['barcode']}'>
+                                        <button type='submit' name='add' class='btn btn-success'>Add to Order</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    <?php endif; ?>
+                        ";
+                        unset($_SESSION['product']); // Clear after display
+                    } elseif (isset($_SESSION['error'])) {
+                        echo "<p class='text-danger'>{$_SESSION['error']}</p>";
+                        unset($_SESSION['error']);
+                    } else {
+                        echo "<p>Scan a barcode to see product details.</p>";
+                    }
+                    ?>
                     <?php if (!empty($error)): ?>
                         <div class="alert alert-danger"><?php echo $error; ?></div>
                     <?php endif; ?>
@@ -76,9 +88,7 @@ $order = $order ?? []; // Set $order to an empty array if not defined
                     </tbody>
                 </table>
             </div>
-            <a href="/checkout" class="btn btn-info mt-3">Proceed to Checkout</a>
+            <a href="/views/order/checkout.php" class="btn btn-info mt-3">Proceed to Checkout</a>
         </div>
     </div>
 </div>
-
-                            

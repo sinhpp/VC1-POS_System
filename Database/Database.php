@@ -42,6 +42,7 @@ class Database {
     public function getConnection() {
         return $this->conn;
     }
+    
     // Prevent object cloning
     private function __clone() {}
 
