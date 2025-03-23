@@ -222,9 +222,14 @@ if (isset($_SESSION['user_id'])) : ?>
         <!-- Other Category Option -->
         <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
     </select>
-    <div class="actions">
-        <button type="submit" class="next"><?= isset($product) ? 'Update Product' : 'Next' ?></button>
-    </div>
+    
+    <label>Barcode:</label>
+    <input type="text" class="form-control" name="barcode"/>
+    <br />
+    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
+    <br />
+   
+
     <?php
     $file = __DIR__ . '/../../barcode/generate.php';
 
