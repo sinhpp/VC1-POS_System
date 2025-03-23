@@ -22,16 +22,12 @@ if (isset($_SESSION['user_id'])) : ?>
         /* General Styles */
         body {
             font-family: "Poppins", sans-serif;
-            background-color: #f8f9fa;
         }
 
         .header {
-            margin-left: -25%;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
+            margin-left: -27%;
+         
+            }
 
         /* Adjust the width of the main content area */
             .main-content {
@@ -261,7 +257,6 @@ if (isset($_SESSION['user_id'])) : ?>
 .navbar {
     padding: 10px 20px; /* Add padding */
 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow */
 }
 
 .navbar-nav {
@@ -421,7 +416,6 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
                         <td><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
-
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
@@ -432,12 +426,6 @@ if (isset($_SESSION['user_id'])) : ?>
                                 </div>
                             </div>
                         </td>
-                        <td><?= htmlspecialchars($product['size']) ?></td>
-                        <td><?= htmlspecialchars($product['discount']) ?></td>
-                        <td><?= htmlspecialchars($product['description']) ?></td>
-                        <td><?= htmlspecialchars($product['gender']) ?></td>
-                        
-                        
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -487,12 +475,6 @@ function renderProducts(page) {
                         </div>
                     </div>
                 </td>
-                <td>${product.size}</td>
-                <td>${product.discount}</td>
-                <td>${product.description}</td>
-                <td>${product.gender}</td>
-                
-                
             `;
             tbody.appendChild(row);
         });
