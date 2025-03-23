@@ -82,31 +82,60 @@ class ProductController extends BaseController {
     }
     public function edit($id) {
         $product = $this->products->getProById($id);
-        $this->view("products/create", ['product' => $product]);
+        $this->view("products/edit_pro", ['product' => $product]);
     }
     public function update($id) {
+        session_start(); 
+    
         $name = $_POST['name'];
-        $barcode = $_POST['barcode']; // Directly retrieve the barcode input
+        $barcode = $_POST['barcode'];
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
-        $category = $_POST['category'];
-        $image = $_FILES['image'];  
-        $this->products->updateUser($name, $barcode, $email, $price, $stock, $category, $image);
+        $category = $_POST['category'] ?? null;
+        $image = $_FILES['image'] ?? null;
+    
+        // Debugging
+        error_log("Updating product ID: " . $id);
+        error_log("Received category: " . var_export($category, true));
+    
+        if (!$category) {
+            $_SESSION['product_error'] = "Category is missing!";
+            header("Location: /products/edit/$id");
+            exit();
+        }
+    
+        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $image)) {
+            $_SESSION['product_success'] = "Product updated successfully!";
+        } else {
+            $_SESSION['product_error'] = "Failed to update product.";
+        }
+    
         header("Location: /products");
-    }  
-
+        exit();
+    }
+    
     // Other methods remain unchanged...
 
     public function delete($id) {
         // Call the deleteProduct method from the ProductModel
         if ($this->products->deleteProduct($id)) {
-            // Optionally set a success message
             $_SESSION['product_success'] = "Product deleted successfully!";
         } else {
-            // Optionally set an error message
             $_SESSION['product_error'] = "Error deleting product.";
         }
         header("Location: /products");
+        exit();
+    }
+    public function deleteAllProducts() {
+        session_start();
+        header('Content-Type: application/json'); // Set the content type to JSON
+
+        // Call the model method to delete all products
+        if ($this->products->deleteAllProducts()) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to delete products.']);
+        }
         exit();
     }
 }

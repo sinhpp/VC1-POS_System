@@ -12,12 +12,12 @@ if (isset($_SESSION['user_id'])) : ?>
     <title>Admin Panel</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <style>
+    <!-- <style> -->
         /* Sidebar Styles */
         .sidebar {
             font-family: "Poppins", sans-serif;
@@ -49,46 +49,9 @@ if (isset($_SESSION['user_id'])) : ?>
             margin-left: 170px; /* Adjust based on sidebar width */
             padding: 50px;
         }
-    </style>
-</head>
-<body>
-
-    <!-- Sidebar -->
-    <nav class="sidebar d-flex flex-column flex-shrink-0">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                    <i class="material-icons">dashboard</i> Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="/users" class="nav-link">
-                    <i class="material-icons">group</i> Users
-                </a>
-            </li>
-            <li>
-                <a href="/settings" class="nav-link">
-                    <i class="material-icons">settings</i> Settings
-                </a>
-            </li>
-            <li>
-                <a href="/" class="nav-link">
-                    <i class="material-icons">logout</i> Logout
-                </a>
-            </li>
-            <li>
-                <a href="/products" class="nav-link">
-                    <i class="material-icons"></i> products
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Main Content Area -->
+   
     <div class="content">
-    <h2 class="text-center mb-4">Users List</h2>
+    <h2 class="text-center mb-4"></h2>
  
  <div class="d-flex justify-content-between align-items-center mb-3">
      <a href="/users/create" class="btn btn-success">+ Create User</a>
@@ -134,7 +97,6 @@ if (isset($_SESSION['user_id'])) : ?>
         text-align: center; /* Center align the text */
     }
 </style>
-
 <div class="table-responsive">
     <table class="table table-striped table-hover shadow-sm rounded">
         <thead>
@@ -143,15 +105,17 @@ if (isset($_SESSION['user_id'])) : ?>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Actions</th>
-            </tr>
+                <th>Actions</th> 
+        </tr>
         </thead>
         <tbody>
-            <?php foreach ($users as $user): ?>
+            <?php 
+            $index = 1; // Initialize a counter for the sequential ID
+            foreach ($users as $user): ?>
             <tr>
-                <td><?= $user['id'] ?></td>
-                <td><?= $user['name'] ?></td>
-                <td><?= $user['email'] ?></td>
+                <td><?= $index++ ?></td> <!-- Use the counter for ID -->
+                <td><?= htmlspecialchars($user['name']) ?></td>
+                <td><?= htmlspecialchars($user['email']) ?></td>
                 <td>
                     <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
                         <?= htmlspecialchars($user['role']) ?>
@@ -168,48 +132,84 @@ if (isset($_SESSION['user_id'])) : ?>
             </tr>
             <?php endforeach; ?>
         </tbody>
-    </table>
-</div>
+        </table>
+        </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmDelete(userId) {
-        Swal.fire({
-            title: 'Do you want to delete this user?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545', // Bootstrap danger color
-            cancelButtonColor: '#6c757d', // Bootstrap secondary color
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If user confirms, redirect to delete URL
-                window.location.href = '/users/delete/' + userId;
+        <!-- Include SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-                // Show success alert after deletion
-                Swal.fire(
-                    'Deleted!',
-                    'User has been deleted successfully.',
-                    'success'
-                );
+        <!-- Live Alert Placeholder -->
+        <div id="liveAlertPlaceholder"></div>
+        <button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
+
+        <script>
+            function confirmDelete(userId) {
+                Swal.fire({
+                    title: 'Do you want to delete this user?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show live alert instead of SweetAlert2 success message
+                        showLiveAlert('User has been deleted successfully.', 'success');
+                        
+                        // Redirect to delete URL after short delay
+                        setTimeout(() => {
+                            window.location.href = '/users/delete/' + userId;
+                        }, 1000);
+                    }
+                });
             }
-        });
-    }
-</script>
+
+            function showLiveAlert(message, type) {
+                const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = `
+                    <div class="alert alert-${type} alert-dismissible" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+                alertPlaceholder.appendChild(wrapper);
+            }
+        </script>
+        <!-- Optional: Add a placeholder for success alert -->
+        <!-- <div id="success-alert" style="display: none;"></div> -->
+
 </body>
 </html>
 <style>
     /* Main Content Area */
+
+    #liveAlertPlaceholder {
+    position: fixed; /* Makes it stay on screen */
+    top: 130px; /* Adjust this to move it up/down */
+    right: 20px; /* Adjust this to move it left/right */
+    z-index: 1050; /* Ensures it stays above other elements */
+    width: 600px; /* Adjust width if needed */
+}
+
+.alert {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Adds a slight shadow */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
 .content {
     font-family: "Poppins", sans-serif;
-    width: 82%;
-    height: 100%;
-    margin-left:18%;
-    background-color: #f8f9fa; /* Light background */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    /* width: 82%; */
+    /* height: 100%; */
+    margin-left:23.3%;
+    margin-top:100px;
+    background-color: #f8f9fa;
+    /* border-radius: 8px; Rounded corners */
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); Subtle shadow */
 }
 
 /* Table Styles */
@@ -217,7 +217,7 @@ if (isset($_SESSION['user_id'])) : ?>
     border-radius: 8px; /* Rounded corners for the table */
     overflow: hidden; /* Ensure corners are rounded */
 }
-.
+
 
 .table th {
     background-color: #343a40; /* Dark background for header */

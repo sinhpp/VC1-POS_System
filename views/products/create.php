@@ -1,3 +1,23 @@
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // List of stylesheets to disable
+      const stylesToDisable = [
+          "/views/assets/css/form.css",
+          "/views/assets/css/form.forgot.password.css",
+          "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+          "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      ];
+
+      // Disable the stylesheets
+      document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
+          if (stylesToDisable.includes(link.getAttribute("href"))) {
+              link.disabled = true; // Disable the stylesheet
+          }
+      });
+  });
+</script>
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -17,46 +37,12 @@ if (isset($_SESSION['user_id'])) : ?>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
-        }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
-            border-radius: 5px;
-        }
-        .material-icons {
-            font-size: 20px;
-        }
-        /* Content area */
-        .content {
-            margin-left: 10px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-        /* Table Styles */
-        .table {
-            width: 80%;
-            margin-left: 30px;
-        }
+
         .table th, .table td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+
         }
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
@@ -78,33 +64,21 @@ if (isset($_SESSION['user_id'])) : ?>
         .btn-warning { background-color: #ffc107; color: black; }
         .btn-danger { background-color: #dc3545; color: white; }
         .btn:hover { background-color: #495057; }
+        
     </style>
+
+
 </head>
 <body>
-
-    <!-- Sidebar -->
-     
-    <nav class="sidebar">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="material-icons">dashboard</i> Dashboard</a></li>
-            <li><a href="/users" class="nav-link"><i class="material-icons">group</i> Users</a></li>
-            <li><a href="/settings" class="nav-link"><i class="material-icons">settings</i> Settings</a></li>
-            <li><a href="/" class="nav-link"><i class="material-icons">logout</i> Logout</a></li>
-            <li><a href="/products" class="nav-link"><i class="material-icons">shopping_cart</i> Products</a></li>
-        </ul>
-    </nav>
-<!-- end siderbar -->
  
-<div class="container">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <header>
-        <h2> Add New Product</h2>
-    </header>
 
+       
+<div class="container">
+<h2> Add New Product</h2>
     <main class="grid-container">
     <section class="general-info">
         <form action="/products/store" method="POST" enctype="multipart/form-data">
@@ -137,47 +111,135 @@ if (isset($_SESSION['user_id'])) : ?>
             </div>
         </div>
         </section>
-
         <section class="pricing-stock">
-            <h3>Pricing And Stocks</h3>
-            <label>Base Pricing</label>
-            <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
+    <h3>Pricing And Stocks</h3>
+    <label>Base Pricing</label>
+    <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
 
-            <label>Stock</label>
-            <input type="number" placeholder="Enter stock quantity" name="stock" value="<?= isset($product) ? htmlspecialchars($product['stock']) : '' ?>" required min="0" step="1">
+    <label>Stock</label>
+    <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
 
-            <label>Discount</label>
-            <input type="number" placeholder="Enter discount" name="discount" value="<?= isset($product) ? htmlspecialchars($product['discount'] ?? '') : '' ?>" min="0" step="0.01">
+    <label>Discount</label>
+    <input type="number" placeholder="Enter discount" name="discount" min="0" step="0.01">
 
-            <label>Discount Type</label>
-            <input type="text" placeholder="Enter discount type" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type'] ?? '') : '' ?>">
+    <label>Discount Type</label>
+    <input type="text" placeholder="Enter discount type" name="discount_type">
 
-            <label>Barcode:</label>
-            <input type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode'] ?? '') : '' ?>"/>
-            <br />
-        </section>
+    <label>Barcode:</label>
+    <input type="text" class="form-control" name="barcode"/>
+    <br />
+    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
+    <br />
 
-    <!-- Upload Image -->
-    <section class="upload-img">
-        <h3>Upload Img</h3>
-        <input type="file" id="fileUpload" name="image" accept="image/*" <?= !isset($product) ? 'required' : '' ?>>
-        <div class="image-preview" id="imagePreview">
-            <img src="<?= isset($product) ? htmlspecialchars($product['image']) : '' ?>" alt="Product Image" id="previewImg" style="display:<?= isset($product) ? 'block' : 'none' ?>;">
-        </div>
-    </section>
+    <?php
+    $file = __DIR__ . '/../../barcode/generate.php';
 
-    <!-- Category -->
-    <section class="category">
-        <h3>Category</h3>
-        <select id="categorySelect" name="category" required>
-            <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
-            <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
-            <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
-            <option value="Dresses" <?= isset($product) && $product['category'] == 'Dresses' ? 'selected' : '' ?>>Dresses</option>
-            <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
-        </select>
-    </section>
+    if (!file_exists($file)) {
+        echo "<p style='color: red; text-align:center;'>Error: Barcode generator file not found.</p>";
+    } else {
+        include $file;
+    }
+    ?>
+</section>
+
+<section class="upload-img">
+    <h3>Upload Image</h3>
     
+    <!-- File Input -->
+    <input type="file" id="fileUpload" name="image" accept="image/*" required>
+    
+    <!-- Image Preview -->
+    <div class="image-preview" id="imagePreview">
+        <img 
+            src="" 
+            alt="Product Image" 
+            id="previewImg" 
+            style="display: none; max-width: 150px;">
+    </div>
+</section>
+
+<script>
+document.getElementById('fileUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewImg = document.getElementById('previewImg');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewImg.style.display = 'none';
+    }
+});
+</script>
+
+    </section>
+
+<!-- Category -->
+<section class="category">
+    <h3>Category</h3>
+    <select id="categorySelect" name="category" required>
+        <!-- General Categories -->
+        <div class="cat"></div>
+        <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
+        <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
+        <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
+        <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
+        <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
+        <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
+        <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
+        <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
+        
+        <!-- Student Material Option -->
+        <option value="Student Material" <?= isset($product) && $product['category'] == 'Student Material' ? 'selected' : '' ?>>Student Material</option>
+        
+        <!-- Other Category Option -->
+        <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
+    </select>
+
+    <!-- Additional Dropdown for Student Material (hidden by default) -->
+    <select id="studentMaterialOptions" name="student_material" style="display: none;">
+        <option value="Book" <?= isset($product) && $product['category'] == 'Book' ? 'selected' : '' ?>>Book</option>
+        <option value="Pen" <?= isset($product) && $product['category'] == 'Pen' ? 'selected' : '' ?>>Pen</option>
+        <option value="Ruler" <?= isset($product) && $product['category'] == 'Ruler' ? 'selected' : '' ?>>Ruler</option>
+    </select>
+
+    <!-- Input for "Other" Category (hidden by default) -->
+    <div id="otherCategoryInput" style="display: none;">
+        <label for="otherInput">Please specify:</label>
+        <input type="text" id="otherInput" name="other_category_input" placeholder="Enter other category" value="<?= isset($product) && $product['category'] == 'Other' ? htmlspecialchars($product['other_category_input'] ?? '') : '' ?>">
+    </div>
+</section>
+
+<script>
+    // When the category dropdown value changes
+    document.getElementById("categorySelect").addEventListener("change", function() {
+        var selectedCategory = this.value;
+        var studentMaterialOptions = document.getElementById("studentMaterialOptions");
+        var otherCategoryInput = document.getElementById("otherCategoryInput");
+
+        // Show or hide options based on selected category
+        if (selectedCategory === "Student Material") {
+            studentMaterialOptions.style.display = "block"; // Show the sub-options
+            otherCategoryInput.style.display = "none"; // Hide the "Other" input field
+        } else if (selectedCategory === "Other") {
+            studentMaterialOptions.style.display = "none"; // Hide the sub-options for student material
+            otherCategoryInput.style.display = "block"; // Show the input field for "Other"
+        } else {
+            studentMaterialOptions.style.display = "none"; // Hide the sub-options
+            otherCategoryInput.style.display = "none"; // Hide the "Other" input field
+        }
+    });
+
+    // Trigger the change event on page load to handle the preselected category
+    document.getElementById("categorySelect").dispatchEvent(new Event("change"));
+</script>
+
+
+</section>.  
     <div class="actions">
         <button type="submit" class="add"><?= isset($product) ? 'Update Product' : '➕ Add Product' ?></button>
     </div>
@@ -192,32 +254,19 @@ if (isset($_SESSION['user_id'])) : ?>
     font-family: "Poppins", sans-serif;
 }
 
-body {
-    background: #f4f4f4;
-  
-}
+
 
 .container {
-    max-width: 80%;
+    max-width: 90%;
     height: auto;
-    margin-left: 400px; /* Sidebar adjustment */
-    background: white;
     position: relative;
-    left:-10%;
+    margin-top:10%;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-   
+ 
+ 
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  
-}
-
-header h2 {
+h2 {
     font-size: 30px;
     margin-left:30%;
 }
@@ -246,6 +295,8 @@ header h2 {
 }
 
 .grid-container {
+  
+    margin-left:20%;
     display: grid;
     grid-template-columns: 2fr 1.5fr;
     gap: 10px;
@@ -361,7 +412,7 @@ button:hover {
         });
     </script>
 
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php 
 else: 
     $this->redirect("/"); 

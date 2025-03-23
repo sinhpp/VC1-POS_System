@@ -17,9 +17,7 @@ class UserController extends BaseController {
         $user = $this->users->getUserById($id);
         $this->view("users/user_details", ['user' => $user]);
     }
-    public function create() {
-        $this->view("users/create");  // This should point to 'views/users/create_user.php'
-    }
+
     public function form() {
         $this->view("form/form");
     }
@@ -56,7 +54,7 @@ class UserController extends BaseController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['role'];
             $_SESSION['users'] = true;
-            $this->redirect("/users"); // Redirect to users list on success
+            $this->redirect("/dashboard"); // Redirect to users list on success
         } else {
             // Return the form with an error message
             $this->view("form/form", ['error' => 'Invalid email or password']);
@@ -79,6 +77,42 @@ class UserController extends BaseController {
         // Redirect to homepage after logout
         header("Location: /");
     }
+
+    public function createuser() {
+        $this->view("users/create");  // This should point to 'views/users/create_user.php'
+    }
+    public function storeuser() {
+        if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) {
+            die("Missing required fields.");
+        }
+    
+        $name = htmlspecialchars($_POST['name']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
+        $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+        $role = htmlspecialchars($_POST['role']);
+    
+        $this->users->usercreate($name, $email, $encrypted_password, $role);
+        header("Location: /users");
+    }
+    
+
+    public function edit($id) {
+        $user = $this->users->getUserById($id); // Fetch user details from model
+        if (!$user) {
+            die("User not found");
+        }
+        $this->view("users/edit", ['user' => $user]); // Pass user data to view
+    }
+    
+    public function update($id) {
+        $name = htmlspecialchars($_POST['name']);
+        $email = htmlspecialchars($_POST['email']);
+        $role = htmlspecialchars($_POST['role']);
+        $this->users->updateUser($id, $name, $email, $role);
+        header("Location: /users");
+    }  
+
    
     
 }
