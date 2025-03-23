@@ -4,13 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['user_id'])) : ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
     <div class="container-fluid">
 
 
@@ -28,8 +22,11 @@ if (isset($_SESSION['user_id'])) : ?>
 
     <style>
         /* General Styles */
-     
-
+        .navbar-expand .navbar-collapse {
+            display: flex !important
+        ;
+            flex-basis: auto;
+        }
         body {
             font-family: Arial, sans-serif;
             display: block;
@@ -39,6 +36,18 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
             background-color: #f4f4f4;
         }
+
+        .alert {
+            
+          
+            position: relative;
+            top:-50%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
        
         
         .table-responsive {
@@ -131,14 +140,15 @@ if (isset($_SESSION['user_id'])) : ?>
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .btn {
+        .btn-success {
             margin-left:20%;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 15px 20px;
+            border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
             text-align: center;
             transition: all 0.3s ease;
+            background: #26A142;
         }
 
         .btn-warning {
@@ -170,13 +180,7 @@ if (isset($_SESSION['user_id'])) : ?>
             font-size: 1.2rem;
         }
 
-        .alert {
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
-
+       
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .header {
@@ -256,7 +260,7 @@ if (isset($_SESSION['user_id'])) : ?>
 <body>
     <div class="container-fluid table-responsive">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/users/create" class="btn btn-success">+ Create User</a>
+            <a href="/users/create" class="btn1 btn-success">+ Create User</a>
         </div>
         <table class="table table-striped table-hover shadow-sm rounded">
             <thead>
@@ -338,8 +342,7 @@ if (isset($_SESSION['user_id'])) : ?>
             alertPlaceholder.appendChild(wrapper);
         }
     </script>
-</body>
-</html>
+
 
 <?php 
 else: 

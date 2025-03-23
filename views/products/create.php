@@ -37,6 +37,15 @@ if (isset($_SESSION['user_id'])) : ?>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
+         body {
+            font-family: Arial, sans-serif;
+            display: block;
+
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+         
+        }
 
         .table th, .table td {
             padding: 10px;
@@ -78,19 +87,23 @@ if (isset($_SESSION['user_id'])) : ?>
 
        
 <div class="container">
-<h2> Add New Product</h2>
+<h4> Add New Product</h4>
     <main class="grid-container">
     <section class="general-info">
         <form action="/products/store" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
             
-        <h3>General Information</h3>
+        <h5>General Information</h5>
         <label>Name Product</label>
         <input type="text" placeholder="Enter product name" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
 
-        <label>Description Product</label>
-        <textarea placeholder="Enter product description" name="description" required><?= isset($product) ? htmlspecialchars($product['description'] ?? '') : '' ?></textarea>
+        <label>Base Pricing</label>
+        <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
 
+        <label>Stock</label>
+        <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
+
+        
         <div class="size-gender">
         <div class="size">
             <label>Size</label>
@@ -111,7 +124,10 @@ if (isset($_SESSION['user_id'])) : ?>
             </div>
             <input type="hidden" name="gender" id="gender" value="Men"> <!-- Default value -->
         </div>
+
+        
     </div>
+    
 
         </section>
         <script>
@@ -170,16 +186,15 @@ if (isset($_SESSION['user_id'])) : ?>
         document.getElementById('gender').value = gender;
         console.log('Selected Gender:', gender); // Debugging
     }
+    
 </script>
 
 
         <section class="pricing-stock">
-    <h3>Pricing And Stocks</h3>
-    <label>Base Pricing</label>
-    <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
+    <h5>Pricing And Stocks</h5>
+   
 
-    <label>Stock</label>
-    <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
+    
 
     <label>Discount</label>
     <input type="number" placeholder="Enter discount" name="discount" min="0" step="0.01">
@@ -187,12 +202,29 @@ if (isset($_SESSION['user_id'])) : ?>
     <label>Discount Type</label>
     <input type="text" placeholder="Enter discount type" name="discount_type">
 
-    <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
-    <br />
-    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
-    <br />
-
+    <section class="category">
+    <label>Category</label>
+    <select id="categorySelect" name="category" required>
+        <!-- General Categories -->
+        <div class="cat"></div>
+        <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
+        <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
+        <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
+        <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
+        <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
+        <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
+        <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
+        <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
+        
+        <!-- Student Material Option -->
+        <option value="Student Material" <?= isset($product) && $product['category'] == 'Student Material' ? 'selected' : '' ?>>Student Material</option>
+        
+        <!-- Other Category Option -->
+        <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
+    </select>
+    <div class="actions">
+        <button type="submit" class="next"><?= isset($product) ? 'Update Product' : 'Next' ?></button>
+    </div>
     <?php
     $file = __DIR__ . '/../../barcode/generate.php';
 
@@ -204,21 +236,6 @@ if (isset($_SESSION['user_id'])) : ?>
     ?>
 </section>
 
-<section class="upload-img">
-    <h3>Upload Image</h3>
-    
-    <!-- File Input -->
-    <input type="file" id="fileUpload" name="image" accept="image/*" required>
-    
-    <!-- Image Preview -->
-    <div class="image-preview" id="imagePreview">
-        <img 
-            src="" 
-            alt="Product Image" 
-            id="previewImg" 
-            style="display: none; max-width: 150px;">
-    </div>
-</section>
 
 <script>
 document.getElementById('fileUpload').addEventListener('change', function(event) {
@@ -241,26 +258,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     </section>
 
 <!-- Category -->
-<section class="category">
-    <h3>Category</h3>
-    <select id="categorySelect" name="category" required>
-        <!-- General Categories -->
-        <div class="cat"></div>
-        <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
-        <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
-        <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
-        <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
-        <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
-        <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
-        <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
-        <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
-        
-        <!-- Student Material Option -->
-        <option value="Student Material" <?= isset($product) && $product['category'] == 'Student Material' ? 'selected' : '' ?>>Student Material</option>
-        
-        <!-- Other Category Option -->
-        <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
-    </select>
+
 
     <!-- Additional Dropdown for Student Material (hidden by default) -->
     <select id="studentMaterialOptions" name="student_material" style="display: none;">
@@ -274,6 +272,23 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
         <label for="otherInput">Please specify:</label>
         <input type="text" id="otherInput" name="other_category_input" placeholder="Enter other category" value="<?= isset($product) && $product['category'] == 'Other' ? htmlspecialchars($product['other_category_input'] ?? '') : '' ?>">
     </div>
+
+    
+<section class="upload-img">
+    <h5>Upload Image</h5>
+    
+    <!-- File Input -->
+    <input type="file" id="fileUpload" name="image" accept="image/*" required>
+    
+    <!-- Image Preview -->
+    <div class="image-preview" id="imagePreview">
+        <img 
+            src="" 
+            alt="Product Image" 
+            id="previewImg" 
+            style="display: none; max-width: 150px;">
+    </div>
+
 </section>
 
 <script>
@@ -298,6 +313,8 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 
     // Trigger the change event on page load to handle the preselected category
     document.getElementById("categorySelect").dispatchEvent(new Event("change"));
+
+    
 </script>
 
 
@@ -328,9 +345,10 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
  
 }
 
-h2 {
+h4 {
     font-size: 30px;
     margin-left:30%;
+    color: #F868D4;
 }
 
 .actions button {
@@ -360,26 +378,30 @@ h2 {
   
     margin-left:20%;
     display: grid;
-    grid-template-columns: 2fr 1.5fr;
+    grid-template-columns: 2fr 2fr;
     gap: 10px;
+    height: 150vh;
 }
 
 section {
-    background: #fff;
-    padding: 30px;
+
+    padding: 10px;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;}
 
-h3 {
-    margin-bottom: 10px;
-}
 
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    
+    color: #2087F7 !important; /* Force the color */
+}
 input, select, textarea {
     width: 100%;
-    padding: 8px;
+    padding: 8px 20px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    
 }
 
 button {

@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (isset($_SESSION['user_id'])) : ?>
     <div class="container">
         <!-- Left Section: Image -->
         <div class="image-section">
@@ -61,53 +57,71 @@
                 </div>
             </div>
 
-            <p class="disclaimer">This product is available while stocks last. Terms and conditions apply.</p>
+           
         </div>
     </div>
 
     <style>
+      
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            margin: 0;
-            padding: 0;
-            display: flex;
+          
+            font-family: Arial, sans-serif;
+            display: block;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+         
         }
 
         .container {
             display: flex;
             border-radius: 15px;
+            margin-left:18%;
             /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); */
-            overflow: hidden;
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px;
+        
+            width: 70%;
+            
+            margin-top:10%;
+            display: flex;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            
+         
         }
 
         .image-section {
+            background: linear-gradient(135deg, #FAEAED, #FAEAED);
+            animation: slideInLeft 1s ease-in-out;
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;                                                                                                                                    
             flex: 2;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+         
             padding: 20px;
+            margin-left: 10%;
             border-radius: 15px 0, 15px, 0;
         }
 
         .image-section img {
             max-width: 100%;
             height: auto;
+            padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
             /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
+        }
+        .image-section img:hover {
+            transform: scale(1.05);
         }
 
         .details-section {
             flex: 2;
             padding: 40px;
             background: white;
+            animation: slideInRight 1s ease-in-out;
         }
 
         h2 {
@@ -186,5 +200,8 @@
             }
         }
     </style>
-</body>
-</html>
+<?php 
+else: 
+    $this->redirect("/"); 
+endif;   
+?>

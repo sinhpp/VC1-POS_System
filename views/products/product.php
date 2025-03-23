@@ -3,12 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_SESSION['user_id'])) : ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,60 +15,25 @@ if (isset($_SESSION['user_id'])) : ?>
     <style>
         /* General Styles */
         body {
-            font-family: "Poppins", sans-serif;
-        }
+            font-family: Arial, sans-serif;
+            display: block;
 
-        .header {
-            margin-left: -27%;
-         
-            }
-
-        /* Adjust the width of the main content area */
-            .main-content {
-                margin-top:20%;
-                width: 100%; /* Make it full width */
-                max-width: 1200px; /* Set a maximum width if needed */
-                margin: 0 auto; /* Center the content */
-                padding: 20px; /* Add some padding */
-            }
-
-            /* Adjust the table width */
-            .table-container {
-                margin-top:20%;
-                width: 100%; /* Make the table full width */
-                overflow-x: auto; /* Add horizontal scroll for smaller screens */
-            }
-
-        table {
-.main-content {
-    
-    word that icial 
-    width: 100%; /* Make it full width */
-    margin-top:20%;
-    max-width: 1200px; /* Set a maximum width if needed */
-    margin: 0 auto; /* Center the content */
-    padding: 20px; /* Add some padding */
-}
-
-/* Adjust the table width */
-.table-container {
-    margin-top:20%;
-    width: 100%; /* Make the table full width */
-    overflow-x: auto; /* Add horizontal scroll for smaller screens */
-}
-            width: 100%;
-            border-collapse: collapse;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
         }
 
         th, td {
-            padding: 13px;
+            padding:10px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #96dbe4;
-            color: #000;
+            padding:20px;
+            background-color: #007BFF;
+            color: white;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -238,17 +197,20 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         /* Adjust the width of the main content area */
 .main-content {
-    margin-top:20%;
+   
+    justify-content:center;
+    align-items:center;
     width: 100%; /* Make it full width */
-    max-width: 1200px; /* Set a maximum width if needed */
-    margin: 0 auto; /* Center the content */
-    padding: 20px; /* Add some padding */
+   
 }
 
 /* Adjust the table width */
 .table-container {
-    margin-top:20%;
-    width: 100%; /* Make the table full width */
+    margin-left:26%;
+    justify-content:center;
+    align-items:center;
+    margin-top:10%;
+    width: 80%; /* Make the table full width */
     overflow-x: auto; /* Add horizontal scroll for smaller screens */
 }
 .sidebar {
