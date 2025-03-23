@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -14,72 +13,64 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
+
     <style>
-        .header{
-            margin-left:-14%;
-        }
-        
-        .table {
-            width: 100%;
-            
-        }
-        .table th, .table td {
-            
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .table-dark {
-            background-color: #343a40;
-            color: white;
-        }
-        .badge.bg-success { background-color: #28a745; color: white; }
-        .badge.bg-danger { background-color: #dc3545; color: white; }
-        
-        .btn {
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-bottom:2%;
-        }
-        .btn-warning { background-color: #ffc107; color: black; }
-        .btn-danger { background-color: #dc3545; color: white; }
-        .btn:hover { background-color: #495057; }
-
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
             font-family: "Poppins", sans-serif;
-            
+            background-color: #f8f9fa;
         }
 
-        .table-container {
-            max-width: 100%;
-            margin-top: 15%;
-            margin-left:15%;
-            padding: 20px;
-            border-radius: 8px;
-           
+        .header {
+            margin-left: -25%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        /* Adjust the width of the main content area */
+            .main-content {
+                margin-top:20%;
+                width: 100%; /* Make it full width */
+                max-width: 1200px; /* Set a maximum width if needed */
+                margin: 0 auto; /* Center the content */
+                padding: 20px; /* Add some padding */
+            }
+
+            /* Adjust the table width */
+            .table-container {
+                margin-top:20%;
+                width: 100%; /* Make the table full width */
+                overflow-x: auto; /* Add horizontal scroll for smaller screens */
+            }
 
         table {
-            width: 105%;
+.main-content {
+    
+    word that icial 
+    width: 100%; /* Make it full width */
+    margin-top:20%;
+    max-width: 1200px; /* Set a maximum width if needed */
+    margin: 0 auto; /* Center the content */
+    padding: 20px; /* Add some padding */
+}
+
+/* Adjust the table width */
+.table-container {
+    margin-top:20%;
+    width: 100%; /* Make the table full width */
+    overflow-x: auto; /* Add horizontal scroll for smaller screens */
+}
+            width: 100%;
             border-collapse: collapse;
         }
 
         th, td {
-            width: 150px;
             padding: 13px;
             text-align: center;
             border-bottom: 1px solid #ddd;
@@ -87,12 +78,58 @@ if (isset($_SESSION['user_id'])) : ?>
 
         th {
             background-color: #96dbe4;
-            cursor: pointer;
+            color: #000;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
 
-        th i {
-            font-size: 14px;
-            margin-left: 5px;
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .badge.bg-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge.bg-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 2%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #495057;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .product-image {
@@ -100,7 +137,7 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 50px;
             object-fit: cover;
             border-radius: 5px;
-            margin-left:-10%;
+            margin-left: -10%;
         }
 
         .action-icons {
@@ -123,118 +160,195 @@ if (isset($_SESSION['user_id'])) : ?>
             cursor: pointer;
         }
 
-        .table-container table th:nth-child(6),
-    .table-container table td:nth-child(6) {
-        width: 120px; /* Set a specific width for the stock column */
-        text-align: center; /* Center align the text */
-    }
+        .alert {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            margin-bottom: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-    .alert {
-        display: inline-block;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        position: relative;
-        margin-bottom: 5px;
-        font-size: 14px;
-        cursor: pointer; /* Change cursor to pointer */
-    }
+        .alert::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+        }
 
-    .alert::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
-    }
-        /* Add this to your existing CSS */
-    #delete-icon {
-    display: none; /* Initially hidden */
- 
-    padding: 5px;
-    border-radius: 5px; /* Rounded */
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;  /* Set width */
-    height: 30px; /* Set height */
+        #delete-icon {
+            display: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+        }
+
+        .fa-ellipsis-vertical {
+            margin-left: 50px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            width: 120px;
+            z-index: 1000;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: end;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+
+        .page-btn {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .page-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .page-btn:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+        /* Adjust the width of the main content area */
+.main-content {
+    margin-top:20%;
+    width: 100%; /* Make it full width */
+    max-width: 1200px; /* Set a maximum width if needed */
+    margin: 0 auto; /* Center the content */
+    padding: 20px; /* Add some padding */
 }
 
-/* Change text color */
-#delete-icon {
-    font-size: 18px; /* Adjust icon size */
-    /* color: white !important;  */
+/* Adjust the table width */
+.table-container {
+    margin-top:20%;
+    width: 100%; /* Make the table full width */
+    overflow-x: auto; /* Add horizontal scroll for smaller screens */
 }
-.fa-ellipsis-vertical{
-    margin-left:50px;
+.sidebar {
+    display: none; /* Hide the sidebar */
 }
-/*  actoin-------------------------------------------*/
-.action-icons {
-    text-align: end ; /* Center the icon horizontally */
-    position: relative;
+.navbar {
+    padding: 10px 20px; /* Add padding */
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a shadow */
 }
 
-.dropdown-toggle {
-    cursor: pointer;
-    font-size: 18px;
-    padding: 10px;
-    display: flex;
-    justify-content: end; /* Center horizontally */
-    align-items: end; /* Center vertically */
-    height: 100%; /* Ensure it takes full height of the cell */
+.navbar-nav {
+    gap: 15px; /* Add space between navbar items */
 }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    width: 120px;
-    z-index: 1000;
+.notification_dropdown .badge {
+    top: -10px; /* Adjust badge position */
+    right: -10px;
 }
 
-.dropdown-menu a {
-    display: flex;
-    align-items: end;
-    padding: 10px;
-    text-decoration: none;
-    color: black;
-    font-size: 14px;
+.search-area {
+    max-width: 300px; /* Limit search bar width */
 }
 
-.dropdown-menu a i {
-    margin-right: 8px;
-}
+    <style>
+        /* Adjust width of main content */
+        .main-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+      
+        }
 
-.dropdown-menu a:hover {
-    background: #f1f1f1;
-}
-.page-btn {
-    padding: 5px 10px;
-    margin: 0 5px;
-    cursor: pointer;
-}
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .header {
+                margin-left: 0;
+                text-align: center;
+            }
 
-.page-btn.active {
-    background-color: #007bff;
-    color: white;
-}
+            .table-container {
+                margin-top: 10%;
+                margin-left: 10%;
+            }
 
-.page-btn:hover {
-    background-color: #0056b3;
-    color: white;
-}
+            th, td {
+                padding: 10px;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .table-container {
+                margin-top: 15%;
+                margin-left: 5%;
+            }
 
+            th, td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+
+            .material-icons {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table-container {
+                margin-top: 20%;
+                margin-left: 2%;
+            }
+
+            th, td {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+
+            .btn {
+                padding: 3px 6px;
+                font-size: 0.75rem;
+            }
+
+            .material-icons {
+                font-size: 0.9rem;
+            }
+
+            .header {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>

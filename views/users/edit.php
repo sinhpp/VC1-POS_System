@@ -27,7 +27,7 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
         }
         .header{
-            margin-left:-6%;
+            margin-left:-18%;
         }
         .container {
             margin-left:20%;
