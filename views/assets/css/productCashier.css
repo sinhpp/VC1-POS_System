@@ -62,6 +62,8 @@
 }
 .filter {
     margin-bottom: 20px;
+    margin-top: 18%;
+    margin-left: 38px;
     display: flex;
     gap: 10px;
 }
@@ -89,6 +91,7 @@
     color: #000;
 }
 .grid {
+    margin-left: 38px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
@@ -127,7 +130,7 @@
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 8px;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
@@ -169,6 +172,7 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-left: 94%;
 }
 .close:hover,
 .close:focus {
@@ -178,6 +182,8 @@
 }
 .cart-item {
     display: flex;
+    color: #000;
+    font-size: 16px;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
@@ -229,6 +235,7 @@
     justify-content: space-between;
     margin: 10px 0;
     font-size: 16px;
+    color: #000;
 }
 .total-summary strong {
     font-weight: bold;

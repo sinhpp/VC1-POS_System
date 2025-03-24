@@ -2,12 +2,12 @@
 
         <div class="filter">
             <button class="active">All Products</button>
-            <button>Shirt</button>
-            <button>T-Shirt</button>
-            <button>Outer</button>
-            <button>Plants</button>
-            <button>Accessories</button>
-            <button>Footwear</button>
+            <button>Bag</button>
+            <button>Clothe</button>
+            <button>Shoe</button>
+            <button>Uniform</button>
+            <button>Sport Clothe</button>
+            <button>Toy</button>
         </div>
 
         <div class="grid" id="product-grid">
