@@ -399,10 +399,11 @@ section {
 
 
 
-.h1, .h2, .h3, .h4, .h5, {
-    
-    color: #2087F7 !important; /* Force the color */
+.h1, .h2, .h3, .h4, .h5, .h6, 
+h1, h2, h3, h4, h5, h6 {
+    color: #007bff !important; /* Change to your desired color */
 }
+
 input, select, textarea {
     width: 100%;
     padding: 8px 20px;
