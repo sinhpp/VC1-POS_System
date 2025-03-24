@@ -23,11 +23,32 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
             background-color: #f4f4f4;
         }
+        table {
+            width: 85%;
+            border-collapse: separate;
+            border-spacing: 0;
+            display: inline;
+            margin-left:5%;
+            justify-content: center;
+            align-items: center;
+          
+        }
 
         th, td {
             padding:10px;
             text-align: center;
             border-bottom: 1px solid #ddd;
+        }
+        .btn-success {
+            margin-top:2%;
+            
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #26A142;
         }
 
         th {
@@ -71,7 +92,7 @@ if (isset($_SESSION['user_id'])) : ?>
             padding-left: 0rem !important; }
 
         .btn {
-            padding: 5px 10px;
+            padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             margin-bottom: 2%;
@@ -177,7 +198,8 @@ if (isset($_SESSION['user_id'])) : ?>
         .dropdown-menu a {
             display: flex;
             align-items: end;
-            padding: 10px;
+            gap:5px;
+            padding: 14px;
             text-decoration: none;
             color: black;
             font-size: 14px;
@@ -191,6 +213,7 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 5px 10px;
             margin: 0 5px;
             cursor: pointer;
+        
         }
 
         .page-btn.active {
@@ -209,16 +232,21 @@ if (isset($_SESSION['user_id'])) : ?>
     align-items:center;
     width: 100%; /* Make it full width */
    
+   
 }
 
 /* Adjust the table width */
 .table-container {
-    margin-left:26%;
+    margin: 20px;
+    overflow: hidden;
+    border-radius: 18px;
+    margin-left:24%;
     justify-content:center;
     align-items:center;
     margin-top:10%;
-    width: 80%; /* Make the table full width */
     overflow-x: auto; /* Add horizontal scroll for smaller screens */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
 }
 .sidebar {
     display: none; /* Hide the sidebar */
@@ -312,6 +340,11 @@ if (isset($_SESSION['user_id'])) : ?>
                 font-size: 0rem;
             }
             
+        }
+        .pagination{
+
+            position: relative;
+            left:40%;
         }
     </style>
 </head>
