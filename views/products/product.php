@@ -25,21 +25,16 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .header {
-            margin-left: -27%;
+            margin-left: -16%;
          
             }
 
         /* Adjust the width of the main content area */
-            .main-content {
-                margin-top:20%;
-                width: 100%; /* Make it full width */
-                max-width: 1200px; /* Set a maximum width if needed */
-                margin: 0 auto; /* Center the content */
-                padding: 20px; /* Add some padding */
-            }
+           
 
             /* Adjust the table width */
             .table-container {
+                margin-left:15%;
                 margin-top:20%;
                 width: 100%; /* Make the table full width */
                 overflow-x: auto; /* Add horizontal scroll for smaller screens */

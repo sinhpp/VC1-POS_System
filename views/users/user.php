@@ -20,7 +20,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <style>
         /* General Styles */
         .header {
-            margin-left: -28%;
+            margin-left: -24%;
             font-size: 1.5rem;
             font-weight: bold;
             color: #2c3e50;
