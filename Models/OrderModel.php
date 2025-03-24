@@ -4,7 +4,7 @@ class OrderModel {
     private $db;
 
     public function __construct() {
-        $this->db = new Database(); // Assuming Database class exists
+        $this->db = Database::getInstance();
     }
 
     public function createOrder($data) {

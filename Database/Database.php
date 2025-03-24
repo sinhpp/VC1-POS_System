@@ -44,5 +44,28 @@ class Database {
 
     // Prevent object unserialization
     public function __wakeup() {}
+
+    public function __construct() {
+        $this->conn = new PDO(
+            "mysql:host=$this->host;dbname=$this->dbname;charset=utf8mb4",
+            $this->user,
+            $this->pass
+        );
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    }   
+
+    private static $instance = null;
+
+    private function __construct() {
+        // Database connection code here
+    }
+
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
+    }
 }
 ?>

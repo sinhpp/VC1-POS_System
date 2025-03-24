@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../BaseController.php';
-require_once __DIR__ . '/../Models/OrderModel.php';
+require_once __DIR__ . '../../Controllers/BaseController.php';
+require_once __DIR__ . '../../Models/OrderModel.php';
 
 class DashboardController extends BaseController {
     public function show() {
