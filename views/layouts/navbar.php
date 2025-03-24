@@ -61,10 +61,13 @@
                         </div>
                         <ul class="navbar-nav header-right">
 							<li class="nav-item">
-								<div class="input-group search-area">
-									<input type="text" class="form-control" placeholder="Search here...">
-									<span class="input-group-text"><a href="javascript:void(0)"><i class="flaticon-381-search-2"></i></a></span>
-								</div>
+                            <div class="search-container">
+                                <input type="text" id="search" placeholder="Search by name or price">
+                                <i class="fas fa-search search-icon"></i>
+                                <i class="fas fa-shopping-cart cart-icon" title="View Cart" id="cart-icon">
+                                 <span class="cart-count" id="cart-count">0</span>
+                                 </i>
+                            </div>
 							</li>
 							<li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">

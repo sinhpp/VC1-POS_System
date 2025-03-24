@@ -7,6 +7,7 @@ require_once "Controllers/ForgotPassword.php";
 require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
+require_once "Controllers/ProductCatheirController.php";
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -41,7 +42,8 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
-
+// Product Catheir
+$route->get("/product_catheir/product", [ProductCatheirController::class, 'index']);
 
 // Call the route method to process the request
 $route->route();

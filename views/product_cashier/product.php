@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/views/assets/css/productCatheir.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="/views/assets/js/productCatheir.js" defer></script>
-</head>
-
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Products</h1>
-            <div class="search-container">
-                <input type="text" id="search" placeholder="Search by name or price">
-                <i class="fas fa-search search-icon"></i>
-                <i class="fas fa-shopping-cart cart-icon" title="View Cart" id="cart-icon">
-                    <span class="cart-count" id="cart-count">0</span>
-                </i>
-            </div>
-        </div>
 
         <div class="filter">
             <button class="active">All Products</button>
