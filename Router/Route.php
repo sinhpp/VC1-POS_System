@@ -36,6 +36,8 @@ $route->get("/products", [ProductController::class, 'index']);
 $route->get("/products/create", [ProductController::class, 'create']);
 $route->post("/products/store", [ProductController::class, 'store']);
 $route->get("/products/edit_pro/{id}", [ProductController::class, 'edit']);
+$route->get("products/product_detail/{id}", [ProductController::class, 'detail']);
+
 $route->put("/products/update/{id}", [ProductController::class, 'update']);
 $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
