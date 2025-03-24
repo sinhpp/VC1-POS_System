@@ -16,7 +16,7 @@ class ProductScanController {
             $_SESSION['order'] = [];
         }
         $this->productModel = new ProductModel();
-        $this->orderModel = new OrderModel();
+        // $this->orderModel = new OrderModel();
     }
 
     public function index() {
@@ -42,8 +42,17 @@ class ProductScanController {
         if (isset($_POST['scan'])) {
             $barcode = filter_input(INPUT_POST, 'barcode', FILTER_SANITIZE_STRING);
             $product = $this->productModel->getProductByBarcode($barcode);
+    
             if ($product) {
-                $_SESSION['product'] = $product;
+                if ($product['stock'] > 0) {
+                    // Reduce stock in the database
+                    $this->productModel->updateStock($barcode, 1);
+    
+                    // Update the session
+                    $_SESSION['product'] = $product;
+                } else {
+                    $_SESSION['error'] = "Product is out of stock!";
+                }
             } else {
                 $_SESSION['error'] = "Product not found!";
             }
@@ -51,18 +60,24 @@ class ProductScanController {
         header("Location: /order");
         exit();
     }
+    
 
     public function add() {
         if (isset($_POST['add'])) {
             $barcode = filter_input(INPUT_POST, 'barcode', FILTER_SANITIZE_STRING);
             $product = $this->productModel->getProductByBarcode($barcode);
-            if ($product) {
+    
+            if ($product && $product['stock'] > 0) {
                 $found = false;
+    
+                // Check if the product already exists in the order
                 foreach ($_SESSION['order'] as &$item) {
                     if ($item['barcode'] === $barcode) {
                         if ($item['quantity'] + 1 <= $product['stock']) {
                             $item['quantity'] += 1;
-                            $item['stock'] -= 1; // Update session stock
+    
+                            // Reduce stock in the database
+                            $this->productModel->updateStock($barcode, 1);
                         } else {
                             $_SESSION['error'] = "Cannot add more items; stock limit reached!";
                         }
@@ -70,17 +85,24 @@ class ProductScanController {
                         break;
                     }
                 }
-                if (!$found && $product['stock'] > 0) {
+    
+                // If the product is new in the order list
+                if (!$found) {
                     $product['quantity'] = 1;
-                    $product['stock'] -= 1; // Update session stock
+    
+                    // Reduce stock in the database
+                    $this->productModel->updateStock($barcode, 1);
+    
                     $_SESSION['order'][] = $product;
                 }
-                $_SESSION['product'] = $product;
+            } else {
+                $_SESSION['error'] = "Product is out of stock!";
             }
         }
         header("Location: /order");
         exit();
     }
+    
 
     public function delete() {
         if (isset($_POST['delete'])) {

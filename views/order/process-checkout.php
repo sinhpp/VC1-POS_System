@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '../../vendor/fpdf186/fpdf.php'; // Path to FPDF
 require_once __DIR__ . '../../layout.php'; // Your layout file
+require_once __DIR__. '/../../Database/Database.php';
 
 // Retrieve form data
 $customerName = $_POST['customerName'] ?? 'N/A';
