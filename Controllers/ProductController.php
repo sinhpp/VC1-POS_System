@@ -12,13 +12,17 @@ class ProductController extends BaseController {
         $products = $this->products->getProducts(); // Fetch products from the model
         $this->view("products/product", ['products' => $products]); // Pass products to the view
     }
-/////////////////////////////
+    
     public function detail($id) {
         $product = $this->products->product_detail($id);
         $this->view("products/product_detail", ['product' => $product]);
     }
 
-    ////////////////////////////////////////////////////////
+    public function search() {
+        $keyword = $_GET['keyword'];
+        $products = $this->products->searchProducts($keyword);
+        $this->view("products/product", ['products' => $products]);
+    }
     public function create() {
         $this->view("/products/create");  // This should point to 'views/products/create_product.php'
     }

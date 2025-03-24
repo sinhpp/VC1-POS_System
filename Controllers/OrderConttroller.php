@@ -1,74 +1,112 @@
 <?php
+
+require_once 'OrderModel.php';
+require_once './vendor/autoload.php'; // PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class OrderController {
-    private $orderModel;
+$orderModel = new OrderModel();
+$order = $orderModel->getOrderById(1);
 
-    public function __construct() {
-        require_once '../../Models/OrderModel.php';
-        $this->orderModel = new OrderModel();
+if ($order) {
+    echo "Order Id: " . $order['order_id'] . "<br>";
+    echo "Customer: " . $order['customer_name'] . "<br>";
+    echo "Email: " . $order['customer_email'] . "<br>";
+    echo "Total: " . $order['total'] . "<br>";
+    echo "Items: <br>";
+    foreach ($order['items'] as $item) {
+        echo "- " . $item['item_name'] . " (Qty: " . $item['quantity'] . ", Price: " . $item['price'] . ")<br>";
     }
 
-    // Function to send receipt email after a purchase
-    public function sendReceipt($orderId) {
-        // Load PHPMailer
-        require '../../vendor/autoload.php';
+    // Send the receipt via email
+    if ($orderModel->sendReceiptByEmail($order)) {
+        echo "<br>Receipt sent successfully!";
+    } else {
+        echo "<br>Failed to send receipt.";
+    }
+} else {
+    echo "Order not found!";
+}
 
-        // Load the email template
-        require_once '../../views/email/receipt_template.php';
+class OrderModel {
+    private $db;
 
-        // Fetch order details
-        $order = $this->orderModel->getOrderById($orderId);
-        if (!$order) {
-            return false; // Order not found
+    public function __construct() {
+        require_once './Database/Database.php';
+        $this->db = Database::getInstance();
+    }
+
+    public function getOrderById($orderId) {
+        $query = "SELECT o.order_id, o.customer_email, o.customer_name, o.total 
+                  FROM orders o 
+                  WHERE o.order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $order = $stmt->fetch();
+
+        if ($order) {
+            $order['items'] = $this->getOrderItems($orderId);
         }
+        return $order;
+    }
 
-        $customerEmail = $order['customer_email'];
-        $customerName = $order['customer_name'];
-        $orderDetails = $order;
+    private function getOrderItems($orderId) {
+        $query = "SELECT oi.item_name, oi.quantity, oi.price 
+                  FROM order_items oi 
+                  WHERE oi.order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+        $stmt->execute();
 
-        // Generate the email content
-        $receiptContent = generateReceiptContent($customerName, $orderDetails);
+        return $stmt->fetchAll();
+    }
 
-        // Send the email
+    public function sendReceiptByEmail($order) {
         $mail = new PHPMailer(true);
+
         try {
-            // Server settings
+            // Email server settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'smtp.example.com';  // Set your SMTP server
             $mail->SMTPAuth = true;
-            $mail->Username = 'zenngii168@gmail.com';
-            $mail->Password = 'hdzj larg wckf ziyq';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port = 465;
+            $mail->Username = 'zenngii168@gmail.com';  // Your email
+            $mail->Password = 'hdzj larg wckf ziyq';          // Your password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-            // Recipients
-            $mail->setFrom('zenngii168@gmail.com', 'Cashier Service');
-            $mail->addAddress($customerEmail, $customerName);
-            $mail->addCC('zenngii168@gmail.com');
+            // Email content
+            $mail->setFrom('no-reply@pos.com', 'POS System');
+            $mail->addAddress($order['customer_email'], $order['customer_name']);
+            $mail->Subject = 'Purchase Receipt - Order #' . $order['order_id'];
 
-            // Content
-            $mail->isHTML(true);
-            $mail->Subject = 'Your Purchase Receipt';
-            $mail->Body = $receiptContent;
-            $mail->AltBody = 'Thank you for your purchase. Please contact us for receipt details.';
+            // Generate the receipt content
+            $receiptBody = "Dear " . $order['customer_name'] . ",\n\n";
+            $receiptBody .= "Thank you for your purchase!\n";
+            $receiptBody .= "Order ID: " . $order['order_id'] . "\n";
+            $receiptBody .= "Total: $" . $order['total'] . "\n";
+            $receiptBody .= "Items:\n";
+
+            foreach ($order['items'] as $item) {
+                $receiptBody .= "- " . $item['item_name'] . " (Qty: " . $item['quantity'] . ", Price: $" . $item['price'] . ")\n";
+            }
+
+            $receiptBody .= "\nBest regards,\nPOS Team";
+            $mail->Body = $receiptBody;
+
+            // Attach the PDF receipt (if you have one)
+            $pdfPath = './receipts/receipt_' . $order['order_id'] . '.pdf';
+            if (file_exists($pdfPath)) {
+                $mail->addAttachment($pdfPath);
+            }
 
             $mail->send();
             return true;
         } catch (Exception $e) {
-            error_log("Email sending failed: " . $mail->ErrorInfo);
+            error_log('Receipt email failed: ' . $mail->ErrorInfo);
             return false;
         }
     }
-
-    // Example method to process an order (call this after a successful purchase)
-    public function processOrder($orderId) {
-        if ($this->sendReceipt($orderId)) {
-            return "Receipt sent successfully";
-        } else {
-            return "Failed to send receipt";
-        }
-    }
 }
+?>

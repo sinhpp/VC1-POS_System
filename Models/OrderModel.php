@@ -1,55 +1,21 @@
 <?php
-
-require_once 'OrderModel.php';
-
-$orderModel = new OrderModel();
-$order = $orderModel->getOrderById(1);
-
-if ($order) {
-    echo "Order Id: " . $order['order_id'] . "<br>";
-    echo "Customer: " . $order['customer_name'] . "<br>";
-    echo "Email: " . $order['customer_email'] . "<br>";
-    echo "Total: " . $order['total'] . "<br>";
-    echo "Items: <br>";
-    foreach ($order['items'] as $item) {
-        echo "- " . $item['item_name'] . " (Qty: " . $item['quantity'] . ", Price: " . $item['price'] . ")<br>";
-    }
-} else {
-    echo "Order not found!";
-}
-
 class OrderModel {
     private $db;
 
     public function __construct() {
-        require_once './Database/Database.php';
-        $this->db = Database::getInstance();
+        $this->db = new PDO("mysql:host=localhost;dbname=pos", "root", "");
     }
 
+    public function createOrder($orderData) {
+        $stmt = $this->db->prepare("INSERT INTO orders (customer_name, customer_email, total) VALUES (?, ?, ?)");
+        $stmt->execute([$orderData['customer_name'], $orderData['customer_email'], $orderData['total']]);
+        return $this->db->lastInsertId();
+    }
     public function getOrderById($orderId) {
-        $query = "SELECT o.order_id, o.customer_email, o.customer_name, o.total 
-                  FROM orders o 
-                  WHERE o.order_id = :order_id";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        $order = $stmt->fetch();
-
-        if ($order) {
-            $order['items'] = $this->getOrderItems($orderId);
-        }
-        return $order;
+        $stmt = $this->db->prepare("SELECT * FROM orders WHERE id = ?");
+        $stmt->execute([$orderId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    private function getOrderItems($orderId) {
-        $query = "SELECT oi.item_name, oi.quantity, oi.price 
-                  FROM order_items oi 
-                  WHERE oi.order_id = :order_id";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        return $stmt->fetchAll();
-    }
+    
 }
 ?>
