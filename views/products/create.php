@@ -202,6 +202,9 @@ if (isset($_SESSION['user_id'])) : ?>
     <label>Discount Type</label>
     <input type="text" placeholder="Enter discount type" name="discount_type">
 
+    <label>Description</label>
+    <input type="text" placeholder="Enter discount type" name="descriptions">
+
     <section class="category">
     <label>Category</label>
     <select id="categorySelect" name="category" required>
@@ -396,7 +399,7 @@ section {
 
 
 
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+.h1, .h2, .h3, .h4, .h5, {
     
     color: #2087F7 !important; /* Force the color */
 }

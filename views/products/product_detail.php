@@ -47,12 +47,16 @@ if (isset($_SESSION['user_id'])) : ?>
                         <p><?= isset($product) ? htmlspecialchars($product['discount']) : 'N/A' ?></p>
                     </div>
                     <div class="detail-group">
+                        <label>discount_type:</label>
+                        <p><?= isset($product) ? htmlspecialchars($product['discount_type']) : 'N/A' ?></p>
+                    </div>
+                    <div class="detail-group">
                         <label>Stock:</label>
                         <p><?= isset($product) ? htmlspecialchars($product['stock']) : 'N/A' ?></p>
                     </div>
                     <div class="detail-group">
                         <label>Description:</label>
-                        <p><?= isset($product) ? htmlspecialchars($product['description']) : 'N/A' ?></p>
+                        <p><?= isset($product) ? htmlspecialchars($product['descriptions']) : 'N/A' ?></p>
                     </div>
                 </div>
             </div>

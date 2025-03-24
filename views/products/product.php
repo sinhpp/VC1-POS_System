@@ -31,10 +31,10 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         th {
-            padding:20px;
+      
             background-color: #007BFF;
             color: white;
-            font-weight: 600;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             position: sticky;
@@ -62,6 +62,13 @@ if (isset($_SESSION['user_id'])) : ?>
             background-color: #dc3545;
             color: white;
         }
+        .btn-primary {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            box-shadow: 4px 4px 8px rgb(189 200 213), -4px -4px 8px rgb(255 255 255);
+        }
+        .header-right > li:not(:first-child) {
+            padding-left: 0rem !important; }
 
         .btn {
             padding: 5px 10px;
@@ -234,7 +241,6 @@ if (isset($_SESSION['user_id'])) : ?>
     max-width: 300px; /* Limit search bar width */
 }
 
-    <style>
         /* Adjust width of main content */
         .main-content {
             width: 100%;
@@ -302,9 +308,10 @@ if (isset($_SESSION['user_id'])) : ?>
                 font-size: 0.9rem;
             }
 
-            .header {
-                font-size: 1.2rem;
+            .header-right {
+                font-size: 0rem;
             }
+            
         }
     </style>
 </head>
@@ -335,8 +342,8 @@ if (isset($_SESSION['user_id'])) : ?>
                 <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
                 <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
                 <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
-                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-down"></i> High</button>
-                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-up"></i> Low</button>
+                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
+                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
                 </div>
                 </th>
 
@@ -508,10 +515,7 @@ init();
     background-color: #e9ecef;
 }
 
-.page-btn.active {
-    background-color: #007bff;
-    color: white;
-}
+
 </style>
 
 
