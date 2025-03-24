@@ -1,8 +1,8 @@
 <?php
 
-require_once 'Models/ProductCatheirModel.php';
+require_once 'Models/ProductCashierModel.php';
 
-class ProductCatheirController extends BaseController {
+class ProductCashierController extends BaseController {
     // private $ProductCatheirModel;
 
     // public function __construct() {
@@ -11,6 +11,6 @@ class ProductCatheirController extends BaseController {
 
     public function index() {
         // $categories = $this->ProductCatheirModel->getCategories();
-        $this->view('/product_catheir/product');
+        $this->view('/product_cashier/product');
     }
 }
