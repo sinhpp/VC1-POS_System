@@ -1,48 +1,51 @@
-$(document).ready(function() {
-    // Handle "Add to Order" button click
-    $('.add-to-order').on('click', function() {
-        const barcode = $(this).data('barcode');
-
-        $.ajax({
-            url: '/order/add',
-            method: 'POST',
-            data: { barcode: barcode, add: true },
-            dataType: 'json',
-            success: function(response) {
-                if (response.error) {
-                    // Display error message
-                    $('#productDetails').prepend('<div class="alert alert-danger">' + response.error + '</div>');
-                    setTimeout(() => $('.alert-danger').remove(), 3000); // Remove after 3 seconds
-                } else {
-                    // Clear existing table rows
-                    $('#orderItems').empty();
-
-                    // Add updated order items to the table
-                    response.order.forEach(function(item, index) {
-                        const row = `
-                            <tr data-index="${index}">
-                                <td><img src="${item.image}" width="50" alt="${item.name}"></td>
-                                <td>${item.name}</td>
-                                <td>${item.barcode}</td>
-                                <td>$${item.price}</td>
-                                <td>${item.quantity}</td>
-                                <td>${item.stock}</td>
-                                <td>${item.created_at}</td>
-                                <td>
-                                    <form action="/product/delete" method="POST">
-                                        <input type="hidden" name="index" value="${index}">
-                                        <button type="submit" name="delete" class="btn btn-danger btn-sm">Cancel</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        `;
-                        $('#orderItems').append(row);
-                    });
-                }
-            },
-            error: function() {
-                alert('An error occurred while adding the product.');
+document.addEventListener('DOMContentLoaded', function() {
+    const increaseButtons = document.querySelectorAll('.increase-quantity');
+    
+    increaseButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const index = this.getAttribute('data-index');
+            const currentStock = parseInt(this.getAttribute('data-stock'));
+            const row = this.closest('tr');
+            const quantityCell = row.cells[4]; // Quantity column
+            const stockCell = row.querySelector('.stock-value');
+            
+            if (currentStock > 0) {
+                // Get current quantity
+                let currentQuantity = parseInt(quantityCell.textContent.trim());
+                
+                // Update quantity and stock
+                currentQuantity += 1;
+                const newStock = currentStock - 1;
+                
+                // Update display
+                quantityCell.firstChild.textContent = currentQuantity + ' ';
+                stockCell.textContent = newStock;
+                this.setAttribute('data-stock', newStock);
+                
+                // Send update to server
+                updateOrder(index, currentQuantity, newStock);
+            } else {
+                alert('No more stock available!');
             }
         });
     });
+    
+    function updateOrder(index, quantity, stock) {
+        fetch('/order/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `index=${index}&quantity=${quantity}&stock=${stock}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error('Failed to update order:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 });

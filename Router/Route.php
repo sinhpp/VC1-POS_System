@@ -8,6 +8,7 @@ require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
+require_once "Controllers/OrderControllers.php";
 
 // Create an instance of Router
 $route = new Router();

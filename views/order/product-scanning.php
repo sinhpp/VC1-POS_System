@@ -1,10 +1,17 @@
 <?php
+$error = $error ?? '';
+$order = $order ?? ($_SESSION['order'] ?? []);
+$error = $error ?? '';
+$order = $order ?? ($_SESSION['order'] ?? []);
+$totalPrice = 0; // Initialize total price
+foreach ($order as $item) {
+    $totalPrice += $item['price'] * $item['quantity']; // Sum up item totals
+}
 
-// Ensure variables are defined before use
-$error = $error ?? ''; // Set $error to an empty string if not defined
-$order = $order ?? ($_SESSION['order'] ?? []); // Use session for order if applicable
 ?>
-<div class="container-order mt-2">
+<link rel="stylesheet" href="/views/assets/css/order-summary.css">
+
+<div class="container-order ">
     <div class="row">
         <!-- Product Scanner Section -->
         <div class="col-md-4">
@@ -19,23 +26,23 @@ $order = $order ?? ($_SESSION['order'] ?? []); // Use session for order if appli
                     if (isset($_SESSION['product'])) {
                         $product = $_SESSION['product'];
                         echo "
-                            <div class='card product-card'>
-                                <img src='{$product['image']}' class='card-img-top' alt='{$product['name']}' width='30px'>
-                                <div class='card-body'>
-                                    <h5 class='card-title'>{$product['name']}</h5>
-                                    <p class='card-text'>Barcode: {$product['barcode']}</p>
-                                    <p class='card-text'>Price: \${$product['price']}</p>
-                                    <p class='card-text'>Stock: {$product['stock']}</p>
-                                    <p class='card-text'>Category: {$product['category']}</p>
-                                    <p class='card-text'>Created At: {$product['created_at']}</p>
-                                    <form action='/order/add' method='POST'>
-                                        <input type='hidden' name='barcode' value='{$product['barcode']}'>
-                                        <button type='submit' name='add' class='btn btn-success'>Add to Order</button>
-                                    </form>
+                                <div class='card product-card'>
+                                    <img src='{$product['image']}' class='card-img-top' alt='{$product['name']}' width='30px'>
+                                    <div class='card-body'>
+                                        <h5 class='card-title'>{$product['name']}</h5>
+                                        <p class='card-text'>Barcode: {$product['barcode']}</p>
+                                        <p class='card-text'>Price: \${$product['price']}</p>
+                                        <p class='card-text'>Stock: {$product['stock']}</p>
+                                        <p class='card-text'>Category: {$product['category']}</p>
+                                        <p class='card-text'>Created At: {$product['created_at']}</p>
+                                        <form action='/order/add' method='POST'>
+                                            <input type='hidden' name='barcode' value='{$product['barcode']}'>
+                                            <button type='submit' name='add' class='btn btn-success'>Add to Order</button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        ";
-                        unset($_SESSION['product']); // Clear after display
+                            ";
+                        unset($_SESSION['product']);
                     } elseif (isset($_SESSION['error'])) {
                         echo "<p class='text-danger'>{$_SESSION['error']}</p>";
                         unset($_SESSION['error']);
@@ -88,7 +95,14 @@ $order = $order ?? ($_SESSION['order'] ?? []); // Use session for order if appli
                     </tbody>
                 </table>
             </div>
-            <a href="/views/order/checkout.php" class="btn btn-info mt-3">Proceed to Checkout</a>
+            <!-- Rest of the HTML -->
+            <form action="/views/order/checkout.php" method="POST" class="mt-3">
+                <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
+                <input type="hidden" name="totalPrice" value="<?php echo $totalPrice; ?>">
+                <button type="submit" class="btn btn-info">Proceed to Checkout</button>
+            </form>
         </div>
     </div>
 </div>
+
+<script src="/views//assets/js/order-summary.js"></script>
