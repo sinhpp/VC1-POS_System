@@ -44,7 +44,7 @@
         					<span class="nav-text">Expenses</span>
         				</a>
         			</li>
-        			<li><a href="/product_catheir/product" class="ai-icon" aria-expanded="false">
+        			<li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
         					<i class="material-symbols-outlined"></i>
         					<span class="nav-text">Order</span>
         				</a>
