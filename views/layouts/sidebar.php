@@ -34,6 +34,11 @@
         					<span class="nav-text">Reports</span>
         				</a>
         			</li>
+					<li><a href="/order" class="ai-icon" aria-expanded="false">
+					<i class="fa-solid fa-barcode"></i>
+        					<span class="nav-text">Order Scan</span>
+        				</a>
+        			</li>
         			<li><a href="/products" aria-expanded="false">
         					<i class="flaticon-045-heart"></i>
         					<span class="nav-text">Products List</span>
@@ -50,6 +55,7 @@
         					<span class="nav-text">Order</span>
         				</a>
         			</li>
+					
         			<li><a href="/" aria-expanded="false">
         					<i class="fa-solid fa-right-from-bracket"></i>
         					<span class="nav-text">Logout</span>

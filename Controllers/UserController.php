@@ -1,4 +1,5 @@
 <?php
+
 require_once "Models/UserModel.php";
 
 class UserController extends BaseController {
@@ -44,7 +45,7 @@ class UserController extends BaseController {
     
    
     public function authenticate() {
-        session_start();
+      
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $user = $this->users->getUserByEmail($email);
