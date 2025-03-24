@@ -5,7 +5,6 @@ namespace Controllers;
 use Models\Order;
 use Models\Receipt;
 use Models\User;
-use PDOException;
 
 class ReceiptController
 {
@@ -14,9 +13,8 @@ class ReceiptController
      * 
      * @param array $purchaseData
      * @return array
-     * @throws PDOException
      */
-    public function processPurchase(array $purchaseData): array
+    public function processPurchase($purchaseData)
     {
         // Create a new order
         $order = new Order();
@@ -68,7 +66,7 @@ class ReceiptController
      * 
      * @return string
      */
-    private function generateTransactionId(): string
+    private function generateTransactionId()
     {
         return 'TXN-' . strtoupper(uniqid()) . '-' . date('Ymd');
     }
@@ -79,7 +77,7 @@ class ReceiptController
      * @param int $orderId
      * @return array
      */
-    public function getReceiptData(int $orderId): array
+    public function getReceiptData($orderId)
     {
         $order = new Order();
         $orderData = $order->findById($orderId);
@@ -123,7 +121,7 @@ class ReceiptController
      * @param array $receiptData
      * @return bool
      */
-    public function sendReceiptEmail(string $email, array $receiptData): bool
+    public function sendReceiptEmail($email, $receiptData)
     {
         // Include email helper
         require_once __DIR__ . '/../email/EmailSender.php';
@@ -151,7 +149,7 @@ class ReceiptController
      * @param array $receiptData
      * @return string Path to the generated PDF file
      */
-    private function generatePdfReceipt(array $receiptData): string
+    private function generatePdfReceipt($receiptData)
     {
         // Include PDF generator library (e.g., FPDF, TCPDF, etc.)
         require_once __DIR__ . '/../vendor/autoload.php';
@@ -199,7 +197,7 @@ class ReceiptController
      * 
      * @param int $receiptId
      */
-    public function downloadReceipt(int $receiptId)
+    public function downloadReceipt($receiptId)
     {
         $receipt = new Receipt();
         $receiptData = $receipt->findById($receiptId);
