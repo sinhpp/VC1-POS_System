@@ -126,10 +126,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <input type="text" placeholder="Enter discount type" name="discount_type">
 
     <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
-    <br />
-    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
-    <br />
+    <input type="text" class="form-control" name="barcode">
 
     <?php
     $file = __DIR__ . '/../../barcode/generate.php';
