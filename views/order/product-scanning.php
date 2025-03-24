@@ -10,6 +10,7 @@ foreach ($order as $item) {
 }
 
 ?>
+
 <link rel="stylesheet" href="/views/assets/css/order-summary.css">
 
 <div class="container-order ">

@@ -48,4 +48,31 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error:', error));
     }
+    // order-summary.js
+
+// Function to check for error messages and display alerts
+function checkForErrors() {
+    const errorElement = document.querySelector('.text-danger');
+    if (errorElement) {
+        const errorMessage = errorElement.textContent;
+        if (errorMessage === "Product is out of stock!") {
+            alert("Sorry, this product is out of stock!");
+        }
+        // Optional: Handle other errors
+        else if (errorMessage === "Product not found!") {
+            alert("Product not found! Please check the barcode and try again.");
+        }
+    }
+}
+
+// Run the error check when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    checkForErrors();
+
+    // Optional: Auto-focus on barcode input
+    const barcodeInput = document.getElementById('barcodeInput');
+    if (barcodeInput) {
+        barcodeInput.focus();
+    }
+});
 });

@@ -3,8 +3,8 @@ require_once __DIR__ . '../../layout.php';
 require_once __DIR__ . '/../../Database/Database.php';
 
 // Retrieve and validate order data
-$totalPrice = isset($_POST['totalPrice']) && is_numeric($_POST['totalPrice']) 
-    ? floatval($_POST['totalPrice']) 
+$totalPrice = isset($_POST['totalPrice']) && is_numeric($_POST['totalPrice'])
+    ? floatval($_POST['totalPrice'])
     : 0;
 $order = isset($_POST['order']) ? json_decode($_POST['order'], true) : [];
 $discountRate = 0.06; // 6% discount
@@ -14,12 +14,14 @@ $finalTotal = $totalPrice - $discountAmount;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="/views/assets/css/checkout.css">
 </head>
+
 <body>
     <div class="container-checkout">
         <div class="checkout">
@@ -40,8 +42,8 @@ $finalTotal = $totalPrice - $discountAmount;
                     <input type="text" id="billingAddress" name="billingAddress" required>
 
                     <label for="contactDetails">Contact Details:</label>
-                    <input type="text" id="contactDetails" name="contactDetails" required pattern="[0-9]{9,12}" 
-                           title="Please enter a valid phone number (9-12 digits)">
+                    <input type="text" id="contactDetails" name="contactDetails" required pattern="[0-9]{9,12}"
+                        title="Please enter a valid phone number (9-12 digits)">
 
                     <label for="paymentMethod">Payment Method:</label>
                     <select id="paymentMethod" name="paymentMethod">
@@ -62,10 +64,15 @@ $finalTotal = $totalPrice - $discountAmount;
                     <div class="order-items">
                         <?php foreach ($order as $product): ?>
                             <div class="order-item">
-                                <img src="<?php echo htmlspecialchars($product['image']); ?>" 
-                                     alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                <img src="<?php echo htmlspecialchars($product['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($product['name']); ?>">
                                 <div>
                                     <p><strong><?php echo htmlspecialchars($product['name']); ?></strong></p>
+                                    <p>Barcode: <?php echo htmlspecialchars($product['barcode']); ?></p>
+                                    <p>Price: $<?php echo htmlspecialchars($product['price']); ?></p>
+                                    <p>Stock: <?php echo htmlspecialchars($product['stock']); ?></p>
+                                    <p>Category: <?php echo htmlspecialchars($product['category']); ?></p>
+                                    <p>Created At: <?php echo htmlspecialchars($product['created_at']); ?></p>
                                     <p>Quantity: <?php echo htmlspecialchars($product['quantity']); ?></p>
                                 </div>
                                 <span>$<?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>
@@ -88,4 +95,5 @@ $finalTotal = $totalPrice - $discountAmount;
     </div>
     <script src="/views/assets/js/checkout.js"></script>
 </body>
+
 </html>
