@@ -7,6 +7,7 @@ require_once "Controllers/ForgotPassword.php";
 require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
+require_once "Controllers/ProductCashierController.php";
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -30,17 +31,21 @@ $route->get("/users/edit/{id}", [UserController::class, 'edit']);
 $route->post("/users/update/{id}", [UserController::class, 'update']); 
 
 // Products
+
 $route->get("/products", [ProductController::class, 'index']);
 $route->get("/products/create", [ProductController::class, 'create']);
 $route->post("/products/store", [ProductController::class, 'store']);
 $route->get("/products/edit_pro/{id}", [ProductController::class, 'edit']);
+$route->get("products/product_detail/{id}", [ProductController::class, 'detail']);
+
 $route->put("/products/update/{id}", [ProductController::class, 'update']);
 $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
-
+// Product Cashier
+$route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
 // Call the route method to process the request
 $route->route();

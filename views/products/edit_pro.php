@@ -1,85 +1,16 @@
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      // List of stylesheets to disable
-      const stylesToDisable = [
-          "/views/assets/css/form.css",
-          "/views/assets/css/form.forgot.password.css",
-          "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
-          "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-      ];
-
-      // Disable the stylesheets
-      document.querySelectorAll("link[rel='stylesheet']").forEach(link => {
-          if (stylesToDisable.includes(link.getAttribute("href"))) {
-              link.disabled = true; // Disable the stylesheet
-          }
-      });
-  });
-</script>
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_SESSION['user_id'])) : ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-
-    <!-- Bootstrap CSS -->
 
 
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <style>
-        
-        /* Table Styles */
-        .table {
-            width: 80%;
-            margin-left: 30px;
-        }
-        .table th, .table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .table-dark {
-            background-color: #343a40;
-            color: white;
-        }
-        .badge.bg-success { background-color: #28a745; color: white; }
-        .badge.bg-danger { background-color: #dc3545; color: white; }
-        .btn {
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .btn-warning { background-color: #ffc107; color: black; }
-        .btn-danger { background-color: #dc3545; color: white; }
-        .btn:hover { background-color: #495057; }
-        
-    </style>
-
-
-</head>
-<body>
 
 <div class="container">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <header>
-        <h2> Add New Product</h2>
+        <h2> Edit Product</h2>
     </header>
 
     <main class="grid-container">
@@ -113,61 +44,16 @@ if (isset($_SESSION['user_id'])) : ?>
                 </div>
             </div>
         </div>
+
         </section>
        <section class="pricing-stock">
     <h3>Pricing And Stocks</h3>
     <label>Base Pricing</label>
     <input type="number" placeholder="$0.00" name="price" value="<?= isset($product) ? htmlspecialchars($product['price']) : '' ?>" required min="0" step="0.01">
 
-    <style>
-  .input-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px; /* Adds spacing */
-    width: 100%; /* Ensures it spans the full width */
-  }
-
-  .input-container label,
-  .input-container input {
-    flex: 1; /* Makes both take equal space */
-  }
-
-  .input-container label {
-    white-space: nowrap; /* Prevents label from breaking */
-  }
-
-  .right-input {
-    text-align: right; /* Aligns the second input to the right */
-  }
-</style>
-
-<style>
-  .input-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    width: 100%;
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .input-group label {
-    margin-bottom: 5px;
-  }
-
-  .input-group input {
-    padding: 8px;
-    width: 100%;
-  }
-</style>
-
 <div class="input-container">
     <!-- First Input Group -->
-    <div class="input-group">
+    <div class="input-group1">
         <label>Stock</label>
         <input type="number" id="stockInput" placeholder="Enter stock quantity" name="stock" 
                value="<?= isset($product) ? htmlspecialchars($product['stock']) : '45' ?>" 
@@ -175,7 +61,7 @@ if (isset($_SESSION['user_id'])) : ?>
     </div>
 
     <!-- Second Input Group -->
-    <div class="input-group">
+    <div class="input-group1">
         <label>Stock Adjustment</label>
         <input type="number" id="addStockInput" placeholder="Enter stock quantity to add or subtract" name="add_stock" required min="0" step="1">
     </div>
@@ -301,17 +187,82 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     </form>
 </main>
 <style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-}
+
+
+    body {
+            font-family: Arial, sans-serif;
+            display: block;
+
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+         
+        }
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+        
+            width: 100%;
+        }
+        .input-group1 {
+            position: relative;
+            display: block;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+        .input-group {
+            position: relative;
+     
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+        .input-container label,
+        .input-container input {
+            flex: 1; /* Makes both take equal space */
+        }
+
+        .input-container label {
+            white-space: nowrap; /* Prevents label from breaking */
+        }
+
+        .right-input {
+            text-align: right; /* Aligns the second input to the right */
+        }
+        .table {
+            width: 80%;
+            margin-left: 30px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .table-dark {
+            background-color: #343a40;
+            color: white;
+        }
+        .badge.bg-success { background-color: #28a745; color: white; }
+        .badge.bg-danger { background-color: #dc3545; color: white; }
+        .btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn:hover { background-color: #495057; }
+        
 
 .container {
-    max-width: 78%;
+    max-width: 70%;
     height: auto;
-    margin-left: 22%; /* Sidebar adjustment */
+    margin-left: 26%; /* Sidebar adjustment */
     background: white;
     position: relative;
     margin-top:10%;
@@ -319,17 +270,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
    
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  
-}
-
-header h2 {
+ h2 {
     font-size: 30px;
-    margin-left:30%;
+
 }
 
 .actions button {
@@ -362,7 +305,7 @@ header h2 {
 }
 
 section {
-    background: #fff;
+
     padding: 30px;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;}
