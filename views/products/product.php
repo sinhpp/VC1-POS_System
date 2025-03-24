@@ -255,6 +255,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 </th>
                 <th>Image</th>
                 <th>Name</th>
+                
                 <th>Code</th>
                 <th>Price
 
