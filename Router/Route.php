@@ -7,7 +7,8 @@ require_once "Controllers/ForgotPassword.php";
 require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
-// require_once 'Controllers/OrderController.php';
+require_once 'Controllers/OrderController.php';
+require_once '../Database/Database.php';
 
 // Create an instance of Router
 $route = new Router();
@@ -55,6 +56,20 @@ $route->get("/orders/search", [OrderController::class, 'search']);
 // Order confirmation email receiver
 $route->post("/email/order_confirmation", [OrderController::class, 'sendOrderConfirmation']);
 $route->get("/email/order_confirmation", [OrderController::class, 'orderConfirmation']);
+
+// Get the database instance
+$db = Database::getInstance();
+
+try {
+     $stmt = $db->query("SELECT * FROM users");
+     $stmt->execute();
+     $result = $stmt->fetchAll();
+     foreach ($result as $row) {
+          echo $row['username'] . "<br>";
+     }
+}catch (PDOException $e) {
+     echo "Query failed: " . $e->getMessage();
+}
 
 
 // Call the route method to process the request
