@@ -20,15 +20,14 @@ if (isset($_SESSION['user_id'])) : ?>
 <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
+            display: block;
+
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-color: #f4f4f4;
         }
-        .header{
-            margin-left:-6%;
-        }
+      
         .container {
             margin-left:20%;
             display: flex;

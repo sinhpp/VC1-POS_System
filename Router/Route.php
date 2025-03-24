@@ -7,8 +7,7 @@ require_once "Controllers/ForgotPassword.php";
 require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
-require_once 'Controllers/OrderController.php';
-require_once '../Database/Database.php';
+// require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
 $route = new Router();
@@ -36,40 +35,14 @@ $route->get("/products", [ProductController::class, 'index']);
 $route->get("/products/create", [ProductController::class, 'create']);
 $route->post("/products/store", [ProductController::class, 'store']);
 $route->get("/products/edit_pro/{id}", [ProductController::class, 'edit']);
+$route->get("products/product_detail/{id}", [ProductController::class, 'detail']);
+
 $route->put("/products/update/{id}", [ProductController::class, 'update']);
 $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
-$route->get("/products/search", [ProductController::class, 'search']);
 
-// Order
-$route->get("/orders", [OrderController::class, 'index']);
-$route->get("/orders/create", [OrderController::class, 'create']);
-$route->post("/orders/store", [OrderController::class, 'store']);
-$route->get("/orders/edit/{id}", [OrderController::class, 'edit']);
-$route->put("/orders/update/{id}", [OrderController::class, 'update']);
-$route->get("/orders/delete/{id}", [OrderController::class, 'delete']);
-$route->get("/orders/search", [OrderController::class, 'search']);
-
-
-// Order confirmation email receiver
-$route->post("/email/order_confirmation", [OrderController::class, 'sendOrderConfirmation']);
-$route->get("/email/order_confirmation", [OrderController::class, 'orderConfirmation']);
-
-// Get the database instance
-$db = Database::getInstance();
-
-try {
-     $stmt = $db->query("SELECT * FROM users");
-     $stmt->execute();
-     $result = $stmt->fetchAll();
-     foreach ($result as $row) {
-          echo $row['username'] . "<br>";
-     }
-}catch (PDOException $e) {
-     echo "Query failed: " . $e->getMessage();
-}
 
 
 // Call the route method to process the request

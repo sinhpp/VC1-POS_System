@@ -4,20 +4,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_SESSION['user_id'])) : ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
+
+
 
 <div class="container">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <header>
         <h2> Edit Product</h2>
     </header>
@@ -53,6 +44,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 </div>
             </div>
         </div>
+
         </section>
        <section class="pricing-stock">
     <h3>Pricing And Stocks</h3>
@@ -61,7 +53,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
 <div class="input-container">
     <!-- First Input Group -->
-    <div class="input-group">
+    <div class="input-group1">
         <label>Stock</label>
         <input type="number" id="stockInput" placeholder="Enter stock quantity" name="stock" 
                value="<?= isset($product) ? htmlspecialchars($product['stock']) : '45' ?>" 
@@ -69,7 +61,7 @@ if (isset($_SESSION['user_id'])) : ?>
     </div>
 
     <!-- Second Input Group -->
-    <div class="input-group">
+    <div class="input-group1">
         <label>Stock Adjustment</label>
         <input type="number" id="addStockInput" placeholder="Enter stock quantity to add or subtract" name="add_stock" required min="0" step="1">
     </div>
@@ -195,17 +187,34 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     </form>
 </main>
 <style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    }
+
+
+    body {
+            font-family: Arial, sans-serif;
+            display: block;
+
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+         
+        }
         .input-container {
             display: flex;
             justify-content: space-between;
         
             width: 100%;
+        }
+        .input-group1 {
+            position: relative;
+            display: block;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+        .input-group {
+            position: relative;
+     
+            flex-wrap: wrap;
+            align-items: stretch;
         }
         .input-container label,
         .input-container input {
@@ -251,9 +260,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
         
 
 .container {
-    max-width: 78%;
+    max-width: 70%;
     height: auto;
-    margin-left: 22%; /* Sidebar adjustment */
+    margin-left: 26%; /* Sidebar adjustment */
     background: white;
     position: relative;
     margin-top:10%;
@@ -261,17 +270,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
    
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  
-}
-
-header h2 {
+ h2 {
     font-size: 30px;
-    margin-left:30%;
+
 }
 
 .actions button {
@@ -304,7 +305,7 @@ header h2 {
 }
 
 section {
-    background: #fff;
+
     padding: 30px;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;}
