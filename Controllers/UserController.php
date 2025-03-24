@@ -55,7 +55,7 @@ class UserController extends BaseController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['role'];
             $_SESSION['users'] = true;
-            $this->redirect("/users"); // Redirect to users list on success
+            $this->redirect("/dashboard"); // Redirect to users list on success
         } else {
             // Return the form with an error message
             $this->view("form/form", ['error' => 'Invalid email or password']);

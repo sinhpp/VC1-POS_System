@@ -1,45 +1,81 @@
 <?php
 session_start();
- // Assume you have a database connection file
-require_once '../vendor/fpdf186/fpdf.php';
+require_once __DIR__ . '../../vendor/fpdf186/fpdf.php'; // Path to FPDF
+require_once __DIR__ . '../../layout.php'; // Your layout file
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
-    $order = json_decode($_POST['order'], true);
-    $totalPrice = floatval($_POST['totalPrice']);
-    $customerName = $_POST['customerName'];
-    $shippingAddress = $_POST['shippingAddress'];
-    $billingAddress = $_POST['billingAddress'];
-    $contactDetails = $_POST['contactDetails'];
-    $paymentMethod = $_POST['paymentMethod'];
+// Retrieve form data
+$customerName = $_POST['customerName'] ?? 'N/A';
+$shippingAddress = $_POST['shippingAddress'] ?? 'N/A';
+$billingAddress = $_POST['billingAddress'] ?? 'N/A';
+$contactDetails = $_POST['contactDetails'] ?? 'N/A';
+$paymentMethod = $_POST['paymentMethod'] ?? 'N/A';
+$totalPrice = isset($_POST['totalPrice']) && is_numeric($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : 0;
+$order = isset($_POST['order']) ? json_decode($_POST['order'], true) : [];
+$discountRate = 0.06;
+$discountAmount = $totalPrice * $discountRate;
+$finalTotal = $totalPrice - $discountAmount;
 
-    // Insert into customers table (if not already existing)
-    $stmt = $pdo->prepare("INSERT INTO customers (name, phone, email) VALUES (?, ?, ?)");
-    $stmt->execute([$customerName, $contactDetails, null]); // Adjust based on your needs
-    $customerId = $pdo->lastInsertId();
+// Initialize FPDF
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->SetFont('Arial', 'B', 16);
 
-    // Insert into orders table
-    $userId = $_SESSION['user_id'] ?? 1; // Assume a logged-in user
-    $stmt = $pdo->prepare("INSERT INTO orders (user_id, customer_id, total_amount, payment_status) VALUES (?, ?, ?, 'pending')");
-    $stmt->execute([$userId, $customerId, $totalPrice]);
-    $orderId = $pdo->lastInsertId();
+// Header
+$pdf->Cell(0, 10, 'Order Receipt', 0, 1, 'C');
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(0, 10, 'Generated on ' . date('Y-m-d H:i:s'), 0, 1, 'C');
+$pdf->Ln(10);
 
-    // Insert order items
-    $stmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, unit_price, total_price) VALUES (?, ?, ?, ?, ?)");
-    foreach ($order as $item) {
-        $stmt->execute([$orderId, $item['id'], $item['quantity'], $item['price'], $item['price'] * $item['quantity']]);
+// Customer Information
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->Cell(0, 10, 'Customer Information', 0, 1);
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(0, 10, 'Name: ' . $customerName, 0, 1);
+$pdf->Cell(0, 10, 'Shipping Address: ' . $shippingAddress, 0, 1);
+$pdf->Cell(0, 10, 'Billing Address: ' . $billingAddress, 0, 1);
+$pdf->Cell(0, 10, 'Contact Details: ' . $contactDetails, 0, 1);
+$pdf->Cell(0, 10, 'Payment Method: ' . $paymentMethod, 0, 1);
+$pdf->Ln(10);
+
+// Order Summary
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->Cell(0, 10, 'Order Summary', 0, 1);
+$pdf->SetFont('Arial', '', 12);
+
+if (empty($order)) {
+    $pdf->Cell(0, 10, 'No items in your order.', 0, 1);
+} else {
+    // Table header
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(80, 10, 'Product', 1);
+    $pdf->Cell(30, 10, 'Quantity', 1);
+    $pdf->Cell(40, 10, 'Price', 1);
+    $pdf->Ln();
+
+    // Table rows
+    $pdf->SetFont('Arial', '', 12);
+    foreach ($order as $product) {
+        $pdf->Cell(80, 10, $product['name'], 1);
+        $pdf->Cell(30, 10, $product['quantity'], 1);
+        $pdf->Cell(40, 10, '$' . number_format($product['price'] * $product['quantity'], 2), 1);
+        $pdf->Ln();
     }
 
-    // Insert payment (assuming payment is processed here)
-    $stmt = $pdo->prepare("INSERT INTO payments (order_id, payment_method, amount) VALUES (?, ?, ?)");
-    $paymentMethodMapped = $paymentMethod === 'Mastercard' || $paymentMethod === 'Visa' ? 'card' : 'cash';
-    $stmt->execute([$orderId, $paymentMethodMapped, $totalPrice]);
-
-    // Update order payment status
-    $stmt = $pdo->prepare("UPDATE orders SET payment_status = 'paid' WHERE id = ?");
-    $stmt->execute([$orderId]);
-
-    // Redirect or generate receipt
-    header("Location: /receipt.php?order_id=" . $orderId);
-    exit;
+    // Totals
+    $pdf->Ln(5);
+    $pdf->Cell(110, 10, 'Product Total:', 0);
+    $pdf->Cell(40, 10, '$' . number_format($totalPrice, 2), 0, 1);
+    $pdf->Cell(110, 10, 'Discount (6%):', 0);
+    $pdf->Cell(40, 10, '($' . number_format($discountAmount, 2) . ')', 0, 1);
+    $pdf->Cell(110, 10, 'Delivery Fee:', 0);
+    $pdf->Cell(40, 10, 'Free', 0, 1);
+    $pdf->Ln(5);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(110, 10, 'Final Total:', 0);
+    $pdf->Cell(40, 10, '$' . number_format($finalTotal, 2), 0, 1);
 }
+
+// Output the PDF as a download
+$pdf->Output('D', 'order_receipt_' . date('YmdHis') . '.pdf'); // 'D' forces download
+exit;
 ?>

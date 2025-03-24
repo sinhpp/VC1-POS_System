@@ -269,13 +269,18 @@ class ProductScanController {
             $pdf->Cell(150, 10, 'Total: $' . number_format($total_amount, 2), 0, 1, 'R');
 
             $this->db->commit();
-            
+
+            // Save the PDF to a temporary file
+            ob_end_clean();
+            $tempFile = __DIR__ . '/../../temp/order_receipt_' . $order_id . '.pdf';
+            $pdf->Output('F', $tempFile); // 'F' saves to a file
+
             // Clear session
             unset($_SESSION['order']);
             unset($_SESSION['product']);
 
-            ob_end_clean();
-            $pdf->Output('D', 'order_receipt_' . $order_id . '.pdf');
+            // Redirect to print the receipt
+            header("Location: /order/print-receipt?file=" . urlencode(basename($tempFile)));
             exit();
         } catch (Exception $e) {
             $this->db->rollBack();
@@ -283,6 +288,35 @@ class ProductScanController {
             header("Location: /views/order/checkout.php");
             exit();
         }
+    }
+
+    public function printReceipt() {
+        if (!isset($_GET['file'])) {
+            $_SESSION['error'] = "No receipt file specified.";
+            header("Location: /order");
+            exit();
+        }
+
+        $fileName = basename($_GET['file']);
+        $filePath = __DIR__ . '/../../temp/' . $fileName;
+
+        if (!file_exists($filePath)) {
+            $_SESSION['error'] = "Receipt file not found.";
+            header("Location: /order");
+            exit();
+        }
+
+        // Serve the PDF file
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="' . $fileName . '"');
+        readfile($filePath);
+
+        // Optionally delete the file after serving
+        // unlink($filePath); // Uncomment to delete the file after serving
+
+        // Trigger printing
+        echo '<script>window.print();</script>';
+        exit();
     }
 }
 
@@ -306,6 +340,9 @@ switch ($_SERVER['REQUEST_URI']) {
         break;
     case '/product/process-checkout':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') $controller->processCheckout();
+        break;
+    case '/order/print-receipt':
+        $controller->printReceipt();
         break;
 }
 ?>

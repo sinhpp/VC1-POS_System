@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ .'../../layout.php';
 $error = $error ?? '';
 $order = $order ?? ($_SESSION['order'] ?? []);
 $error = $error ?? '';
