@@ -4,52 +4,86 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['user_id'])) : ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+
+    <div class="container-fluid">
+
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JavaScript (optional, for dropdowns, modals, etc.) -->
+
+
 
     <style>
         /* General Styles */
-        .header {
-            margin-left: -24%;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        .navbar-expand .navbar-collapse {
+            display: flex !important
+        ;
+            flex-basis: auto;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: block;
+
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
         }
 
+        .alert {
+            
+          
+            position: relative;
+            top:-50%;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
+       
+        
         .table-responsive {
             margin: 20px;
-            max-width: 100%;
+            max-width: 80%;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             background: linear-gradient(145deg, #ffffff, #f9f9f9);
-            margin-top: 25%;
+            margin-top: 10%;
+            margin-left:14%;
         }
 
         .table {
-            width: 100%;
+            width: 80%;
             border-collapse: separate;
             border-spacing: 0;
+            display: inline;
+            margin-left:20%;
+            justify-content: center;
+            align-items: center;
         }
 
         .table th, .table td {
+            justify-content: center;
+            align-items: center;
             text-align: center;
             padding: 12px 15px;
             border-bottom: 1px solid #e0e0e0;
         }
 
         .table th {
+            justify-content: center;
+            align-items: center;
             background-color: #007bff;
             color: #fff;
             font-weight: 600;
@@ -106,13 +140,15 @@ if (isset($_SESSION['user_id'])) : ?>
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .btn {
-            padding: 6px 12px;
-            border-radius: 4px;
+        .btn-success {
+            margin-left:20%;
+            padding: 15px 20px;
+            border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
             text-align: center;
             transition: all 0.3s ease;
+            background: #26A142;
         }
 
         .btn-warning {
@@ -144,13 +180,7 @@ if (isset($_SESSION['user_id'])) : ?>
             font-size: 1.2rem;
         }
 
-        .alert {
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
-
+       
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .header {
@@ -228,9 +258,9 @@ if (isset($_SESSION['user_id'])) : ?>
     </style>
 </head>
 <body>
-    <div class="table-responsive">
+    <div class="container-fluid table-responsive">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/users/create" class="btn btn-success">+ Create User</a>
+            <a href="/users/create" class="btn1 btn-success">+ Create User</a>
         </div>
         <table class="table table-striped table-hover shadow-sm rounded">
             <thead>
@@ -312,8 +342,7 @@ if (isset($_SESSION['user_id'])) : ?>
             alertPlaceholder.appendChild(wrapper);
         }
     </script>
-</body>
-</html>
+
 
 <?php 
 else: 
