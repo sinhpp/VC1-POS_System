@@ -18,7 +18,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
         .container {
             display: flex;
-            margin-left:30%;
+            margin-left:26%;
             margin-top:10%;
             
             background: white;
@@ -131,13 +131,13 @@ if (isset($_SESSION['user_id'])) : ?>
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #4CAF50;
+            background-color: #4CAF50; /* Green background */
             color: white;
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            display: none;
-            z-index: 1000;
+            display: none; /* Hidden by default */
+            z-index: 1000; /* Ensure it's above other elements */
         }
     </style>
     <script>
@@ -160,8 +160,11 @@ if (isset($_SESSION['user_id'])) : ?>
                 event.preventDefault(); // Prevent form submission
             } else {
                 errorMessage.style.display = "none";
+                // Show success alert
+                showSuccessAlert();
             }
         }
+
         function showSuccessAlert() {
             const alert = document.getElementById("success-alert");
             alert.style.display = "block";
@@ -174,9 +177,8 @@ if (isset($_SESSION['user_id'])) : ?>
 </head>
 <body>
 <div id="success-alert" class="success-alert">
-        User created successfully!
-    </div>
-
+    User created successfully!
+</div>
     <div class="container">
         
         <!-- Left Column: Profile Picture Upload -->
@@ -187,48 +189,46 @@ if (isset($_SESSION['user_id'])) : ?>
         </div>
 
         <!-- Right Column: User Details Form -->
-        <div class="profile-form">
-            <h2>Create User Account</h2>
-            <form action="/users/storeuser" method="post" onsubmit="validateForm(event)">
-                <!-- Name Field -->
-                <div class="input-group">
-                    <label>Full Name</label>
-                    <input type="text" name="name" placeholder="Enter your full name" required>
-                </div>
+        <form action="/users/storeuser" method="post" onsubmit="validateForm(event)">
+    <!-- Name Field -->
+    <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" name="name" placeholder="Enter your full name" required>
+    </div>
 
-                <!-- Email Field -->
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" name="email" placeholder="Enter your email" required>
-                </div>
+    <!-- Email Field -->
+    <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
+    </div>
 
-                <!-- Role Field -->
-                <div class="input-group">
-                    <label>Role</label>
-                    <select name="role" required>
-                        <option value="" disabled selected>Select Role</option>
-                        <option value="admin">Admin</option>
-                        <option value="cashier">Cashier</option>
-                    </select>
-                </div>
+    <!-- Role Field -->
+    <div class="input-group">
+        <label>Role</label>
+        <select name="role" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="cashier">Cashier</option>
+        </select>
+    </div>
 
-                <!-- Password Field -->
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password" required>
-                </div>
+    <!-- Password Field -->
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+    </div>
 
-                <!-- Confirm Password Field -->
-                <div class="input-group">
-                    <label>Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
-                    <div id="password-error" class="error-message">Passwords do not match. Please try again.</div>
-                </div>
+    <!-- Confirm Password Field -->
+    <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
+        <div id="password-error" class="error-message">Passwords do not match. Please try again.</div>
+    </div>
 
-                <!-- Submit and Cancel Buttons -->
-                <button type="submit" class="btn-primary">Create Account</button>
-                <a href="/users" class="btn-secondary">Cancel</a>
-            </form>
+    <!-- Submit and Cancel Buttons -->
+    <button type="submit" class="btn-primary">Create Account</button>
+    <a href="/users" class="btn-secondary">Cancel</a>
+</form>
         </div>
     </div>
 </body>

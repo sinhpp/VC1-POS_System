@@ -13,7 +13,7 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $image){
+    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image){
         // Check if barcode exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products WHERE barcode = :barcode");
         $stmt->execute([':barcode' => $barcode]);
@@ -47,7 +47,7 @@ class ProductModel {
       $dbImagePath = 'uploads/' . $imageName;
 
       // Insert new product
-      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, description, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :description, :gender, :image)");
+      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
       return $stmt->execute([
           ':name' => $name,
           ':barcode' => $barcode,
@@ -56,13 +56,14 @@ class ProductModel {
           ':category' => $category,
           ':size' => $size ?? 'N/A', // Provide a default value if $size is null
           ':discount' => $discount,
-          ':description' => $description,
+          ':discount_type' => $discount_type,
+          ':descriptions' => $descriptions,
           ':gender' => $gender,
           ':image' => $dbImagePath
       ]);
   }
     
-    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $image) {
+    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
         // Handle image upload
         $imagePath = null;
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
@@ -88,7 +89,7 @@ class ProductModel {
         }
     
         // Update product
-        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category, size = :size, discount = :discount, description = :description, gender = :gender, image = :image WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category, size = :size, discount = :discount, descriptions = :descriptions, gender = :gender, image = :image WHERE id = :id");
         return $stmt->execute([
             ':id' => $id,
             ':name' => $name,
@@ -98,7 +99,8 @@ class ProductModel {
             ':category' => $category,
             ':size' => $size,
             ':discount' => $discount,
-            ':description' => $description,
+            ':discount_type' => $discount_type,
+            ':descriptions' => $descriptions,
             ':gender' => $gender,
             ':image' => $dbImagePath
         ]);

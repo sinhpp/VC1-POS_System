@@ -38,29 +38,29 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .alert {
-            
-          
-            position: relative;
-            top:-50%;
+            position: fixed; /* Fixed position to ensure it's visible */
+            top: 20px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it's above other elements */
+            padding: 15px;
+            border-radius: 5px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 16px;
+            display: block; /* Ensure it's displayed */
         }
-
        
         
         .table-responsive {
             margin: 20px;
-            max-width: 80%;
+            max-width: 75%;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             background: linear-gradient(145deg, #ffffff, #f9f9f9);
+            /* background: #D8D6FF; */
             margin-top: 10%;
-            margin-left:14%;
+            margin-left:24%;
         }
 
         .table {
@@ -68,9 +68,10 @@ if (isset($_SESSION['user_id'])) : ?>
             border-collapse: separate;
             border-spacing: 0;
             display: inline;
-            margin-left:20%;
+            margin-left:7%;
             justify-content: center;
             align-items: center;
+          
         }
 
         .table th, .table td {
@@ -141,7 +142,8 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .btn-success {
-            margin-left:20%;
+            margin-top:2%;
+            margin-left:7%;
             padding: 15px 20px;
             border-radius: 20px;
             font-size: 0.9rem;
@@ -307,40 +309,52 @@ if (isset($_SESSION['user_id'])) : ?>
     <button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
 
     <script>
-        function confirmDelete(userId) {
-            Swal.fire({
-                title: 'Do you want to delete this user?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Show live alert instead of SweetAlert2 success message
-                    showLiveAlert('User has been deleted successfully.', 'success');
-                    
-                    // Redirect to delete URL after short delay
-                    setTimeout(() => {
-                        window.location.href = '/users/delete/' + userId;
-                    }, 1000);
-                }
-            });
-        }
+     function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show live alert
+            showLiveAlert('User has been deleted successfully.', 'success');
 
-        function showLiveAlert(message, type) {
-            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = `
-                <div class="alert alert-${type} alert-dismissible" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `;
-            alertPlaceholder.appendChild(wrapper);
+            // Redirect to delete URL after a delay
+            setTimeout(() => {
+                window.location.href = '/users/delete/' + userId;
+            }, 3000); // 3 seconds delay
         }
+    });
+}
+
+function showLiveAlert(message, type) {
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+    // Clear any existing alerts
+    alertPlaceholder.innerHTML = '';
+
+    // Create the alert element
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+
+    // Append the alert to the placeholder
+    alertPlaceholder.appendChild(wrapper);
+
+    // Remove the alert after 3 seconds
+    setTimeout(() => {
+        wrapper.remove();
+    }, 3000);
+}
     </script>
 
 
