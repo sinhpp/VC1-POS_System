@@ -1,20 +1,27 @@
 <?php
-require_once "Models/UserModel.php";
 
-class UserController extends BaseController {
-    private $users;
+namespace Controllers;
 
-    public function __construct() {
-        $this->users = new UserModel();
+use Controllers\BaseController; // Ensure this line is correct
+use Models\UserModel;
+
+class UserController extends BaseController
+{
+    private $userModel;
+
+    public function __construct()
+    {
+        parent::__construct(); // Call the parent constructor if needed
+        $this->userModel = new UserModel(); // Ensure UserModel is correctly referenced
     }
 
     public function index() {
-        $users = $this->users->getUsers();
+        $users = $this->userModel->getUsers();
         $this->view("users/user", ['users' => $users]); // Ensure 'users/user.php' exists
     }
 
     public function showUser($id) {
-        $user = $this->users->getUserById($id);
+        $user = $this->userModel->getUserById($id);
         $this->view("users/user_details", ['user' => $user]);
     }
 
@@ -31,7 +38,7 @@ class UserController extends BaseController {
         $role = htmlspecialchars($_POST['role']);
     
         // Check if user creation is successful
-        if ($this->users->createUser($name, $email, $encrypted_password, $role)) {
+        if ($this->userModel->createUser($name, $email, $encrypted_password, $role)) {
             $_SESSION['signup_success'] = "Your signup was successful!";
             header("Location: /"); // Redirect to the login page
             exit();
@@ -47,7 +54,7 @@ class UserController extends BaseController {
         session_start();
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
-        $user = $this->users->getUserByEmail($email);
+        $user = $this->userModel->getUserByEmail($email);
     
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_name'] = $user['name'];
@@ -61,7 +68,7 @@ class UserController extends BaseController {
         }
     }
     public function delete($id) {
-        $this->users->deleteUser($id);
+        $this->userModel->deleteUser($id);
         header("Location: /users");
     }
     
@@ -92,13 +99,13 @@ class UserController extends BaseController {
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
     
-        $this->users->usercreate($name, $email, $encrypted_password, $role);
+        $this->userModel->usercreate($name, $email, $encrypted_password, $role);
         header("Location: /users");
     }
     
 
     public function edit($id) {
-        $user = $this->users->getUserById($id); // Fetch user details from model
+        $user = $this->userModel->getUserById($id); // Fetch user details from model
         if (!$user) {
             die("User not found");
         }
@@ -109,7 +116,7 @@ class UserController extends BaseController {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
-        $this->users->updateUser($id, $name, $email, $role);
+        $this->userModel->updateUser($id, $name, $email, $role);
         header("Location: /users");
     }  
 

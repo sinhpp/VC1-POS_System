@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/Router.php');
+require_once __DIR__ . '/../Router/Router.php'; // Ensure this line is present
 require_once "Controllers/BaseController.php";
 require_once "Database/Database.php";
 require_once "Controllers/FormController.php";
@@ -43,7 +43,10 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
-
-
 // Call the route method to process the request
-$route->route();
+try {
+    $route->route();
+} catch (Exception $e) {
+    http_response_code(500);
+    echo "Internal Server Error: " . $e->getMessage();
+}

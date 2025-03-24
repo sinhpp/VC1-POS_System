@@ -1,11 +1,9 @@
 <?php
 
+require_once __DIR__ . '/Router/Route.php'; // Ensure this line is present
 require_once './Database/Database.php';
-require_once './Router/Route.php'; 
-
 
 $db = Database::getInstance();
-
 
 try {
     $db->query("SELECT 1"); 
@@ -14,5 +12,4 @@ try {
     echo "Connection failed: " . $e->getMessage();
 }
 
-require 'Router/Route.php';
 ?>

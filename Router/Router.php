@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../Controllers/FormController.php');
+require_once __DIR__ . '/../controllers/FormController.php';
 $router = new Router();
 $router->get('/form', [new FormController(), 'form']); // Route to form
 
@@ -75,6 +76,20 @@ class Router
     }
 
     /**
+     * Registers a PATCH route.
+     *
+     * @param string $uri The URI of the route.
+     * @param array $action The controller class and method to be executed.
+     */
+    public function patch($uri, $action)
+    {
+        $this->routes[$uri] = [
+            'method' => 'PATCH',
+            'action' => $action
+        ];
+    }
+
+    /**
      * Routes the request to the appropriate controller and method.
      */
     public function route()
@@ -88,7 +103,16 @@ class Router
                 $controllerClass = $route['action'][0];
                 $function = $route['action'][1];
 
+                if (!class_exists($controllerClass)) {
+                    throw new Exception("Controller class $controllerClass not found");
+                }
+
                 $controller = new $controllerClass();
+
+                if (!method_exists($controller, $function)) {
+                    throw new Exception("Method $function not found in controller $controllerClass");
+                }
+
                 $controller->$function(...$matches); // Pass extracted parameters
                 exit;
             }
@@ -97,6 +121,4 @@ class Router
         http_response_code(404);
         require_once 'views/errors/404.php';
     }
-
-    
 }

@@ -1,39 +1,106 @@
 <?php
-// File: Database.php
-class Database {
-    private static $instance = null;
-    private $conn;
+
+namespace Database;
+
+use PDO;
+use PDOException;
+
+class Database
+{
+    private $host = 'localhost';
+    private $user = 'root';
+    private $pass = '';
+    private $dbname = 'pos_system';
     
-    // Database Configuration
-    private $host = "localhost";
-    private $user = "root";
-    private $pass = "";
-    private $dbname = "pos_system";
-
-    private function __construct() {
+    private $dbh;
+    private $stmt;
+    private $error;
+    
+    public function __construct()
+    {
+        // Set DSN
+        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
+        $options = [
+            PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ];
+        
+        // Create PDO instance
         try {
-            $this->conn = new PDO(
-                "mysql:host=$this->host;dbname=$this->dbname;charset=utf8mb4",
-                $this->user,
-                $this->pass
-            );
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {
-            die("Database Connection Failed: " . $e->getMessage());
+            $this->error = $e->getMessage();
+            echo $this->error;
         }
     }
-
-    public static function getInstance() {
-        if (self::$instance === null) {
-            self::$instance = new self();
+    
+    /**
+     * Prepare statement with query
+     * 
+     * @param string $sql
+     * @return void
+     */
+    public function query($sql, $params = [])
+    {
+        $this->stmt = $this->dbh->prepare($sql);
+        
+        if (!empty($params)) {
+            foreach ($params as $param => $value) {
+                $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                $this->stmt->bindValue($param, $value, $type);
+            }
         }
-        return self::$instance->conn; // Returns PDO object
+        
+        $this->stmt->execute();
     }
-
-    private function __clone() {}
-    public function __wakeup() {
-        throw new Exception("Cannot unserialize singleton");
+    
+    /**
+     * Get single record as array
+     * 
+     * @return array|false
+     */
+    public function single($sql = null, $params = [])
+    {
+        if ($sql) {
+            $this->query($sql, $params);
+        }
+        
+        return $this->stmt->fetch();
+    }
+    
+    /**
+     * Get result set as array of arrays
+     * 
+     * @return array
+     */
+    public function resultSet($sql = null, $params = [])
+    {
+        if ($sql) {
+            $this->query($sql, $params);
+        }
+        
+        return $this->stmt->fetchAll();
+    }
+    
+    /**
+     * Get row count
+     * 
+     * @return int
+     */
+    public function rowCount()
+    {
+        return $this->stmt->rowCount();
+    }
+    
+    /**
+     * Get last insert ID
+     * 
+     * @return string
+     */
+    public function lastInsertId()
+    {
+        return $this->dbh->lastInsertId();
     }
 }
-?>
+

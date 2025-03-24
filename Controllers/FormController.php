@@ -1,5 +1,7 @@
 <?php
-require_once(__DIR__ . '/BaseController.php'); // 
+namespace Controllers;
+
+require_once __DIR__ . '/../BaseController.php'; // Corrected path
 
 class FormController extends BaseController {
     public function form() {
@@ -17,8 +19,5 @@ class FormController extends BaseController {
         // Redirect to login form instead of users list
         header("Location: /");
         exit();
-    }
-    
-   
-    
+    }   
 }
