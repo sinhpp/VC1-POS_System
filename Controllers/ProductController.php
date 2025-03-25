@@ -23,21 +23,21 @@ public function detail($id) {
         $this->view("/products/create");  // This should point to 'views/products/create_product.php'
     }
     public function store() {
-        session_start(); // Start session to store the message
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     
         // Collecting data from the form
         $name = $_POST['name'];
         $barcode = $_POST['barcode'];
         $price = floatval($_POST['price']);
         $stock = intval($_POST['stock']);
-        $category = $_POST['category'] ?? null;
-        $size = $_POST['size'] ?? 'N/A';
-        $discount = $_POST['discount'] ?? 0;
-        $discount_type = $_POST['discount_type'] ?? 'none';
-        $descriptions = $_POST['descriptions'] ?? null;
-        $gender = $_POST['gender'] ?? null;
-        $image = $_FILES['image'] ?? null;
-        
+        $category = $_POST['category'];
+        $size = $_POST['size'] ?? 'N/A'; // Default to 'N/A' if not provided
+        $discount = floatval($_POST['discount']);
+        $discount_type = $_POST['discount_type'];
+        $descriptions = $_POST['descriptions'];
+        $gender = $_POST['gender'] ?? 'Unisex'; // Default value if not provided
         $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
     
         // ✅ Validate negative values before proceeding
@@ -56,16 +56,14 @@ public function detail($id) {
         // ✅ Check if we're updating or creating a product
         if ($id) {
             // Update the existing product
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, 
-                $discount, $discount_type, $descriptions, $gender, $image)) {
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $_FILES['image'])) {
                 $_SESSION['product_success'] = "Product updated successfully!";
             } else {
                 $_SESSION['product_error'] = "Error updating product.";
             }
         } else {
             // Create a new product
-            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, 
-                $discount, $discount_type, $descriptions, $gender, $image)) {
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount,$discount_type, $descriptions, $gender, $_FILES['image'])) {
                 $_SESSION['product_success'] = "Product added successfully!";
             } else {
                 $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
@@ -76,62 +74,47 @@ public function detail($id) {
         exit();
     }
     
-        public function edit($id) {
-            $product = $this->products->getProById($id);
-            $this->view("products/edit_pro", ['product' => $product]);
+    public function edit($id) {
+        $product = $this->products->getProById($id);
+        $this->view("products/edit_pro", ['product' => $product]);
+    }
+    
+    public function update($id) {
+        if (!isset($_SESSION)) {
+            session_start();
         }
         
-        public function update($id) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
-        
-            $name = $_POST['name'];
-            $barcode = $_POST['barcode'];
-            $price = floatval($_POST['price']);
-            $stock = intval($_POST['stock']);
-            $category = $_POST['category'] ?? null;
-            $image = $_FILES['image'] ?? null;
-            
-            // Fix missing variables
-            $size = $_POST['size'] ?? null;
-            $discount = $_POST['discount'] ?? 0.0;
-            $discount_type = $_POST['discount_type'] ?? null;
-            $descriptions = $_POST['descriptions'] ?? null;
-            $gender = $_POST['gender'] ?? null;
-        
-            // Debugging
-            error_log("Updating product ID: " . $id);
-            error_log("Received category: " . var_export($category, true));
-        
-            if (!$category) {
-                $_SESSION['product_error'] = "Category is missing!";
-                header("Location: /products/edit/$id");
-                exit();
-            }
-        
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, 
-                $discount, $discount_type, $descriptions, $gender, $image)) {
-                $_SESSION['product_success'] = "Product updated successfully!";
-            } else {
-                $_SESSION['product_error'] = "Failed to update product.";
-            }
-        
-            header("Location: /products");
+    
+        $name = $_POST['name'];
+        $barcode = $_POST['barcode'];
+        $price = floatval($_POST['price']);
+        $stock = intval($_POST['stock']);
+        $category = $_POST['category'] ?? null;
+        $size = $_POST['size'] ?? null;
+        $discount = floatval($_POST['discount'] ?? 0);
+        $discount_type = $_POST['discount_type'];
+        $descriptions = $_POST['descriptions'] ?? null;
+        $gender = $_POST['gender'] ?? null;
+        $image = $_FILES['image'] ?? null;
+    
+        // Debugging
+        error_log("Updating product ID: " . $id);
+        error_log("Received category: " . var_export($category, true));
+    
+        if (!$category) {
+            $_SESSION['product_error'] = "Category is missing!";
+            header("Location: /products/edit/$id");
             exit();
         }
-        
-        // Delete product
-        public function delete($id) {
-            if ($this->products->deleteProduct($id)) {
-                $_SESSION['product_success'] = "Product deleted successfully!";
-            } else {
-                $_SESSION['product_error'] = "Error deleting product.";
-            }
-            header("Location: /products");
-            exit();
+    
+        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
+            $_SESSION['product_success'] = "Product updated successfully!";
+        } else {
+            $_SESSION['product_error'] = "Failed to update product.";
         }
-        
+        header("Location: /products");
+        exit();
+    }
     public function deleteAllProducts() {
         session_start();
         header('Content-Type: application/json'); // Set the content type to JSON
@@ -145,3 +128,4 @@ public function detail($id) {
         exit();
     }
 }
+

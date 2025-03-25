@@ -64,31 +64,31 @@ class ProductModel {
   }
     
   public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
-    error_log("Received category: " . var_export($category, true));
-
-    $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
-    $stmt->execute([':id' => $id]);
-    $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$existingProduct) {
-        error_log("Product not found");
-        return false;
-    }
-
-    $imagePath = $existingProduct['image']; // Keep existing image
-    
+    // Handle image upload
+    $imagePath = null;
     if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
         $uploadDir = __DIR__ . '/../uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
+
+        $imageTmpPath = $image['tmp_name'];
         $imageName = basename($image['name']);
-        $newImagePath = 'uploads/' . $imageName;
-        if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
-            $imagePath = $newImagePath;
+        $imagePath = $uploadDir . $imageName;
+
+        if (!move_uploaded_file($imageTmpPath, $imagePath)) {
+            error_log("Error moving file: " . print_r(error_get_last(), true));
+            return false;
         }
+
+        $dbImagePath = 'uploads/' . $imageName;
+    } else {
+        // If no new image is uploaded, keep the existing image path
+        $existingProduct = $this->getProById($id);
+        $dbImagePath = $existingProduct['image'];
     }
 
+    // Update product in database
     $stmt = $this->db->prepare("UPDATE products SET 
         name = :name, 
         barcode = :barcode, 
@@ -97,13 +97,14 @@ class ProductModel {
         category = :category,  
         size = :size,
         discount = :discount,
-        discount_type = :discount_type,  -- ✅ Fixed typo
+        discount_type = :discount_type,
         descriptions = :descriptions,
         gender = :gender,
         image = :image 
         WHERE id = :id");
 
     $result = $stmt->execute([
+        ':id' => $id,
         ':name' => $name,
         ':barcode' => $barcode,
         ':price' => $price,
@@ -111,11 +112,10 @@ class ProductModel {
         ':category' => $category, 
         ':size' => $size,
         ':discount' => $discount,
-        ':discount_type' => $discount_type,  // ✅ Fixed key
+        ':discount_type' => $discount_type,
         ':descriptions' => $descriptions, 
         ':gender' => $gender,
-        ':image' => $imagePath,  
-        ':id' => $id
+        ':image' => $dbImagePath
     ]);
 
     if ($result) {
@@ -125,7 +125,7 @@ class ProductModel {
     }
 
     return $result;
-}
+} // ✅ Ensure function is properly closed
 
     
 
