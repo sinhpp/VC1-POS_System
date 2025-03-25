@@ -35,7 +35,7 @@ class ProductController extends BaseController {
         $category = $_POST['category'];
         $size = $_POST['size'] ?? 'N/A'; // Default to 'N/A' if not provided
         $discount = floatval($_POST['discount']);
-        $description = $_POST['description'];
+        $descriptions = $_POST['descriptions'];
         $gender = $_POST['gender'] ?? 'Unisex'; // Default value if not provided
         $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
     
@@ -54,14 +54,14 @@ class ProductController extends BaseController {
     
         if ($id) {
             // Update the existing product
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $_FILES['image'])) {
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $_FILES['image'])) {
                 $_SESSION['product_success'] = "Product updated successfully!";
             } else {
                 $_SESSION['product_error'] = "Error updating product.";
             }
         } else {
             // Create a new product
-            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $_FILES['image'])) {
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $_FILES['image'])) {
                 $_SESSION['product_success'] = "Product added successfully!";
             } else {
                 $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
@@ -87,7 +87,7 @@ class ProductController extends BaseController {
         $category = $_POST['category'] ?? null;
         $size = $_POST['size'] ?? null;
         $discount = floatval($_POST['discount'] ?? 0);
-        $description = $_POST['description'] ?? null;
+        $descriptions = $_POST['descriptions'] ?? null;
         $gender = $_POST['gender'] ?? null;
         $image = $_FILES['image'] ?? null;
     
@@ -101,7 +101,7 @@ class ProductController extends BaseController {
             exit();
         }
     
-        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $description, $gender, $image)) {
+        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
             $_SESSION['product_error'] = "Failed to update product.";

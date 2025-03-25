@@ -52,7 +52,11 @@ if (isset($_SESSION['user_id'])) : ?>
                     </div>
                     <div class="detail-group">
                         <label>Description:</label>
-                        <p><?= isset($product) ? htmlspecialchars($product['description']) : 'N/A' ?></p>
+                        <p><?= isset($product) ? htmlspecialchars($product['descriptions']) : 'N/A' ?></p>
+                    </div>
+                    <div class="detail-group">
+                        <label>Gender:</label>
+                        <p><?= isset($product) ? htmlspecialchars($product['gender']) : 'N/A' ?></p>
                     </div>
                 </div>
             </div>
