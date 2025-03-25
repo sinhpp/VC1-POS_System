@@ -30,6 +30,7 @@ $route->get("/users/create", [UserController::class, 'createuser']);
 $route->post("/users/storeuser", [UserController::class, 'storeuser']);
 $route->get("/users/edit/{id}", [UserController::class, 'edit']);
 $route->post("/users/update/{id}", [UserController::class, 'update']); 
+$route->get("users/view_user/{id}", [UserController::class, 'detail']);
 
 // Products
 
