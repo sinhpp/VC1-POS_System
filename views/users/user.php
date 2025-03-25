@@ -4,255 +4,359 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['user_id'])) : ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+
+    <div class="container-fluid">
+
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- <style> -->
-        /* Sidebar Styles */
-        .sidebar {
-            font-family: "Poppins", sans-serif;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: #343a40;
-            padding: 15px;
-            color: white;
+<!-- Bootstrap JavaScript (optional, for dropdowns, modals, etc.) -->
+
+
+
+    <style>
+        /* General Styles */
+        .navbar-expand .navbar-collapse {
+            display: flex !important
+        ;
+            flex-basis: auto;
         }
-        .sidebar .nav-link {
-            color: white;
-            display: flex;
+        body {
+            font-family: Arial, sans-serif;
+            display: block;
+
+            justify-content: center;
             align-items: center;
-            gap: 10px;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .alert {
+            position: fixed; /* Fixed position to ensure it's visible */
+            top: 20px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            z-index: 1000; /* Ensure it's above other elements */
             padding: 15px;
-        }
-        .sidebar .nav-link:hover {
-            background-color: #495057;
             border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            display: block; /* Ensure it's displayed */
         }
+       
+        
+        .table-responsive {
+            margin: 20px;
+            max-width: 75%;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, #f9f9f9);
+            /* background: #D8D6FF; */
+            margin-top: 10%;
+            margin-left:24%;
+        }
+
+        .table {
+            width: 80%;
+            border-collapse: separate;
+            border-spacing: 0;
+            display: inline;
+            margin-left:7%;
+            justify-content: center;
+            align-items: center;
+          
+        }
+
+        .table th, .table td {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table th {
+            justify-content: center;
+            align-items: center;
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .table tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8f9fa;
+        }
+
+        .table-hover tbody tr:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .rounded {
+            border-radius: 8px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            width: 100px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(145deg, #28a745, #218838);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .role-badge.bg-info {
+            background: linear-gradient(145deg, #17a2b8, #138496);
+        }
+
+        .role-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            margin-top:2%;
+            margin-left:7%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #26A142;
+        }
+
+        .btn-warning {
+            background: linear-gradient(145deg, #ffc107, #e0a800);
+            border: none;
+            color: #000;
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(145deg, #e0a800, #d39e00);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(145deg, #dc3545, #c82333);
+            border: none;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(145deg, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         .material-icons {
-            font-size: 20px;
+            vertical-align: middle;
+            font-size: 1.2rem;
         }
-        /* Content area */
-        .content {
-            margin-left: 170px; /* Adjust based on sidebar width */
-            padding: 50px;
-        }
-    <!-- </style> -->
-<!-- </head> -->
-<!-- <body> -->
 
-    <!-- Sidebar -->
-    <!-- <nav class="sidebar d-flex flex-column flex-shrink-0">
-        <h3 class="text-center">Admin Panel</h3>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                    <i class="material-icons">dashboard</i> Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="/users" class="nav-link">
-                    <i class="material-icons">group</i> Users
-                </a>
-            </li>
-            <li>
-                <a href="/settings" class="nav-link">
-                    <i class="material-icons">settings</i> Settings
-                </a>
-            </li>
-            <li>
-                <a href="/" class="nav-link">
-                    <i class="material-icons">logout</i> Logout
-                </a>
-            </li>
-            <li>
-                <a href="/products" class="nav-link">
-                    <i class="material-icons"></i> products
-                </a>
-            </li>
-        </ul>
-    </nav> -->
-
-    <!-- Main Content Area -->
-    <div class="content">
-    <h2 class="text-center mb-4">Users List</h2>
- 
- <div class="d-flex justify-content-between align-items-center mb-3">
-     <a href="/users/create" class="btn btn-success">+ Create User</a>
- </div>
-
- <style>
-    .table-responsive {
-        margin: 20px; /* Optional: Add some margin to the table */
-    }
-
-    .table th, .table td {
-        text-align: center; /* Center align text in headers and data cells */
-    }
-
-    .table th {
-        background-color: #add8e6; /* Light blue color */
-        color: #000; /* Text color for better contrast */
-    }
-
-    .role-badge {
-        display: inline-block; /* Ensure the badge behaves like a block */
-        width: 100px; /* Set a specific width for balance */
-        text-align: center; /* Center align the text */
-    }
-</style>
-<style>
-    .table-responsive {
-        margin: 20px; /* Optional: Add some margin to the table */
-    }
-
-    .table th, .table td {
-        text-align: center; /* Center align text in headers and data cells */
-    }
-
-    .table th {
-        background-color: #add8e6; /* Light blue color */
-        color: #000; /* Text color for better contrast */
-    }
-
-    .role-badge {
-        display: inline-block; /* Ensure the badge behaves like a block */
-        width: 100px; /* Set a specific width for balance */
-        text-align: center; /* Center align the text */
-    }
-</style>
-<div class="table-responsive">
-    <table class="table table-striped table-hover shadow-sm rounded">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-            $index = 1; // Initialize a counter for the sequential ID
-            foreach ($users as $user): ?>
-            <tr>
-                <td><?= $index++ ?></td> <!-- Use the counter for ID -->
-                <td><?= htmlspecialchars($user['name']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td>
-                    <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
-                        <?= htmlspecialchars($user['role']) ?>
-                    </span>
-                </td>
-                <td>
-                    <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
-                        <i class="material-icons">edit</i>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(<?= $user['id'] ?>)">
-                        <i class="material-icons">delete</i>
-                    </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-
-<!-- Include SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    function confirmDelete(userId) {
-        Swal.fire({
-            title: 'Do you want to delete this user?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Store success message
-                sessionStorage.setItem('deleteSuccess', 'true');
-
-                // Redirect to delete URL
-                window.location.href = '/users/delete/' + userId;
+       
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .header {
+                margin-left: 0;
+                text-align: center;
             }
-        });
-    }
 
-    // Show the success alert after page reload
-    document.addEventListener("DOMContentLoaded", function () {
-        if (sessionStorage.getItem('deleteSuccess')) {
-            Swal.fire({
-                title: 'Deleted!',
-                text: 'User has been deleted successfully.',
-                icon: 'success',
-                timer: 1000, // Auto close after 3 seconds
-                showConfirmButton: false
-            });
+            .table-responsive {
+                margin-top: 15%;
+            }
 
-            // Remove the session storage flag
-            sessionStorage.removeItem('deleteSuccess');
+            .table th, .table td {
+                padding: 10px;
+            }
+
+            .role-badge {
+                width: 80px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                margin-top: 20%;
+            }
+
+            .table th, .table td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .role-badge {
+                width: 70px;
+                font-size: 0.75rem;
+            }
+
+            .btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .material-icons {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table-responsive {
+                margin-top: 25%;
+            }
+
+            .table th, .table td {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+
+            .role-badge {
+                width: 60px;
+                font-size: 0.7rem;
+            }
+
+            .btn {
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+
+            .material-icons {
+                font-size: 0.9rem;
+            }
+
+            .header {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid table-responsive">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="/users/create" class="btn1 btn-success">+ Create User</a>
+        </div>
+        <table class="table table-striped table-hover shadow-sm rounded">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th> 
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $index = 1; // Initialize a counter for the sequential ID
+                foreach ($users as $user): ?>
+                <tr>
+                    <td><?= $index++ ?></td> <!-- Use the counter for ID -->
+                    <td><?= htmlspecialchars($user['name']) ?></td>
+                    <td><?= htmlspecialchars($user['email']) ?></td>
+                    <td>
+                        <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
+                            <?= htmlspecialchars($user['role']) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a href="#" class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(<?= $user['id'] ?>)">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Live Alert Placeholder -->
+    <div id="liveAlertPlaceholder"></div>
+    <button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
+
+    <script>
+     function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show live alert
+            showLiveAlert('User has been deleted successfully.', 'success');
+
+            // Redirect to delete URL after a delay
+            setTimeout(() => {
+                window.location.href = '/users/delete/' + userId;
+            }, 3000); // 3 seconds delay
         }
     });
-</script>
-
-<!-- Optional: Add a placeholder for success alert -->
-<div id="success-alert" style="display: none;"></div>
-
-</body>
-</html>
-<style>
-    /* Main Content Area */
-.content {
-    font-family: "Poppins", sans-serif;
-    /* width: 82%; */
-    /* height: 100%; */
-    margin-left:23.3%;
-    margin-top:100px;
-    background-color: #f8f9fa;
-    /* border-radius: 8px; Rounded corners */
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); Subtle shadow */
 }
 
-/* Table Styles */
-.table {
-    border-radius: 8px; /* Rounded corners for the table */
-    overflow: hidden; /* Ensure corners are rounded */
-}
+function showLiveAlert(message, type) {
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
+    // Clear any existing alerts
+    alertPlaceholder.innerHTML = '';
 
-.table th {
-    background-color: #343a40; /* Dark background for header */
-    color: #ffffff; /* White text for header */
-}
+    // Create the alert element
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
 
-.table-striped tbody tr:nth-child(odd) {
-    background-color: #f2f2f2; /* Light gray for odd rows */
-}
+    // Append the alert to the placeholder
+    alertPlaceholder.appendChild(wrapper);
 
-.table-hover tbody tr:hover {
-    background-color: #e9ecef; /* Light gray on hover */
+    // Remove the alert after 3 seconds
+    setTimeout(() => {
+        wrapper.remove();
+    }, 3000);
 }
-</style>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </script>
+
 
 <?php 
 else: 

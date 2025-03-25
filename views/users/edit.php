@@ -1,302 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (isset($_SESSION['user_id'])) : ?>
+  
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
-    <link rel="stylesheet" href="styles.css">
-
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ff4757;
+            --text-color: #333;
+            --light-text: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
         
         body {
-            margin-left:18%;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            color: var(--text-color);
         }
-        .container {
-            display: flex;
+        
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 15px;
+        }
+        
+        .profile-card {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            max-width: 900px;
-            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
         }
-        .profile-sidebar {
-            width: 30%;
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-        .upload-btn {
-            background-color: red;
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), #8a85ff);
             color: white;
-            border: none;
-            padding: 10px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            margin-bottom: 1rem;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
+            transition: all 0.3s ease;
         }
-        .profile-form {
-            width: 70%;
-            padding: 20px;
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
         }
-        .input-group {
-            margin-bottom: 15px;
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+        
+        .profile-role {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
         }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        
+        .profile-body {
+            padding: 2rem;
         }
-        .social-profiles input {
-            width: 48%;
-            margin-right: 2%;
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 0.75rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--light-text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(108, 99, 255, 0.25);
+        }
+        
+        .btn-update {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-update:hover {
+            background-color: #ff6b81;
+            transform: translateY(-2px);
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
             display: inline-block;
         }
-        .update-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            display: flex;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            max-width: 900px;
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
             width: 100%;
-        }
-        .profile-sidebar {
-            width: 30%;
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            object-fit: cover;
-        }
-        .upload-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px;
+            height: 100%;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
         }
-        .profile-form {
-            width: 70%;
-            padding: 20px;
+        
+        .hidden {
+            display: none;
         }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .update-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-    </style>
-    <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const img = document.getElementById("profile-pic");
-                img.src = reader.result;
-                document.getElementById("file-input").style.display = "none";
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                padding: 1.5rem;
             }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
-</head>
-<style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            display: flex;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            max-width: 900px;
-            width: 100%;
-        }
-        .profile-sidebar {
-            width: 30%;
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            object-fit: cover;
-        }
-        .upload-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        .profile-form {
-            width: 70%;
-            padding: 20px;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .role{
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .update-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
+            
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-body {
+                padding: 1.5rem;
+            }
         }
     </style>
-    <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const img = document.getElementById("profile-pic");
-                img.src = reader.result;
-                document.getElementById("file-input").style.display = "none";
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
 </head>
+
 <body>
-<div class="container">
-    <div class="profile-sidebar">
-        <img id="profile-pic" src="profile.jpg" alt="Profile Picture" class="profile-pic">
-        <h2><?= htmlspecialchars($user['name']); ?></h2>
-        <input id="file-input" type="file" accept="image/*" onchange="previewImage(event)">
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="file-input-wrapper">
+                    <img id="profile-pic" src="profile.jpg" alt="Profile Picture" class="profile-avatar">
+                    <input id="file-input" type="file" accept="image/*" onchange="previewImage(event)">
+                </div>
+                <h2 class="profile-name"><?= htmlspecialchars($user['name']); ?></h2>
+                <span class="profile-role"><?= ucfirst(htmlspecialchars($user['role'])); ?></span>
+            </div>
+            
+            <div class="profile-body">
+                <h3 class="section-title"><i class="fas fa-user-edit"></i> Edit Profile Information</h3>
+                
+                <form action="/users/update/<?= $user['id']; ?>" method="POST">
+                    <input type="hidden" name="user_id" value="<?= $user['id']; ?>">
+                    
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               value="<?= htmlspecialchars($user['name']); ?>" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="<?= htmlspecialchars($user['email']); ?>" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
+                            <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-update">
+                            <i class="fas fa-save me-2"></i>Update Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="profile-form">
-        <h2>Edit Profile</h2>
-        <form action="/users/update/<?= $user['id']; ?>" method="POST">
-    <input type="hidden" name="user_id" value="<?= $user['id']; ?>">
 
-    <div class="input-group">
-        <label>Full Name</label>
-        <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
-    </div>
-    
-    <div class="input-group">
-        <label>Email Address</label>
-        <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
-    </div>
-    
-    <div class="input-group">
-        <label>Role</label>
-        <select name="role" class="role" required>
-            <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
-            <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
-        </select>
-    </div>
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = document.getElementById("profile-pic");
+                img.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
 
-    <button type="submit" class="update-btn">Update Info</button>
-</form>
-
+<?php 
+else: 
+    $this->redirect("/"); 
+endif;   
+?>

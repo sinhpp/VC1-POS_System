@@ -30,6 +30,10 @@ if (isset($_SESSION['user_id'])) : ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -37,6 +41,15 @@ if (isset($_SESSION['user_id'])) : ?>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
+         body {
+            font-family: Arial, sans-serif;
+            display: block;
+
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+         
+        }
 
         .table th, .table td {
             padding: 10px;
@@ -64,6 +77,15 @@ if (isset($_SESSION['user_id'])) : ?>
         .btn-warning { background-color: #ffc107; color: black; }
         .btn-danger { background-color: #dc3545; color: white; }
         .btn:hover { background-color: #495057; }
+
+        .barcode-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .barcode-error {
+            color: red;
+            display: none;
+        }
         
     </style>
 
@@ -78,46 +100,114 @@ if (isset($_SESSION['user_id'])) : ?>
 
        
 <div class="container">
-<h2> Add New Product</h2>
+<h4> Add New Product</h4>
     <main class="grid-container">
     <section class="general-info">
         <form action="/products/store" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
             
-        <h3>General Information</h3>
+        <h5>General Information</h5>
         <label>Name Product</label>
         <input type="text" placeholder="Enter product name" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
 
-        <label>Description Product</label>
-        <textarea placeholder="Enter product description" name="description" required><?= isset($product) ? htmlspecialchars($product['description'] ?? '') : '' ?></textarea>
+        <label>Base Pricing</label>
+        <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
 
+        <label>Stock</label>
+        <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
+
+        
         <div class="size-gender">
-            <div class="size">
-                <label>Size</label>
-                <div class="size-options">
-                    <button type="button" onclick="selectSize(this)">S</button>
-                    <button type="button" onclick="selectSize(this)">M</button>
-                    <button type="button" class="selected" onclick="selectSize(this)">L</button>
-                    <button type="button" onclick="selectSize(this)">XL</button>
-                    <button type="button" onclick="selectSize(this)">XXL</button>
-                </div>
+        <div class="size">
+            <label>Size</label>
+            <div class="size-options">
+                <button type="button" onclick="selectSize(this, 'S')">S</button>
+                <button type="button" onclick="selectSize(this, 'M')">M</button>
+                <button type="button" class="selected" onclick="selectSize(this, 'L')">L</button>
+                <button type="button" onclick="selectSize(this, 'XL')">XL</button>
+                <button type="button" onclick="selectSize(this, 'XXL')">XXL</button>
             </div>
-            <div class="gender">
-                <label>Gender</label>
-                <div class="gender-options">
-                    <button type="button" onclick="selectGender(this)" class="selected">Men</button>
-                    <button type="button" onclick="selectGender(this)">Women</button>
-                </div>
-            </div>
+            <input type="hidden" name="size" id="size" value="L"> <!-- Default value -->
         </div>
-        </section>
-        <section class="pricing-stock">
-    <h3>Pricing And Stocks</h3>
-    <label>Base Pricing</label>
-    <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
+        <div class="gender">
+            <label>Gender</label>
+            <div class="gender-options">
+                <button type="button" onclick="selectGender(this, 'Men')" class="selected">Men</button>
+                <button type="button" onclick="selectGender(this, 'Women')">Women</button>
+            </div>
+            <input type="hidden" name="gender" id="gender" value="Men"> <!-- Default value -->
+        </div>
 
-    <label>Stock</label>
-    <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
+        
+    </div>
+    
+
+        </section>
+        <script>
+    function selectSize(button, size) {
+        // Remove 'selected' class from all size buttons
+        document.querySelectorAll('.size-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('size').value = size;
+    }
+
+    function selectGender(button, gender) {
+        // Remove 'selected' class from all gender buttons
+        document.querySelectorAll('.gender-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('gender').value = gender;
+    }
+</script>
+
+<script>
+    function selectSize(button, size) {
+        // Remove 'selected' class from all size buttons
+        document.querySelectorAll('.size-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('size').value = size;
+        console.log('Selected Size:', size); // Debugging
+    }
+
+    function selectGender(button, gender) {
+        // Remove 'selected' class from all gender buttons
+        document.querySelectorAll('.gender-options button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked button
+        button.classList.add('selected');
+
+        // Update the hidden input value
+        document.getElementById('gender').value = gender;
+        console.log('Selected Gender:', gender); // Debugging
+    }
+    
+</script>
+
+
+        <section class="pricing-stock">
+    <h5>Pricing And Stocks</h5>
+   
+
+    
 
     <label>Discount</label>
     <input type="number" placeholder="Enter discount" name="discount" min="0" step="0.01">
@@ -125,38 +215,90 @@ if (isset($_SESSION['user_id'])) : ?>
     <label>Discount Type</label>
     <input type="text" placeholder="Enter discount type" name="discount_type">
 
+    <section class="category">
+    <label>Category</label>
+    <select id="categorySelect" name="category" required>
+        <!-- General Categories -->
+        <div class="cat"></div>
+        <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
+        <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
+        <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
+        <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
+        <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
+        <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
+        <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
+        <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
+        
+        <!-- Student Material Option -->
+        <option value="Student Material" <?= isset($product) && $product['category'] == 'Student Material' ? 'selected' : '' ?>>Student Material</option>
+        
+        <!-- Other Category Option -->
+        <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
+    </select>
+    
     <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
-    <br />
-    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
-    <br />
+    <input id="productBarcode" type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
+        <button id="generateBarcodeButton" type="button" class="btn btn-warning mt-2">Generate Barcode</button>
 
-    <?php
-    $file = __DIR__ . '/../../barcode/generate.php';
+        <div class="barcode-container">
+            <canvas id="barcodeCanvas"></canvas>
+            <div id="errorMessage" class="barcode-error">Invalid barcode! Please try again.</div>
+        </div>
 
-    if (!file_exists($file)) {
-        echo "<p style='color: red; text-align:center;'>Error: Barcode generator file not found.</p>";
-    } else {
-        include $file;
-    }
-    ?>
+        <script>
+    const barcodeInput = document.getElementById('productBarcode');
+    const errorMessage = document.getElementById('errorMessage');
+    const generateBarcodeButton = document.getElementById('generateBarcodeButton');
+    const barcodeCanvas = document.getElementById('barcodeCanvas');
+    const addProductForm = document.getElementById('addProductForm');
+
+    // Generate Barcode Logic
+    generateBarcodeButton.addEventListener('click', function () {
+        const barcodeValue = barcodeInput.value.trim();
+        if (barcodeValue) {
+            JsBarcode(barcodeCanvas, barcodeValue, {
+                format: "CODE128",
+                width: 2,
+                height: 40,
+                displayValue: true
+            });
+            errorMessage.style.display = 'none';
+        } else {
+            errorMessage.style.display = 'block';
+        }
+    });
+
+    // Save Product Logic
+    addProductForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission for AJAX handling
+
+        const formData = new FormData(addProductForm);
+
+        // Submit the form data using Fetch API
+        fetch('/products/store', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json()) // Assuming your server returns JSON
+        .then(data => {
+            if (data.success) {
+                // Handle successful product creation
+                alert('Product created successfully!'); // Notify success
+                addProductForm.reset();
+                barcodeCanvas.innerHTML = ''; // Clear barcode
+            } else {
+                // Handle errors
+                alert(data.message || 'Error creating product');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+  
 </section>
 
-<section class="upload-img">
-    <h3>Upload Image</h3>
-    
-    <!-- File Input -->
-    <input type="file" id="fileUpload" name="image" accept="image/*" required>
-    
-    <!-- Image Preview -->
-    <div class="image-preview" id="imagePreview">
-        <img 
-            src="" 
-            alt="Product Image" 
-            id="previewImg" 
-            style="display: none; max-width: 150px;">
-    </div>
-</section>
 
 <script>
 document.getElementById('fileUpload').addEventListener('change', function(event) {
@@ -179,26 +321,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     </section>
 
 <!-- Category -->
-<section class="category">
-    <h3>Category</h3>
-    <select id="categorySelect" name="category" required>
-        <!-- General Categories -->
-        <div class="cat"></div>
-        <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
-        <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
-        <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
-        <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
-        <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
-        <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
-        <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
-        <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
-        
-        <!-- Student Material Option -->
-        <option value="Student Material" <?= isset($product) && $product['category'] == 'Student Material' ? 'selected' : '' ?>>Student Material</option>
-        
-        <!-- Other Category Option -->
-        <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
-    </select>
+
 
     <!-- Additional Dropdown for Student Material (hidden by default) -->
     <select id="studentMaterialOptions" name="student_material" style="display: none;">
@@ -212,6 +335,23 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
         <label for="otherInput">Please specify:</label>
         <input type="text" id="otherInput" name="other_category_input" placeholder="Enter other category" value="<?= isset($product) && $product['category'] == 'Other' ? htmlspecialchars($product['other_category_input'] ?? '') : '' ?>">
     </div>
+
+    
+<section class="upload-img">
+    <h5>Upload Image</h5>
+    
+    <!-- File Input -->
+    <input type="file" id="fileUpload" name="image" accept="image/*" required>
+    
+    <!-- Image Preview -->
+    <div class="image-preview" id="imagePreview">
+        <img 
+            src="" 
+            alt="Product Image" 
+            id="previewImg" 
+            style="display: none; max-width: 150px;">
+    </div>
+
 </section>
 
 <script>
@@ -236,6 +376,8 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 
     // Trigger the change event on page load to handle the preselected category
     document.getElementById("categorySelect").dispatchEvent(new Event("change"));
+
+    
 </script>
 
 
@@ -264,9 +406,10 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
  
 }
 
-h2 {
+h4 {
     font-size: 30px;
     margin-left:30%;
+    color: #F868D4;
 }
 
 .actions button {
@@ -294,28 +437,32 @@ h2 {
 
 .grid-container {
   
-    margin-left:10%;
+    margin-left:20%;
     display: grid;
-    grid-template-columns: 2fr 1.5fr;
+    grid-template-columns: 2fr 2fr;
     gap: 10px;
+    height: 150vh;
 }
 
 section {
-    background: #fff;
-    padding: 30px;
+
+    padding: 10px;
     border-radius: 8px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;}
 
-h3 {
-    margin-bottom: 10px;
-}
 
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    
+    color: #2087F7 !important; /* Force the color */
+}
 input, select, textarea {
     width: 100%;
-    padding: 8px;
+    padding: 8px 20px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    
 }
 
 button {
