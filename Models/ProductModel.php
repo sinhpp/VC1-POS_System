@@ -13,7 +13,7 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function createProduct($name, $barcode, $price, $stock, $category, $image) {
+    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image){
         // Check if barcode exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products WHERE barcode = :barcode");
         $stmt->execute([':barcode' => $barcode]);
@@ -43,20 +43,90 @@ class ProductModel {
             }
         }
     
-        // Store relative path in database
-        $dbImagePath = 'uploads/' . $imageName;
+      // Store relative path in database
+      $dbImagePath = 'uploads/' . $imageName;
+
+      // Insert new product
+      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
+      return $stmt->execute([
+          ':name' => $name,
+          ':barcode' => $barcode,
+          ':price' => $price,
+          ':stock' => $stock,
+          ':category' => $category,
+          ':size' => $size ?? 'N/A', // Provide a default value if $size is null
+          ':discount' => $discount,
+          ':discount_type' => $discount_type,
+          ':descriptions' => $descriptions,
+          ':gender' => $gender,
+          ':image' => $dbImagePath
+      ]);
+  }
     
-        // Insert new product
-        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, image) VALUES (:name, :barcode, :price, :stock, :category, :image)");
-        return $stmt->execute([
-            ':name' => $name,
-            ':barcode' => $barcode,
-            ':price' => $price,
-            ':stock' => $stock,
-            ':category' => $category,
-            ':image' => $dbImagePath
-        ]);
+  public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
+    error_log("Received category: " . var_export($category, true));
+
+    $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$existingProduct) {
+        error_log("Product not found");
+        return false;
     }
+
+    $imagePath = $existingProduct['image']; // Keep existing image
+    
+    if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/../uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        $imageName = basename($image['name']);
+        $newImagePath = 'uploads/' . $imageName;
+        if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
+            $imagePath = $newImagePath;
+        }
+    }
+
+    $stmt = $this->db->prepare("UPDATE products SET 
+        name = :name, 
+        barcode = :barcode, 
+        price = :price, 
+        stock = :stock, 
+        category = :category,  
+        size = :size,
+        discount = :discount,
+        discount_type = :discount_type,  -- ✅ Fixed typo
+        descriptions = :descriptions,
+        gender = :gender,
+        image = :image 
+        WHERE id = :id");
+
+    $result = $stmt->execute([
+        ':name' => $name,
+        ':barcode' => $barcode,
+        ':price' => $price,
+        ':stock' => $stock,
+        ':category' => $category, 
+        ':size' => $size,
+        ':discount' => $discount,
+        ':discount_type' => $discount_type,  // ✅ Fixed key
+        ':descriptions' => $descriptions, 
+        ':gender' => $gender,
+        ':image' => $imagePath,  
+        ':id' => $id
+    ]);
+
+    if ($result) {
+        error_log("Product updated successfully in database.");
+    } else {
+        error_log("Failed to update product: " . implode(", ", $stmt->errorInfo()));
+    }
+
+    return $result;
+}
+
     
 
     public function getProById($id) {
@@ -66,60 +136,68 @@ class ProductModel {
     }
 
 
-    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $image) {
-        error_log("Received category: " . var_export($category, true));
-        
-    
-        $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
-        $stmt->execute([':id' => $id]);
-        $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        if (!$existingProduct) {
-            error_log("Product not found");
-            return false;
-        }
-    
-        $imagePath = $existingProduct['image']; // Keep existing image
-        
-        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../uploads/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
-            $imageName = basename($image['name']);
-            $newImagePath = 'uploads/' . $imageName;
-            if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
-                $imagePath = $newImagePath;
-            }
-        }
-    
-        $stmt = $this->db->prepare("UPDATE products SET 
-            name = :name, 
-            barcode = :barcode, 
-            price = :price, 
-            stock = :stock, 
-            category = :category,  
-            image = :image 
-            WHERE id = :id");
-    
-        $result = $stmt->execute([
-            ':name' => $name,
-            ':barcode' => $barcode,
-            ':price' => $price,
-            ':stock' => $stock,
-            ':category' => $category,  
-            ':image' => $imagePath,  
-            ':id' => $id
-        ]);
-    
-        if ($result) {
-            error_log("Category updated successfully in database.");
-        } else {
-            error_log("Failed to update category: " . implode(", ", $stmt->errorInfo()));
-        }
-    
-        return $result;
+    //////////////////////////////
+    public function product_detail($id) {
+        $stmt = $this->db->prepare("SELECT * FROM products WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    ///////////////////////////////
+    // public function updateProduct($id, $name, $barcode, $price, $stock, $category, $image) {
+    //     error_log("Received category: " . var_export($category, true));
+        
+    
+    //     $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
+    //     $stmt->execute([':id' => $id]);
+    //     $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    //     if (!$existingProduct) {
+    //         error_log("Product not found");
+    //         return false;
+    //     }
+    
+    //     $imagePath = $existingProduct['image']; // Keep existing image
+        
+    //     if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+    //         $uploadDir = __DIR__ . '/../uploads/';
+    //         if (!is_dir($uploadDir)) {
+    //             mkdir($uploadDir, 0777, true);
+    //         }
+    //         $imageName = basename($image['name']);
+    //         $newImagePath = 'uploads/' . $imageName;
+    //         if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
+    //             $imagePath = $newImagePath;
+    //         }
+    //     }
+    
+    //     $stmt = $this->db->prepare("UPDATE products SET 
+    //         name = :name, 
+    //         barcode = :barcode, 
+    //         price = :price, 
+    //         stock = :stock, 
+    //         category = :category,  
+    //         image = :image 
+    //         WHERE id = :id");
+    
+    //     $result = $stmt->execute([
+    //         ':name' => $name,
+    //         ':barcode' => $barcode,
+    //         ':price' => $price,
+    //         ':stock' => $stock,
+    //         ':category' => $category,  
+    //         ':image' => $imagePath,  
+    //         ':id' => $id
+    //     ]);
+    
+    //     if ($result) {
+    //         error_log("Category updated successfully in database.");
+    //     } else {
+    //         error_log("Failed to update category: " . implode(", ", $stmt->errorInfo()));
+    //     }
+    
+    //     return $result;
+    // }
     
     public function deleteProduct($id) {
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
@@ -132,22 +210,6 @@ class ProductModel {
         $stmt = $this->db->prepare("DELETE FROM products");
         return $stmt->execute();
     }
-    public function getProductByBarcode($barcode) {
-        $query = "SELECT * FROM products WHERE barcode = :barcode LIMIT 1";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([':barcode' => $barcode]);
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Returns product as associative array or false if not found
-    }
 
-    // Method to update stock
-    public function updateStock($barcode, $quantity) {
-        $query = "UPDATE products SET stock = stock - :quantity WHERE barcode = :barcode AND stock >= :quantity";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([
-            ':barcode' => $barcode,
-            ':quantity' => $quantity
-        ]);
-        return $stmt->rowCount() > 0; // Returns true if stock was updated
-    }
     // Other methods remain unchanged...
 }
