@@ -42,8 +42,10 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
+
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
+
 
 // Call the route method to process the request
 $route->route();

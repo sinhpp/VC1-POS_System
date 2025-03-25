@@ -1,5 +1,4 @@
 <div class="container">
-
     <div class="filter">
         <button class="active">All Products</button>
         <button>Bag</button>
@@ -12,7 +11,7 @@
 
     <div class="grid" id="product-grid">
         <div class="product-card">
-            <img src="/views/assets/images/shop_img/clothe.jpg" alt="Basic Longsleeve" data-title="Clothe" data-price="$10">
+            <img src="/views/assets/images/shop_img/clothe.jpg" alt="Clothe" data-title="Clothe" data-price="$10">
             <div class="product-title">Clothe</div>
             <div class="product-price">$10</div>
             <label for="size">Size:</label>
@@ -25,7 +24,7 @@
             <button class="add-to-cart">Add to Cart</button>
         </div>
         <div class="product-card">
-            <img src="/views/assets/images/shop_img/bag.jpg" alt="Basic Checkered Flannel" data-title="Bag" data-price="$13">
+            <img src="/views/assets/images/shop_img/bag.jpg" alt="Bag" data-title="Bag" data-price="$13">
             <div class="product-title">Bag</div>
             <div class="product-price">$14</div>
             <label for="size">Size:</label>
@@ -36,7 +35,7 @@
             <button class="add-to-cart">Add to Cart</button>
         </div>
         <div class="product-card">
-            <img src="/views/assets/images/shop_img/hoodie.jpg" alt="Basic Checkered Flannel" data-title="Bag" data-price="$13">
+            <img src="/views/assets/images/shop_img/hoodie.jpg" alt="Hoodie" data-title="Hoodie" data-price="$16">
             <div class="product-title">Hoodie</div>
             <div class="product-price">$16</div>
             <label for="size">Size:</label>
@@ -47,7 +46,7 @@
             <button class="add-to-cart">Add to Cart</button>
         </div>
         <div class="product-card">
-            <img src="/views/assets/images/shop_img/dress.jpg" alt="Basic Checkered Flannel" data-title="Bag" data-price="$13">
+            <img src="/views/assets/images/shop_img/dress.jpg" alt="Dress" data-title="Dress" data-price="$18">
             <div class="product-title">Dress</div>
             <div class="product-price">$18</div>
             <label for="size">Size:</label>
@@ -58,7 +57,7 @@
             <button class="add-to-cart">Add to Cart</button>
         </div>
         <div class="product-card">
-            <img src="/views/assets/images/shop_img/shoe.jpg" alt="Basic Wool Shirt" data-title="Shoe" data-price="$15">
+            <img src="/views/assets/images/shop_img/shoe.jpg" alt="Shoe" data-title="Shoe" data-price="$15">
             <div class="product-title">Shoe</div>
             <div class="product-price">$15</div>
             <label for="size">Size:</label>
@@ -76,6 +75,7 @@
             <button class="add-to-cart">Add to Cart</button>
         </div>
     </div>
+
     <!-- Modal for Cart -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
@@ -87,14 +87,6 @@
                 <span>Total Items:</span>
                 <span id="total-items">0</span>
             </div>
-            <!-- <div class="total-summary">
-                <span>Total Price:</span>
-                <span id="total-price">$0</span>
-            </div> -->
-            <!-- <div class="total-summary">
-                <span>Discount:</span>
-                <span class="discount">-$2.00</span>
-            </div> -->
             <div class="total-summary final-price">
                 <span>Total Price:</span>
                 <span id="final-price">$0</span>
