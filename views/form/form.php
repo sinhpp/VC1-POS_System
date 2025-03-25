@@ -8,19 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Success Alert Styling */
-        .success-alert {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #4CAF50; /* Green background */
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            display: none; /* Hidden by default */
-            z-index: 1000; /* Ensure it's above other elements */
-        }
-
+     
         /* Error Message Styling */
         .error-message {
             color: red;
@@ -44,10 +32,7 @@
     </style>
 </head>
 <body>
-    <!-- Success Alert -->
-    <div id="success-alert" class="success-alert">
-        Login successful! Welcome!
-    </div>
+  
 
     <div class="container1">
         <div class="form-box">
