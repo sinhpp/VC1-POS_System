@@ -116,7 +116,9 @@ if (isset($_SESSION['user_id'])) : ?>
         <label>Stock</label>
         <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
 
-        
+        <label>Discription</label>
+        <input type="text" placeholder="Enter description" name="descriptions" value="<?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?>" required>
+
         <div class="size-gender">
         <div class="size">
             <label>Size</label>
