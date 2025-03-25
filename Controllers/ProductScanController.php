@@ -8,7 +8,6 @@ require_once __DIR__ . '../../views/vendor/fpdf186/fpdf.php';
 class ProductScanController
 {
     private $productModel;
-    private $orderModel;
     private $db;
 
     public function __construct()
@@ -298,7 +297,6 @@ class ProductScanController
         }
         // ... (existing GET request handling remains unchanged)
     }
-
     // Helper method to draw a circle (not natively supported by FPDF)
     function Circle($pdf, $x, $y, $r, $style = 'D')
     {
