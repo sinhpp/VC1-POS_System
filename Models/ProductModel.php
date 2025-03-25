@@ -120,7 +120,6 @@ class ProductModel {
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
     ///////////////////////////////
     // public function updateProduct($id, $name, $barcode, $price, $stock, $category, $image) {
     //     error_log("Received category: " . var_export($category, true));

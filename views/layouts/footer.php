@@ -21,5 +21,8 @@
 	<script src="/views/assets/js/dlabnav-init.js"></script>
 	<script src="/views/assets/js/demo.js"></script>
     <script src="/views/assets/js/styleSwitcher.js"></script>
+
+	<!-- order summary -->
+	 <script src="/views/assets/js/order-summary.js"></script>
 </body>
 </html>
