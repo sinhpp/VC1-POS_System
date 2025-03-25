@@ -18,7 +18,6 @@ if (!in_array($currentRoute, $hiddenRoutes)) {
 ?>
 
 <?= $content; ?>
-
 <?php require_once('layouts/footer.php'); ?>
 
 </body>

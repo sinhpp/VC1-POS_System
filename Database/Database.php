@@ -82,25 +82,11 @@ class Database
         
         return $this->stmt->fetchAll();
     }
-    
-    /**
-     * Get row count
-     * 
-     * @return int
-     */
-    public function rowCount()
-    {
-        return $this->stmt->rowCount();
-    }
-    
-    /**
-     * Get last insert ID
-     * 
-     * @return string
-     */
-    public function lastInsertId()
-    {
-        return $this->dbh->lastInsertId();
-    }
+
+    // Prevent object cloning
+    private function __clone() {}
+
+    // Prevent object unserialization
+    public function __wakeup() {}
 }
 
