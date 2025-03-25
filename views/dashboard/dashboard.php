@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
            
 		.success-alert {
             position: fixed;
@@ -53,7 +53,7 @@
         }
 
         window.onload = checkLoginSuccess; // Check for login success on page load
-    </script>
+    </script> -->
 		<!--**********************************
             Content body start
         ***********************************-->
