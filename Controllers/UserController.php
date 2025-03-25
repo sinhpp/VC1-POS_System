@@ -1,5 +1,9 @@
 <?php
-require_once "Models/UserModel.php";
+
+namespace Controllers;
+
+use Controllers\BaseController; // Ensure this line is correct
+use Models\UserModel;
 
 class UserController extends BaseController
 {
@@ -47,7 +51,7 @@ class UserController extends BaseController
     
    
     public function authenticate() {
-      
+        session_start();
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $user = $this->userModel->getUserByEmail($email);
@@ -116,13 +120,7 @@ class UserController extends BaseController
         header("Location: /users");
     }  
 
-   ///////////////////////////
-
-   public function detail($id) {
-    $user = $this->users->view_user($id);
-    $this->view("users/view_user", ['users' => $user]);
-}
-////////////////////////////////////////////////////////////////
+   
     
 }
 ?>

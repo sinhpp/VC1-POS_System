@@ -4,6 +4,13 @@ namespace Database;
 
 use PDO;
 use PDOException;
+use Dotenv\Dotenv;
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$db = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}", $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
 class Database
 {
