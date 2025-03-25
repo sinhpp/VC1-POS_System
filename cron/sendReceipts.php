@@ -3,7 +3,7 @@ require_once __DIR__ . '/../Controllers/EmailController.php';
 require_once __DIR__ . '/../Database/Database.php';
 
 $emailController = new EmailController();
-$db = new Database();
+// $db = new Database();
 
 // Fetch new orders that haven't received a receipt
 $query = "SELECT id FROM orders WHERE status = 'new'";

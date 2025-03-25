@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/Database/Database.php';
+require_once __DIR__ . '/../Database/Database.php'; // Corrected path
 require_once __DIR__ . '/Router/Router.php';
 require_once __DIR__ . '/Controllers/FormController.php';
 require_once __DIR__ . '/Controllers/DashboardController.php';

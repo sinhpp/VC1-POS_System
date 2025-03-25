@@ -8,7 +8,7 @@ class EmailController {
     public function sendReceipt($orderId) {
         // Include database connection
         require_once 'Database/Database.php'; 
-        $db = new Database();
+     //    $db = new Database();
 
         // Fetch order and user details
         $query = "SELECT u.email, u.name, o.id, o.total_amount, o.order_date 
