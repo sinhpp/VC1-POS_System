@@ -8,7 +8,6 @@ require_once __DIR__ . '../../views/vendor/fpdf186/fpdf.php';
 class ProductScanController
 {
     private $productModel;
-    private $orderModel;
     private $db;
 
     public function __construct()
