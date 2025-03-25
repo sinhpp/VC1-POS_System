@@ -128,4 +128,3 @@ public function detail($id) {
         exit();
     }
 }
-
