@@ -13,22 +13,30 @@ $router->get('/dashboard', [DashboardController::class, 'show']);
 $router->get('/', [FormController::class, 'form']);
 $router->post('/form/authenticate', [UserController::class, 'authenticate']);
 
-$router->get('/users', [UserController::class, 'index']);
-$router->get('/users/create', [UserController::class, 'create']);
-$router->post('/users/store', [UserController::class, 'store']);
-$router->delete('/users/delete/{id}', [UserController::class, 'delete']);
-$router->get('/users/logout', [UserController::class, 'logout']);
-$router->get('/users/edit/{id}', [UserController::class, 'edit']);
-$router->post('/users/update/{id}', [UserController::class, 'update']);
+$route->get("/users", [UserController::class, 'index']);
+$route->get("/users/create", [UserController::class, 'create']);
+$route->post("/users/store", [UserController::class, 'store']);
+$route->delete("/users/delete/{id}", [UserController::class, 'delete']);
+$route->get("/users/logout", [UserController::class, 'logout']);
+$route->get("/users/create", [UserController::class, 'createuser']);
+$route->post("/users/storeuser", [UserController::class, 'storeuser']);
+$route->get("/users/edit/{id}", [UserController::class, 'edit']);
+$route->post("/users/update/{id}", [UserController::class, 'update']); 
+$route->get("users/view_user/{id}", [UserController::class, 'detail']);
 
-$router->get('/products', [ProductController::class, 'index']);
-$router->get('/products/create', [ProductController::class, 'create']);
-$router->post('/products/store', [ProductController::class, 'store']);
-$router->get('/products/edit_pro/{id}', [ProductController::class, 'edit']);
-$router->get('/products/product_detail/{id}', [ProductController::class, 'detail']);
-$router->put('/products/update/{id}', [ProductController::class, 'update']);
-$router->delete('/products/delete/{id}', [ProductController::class, 'delete']);
-$router->post('/products/delete_all', [ProductController::class, 'deleteAllProducts']);
+// Products
+
+$route->get("/products", [ProductController::class, 'index']);
+$route->get("/products/create", [ProductController::class, 'create']);
+$route->post("/products/store", [ProductController::class, 'store']);
+$route->get("/products/edit_pro/{id}", [ProductController::class, 'edit']);
+$route->get("products/product_detail/{id}", [ProductController::class, 'detail']);
+
+$route->put("/products/update/{id}", [ProductController::class, 'update']);
+$route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
+
+// Corrected this line
+$route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
 // Add Receipt Routes
 $router->post('/receipt/process', [ReceiptController::class, 'processPurchase']);
