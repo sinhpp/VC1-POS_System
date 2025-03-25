@@ -59,7 +59,6 @@ class UserModel {
         ]);
         return $stmt->rowCount(); // Returns the number of affected rows
     }
-
     public function updateUser($id, $name, $email, $role) {
         $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id");
         $stmt->execute([
@@ -71,6 +70,14 @@ class UserModel {
         return $stmt->rowCount(); // Returns affected rows
     }
     
+    ///////////////////////////////
+    public function view_user($id) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    //////////////////////////////////////////
     
 }
 ?>

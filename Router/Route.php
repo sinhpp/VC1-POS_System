@@ -7,6 +7,7 @@ require_once "Controllers/ForgotPassword.php";
 require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
+require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
 // require_once 'Controllers/OrderController.php';
 
@@ -29,6 +30,7 @@ $route->get("/users/create", [UserController::class, 'createuser']);
 $route->post("/users/storeuser", [UserController::class, 'storeuser']);
 $route->get("/users/edit/{id}", [UserController::class, 'edit']);
 $route->post("/users/update/{id}", [UserController::class, 'update']); 
+$route->get("users/view_user/{id}", [UserController::class, 'detail']);
 
 // Products
 
@@ -44,6 +46,16 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
+// Product Scanning Routes
+$route->get("/order", [ProductScanController::class, 'index']);
+$route->post("/order/add", [ProductScanController::class, 'add']);
+$route->get("/product/checkout", [ProductScanController::class, 'checkout']);
+$route->post("/product/process-checkout", [ProductScanController::class, 'processCheckout']);
+$route->post("/productDetails", [ProductScanController::class, 'scan']); // For scanning
+$route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
+$route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
+$route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 

@@ -30,6 +30,10 @@ if (isset($_SESSION['user_id'])) : ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -73,6 +77,15 @@ if (isset($_SESSION['user_id'])) : ?>
         .btn-warning { background-color: #ffc107; color: black; }
         .btn-danger { background-color: #dc3545; color: white; }
         .btn:hover { background-color: #495057; }
+
+        .barcode-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .barcode-error {
+            color: red;
+            display: none;
+        }
         
     </style>
 
@@ -224,21 +237,66 @@ if (isset($_SESSION['user_id'])) : ?>
     </select>
     
     <label>Barcode:</label>
-    <input type="text" class="form-control" name="barcode"/>
-    <br />
-    <center><button type="submit" class="btn btn-primary" name="generate">Generate</button></center>
-    <br />
-   
+    <input id="productBarcode" type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
+        <button id="generateBarcodeButton" type="button" class="btn btn-warning mt-2">Generate Barcode</button>
 
-    <?php
-    $file = __DIR__ . '/../../barcode/generate.php';
+        <div class="barcode-container">
+            <canvas id="barcodeCanvas"></canvas>
+            <div id="errorMessage" class="barcode-error">Invalid barcode! Please try again.</div>
+        </div>
 
-    if (!file_exists($file)) {
-        echo "<p style='color: red; text-align:center;'>Error: Barcode generator file not found.</p>";
-    } else {
-        include $file;
-    }
-    ?>
+        <script>
+    const barcodeInput = document.getElementById('productBarcode');
+    const errorMessage = document.getElementById('errorMessage');
+    const generateBarcodeButton = document.getElementById('generateBarcodeButton');
+    const barcodeCanvas = document.getElementById('barcodeCanvas');
+    const addProductForm = document.getElementById('addProductForm');
+
+    // Generate Barcode Logic
+    generateBarcodeButton.addEventListener('click', function () {
+        const barcodeValue = barcodeInput.value.trim();
+        if (barcodeValue) {
+            JsBarcode(barcodeCanvas, barcodeValue, {
+                format: "CODE128",
+                width: 2,
+                height: 40,
+                displayValue: true
+            });
+            errorMessage.style.display = 'none';
+        } else {
+            errorMessage.style.display = 'block';
+        }
+    });
+
+    // Save Product Logic
+    addProductForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission for AJAX handling
+
+        const formData = new FormData(addProductForm);
+
+        // Submit the form data using Fetch API
+        fetch('/products/store', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json()) // Assuming your server returns JSON
+        .then(data => {
+            if (data.success) {
+                // Handle successful product creation
+                alert('Product created successfully!'); // Notify success
+                addProductForm.reset();
+                barcodeCanvas.innerHTML = ''; // Clear barcode
+            } else {
+                // Handle errors
+                alert(data.message || 'Error creating product');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+  
 </section>
 
 
