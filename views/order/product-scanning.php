@@ -106,5 +106,4 @@ foreach ($order as $item) {
         </div>
     </div>
 </div>
-
 <script src="/views//assets/js/order-summary.js"></script>

@@ -225,12 +225,13 @@ if (isset($_SESSION['user_id'])) : ?>
             background-color: #0056b3;
             color: white;
         }
+
         /* Adjust the width of the main content area */
-.main-content {
+        .main-content {
    
     justify-content:center;
     align-items:center;
-    width: 100%; /* Make it full width */
+            width: 100%; /* Make it full width */
    
    
 }
@@ -254,20 +255,20 @@ if (isset($_SESSION['user_id'])) : ?>
 .navbar {
     padding: 10px 20px; /* Add padding */
 
-}
+        }
 
-.navbar-nav {
-    gap: 15px; /* Add space between navbar items */
-}
+        .navbar-nav {
+            gap: 15px; /* Add space between navbar items */
+        }
 
-.notification_dropdown .badge {
-    top: -10px; /* Adjust badge position */
-    right: -10px;
-}
+        .notification_dropdown .badge {
+            top: -10px; /* Adjust badge position */
+            right: -10px;
+        }
 
-.search-area {
-    max-width: 300px; /* Limit search bar width */
-}
+        .search-area {
+            max-width: 300px; /* Limit search bar width */
+        }
 
         /* Adjust width of main content */
         .main-content {
@@ -383,16 +384,16 @@ if (isset($_SESSION['user_id'])) : ?>
 
                 <th>Stock
 
-                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
-                <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                    <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
-                    <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
-                        <i class="fas fa-arrow-down"></i> High
-                    </button>
-                    <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
-                        <i class="fas fa-arrow-up"></i> Low
-                    </button>
-                </div>
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-down"></i> High
+                        </button>
+                        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-up"></i> Low
+                        </button>
+                    </div>
                 </th>
 
                 <th>Category</th>
@@ -788,48 +789,48 @@ function toggleDropdown(icon) {
 </style>
 <script>
     function toggleAllCheckboxes(source) {
-    document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-    updateDeleteIcon();
-}
-
-function updateDeleteIcon() {
-    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-    const deleteIcon = document.getElementById('delete-icon');
-
-    // Show trash icon if checkboxes are selected, otherwise hide it
-    deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
-}
-
-function handleDelete() {
-    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-
-    if (selectedCheckboxes.length > 0) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You will delete all selected products.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete them!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                fetch('/products/delete_all', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ids: selectedIds })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) location.reload();
-                    else Swal.fire('Error', 'Failed to delete products.', 'error');
-                })
-                .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
-            }
-        });
+        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+        updateDeleteIcon();
     }
-}
 
- </script>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
- <?php else: $this->redirect("/"); endif; ?>
+    function updateDeleteIcon() {
+        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+        const deleteIcon = document.getElementById('delete-icon');
+
+        // Show trash icon if checkboxes are selected, otherwise hide it
+        deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+    }
+
+    function handleDelete() {
+        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+
+        if (selectedCheckboxes.length > 0) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will delete all selected products.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete them!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                    fetch('/products/delete_all', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ids: selectedIds })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) location.reload();
+                        else Swal.fire('Error', 'Failed to delete products.', 'error');
+                    })
+                    .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+                }
+            });
+        }
+    }
+
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<?php else: $this->redirect("/"); endif; ?>

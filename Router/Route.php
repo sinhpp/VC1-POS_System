@@ -46,6 +46,7 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 
+<<<<<<< HEAD
 // Product Scanning Routes
 $route->get("/order", [ProductScanController::class, 'index']);
 $route->post("/order/add", [ProductScanController::class, 'add']);
@@ -56,8 +57,12 @@ $route->post("/order/add", [ProductScanController::class, 'add']); // Already co
 $route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
 $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+=======
+
+>>>>>>> new-feature/shopping-cart
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
+
 
 // Call the route method to process the request
 $route->route();

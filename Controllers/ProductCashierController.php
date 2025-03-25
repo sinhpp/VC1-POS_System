@@ -1,6 +1,5 @@
 <?php
-
-require_once 'Models/ProductCashierModel.php';
+// require_once 'Models/ProductCashierModel.php';
 
 class ProductCashierController extends BaseController {
     // private $ProductCatheirModel;
