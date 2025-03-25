@@ -20,22 +20,21 @@ if (isset($_SESSION['user_id'])) : ?>
 <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
+            display: block;
+
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-color: #f4f4f4;
         }
-        .header{
-            margin-left:-6%;
-        }
+      
         .container {
             margin-left:20%;
             display: flex;
-            background: white;
+            background: #D8D6FF;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(126, 54, 54, 0.1);
+            box-shadow: 0px 0px 10px rgba(129, 75, 75, 0.1);
             max-width: 100%;
             width: 80%;
         }
