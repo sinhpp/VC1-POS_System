@@ -140,4 +140,3 @@ class Order
         return $result['total'];
     }
 }
-
