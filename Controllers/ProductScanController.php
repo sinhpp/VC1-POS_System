@@ -298,7 +298,6 @@ class ProductScanController
         }
         // ... (existing GET request handling remains unchanged)
     }
-
     // Helper method to draw a circle (not natively supported by FPDF)
     function Circle($pdf, $x, $y, $r, $style = 'D')
     {
