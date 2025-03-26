@@ -1,4 +1,4 @@
-        <style>
+<style>
 			/* Sidebar container */
 .dlabnav {
     height: 100vh; /* Full viewport height */
