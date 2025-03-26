@@ -115,6 +115,17 @@ public function detail($id) {
         header("Location: /products");
         exit();
     }
+
+      // Delete product
+      public function delete($id) {
+        if ($this->products->deleteProduct($id)) {
+            $_SESSION['product_success'] = "Product deleted successfully!";
+        } else {
+            $_SESSION['product_error'] = "Error deleting product.";
+        }
+        header("Location: /products");
+        exit();
+    }
     public function deleteAllProducts() {
         session_start();
         header('Content-Type: application/json'); // Set the content type to JSON
