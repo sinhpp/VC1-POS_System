@@ -155,149 +155,117 @@ class ProductScanController
         exit();
     }
 
-    public function printReceipt()
+    public function printReceipt(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
-            if (empty($_SESSION['order']) || !isset($_SESSION['user_id'])) {
-                $_SESSION['error'] = "Invalid checkout request";
-                header("Location: /views/order/checkout.php");
-                exit();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['checkout']) || empty($_SESSION['order'])) {
+            $_SESSION['error'] = "Invalid checkout request";
+            header("Location: /order");
+            exit();
+        }
+
+        try {
+            $this->db->beginTransaction();
+
+            $subtotal = array_sum(array_map(
+                fn($item) => $item['price'] * $item['quantity'],
+                $_SESSION['order']
+            ));
+            $discountRate = 0.06;
+            $discount = $subtotal * $discountRate;
+            $total_amount = $subtotal - $discount;
+
+            $pdf = new FPDF('P', 'mm', 'A4');
+            $pdf->AddPage();
+            $pdf->SetAutoPageBreak(true, 10);
+
+            // Header
+            $pdf->SetFont('Arial', 'B', 16);
+            $pdf->Cell(0, 10, 'SREYTOCH SHOP', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 6, '271, Street Number 06/B, Sen Sok, Teuktha, KH', 0, 1, 'C');
+            $pdf->Cell(0, 6, 'Tel: (+855) 16 872 177', 0, 1, 'C');
+            $pdf->Cell(0, 6, 'Email: sreytoch@gmail.com', 0, 1, 'C');
+
+            // Receipt Info
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->SetTextColor(255, 0, 0);
+            $pdf->Cell(0, 10, 'RECEIPT', 0, 1, 'C');
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 6, 'Date: ' . date('F d, Y H:i:s'), 0, 1, 'C');
+
+            // Customer Info
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 11);
+            $pdf->Cell(0, 8, 'Customer Information', 0, 1);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(50, 6, 'Name:', 0, 0);
+            $pdf->Cell(0, 6, filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING), 0, 1);
+            $pdf->Cell(50, 6, 'Contact:', 0, 0);
+            $pdf->Cell(0, 6, filter_input(INPUT_POST, 'contactDetails', FILTER_SANITIZE_STRING), 0, 1);
+            $pdf->Cell(50, 6, 'Shipping Address:', 0, 0);
+            $pdf->MultiCell(0, 6, filter_input(INPUT_POST, 'shippingAddress', FILTER_SANITIZE_STRING));
+
+            // Order Details
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 11);
+            $pdf->Cell(0, 8, 'Order Details', 0, 1);
+            $pdf->SetFillColor(200, 200, 200);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(80, 8, 'Description', 1, 0, 'L', true);
+            $pdf->Cell(30, 8, 'Unit Price', 1, 0, 'R', true);
+            $pdf->Cell(20, 8, 'Qty', 1, 0, 'C', true);
+            $pdf->Cell(40, 8, 'Subtotal', 1, 1, 'R', true);
+
+            $pdf->SetFont('Arial', '', 10);
+            foreach ($_SESSION['order'] as $item) {
+                $pdf->Cell(80, 7, $item['name'], 1, 0, 'L');
+                $pdf->Cell(30, 7, '$' . number_format($item['price'], 2), 1, 0, 'R');
+                $pdf->Cell(20, 7, $item['quantity'], 1, 0, 'C');
+                $pdf->Cell(40, 7, '$' . number_format($item['price'] * $item['quantity'], 2), 1, 1, 'R');
             }
-    
-            try {
-                $this->db->beginTransaction();
-    
-                // Calculate totals
-                $subtotal = 0;
-                foreach ($_SESSION['order'] as $item) {
-                    $subtotal += $item['price'] * $item['quantity'];
-                }
-                // $taxRate = 0; // 15% VAT
-                $discountRate = 0.06; // 6% discount
-                // $tax = $subtotal * $taxRate;
-                $discount = $subtotal * $discountRate;
-                $total_amount = $subtotal  - $discount;
-    
-                // Generate PDF
-                $pdf = new FPDF('P', 'mm', 'A4');
-                $pdf->AddPage();
-                $pdf->SetAutoPageBreak(true, 10);
-    
-                // Header Section
-                $pdf->SetFont('Arial', 'B', 16);
-                $pdf->Cell(0, 10, 'SREYTOCH SHOP ', 0, 1, 'C');
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Cell(0, 6, '271, Street Number 06/B, Sen Sok, Teuktha, KH', 0, 1, 'C');
-                $pdf->Cell(0, 6, 'Tel: (+855) 16 872 177', 0, 1, 'C');
-                $pdf->Cell(0, 6, 'Email: sreytoch@gmail.com', 0, 1, 'C');
-                
-                // Receipt Title and Date
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', 'B', 14);
-                $pdf->SetTextColor(255, 0, 0);
-                $pdf->Cell(0, 10, 'RECEIPT', 0, 1, 'C');
-                $pdf->SetTextColor(0, 0, 0);
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Cell(0, 6, 'Date: ' . date('F d, Y H:i:s'), 0, 1, 'C');
-                
-                // Customer Information
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', 'B', 11);
-                $pdf->Cell(0, 8, 'Customer Information', 0, 1);
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Cell(50, 6, 'Name:', 0, 0);
-                $pdf->Cell(0, 6, $_POST['customerName'], 0, 1);
-                $pdf->Cell(50, 6, 'Contact:', 0, 0);
-                $pdf->Cell(0, 6, $_POST['contactDetails'], 0, 1);
-                $pdf->Cell(50, 6, 'Shipping Address:', 0, 0);
-                $pdf->MultiCell(0, 6, $_POST['shippingAddress']);
-                
-                // Items Table
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', 'B', 11);
-                $pdf->Cell(0, 8, 'Order Details', 0, 1);
-                
-                // Table Header
-                $pdf->SetFillColor(200, 200, 200);
-                $pdf->SetFont('Arial', 'B', 10);
-                $pdf->Cell(80, 8, 'Description', 1, 0, 'L', true);
-                $pdf->Cell(30, 8, 'Unit Price', 1, 0, 'R', true);
-                $pdf->Cell(20, 8, 'Qty', 1, 0, 'C', true);
-                $pdf->Cell(40, 8, 'Subtotal', 1, 1, 'R', true);
-                
-                // Table Content
-                $pdf->SetFont('Arial', '', 10);
-                foreach ($_SESSION['order'] as $item) {
-                    $pdf->Cell(80, 7, $item['name'], 1, 0, 'L');
-                    $pdf->Cell(30, 7, '$' . number_format($item['price'], 2), 1, 0, 'R');
-                    $pdf->Cell(20, 7, $item['quantity'], 1, 0, 'C');
-                    $pdf->Cell(40, 7, '$' . number_format($item['price'] * $item['quantity'], 2), 1, 1, 'R');
-                }
-                
-                // Totals Section
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Cell(130, 7, 'Subtotal:', 0, 0, 'R');
-                $pdf->Cell(40, 7, '$' . number_format($subtotal, 2), 0, 1, 'R');
-                // $pdf->Cell(40, 7, '$' . number_format($tax, 2), 0, 1, 'R');
-                $pdf->Cell(130, 7, 'Discount (6%):', 0, 0, 'R');
-                $pdf->Cell(40, 7, '-$' . number_format($discount, 2), 0, 1, 'R');
-                
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->SetFillColor(255, 0, 0);
-                $pdf->SetTextColor(255, 255, 255);
-                $pdf->Cell(130, 10, 'Total Amount:', 'T', 0, 'R', true);
-                $pdf->Cell(40, 10, '$' . number_format($total_amount, 2), 'T', 1, 'R', true);
-                
-                // Reset colors
-                $pdf->SetTextColor(0, 0, 0);
-                
-                // Payment Method
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Cell(0, 7, 'Payment Method: ' . ucfirst($_POST['paymentMethod']), 0, 1);
-                
-                // Footer Section
-                $pdf->Ln(10);
-                $pdf->SetFont('Arial', 'I', 10);
-                $pdf->Cell(0, 6, 'Thank you for shopping with us!', 0, 1, 'C');
-                $pdf->Cell(0, 6, 'We appreciate your business and look forward to serving you again.', 0, 1, 'C');
-                
-                // Barcode (optional - requires additional FPDF barcode extension)
-                // $pdf->Ln(10);
-                // $pdf->SetFont('Arial', '', 8);
-                // $pdf->Cell(0, 5, 'Receipt ID: ' . $order_id, 0, 1, 'C');
-                
-                $this->db->commit();
-    
-                // Output PDF with print trigger
-                $tempFile = __DIR__ . '/../../temp/receipt_' . time() . '.pdf';
-                $pdf->Output('F', $tempFile);
-                
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: inline; filename="receipt.pdf"');
-                readfile($tempFile);
-                
-                // Add JavaScript to trigger print dialog
-                echo '<script type="text/javascript">';
-                echo 'window.onload = function() {';
-                echo 'window.print();';
-                echo 'setTimeout(function() { window.location.href = "/order"; }, 1000);'; // Redirect after 1 second
-                echo '}';
-                echo '</script>';
-    
-                // Clean up
-                unlink($tempFile);
-                unset($_SESSION['order']);
-                unset($_SESSION['product']);
-                exit();
-                
-            } catch (Exception $e) {
-                $this->db->rollBack();
-                $_SESSION['error'] = "Error processing checkout: " . $e->getMessage();
-                header("Location: /views/order/checkout.php");
-                exit();
-            }
+
+            // Totals
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(130, 7, 'Subtotal:', 0, 0, 'R');
+            $pdf->Cell(40, 7, '$' . number_format($subtotal, 2), 0, 1, 'R');
+            $pdf->Cell(130, 7, 'Discount (6%):', 0, 0, 'R');
+            $pdf->Cell(40, 7, '-$' . number_format($discount, 2), 0, 1, 'R');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->SetFillColor(255, 0, 0);
+            $pdf->SetTextColor(255, 255, 255);
+            $pdf->Cell(130, 10, 'Total Amount:', 'T', 0, 'R', true);
+            $pdf->Cell(40, 10, '$' . number_format($total_amount, 2), 'T', 1, 'R', true);
+            $pdf->SetTextColor(0, 0, 0);
+
+            // Footer
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 7, 'Payment Method: ' . ucfirst(filter_input(INPUT_POST, 'paymentMethod', FILTER_SANITIZE_STRING)), 0, 1);
+            $pdf->Ln(10);
+            $pdf->SetFont('Arial', 'I', 10);
+            $pdf->Cell(0, 6, 'Thank you for shopping with us!', 0, 1, 'C');
+
+            $this->db->commit();
+            $tempFile = __DIR__ . '/../../temp/receipt_' . time() . '.pdf';
+            $pdf->Output('F', $tempFile);
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename="receipt.pdf"');
+            readfile($tempFile);
+            
+            echo '<script>window.print();setTimeout(() => window.location.href = "/order", 1000);</script>';
+            
+            unlink($tempFile);
+            unset($_SESSION['order'], $_SESSION['product']);
+            exit();
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            $_SESSION['error'] = "Checkout error: " . $e->getMessage();
+            header("Location: /order");
+            exit();
         }
     }
         // ... (existing GET request handling remains unchanged)
