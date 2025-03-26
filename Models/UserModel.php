@@ -71,7 +71,7 @@ class UserModel {
     }
     
     ///////////////////////////////
-    public function view_user($id) {
+    public function view($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

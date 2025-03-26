@@ -117,8 +117,8 @@ class UserController extends BaseController {
    ///////////////////////////
 
    public function detail($id) {
-    $user = $this->users->view_user($id);
-    $this->view("users/view_user", ['users' => $user]);
+    $user = $this->users->view($id);
+    $this->view("users/view", ['users' => $user]);
 }
 ////////////////////////////////////////////////////////////////
     

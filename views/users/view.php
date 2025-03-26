@@ -3,7 +3,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_SESSION['user_id'])) : ?>
-  
+
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -179,14 +180,12 @@ if (isset($_SESSION['user_id'])) : ?>
                     
                     <div class="mb-4">
                         <label for="name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="name" name="name" 
-                               value="<?= htmlspecialchars($user['name']); ?>" required>
+                        <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
                     </div>
                     
                     <div class="mb-4">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" 
-                               value="<?= htmlspecialchars($user['email']); ?>" required>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
                     </div>
                     
                     <div class="mb-4">
@@ -197,27 +196,14 @@ if (isset($_SESSION['user_id'])) : ?>
                         </select>
                     </div>
                     
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="submit" class="btn btn-update">
-                            <i class="fas fa-save me-2"></i>Update Profile
-                        </button>
-                    </div>
+                    <button type="submit" class="btn btn-update">Update Profile</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const img = document.getElementById("profile-pic");
-                img.src = reader.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
 </body>
+
+
 
 <?php 
 else: 

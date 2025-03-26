@@ -302,6 +302,8 @@ if (isset($_SESSION['user_id'])) : ?>
             </tbody>
         </table>
     </div>
+ 
+ 
 
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -311,6 +313,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
 
     <script>
+        
      function confirmDelete(userId) {
     Swal.fire({
         title: 'Are you sure?',
