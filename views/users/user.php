@@ -67,7 +67,7 @@ if (isset($_SESSION['user_id'])) : ?>
             width: 80%;
             border-collapse: separate;
             border-spacing: 0;
-            display: inline;
+            display: block;
             margin-left:7%;
             justify-content: center;
             align-items: center;
@@ -144,13 +144,14 @@ if (isset($_SESSION['user_id'])) : ?>
         .btn-success {
             margin-top:2%;
             margin-left:7%;
-            padding: 15px 20px;
+            padding: 10px 15px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
             text-align: center;
             transition: all 0.3s ease;
             background: #26A142;
+            
         }
 
         .btn-warning {
@@ -261,10 +262,11 @@ if (isset($_SESSION['user_id'])) : ?>
 </head>
 <body>
     <div class="container-fluid table-responsive">
+        
+        <table class="table table-striped table-hover shadow-sm rounded">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <a href="/users/create" class="btn1 btn-success">+ Create User</a>
         </div>
-        <table class="table table-striped table-hover shadow-sm rounded">
             <thead>
                 <tr>
                     <th>Id</th>

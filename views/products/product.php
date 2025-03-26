@@ -23,22 +23,9 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
             background-color: #f4f4f4;
         }
-        table {
-            width: 85%;
-            border-collapse: separate;
-            border-spacing: 0;
-            display: inline;
-            margin-left:5%;
-            justify-content: center;
-            align-items: center;
-          
-        }
+    
 
-        th, td {
-            padding:10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
+    
         .btn-success {
             margin-top:2%;
             
@@ -46,22 +33,21 @@ if (isset($_SESSION['user_id'])) : ?>
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
-            text-align: center;
+          
             transition: all 0.3s ease;
-            background: #26A142;
+            background:rgb(17, 110, 38);
         }
-
-        th {
       
-            background-color: #007BFF;
+        th {
+            background-color: #007BFF !important; 
             color: white;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            position: sticky;
             top: 0;
             z-index: 2;
         }
+        
 
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
@@ -92,7 +78,6 @@ if (isset($_SESSION['user_id'])) : ?>
             padding-left: 0rem !important; }
 
         .btn {
-            padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             margin-bottom: 2%;
@@ -114,6 +99,7 @@ if (isset($_SESSION['user_id'])) : ?>
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+      
 
         .product-image {
             width: 50px;
@@ -238,17 +224,29 @@ if (isset($_SESSION['user_id'])) : ?>
 
 /* Adjust the table width */
 .table-container {
-    margin: 20px;
-    overflow: hidden;
-    border-radius: 18px;
-    margin-left:24%;
-    justify-content:center;
-    align-items:center;
-    margin-top:10%;
-    overflow-x: auto; /* Add horizontal scroll for smaller screens */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Centers the container horizontally */
+    display: flex;
+    flex-direction: column;
+   
+    width: 100%; /* Adjust width as needed */
+ 
     background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    padding: 10%; /* Adds spacing */
+
+    border-radius: 8px; /* Optional: Makes corners rounded */
 }
+
+.table{
+    width: auto;
+    position: relative;
+    left: 16%; /* Adds spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers child elements */
+    justify-content: center;
+}
+
+
 .sidebar {
     display: none; /* Hide the sidebar */
 }
@@ -345,7 +343,12 @@ if (isset($_SESSION['user_id'])) : ?>
         .pagination{
 
             position: relative;
-            left:40%;
+            left:60%;
+        }
+        .button{
+            width: auto;
+            position: relative;
+            right: 33%;
         }
     </style>
 </head>
@@ -359,85 +362,91 @@ if (isset($_SESSION['user_id'])) : ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="table-container">
-    <a href="/products/create" class="btn btn-success">+ Add Product</a>
-
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
-                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
-                </th>
-                <th>Image</th>
-                <th>Name</th>
-                
-                <th>Code</th>
-                <th>Price
-
-                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
-                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
-                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
-                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
-                </div>
-                </th>
-
-                <th>Stock
-
-                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
-                    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
-                        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
-                            <i class="fas fa-arrow-down"></i> High
-                        </button>
-                        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
-                            <i class="fas fa-arrow-up"></i> Low
-                        </button>
-                    </div>
-                </th>
-
-                <th>Category</th>
-                <th>Created At</th>
-                <th>Action
-
-                <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
-                </th>
-            </tr>
-        </thead>
-        <tbody id="product-list">
-            <?php if (empty($products)): ?>
+    
+    <div class="table">
+    <div class="button">
+        <a href="/products/create" class="btn btn-success">+ Add Product</a>
+    </div>
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="9" class="text-center">No products available.</td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($products as $product): ?>
-                    <tr>
-                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
-                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
-                        <td><?= htmlspecialchars($product['name']) ?></td>
-                        <td><?= htmlspecialchars($product['barcode']) ?></td>
-                        <td>$<?= number_format($product['price'], 2) ?></td>
-                        <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                        <td><?= htmlspecialchars($product['category']) ?></td>
-                        <td><?= htmlspecialchars($product['created_at']) ?></td>
-                        <td class="action-icons">
-                            <div class="dropdown">
-                                <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
-                                <div class="dropdown-menu">
-                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
-                                    <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
-    </table>
+                    <th>
+                        <div class="alert" id="toast" style="display:none;">Delete all!</div>
+                        <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+                    </th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    
+                    <th>Code</th>
+                    <th>Price
 
-    <!-- Pagination Buttons (Now at the bottom) -->
-    <div class="pagination" id="pagination-buttons"></div>
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
+                    <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                    <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                        <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
+                        <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
+                    </div>
+                    </th>
+
+                    <th>Stock
+
+                        <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                        <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                            <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                            <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+                                <i class="fas fa-arrow-down"></i> High
+                            </button>
+                            <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+                                <i class="fas fa-arrow-up"></i> Low
+                            </button>
+                        </div>
+                    </th>
+
+                    <th>Category</th>
+                    <th>Created At</th>
+                    <th>Action
+
+                    <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
+                    </th>
+                </tr>
+        
+            </thead>
+            <tbody id="product-list">
+                <?php if (empty($products)): ?>
+                    <tr>
+                        <td colspan="9" class="text-center">No products available.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($products as $product): ?>
+                        <tr>
+                            <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                            <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                            <td><?= htmlspecialchars($product['name']) ?></td>
+                            <td><?= htmlspecialchars($product['barcode']) ?></td>
+                            <td>$<?= number_format($product['price'], 2) ?></td>
+                            <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
+                            <td><?= htmlspecialchars($product['category']) ?></td>
+                            <td><?= htmlspecialchars($product['created_at']) ?></td>
+                            <td class="action-icons">
+                                <div class="dropdown">
+                                    <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                                    <div class="dropdown-menu">
+                                        <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                                        <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                                        <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+     <!-- Pagination Buttons (Now at the bottom) -->
+     <div class="pagination" id="pagination-buttons"></div>
+    </div>
+   
 </div>
 
 <script>
