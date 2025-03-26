@@ -1,99 +1,52 @@
 <?php
-
-namespace Database;
-
-use PDO;
-use PDOException;
-use Dotenv\Dotenv;
-require 'vendor/autoload.php';
-
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-$db = new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}", $_ENV['DB_USER'], $_ENV['DB_PASS']);
-
-class Database
-{
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'pos_system';
+class Database {
+    private static $instance = null; // Singleton instance
+    private $conn;
     
-    private $dbh;
-    private $stmt;
-    private $error;
-    
-    public function __construct()
-    {
-        // Set DSN
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-        $options = [
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ];
-        
-        // Create PDO instance
+    // Database Configuration
+    private $host = "localhost";  // Change if needed
+    private $user = "root";       // Change if needed
+    private $pass = "";           // Change if needed
+    private $dbname = "pos_system"; // Ensure this matches your MySQL database
+
+    // Private constructor to prevent direct object creation
+    private function __construct() {
         try {
-            $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
+            // Create a new PDO connection
+            $this->conn = new PDO(
+                "mysql:host=$this->host;dbname=$this->dbname;charset=utf8mb4",
+                $this->user,
+                $this->pass
+            );
+            
+            // Set error mode to Exception for debugging
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            // Set default fetch mode to associative arrays
+            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            
         } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-            echo $this->error;
+            // If the connection fails, show an error message
+            die("Database Connection Failed: " . $e->getMessage());
         }
-    }
-    
-    /**
-     * Prepare statement with query
-     * 
-     * @param string $sql
-     * @return void
-     */
-    public function query($sql, $params = [])
-    {
-        $this->stmt = $this->dbh->prepare($sql);
-        
-        if (!empty($params)) {
-            foreach ($params as $param => $value) {
-                $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                $this->stmt->bindValue($param, $value, $type);
-            }
-        }
-        
-        $this->stmt->execute();
-    }
-    
-    /**
-     * Get single record as array
-     * 
-     * @return array|false
-     */
-    public function single($sql = null, $params = [])
-    {
-        if ($sql) {
-            $this->query($sql, $params);
-        }
-        
-        return $this->stmt->fetch();
-    }
-    
-    /**
-     * Get result set as array of arrays
-     * 
-     * @return array
-     */
-    public function resultSet($sql = null, $params = [])
-    {
-        if ($sql) {
-            $this->query($sql, $params);
-        }
-        
-        return $this->stmt->fetchAll();
     }
 
+    // Get the single instance of the Database
+    public static function getInstance() {
+        if (!self::$instance) {
+            self::$instance = new Database();
+        }
+        return self::$instance->conn;
+    }
+ 
+    public function getConnection() {
+        return $this->conn;
+    }
+    
     // Prevent object cloning
     private function __clone() {}
 
     // Prevent object unserialization
     public function __wakeup() {}
 }
-
+?>

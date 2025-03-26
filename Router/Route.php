@@ -1,17 +1,29 @@
 <?php
-require_once __DIR__ . '/../Database/Database.php'; // Corrected path
-require_once __DIR__ . '/Router/Router.php';
-require_once __DIR__ . '/Controllers/FormController.php';
-require_once __DIR__ . '/Controllers/DashboardController.php';
-require_once __DIR__ . '/Controllers/UserController.php';
-require_once __DIR__ . '/Controllers/ProductController.php';
-require_once __DIR__ . '/Controllers/ReceiptController.php'; // Added
 
-$router = new Router();
+use Controllers\FormController;
+use Controllers\UserController;
 
-$router->get('/dashboard', [DashboardController::class, 'show']);
-$router->get('/', [FormController::class, 'form']);
-$router->post('/form/authenticate', [UserController::class, 'authenticate']);
+require_once(__DIR__ . '/Router.php');
+require_once "Controllers/BaseController.php";
+require_once "Database/Database.php";
+require_once "Controllers/FormController.php";
+require_once "Controllers/ForgotPassword.php";
+require_once "Controllers/DashboardController.php";
+require_once "Controllers/UserController.php";
+require_once "Controllers/ProductController.php";
+require_once 'Controllers/ProductScanController.php';
+require_once "Controllers/ProductCashierController.php";
+// require_once 'Controllers/OrderController.php';
+
+// Create an instance of Router
+$route = new Router();
+
+// Welcome
+$route->get("/dashboard", [DashboardController::class, 'show']);
+
+// Define the routes
+$route->get("/", [FormController::class, 'form']); // Set as homepage
+$route->post("/form/authenticate", [UserController::class, 'authenticate']);
 
 $route->get("/users", [UserController::class, 'index']);
 $route->get("/users/create", [UserController::class, 'create']);
@@ -37,14 +49,19 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
+// Product Scanning Routes
+$route->get("/order", [ProductScanController::class, 'index']);
+$route->post("/order/add", [ProductScanController::class, 'add']);
+$route->get("/product/checkout", [ProductScanController::class, 'checkout']);
+$route->post("/product/process-checkout", [ProductScanController::class, 'processCheckout']);
+$route->post("/productDetails", [ProductScanController::class, 'scan']); // For scanning
+$route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
+$route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
+$route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 
-// Add Receipt Routes
-$router->post('/receipt/process', [ReceiptController::class, 'processPurchase']);
-$router->get('/receipt/download/{id}', [ReceiptController::class, 'downloadReceipt']);
+// Product Cashier
+$route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
-try {
-    $router->route();
-} catch (Exception $e) {
-    http_response_code(500);
-    echo "Internal Server Error: " . $e->getMessage();
-}
+
+// Call the route method to process the request
+$route->route();
