@@ -25,32 +25,6 @@ if (isset($_SESSION['user_id'])) : ?>
         <label>Description Product</label>
         <textarea placeholder="Enter product description" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions'] ?? '') : '' ?></textarea>
 
-        <section class="gender">
-            <h3>Gender</h3>
-            <select id="genderSelect" name="gender" required>
-                <option value="Men" <?= isset($product) && $product['gender'] == 'Men' ? 'selected' : '' ?>>Men</option>
-                <option value="Women" <?= isset($product) && $product['gender'] == 'Women' ? 'selected' : '' ?>>Women</option>
-               
-            </select>
-
-            <!-- Input for "Other" Gender (hidden by default) -->
-            <div id="otherGenderInput" style="display: none;">
-                <label for="otherGender">Please specify:</label>
-                <input type="text" id="otherGender" name="other_gender_input" placeholder="Enter gender" value="<?= isset($product) && $product['gender'] == 'Other' ? htmlspecialchars($product['other_gender_input'] ?? '') : '' ?>">
-            </div>
-        </section>
-
-        <script>
-        document.getElementById('genderSelect').addEventListener('change', function() {
-            var otherGenderInput = document.getElementById('otherGenderInput');
-            if (this.value === 'Other') {
-                otherGenderInput.style.display = 'block';
-            } else {
-                otherGenderInput.style.display = 'none';
-            }
-        });
-        </script>
-
        <section class="pricing-stock">
     <h3>Pricing And Stocks</h3>
     <label>Base Pricing</label>
