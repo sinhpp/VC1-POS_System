@@ -1,10 +1,15 @@
 <?php
-
+require_once 'Controllers/ReceiptController.php';
 use Controllers\FormController;
 
 require_once(__DIR__ . '/../Controllers/FormController.php');
 $router = new Router();
 $router->get('/form', [new FormController(), 'form']); // Route to form
+
+if ($_GET['page'] == 'send_receipt' && isset($_GET['order-id'])) {
+    $receiptController = new ReceiptController();
+    $receiptController->sendReceipt($_GET['order_id']);
+}
 
 class Router 
 {
