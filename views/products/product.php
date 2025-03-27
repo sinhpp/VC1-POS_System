@@ -367,81 +367,81 @@ if (isset($_SESSION['user_id'])) : ?>
     <div class="button">
         <a href="/products/create" class="btn btn-success">+ Add Product</a>
     </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <div class="alert" id="toast" style="display:none;">Delete all!</div>
-                        <input type="checkbox" onclick="toggleAllCheckboxes(this)">
-                    </th>
-                    <th>Image</th>
-                    <th>Name</th>
-                    
-                    <th>Code</th>
-                    <th>Price
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
+                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+                </th>
+                <th>Image</th>
+                <th>Name</th>
+                
+                <th>Code</th>
+                <th>Price
 
-                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
-                    <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                    <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
-                        <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
-                        <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
+                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
+                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
+                </div>
+                </th>
+
+                <th>Stock
+
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-down"></i> High
+                        </button>
+                        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-up"></i> Low
+                        </button>
                     </div>
-                    </th>
+                </th>
 
-                    <th>Stock
+                <th>Category</th>
+                <th>Created At</th>
+                <th>Action
 
-                        <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
-                        <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                            <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
-                            <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
-                                <i class="fas fa-arrow-down"></i> High
-                            </button>
-                            <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
-                                <i class="fas fa-arrow-up"></i> Low
-                            </button>
-                        </div>
-                    </th>
-
-                    <th>Category</th>
-                    <th>Created At</th>
-                    <th>Action
-
-                    <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
-                    </th>
+                <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="product-list">
+            <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="9" class="text-center">No products available.</td>
                 </tr>
-        
-            </thead>
-            <tbody id="product-list">
-                <?php if (empty($products)): ?>
+            <?php else: ?>
+                <?php foreach ($products as $product): ?>
                     <tr>
-                        <td colspan="9" class="text-center">No products available.</td>
-                    </tr>
-                <?php else: ?>
-                    <?php foreach ($products as $product): ?>
-                        <tr>
-                            <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
-                            <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
-                            <td><?= htmlspecialchars($product['name']) ?></td>
-                            <td><?= htmlspecialchars($product['barcode']) ?></td>
-                            <td>$<?= number_format($product['price'], 2) ?></td>
-                            <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                            <td><?= htmlspecialchars($product['category']) ?></td>
-                            <td><?= htmlspecialchars($product['created_at']) ?></td>
-                            <td class="action-icons">
-                                <div class="dropdown">
-                                    <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
-                                    <div class="dropdown-menu">
-                                        <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
-                                        <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                                        <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
-                                    </div>
+                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td><?= htmlspecialchars($product['barcode']) ?></td>
+                        <td>$<?= number_format($product['price'], 2) ?></td>
+                        <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
+                        <td><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        <td class="action-icons">
+                            <div class="dropdown">
+                                <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                                <div class="dropdown-menu">
+                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                                    <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                                 </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+
     </div>
      <!-- Pagination Buttons (Now at the bottom) -->
      <div class="pagination" id="pagination-buttons"></div>
