@@ -26,24 +26,28 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createUser($name, $email, $password, $role) {
+    public function createUser($name, $email, $password, $role, $image) {
         // Check if the email already exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
-
+    
         if ($stmt->fetchColumn() > 0) {
             return "Email already exists.";
         }
-
-        // Insert new user
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
+    
+        // Insert new user with image
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) 
+                                    VALUES (:name, :email, :password, :role, :image)");
+        
         return $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role
+            ':role' => $role,
+            ':image' => $image
         ]);
     }
+    
     public function deleteUser($id) {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $id]);
@@ -71,7 +75,7 @@ class UserModel {
     }
     
     ///////////////////////////////
-    public function view($id) {
+    public function detail_user($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

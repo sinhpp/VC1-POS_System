@@ -262,14 +262,14 @@ if (isset($_SESSION['user_id'])) : ?>
 </head>
 <body>
     <div class="container-fluid table-responsive">
-        
-        <table class="table table-striped table-hover shadow-sm rounded">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <a href="/users/create" class="btn1 btn-success">+ Create User</a>
         </div>
+        <table class="table table-striped table-hover shadow-sm rounded">
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Profile</th> <!-- Header for the profile picture -->
                     <th>Username</th>
                     <th>Email</th>
                     <th>Role</th>
@@ -282,6 +282,10 @@ if (isset($_SESSION['user_id'])) : ?>
                 foreach ($users as $user): ?>
                 <tr>
                     <td><?= $index++ ?></td> <!-- Use the counter for ID -->
+                    <td>
+                    <td><img src="/<?= htmlspecialchars($user['image']) ?>" alt="user image" class="user-image"></td>
+
+                    </td>
                     <td><?= htmlspecialchars($user['name']) ?></td>
                     <td><?= htmlspecialchars($user['email']) ?></td>
                     <td>
@@ -302,7 +306,7 @@ if (isset($_SESSION['user_id'])) : ?>
             </tbody>
         </table>
     </div>
- 
+</body>
  
 
     <!-- Include SweetAlert2 -->
