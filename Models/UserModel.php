@@ -26,7 +26,7 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createUser($name, $email, $password, $role) {
+    public function createUser($name, $email, $password, $role, $image = null) {
         // Check if the email already exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
@@ -36,41 +36,44 @@ class UserModel {
         }
 
         // Insert new user
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) VALUES (:name, :email, :password, :role, :image)");
         return $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role
+            ':role' => $role,
+            ':image' => $image // Store image path
         ]);
     }
+
     public function deleteUser($id) {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
-    public function usercreate($name, $email, $password, $role) {
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) 
-                                    VALUES (:name, :email, :password, :role)");
+
+    public function usercreate($name, $email, $password, $role, $image = null) {
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) 
+                                    VALUES (:name, :email, :password, :role, :image)");
         $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role
+            ':role' => $role,
+            ':image' => $image // This can be NULL
         ]);
         return $stmt->rowCount(); // Returns the number of affected rows
     }
 
-    public function updateUser($id, $name, $email, $role) {
-        $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id");
+    public function updateUser($id, $name, $email, $role, $image = null) {
+        $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role, image = :image WHERE id = :id");
         $stmt->execute([
             ':id' => $id,
             ':name' => $name,
             ':email' => $email,
-            ':role' => $role
+            ':role' => $role,
+            ':image' => $image // Store image path
         ]);
         return $stmt->rowCount(); // Returns affected rows
     }
-    
-    
 }
 ?>

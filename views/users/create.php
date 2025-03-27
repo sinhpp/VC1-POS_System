@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -6,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_SESSION['user_id'])) : ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
+         body {
             font-family: Arial, sans-serif;
             display: block;
 
@@ -17,10 +16,8 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .container {
-            display: flex;
-            margin-left:26%;
             margin-top:10%;
-            
+            display: flex;
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -29,39 +26,30 @@ if (isset($_SESSION['user_id'])) : ?>
             width: 100%;
         }
 
-        .profile-sidebar {
+        .upload-section {
             width: 30%;
             text-align: center;
             padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            border-right: 1px solid #ddd;
+        }
+
+        .upload-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #6a11cb;
         }
 
         .profile-pic {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            margin-bottom: 10px;
             object-fit: cover;
+            border: 2px solid #6a11cb;
+            margin-bottom: 10px;
+            display: none; /* Initially hidden */
         }
 
-        .upload-btn {
-            background-color: #6a11cb;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .upload-btn:hover {
-            background-color: #2575fc;
-            transform: scale(1.05);
-        }
-
-        .profile-form {
+        .detail {
             width: 70%;
             padding: 20px;
         }
@@ -74,6 +62,24 @@ if (isset($_SESSION['user_id'])) : ?>
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
+        }
+
+        .btn-upload {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-upload:hover {
+            background-color: #2575fc;
+            transform: scale(1.05);
         }
 
         .input-group input,
@@ -98,12 +104,6 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #2575fc;
-            transform: scale(1.05);
         }
 
         .btn-secondary {
@@ -113,12 +113,6 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: scale(1.05);
         }
 
         .error-message {
@@ -127,6 +121,7 @@ if (isset($_SESSION['user_id'])) : ?>
             margin-top: 5px;
             display: none;
         }
+
         .success-alert {
             position: fixed;
             top: 20px;
@@ -141,11 +136,16 @@ if (isset($_SESSION['user_id'])) : ?>
         }
     </style>
     <script>
+        let imageSelected = false;
+
         function previewImage(event) {
             const reader = new FileReader();
             reader.onload = function() {
                 const img = document.getElementById("profile-pic");
                 img.src = reader.result;
+                img.style.display = 'block'; // Show the image after selection
+                document.getElementById("upload-button").textContent = "Change Image"; // Change button text
+                imageSelected = true; // Set flag to true
             }
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -160,7 +160,6 @@ if (isset($_SESSION['user_id'])) : ?>
                 event.preventDefault(); // Prevent form submission
             } else {
                 errorMessage.style.display = "none";
-                // Show success alert
                 showSuccessAlert();
             }
         }
@@ -179,44 +178,63 @@ if (isset($_SESSION['user_id'])) : ?>
 <div id="success-alert" class="success-alert">
     User created successfully!
 </div>
+
+<form action="/users/storeuser" method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
     <div class="container">
-        
-        <!-- Left Column: Profile Picture Upload -->
-         <div class="profile-sidebar">
-        <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
-        <input type="file" id="file-input" name="image" accept="image/*" onchange="previewImage(event)" style="display: none;">
-        <button type="button" class="upload-btn" onclick="document.getElementById('file-input').click()">Upload Photo</button>
-    </div>
+        <!-- Left Column: Image Upload -->
+        <div class="upload-section">
+            <h2>Upload Profile Picture</h2>
+            <img id="profile-pic" class="profile-pic" src="#" alt="Profile Picture" />
+            <div class="input-group">
+                <input type="file" id="image-input" name="image" accept="image/*" required onchange="previewImage(event)" style="display:none;">
+                <button type="button" id="upload-button" class="btn-upload" onclick="document.getElementById('image-input').click();">Upload Image</button>
+            </div>
+        </div>
 
         <!-- Right Column: User Details Form -->
+        <div class="detail">
+            <!-- Name Field -->
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Enter your full name" required>
+            </div>
 
-</script>
-</section>
-    </div>
-    <form action="/users/storeuser" method="post" enctype="multipart/form-data">
-    <label>Profile Image</label>
-    <input type="file" name="image" accept="image/*" required>
+            <!-- Email Field -->
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
 
-    <label>Email Address</label>
-    <input type="email" name="email" required>
+            <!-- Role Field -->
+            <div class="input-group">
+                <label>Role</label>
+                <select name="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="cashier">Cashier</option>
+                </select>
+            </div>
 
-    <label>Role</label>
-    <select name="role" required>
-        <option value="admin">Admin</option>
-        <option value="cashier">Cashier</option>
-    </select>
+            <!-- Password Field -->
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
+            </div>
 
-    <label>Password</label>
-    <input type="password" name="password" required>
+            <!-- Confirm Password Field -->
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
+                <div id="password-error" class="error-message">Passwords do not match. Please try again.</div>
+            </div>
 
-    <label>Confirm Password</label>
-    <input type="password" name="confirm_password" required>
-
-    <button type="submit">Create Account</button>
-</form>
-
+            <!-- Submit and Cancel Buttons -->
+            <button type="submit" class="btn-primary">Create Account</button>
+            <a href="/users" class="btn-secondary">Cancel</a>
         </div>
     </div>
+</form>
+
 </body>
 <?php 
 else: 

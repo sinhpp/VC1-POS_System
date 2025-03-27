@@ -91,11 +91,29 @@ class UserController extends BaseController {
         $password = htmlspecialchars($_POST['password']);
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
+        
+        // Handle file upload
+        $imagePath = null;
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $targetDir = "uploads/"; // Ensure this directory exists and is writable
+            $imagePath = $targetDir . basename($_FILES['image']['name']);
+            
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+                // File upload success
+            } else {
+                // Handle file upload error
+                die("Failed to upload image.");
+            }
+        } else {
+            // Handle case where no image is uploaded
+            $imagePath = null; // Keep it NULL if no image was uploaded
+        }
     
-        $this->users->usercreate($name, $email, $encrypted_password, $role);
+        // Call the usercreate method
+        $this->users->usercreate($name, $email, $encrypted_password, $role, $imagePath);
         header("Location: /users");
     }
-    
 
     public function edit($id) {
         $user = $this->users->getUserById($id); // Fetch user details from model
@@ -109,10 +127,18 @@ class UserController extends BaseController {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
-        $this->users->updateUser($id, $name, $email, $role);
+        
+        // Handle file upload
+        $imagePath = null;
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $targetDir = "uploads/"; // Ensure this directory exists and is writable
+            $imagePath = $targetDir . basename($_FILES['image']['name']);
+            move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
+        }
+    
+        $this->users->updateUser($id, $name, $email, $role, $imagePath);
         header("Location: /users");
-    }  
-
+    }
    
     
 }
