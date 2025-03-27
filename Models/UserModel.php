@@ -26,28 +26,24 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createUser($name, $email, $password, $role, $image) {
+    public function createUser($name, $email, $password, $role) {
         // Check if the email already exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
-    
+
         if ($stmt->fetchColumn() > 0) {
             return "Email already exists.";
         }
-    
-        // Insert new user with image
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) 
-                                    VALUES (:name, :email, :password, :role, :image)");
-        
+
+        // Insert new user
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
         return $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role,
-            ':image' => $image
+            ':role' => $role
         ]);
     }
-    
     public function deleteUser($id) {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $id]);
@@ -63,6 +59,7 @@ class UserModel {
         ]);
         return $stmt->rowCount(); // Returns the number of affected rows
     }
+
     public function updateUser($id, $name, $email, $role) {
         $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id");
         $stmt->execute([
@@ -74,14 +71,6 @@ class UserModel {
         return $stmt->rowCount(); // Returns affected rows
     }
     
-    ///////////////////////////////
-    public function detail_user($id) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    //////////////////////////////////////////
     
 }
 ?>

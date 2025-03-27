@@ -266,6 +266,9 @@ if (isset($_SESSION['user_id'])) : ?>
 <body>
     <div class="container-fluid table-responsive">
     <table class="table table-striped table-hover shadow-sm rounded">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="/users/create" class="btn1 btn-success">+ Create User</a>
+        </div>
     <thead>
         <tr>
             <th>ID</th>

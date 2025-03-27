@@ -13,7 +13,7 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image){
+    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $image){
         // Check if barcode exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products WHERE barcode = :barcode");
         $stmt->execute([':barcode' => $barcode]);
@@ -47,7 +47,7 @@ class ProductModel {
       $dbImagePath = 'uploads/' . $imageName;
 
       // Insert new product
-      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
+      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :descriptions, :gender, :image)");
       return $stmt->execute([
           ':name' => $name,
           ':barcode' => $barcode,
@@ -56,77 +56,53 @@ class ProductModel {
           ':category' => $category,
           ':size' => $size ?? 'N/A', // Provide a default value if $size is null
           ':discount' => $discount,
-          ':discount_type' => $discount_type,
           ':descriptions' => $descriptions,
           ':gender' => $gender,
           ':image' => $dbImagePath
       ]);
   }
     
-  public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
-    error_log("Received category: " . var_export($category, true));
-
-    $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id");
-    $stmt->execute([':id' => $id]);
-    $existingProduct = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$existingProduct) {
-        error_log("Product not found");
-        return false;
-    }
-
-    $imagePath = $existingProduct['image']; // Keep existing image
+    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $image) {
+        // Handle image upload
+        $imagePath = null;
+        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
     
-    if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/../uploads/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+            $imageTmpPath = $image['tmp_name'];
+            $imageName = basename($image['name']);
+            $imagePath = $uploadDir . $imageName;
+    
+            if (!move_uploaded_file($imageTmpPath, $imagePath)) {
+                error_log("Error moving file: " . print_r(error_get_last(), true));
+                return false;
+            }
+    
+            $dbImagePath = 'uploads/' . $imageName;
+        } else {
+            // If no new image is uploaded, keep the existing image path
+            $existingProduct = $this->getProById($id);
+            $dbImagePath = $existingProduct['image'];
         }
-        $imageName = basename($image['name']);
-        $newImagePath = 'uploads/' . $imageName;
-        if (move_uploaded_file($image['tmp_name'], $uploadDir . $imageName)) {
-            $imagePath = $newImagePath;
-        }
+    
+        // Update product
+        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, category = :category, size = :size, discount = :discount, descriptions = :descriptions, gender = :gender, image = :image WHERE id = :id");
+        return $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':barcode' => $barcode,
+            ':price' => $price,
+            ':stock' => $stock,
+            ':category' => $category,
+            ':size' => $size,
+            ':discount' => $discount,
+            ':descriptions' => $descriptions,
+            ':gender' => $gender,
+            ':image' => $dbImagePath
+        ]);
     }
-
-    $stmt = $this->db->prepare("UPDATE products SET 
-        name = :name, 
-        barcode = :barcode, 
-        price = :price, 
-        stock = :stock, 
-        category = :category,  
-        size = :size,
-        discount = :discount,
-        discount_type = :discount_type,  -- ✅ Fixed typo
-        descriptions = :descriptions,
-        gender = :gender,
-        image = :image 
-        WHERE id = :id");
-
-    $result = $stmt->execute([
-        ':name' => $name,
-        ':barcode' => $barcode,
-        ':price' => $price,
-        ':stock' => $stock,
-        ':category' => $category, 
-        ':size' => $size,
-        ':discount' => $discount,
-        ':discount_type' => $discount_type,  // ✅ Fixed key
-        ':descriptions' => $descriptions, 
-        ':gender' => $gender,
-        ':image' => $imagePath,  
-        ':id' => $id
-    ]);
-
-    if ($result) {
-        error_log("Product updated successfully in database.");
-    } else {
-        error_log("Failed to update product: " . implode(", ", $stmt->errorInfo()));
-    }
-
-    return $result;
-}
-
     
 
     public function getProById($id) {
