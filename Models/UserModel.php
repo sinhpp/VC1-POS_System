@@ -75,5 +75,10 @@ class UserModel {
         ]);
         return $stmt->rowCount(); // Returns affected rows
     }
+    public function user_detail($id) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

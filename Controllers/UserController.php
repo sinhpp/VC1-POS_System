@@ -140,6 +140,14 @@ class UserController extends BaseController {
         header("Location: /users");
     }
    
-    
+    public function detail($id) {
+        $user = $this->users->user_detail($id);
+        if ($user) {
+            // Ensure this path matches the actual file structure
+            $this->view("users/user_detail", ['user' => $user]);
+        } else {
+            echo "User not found.";
+        }
+    }
 }
 ?>
