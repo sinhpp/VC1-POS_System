@@ -182,18 +182,48 @@ if (isset($_SESSION['user_id'])) : ?>
     <div class="container">
         
         <!-- Left Column: Profile Picture Upload -->
-        <div class="profile-sidebar">
-            <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
-            <input type="file" id="file-input" accept="image/*" onchange="previewImage(event)" style="display: none;">
-            <button class="upload-btn" onclick="document.getElementById('file-input').click()">Upload Photo</button>
-        </div>
+         <div class="profile-sidebar">
+        <img id="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+        <input type="file" id="file-input" name="image" accept="image/*" onchange="previewImage(event)" style="display: none;">
+        <button type="button" class="upload-btn" onclick="document.getElementById('file-input').click()">Upload Photo</button>
+    </div>
 
         <!-- Right Column: User Details Form -->
         <form action="/users/storeuser" method="post" onsubmit="validateForm(event)">
     <!-- Name Field -->
     <div class="input-group">
-        <label>Full Name</label>
-        <input type="text" name="name" placeholder="Enter your full name" required>
+    <section class="upload-img">
+    <h5>Upload Image</h5>
+    
+    <!-- File Input -->
+    <input type="file" id="fileUpload" name="image" accept="image/*" required>
+    
+    <!-- Image Preview -->
+    <div class="image-preview" id="imagePreview">
+        <img 
+            src="" 
+            alt="Product Image" 
+            id="previewImg" 
+            style="display: none; max-width: 150px;">
+    </div>
+    <script>
+document.getElementById('fileUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewImg = document.getElementById('previewImg');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewImg.style.display = 'none';
+    }
+});
+</script>
+</section>
     </div>
 
     <!-- Email Field -->

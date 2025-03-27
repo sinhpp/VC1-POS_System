@@ -83,19 +83,47 @@ class UserController extends BaseController {
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
     public function storeuser() {
+        // Ensure required fields are provided
         if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) {
             die("Missing required fields.");
         }
     
+        // Sanitize input data
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
-    
-        $this->users->usercreate($name, $email, $encrypted_password, $role);
-        header("Location: /users");
+        
+          // Handle image upload
+    $imagePath = NULL;  // Default to NULL if no image is uploaded
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $targetDir = "uploads/";  // Ensure this directory exists and is writable
+        $imageName = time() . '_' . basename($_FILES['image']['name']);
+        $targetFilePath = $targetDir . $imageName;
+        $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+
+        // Validate file type
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($imageFileType, $allowedTypes)) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFilePath)) {
+                $imagePath = $targetFilePath; // Store the file path
+            } else {
+                die("Error uploading the image.");
+            }
+        } else {
+            die("Invalid file format. Only JPG, JPEG, PNG & GIF allowed.");
+        }
     }
+
+    // Insert user into the database
+    $this->users->usercreate($name, $email, $encrypted_password, $role, $imagePath);
+
+    // Redirect to the users page
+    header("Location: /users");
+}
+
     
 
     public function edit($id) {
@@ -110,9 +138,24 @@ class UserController extends BaseController {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
-        $this->users->updateUser($id, $name, $email, $role);
-        header("Location: /users");
-    }  
+    
+          // Handle Image Upload
+    $imagePath = ""; // Set a default empty string
+    if (!empty($_FILES['image']['name'])) {
+        $targetDir = "uploads/users/";
+        $imageName = time() . "_" . basename($_FILES['image']['name']);
+        $targetFilePath = $targetDir . $imageName;
+
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFilePath)) {
+            $imagePath = $targetFilePath;
+        }
+    }
+
+    // Store user in the database
+    $this->users->usercreate($name, $email, $encrypted_password, $role, $imagePath);
+    header("Location: /users");
+}
+    
 
    ///////////////////////////
 

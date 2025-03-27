@@ -64,17 +64,19 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .table {
-            width: 80%;
+            width: 90%;
             border-collapse: separate;
             border-spacing: 0;
             display: block;
             margin-left:7%;
             justify-content: center;
             align-items: center;
+            text-align:center;
           
         }
 
         .table th, .table td {
+          
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -84,6 +86,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
         .table th {
             justify-content: center;
+            
             align-items: center;
             background-color: #007bff;
             color: #fff;
@@ -262,14 +265,14 @@ if (isset($_SESSION['user_id'])) : ?>
 </head>
 <body>
     <div class="container-fluid table-responsive">
-        
         <table class="table table-striped table-hover shadow-sm rounded">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/users/create" class="btn1 btn-success">+ Create User</a>
-        </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="/users/create" class="btn1 btn-success">+ Create User</a>
+            </div>
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Profile</th> <!-- Added Image Column -->
                     <th>Username</th>
                     <th>Email</th>
                     <th>Role</th>
@@ -281,7 +284,9 @@ if (isset($_SESSION['user_id'])) : ?>
                 $index = 1; // Initialize a counter for the sequential ID
                 foreach ($users as $user): ?>
                 <tr>
-                    <td><?= $index++ ?></td> <!-- Use the counter for ID -->
+                <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+
+
                     <td><?= htmlspecialchars($user['name']) ?></td>
                     <td><?= htmlspecialchars($user['email']) ?></td>
                     <td>
@@ -302,7 +307,8 @@ if (isset($_SESSION['user_id'])) : ?>
             </tbody>
         </table>
     </div>
- 
+</body>
+
  
 
     <!-- Include SweetAlert2 -->
