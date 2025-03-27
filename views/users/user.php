@@ -78,7 +78,6 @@ if (isset($_SESSION['user_id'])) : ?>
             width: 40px;
             height: 40px;
             border-radius: 50%; /* Make the image circular */
-            cursor: pointer; /* Pointer cursor for clickable image */
         }
 
         .placeholder-image {
@@ -110,7 +109,7 @@ if (isset($_SESSION['user_id'])) : ?>
             </thead>
             <tbody>
                 <?php foreach ($users as $user): ?>
-                <tr onclick="showProfileAlert('<?= $user['id'] ?>')">
+                <tr onclick="window.location.href='/users/view/<?= $user['id'] ?>'">
                     <td>
                         <?php if (!empty($user['image'])): ?>
                             <img src="/<?= htmlspecialchars($user['image']) ?>" alt="Profile Image" class="profile-image">
@@ -158,22 +157,6 @@ if (isset($_SESSION['user_id'])) : ?>
                     setTimeout(() => {
                         window.location.href = '/users/delete/' + userId;
                     }, 3000); // 3 seconds delay
-                }
-            });
-        }
-
-        function showProfileAlert(userId) {
-            Swal.fire({
-                title: 'Profile Options',
-                text: "Select an option",
-                showCancelButton: true,
-                confirmButtonColor: '#007bff',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'View Profile',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = '/users/view/' + userId; // Change to the actual profile page URL
                 }
             });
         }
