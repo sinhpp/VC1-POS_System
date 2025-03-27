@@ -189,76 +189,32 @@ if (isset($_SESSION['user_id'])) : ?>
     </div>
 
         <!-- Right Column: User Details Form -->
-        <form action="/users/storeuser" method="post" onsubmit="validateForm(event)">
-    <!-- Name Field -->
-    <div class="input-group">
-    <section class="upload-img">
-    <h5>Upload Image</h5>
-    
-    <!-- File Input -->
-    <input type="file" id="fileUpload" name="image" accept="image/*" required>
-    
-    <!-- Image Preview -->
-    <div class="image-preview" id="imagePreview">
-        <img 
-            src="" 
-            alt="Product Image" 
-            id="previewImg" 
-            style="display: none; max-width: 150px;">
-    </div>
-    <script>
-document.getElementById('fileUpload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const previewImg = document.getElementById('previewImg');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;
-            previewImg.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    } else {
-        previewImg.style.display = 'none';
-    }
-});
+
 </script>
 </section>
     </div>
+    <form action="/users/storeuser" method="post" enctype="multipart/form-data">
+    <label>Profile Image</label>
+    <input type="file" name="image" accept="image/*" required>
 
-    <!-- Email Field -->
-    <div class="input-group">
-        <label>Email Address</label>
-        <input type="email" name="email" placeholder="Enter your email" required>
-    </div>
+    <label>Email Address</label>
+    <input type="email" name="email" required>
 
-    <!-- Role Field -->
-    <div class="input-group">
-        <label>Role</label>
-        <select name="role" required>
-            <option value="" disabled selected>Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="cashier">Cashier</option>
-        </select>
-    </div>
+    <label>Role</label>
+    <select name="role" required>
+        <option value="admin">Admin</option>
+        <option value="cashier">Cashier</option>
+    </select>
 
-    <!-- Password Field -->
-    <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter password" required>
-    </div>
+    <label>Password</label>
+    <input type="password" name="password" required>
 
-    <!-- Confirm Password Field -->
-    <div class="input-group">
-        <label>Confirm Password</label>
-        <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
-        <div id="password-error" class="error-message">Passwords do not match. Please try again.</div>
-    </div>
+    <label>Confirm Password</label>
+    <input type="password" name="confirm_password" required>
 
-    <!-- Submit and Cancel Buttons -->
-    <button type="submit" class="btn-primary">Create Account</button>
-    <a href="/users" class="btn-secondary">Cancel</a>
+    <button type="submit">Create Account</button>
 </form>
+
         </div>
     </div>
 </body>
