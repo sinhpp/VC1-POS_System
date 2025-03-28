@@ -5,6 +5,7 @@ require_once 'Models/ProductModel.php';
 require_once 'Models/OrderModel.php';
 require_once __DIR__ . '../../views/vendor/fpdf186/fpdf.php';
 
+
 class ProductScanController
 {
     private $productModel;
