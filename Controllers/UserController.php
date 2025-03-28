@@ -82,7 +82,7 @@ class UserController extends BaseController {
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
     public function storeuser() {
-        if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) {
+        if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'], $_POST['phone'], $_POST['address'])) {
             die("Missing required fields.");
         }
     
@@ -91,6 +91,8 @@ class UserController extends BaseController {
         $password = htmlspecialchars($_POST['password']);
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
+        $phone = htmlspecialchars($_POST['phone']);
+        $address = htmlspecialchars($_POST['address']);
         
         // Handle file upload
         $imagePath = null;
@@ -108,11 +110,11 @@ class UserController extends BaseController {
         }
     
         // Call the usercreate method
-        $this->users->usercreate($name, $email, $encrypted_password, $role, $imagePath);
+        $this->users->usercreate($name, $email, $encrypted_password, $role, $phone, $address, $imagePath);
         header("Location: /users");
         exit;
     }
-    
+
     public function edit($id) {
         $user = $this->users->getUserById($id); // Fetch user details from model
         if (!$user) {
@@ -120,17 +122,21 @@ class UserController extends BaseController {
         }
         $this->view("users/edit", ['user' => $user]); // Pass user data to view
     }
+
+
     public function update($id) {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
-    
+        $phone = htmlspecialchars($_POST['phone']);
+        $address = htmlspecialchars($_POST['address']);
+        
         // Fetch existing user data
         $user = $this->users->getUserById($id);
         if (!$user) {
             die("User not found");
         }
-    
+        
         // Handle file upload
         $imagePath = $user['image']; // Keep the old image by default
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -149,13 +155,12 @@ class UserController extends BaseController {
         }
     
         // Update user with the new or existing image
-        $this->users->updateUser($id, $name, $email, $role, $imagePath);
-    
+        $this->users->updateUser($id, $name, $email, $role, $phone, $address, $imagePath);
+        
         // Redirect back to the user list
         header("Location: /users");
         exit;
     }
-    
     
     public function detail($id) {
         $user = $this->users->user_detail($id);

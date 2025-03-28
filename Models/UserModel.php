@@ -51,37 +51,40 @@ class UserModel {
         return $stmt->execute([':id' => $id]);
     }
 
-    public function usercreate($name, $email, $password, $role, $image) {
-        try {
-            $stmt = $this->db->prepare("
-                INSERT INTO users (name, email, password, role, image) 
-                VALUES (:name, :email, :password, :role, :image)
-            ");
-            
-            $stmt->execute([
-                ':name' => $name,
-                ':email' => $email,
-                ':password' => $password,
-                ':role' => $role,
-                ':image' => $image ?: "uploads/default.png" // Use a default image if NULL
-            ]);
+    public function usercreate($name, $email, $password, $role, $phone, $address, $image) {
+        // Check if the email already exists
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
     
-            return $this->db->lastInsertId(); // Return the inserted user's ID instead of rowCount()
-        } catch (PDOException $e) {
-            die("Error creating user: " . $e->getMessage());
+        if ($stmt->fetchColumn() > 0) {
+            return "Email already exists.";
         }
+    
+        // Insert new user
+        $stmt = $this->db->prepare("
+            INSERT INTO users (name, email, password, role, phone, address, image) 
+            VALUES (:name, :email, :password, :role, :phone, :address, :image)
+        ");
+        return $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':password' => $password,
+            ':role' => $role,
+            ':phone' => $phone,
+            ':address' => $address,
+            ':image' => $image // Store image path
+        ]);
     }
-    
-    
-
-    public function updateUser($id, $name, $email, $role, $image = null) {
+    public function updateUser($id, $name, $email, $role, $phone, $address, $image = null) {
         try {
-            $sql = "UPDATE users SET name = :name, email = :email, role = :role";
+            $sql = "UPDATE users SET name = :name, email = :email, role = :role, phone = :phone, address = :address";
             $params = [
                 ':id' => $id,
                 ':name' => $name,
                 ':email' => $email,
-                ':role' => $role
+                ':role' => $role,
+                ':phone' => $phone,
+                ':address' => $address
             ];
     
             // Only update image if a new one was uploaded
@@ -104,7 +107,6 @@ class UserModel {
             die("Error updating user: " . $e->getMessage());
         }
     }
-    
     public function user_detail($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);

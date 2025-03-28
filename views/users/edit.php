@@ -149,15 +149,17 @@ if (isset($_SESSION['user_id'])) : ?>
                     </div>
                    
 
-                    <div class="input-group">
-                        <label>Phone</label>
-                        <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
-                    </div>
+                    <!-- Phone Field -->
+                <div class="input-group">
+                    <label>Phone</label>
+                    <input type="text" name="phone" value="<?= htmlspecialchars($user['phone']); ?>" required>
+                </div>
 
-                    <div class="input-group">
-                        <label>Country</label>
-                        <input type="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
-                    </div>
+                <!-- Address Field -->
+                <div class="input-group">
+                    <label>Address</label>
+                    <input type="text" name="address" value="<?= htmlspecialchars($user['address']); ?>" required>
+              
 
                     <button type="submit" class="update-btn">Update Info</button>
                 </form>

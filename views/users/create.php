@@ -216,8 +216,18 @@ if (isset($_SESSION['user_id'])) : ?>
                     <option value="cashier">Cashier</option>
                 </select>
             </div>
+                        <!-- Phone Field -->
+            <div class="input-group">
+                <label>Phone</label>
+                <input type="text" name="phone" placeholder="Enter your phone number" required>
+            </div>
 
-            <!-- Password Field -->
+            <!-- Address Field -->
+            <div class="input-group">
+                <label>Address</label>
+                <input type="text" name="address" placeholder="Enter your address" required>
+            </div>
+                        <!-- Password Field -->
             <div class="input-group">
                 <label>Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter password" required>
