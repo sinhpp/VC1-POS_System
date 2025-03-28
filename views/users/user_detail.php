@@ -27,7 +27,8 @@ if (session_status() == PHP_SESSION_NONE) {
         }
         .container {
             margin-top: 8% !important;
-            margin-left: 25%;
+            margin-left: 28%;
+            width: 70%;
         }
     </style>
 </head>

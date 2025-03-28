@@ -40,7 +40,15 @@ if (isset($_SESSION['user_id'])) : ?>
             text-align: center;
             margin-left: 10%;
         }
-        .btn{
+        .table img {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 5% !important; /* Adjust as needed */
+            display: block; /* Ensures it behaves as expected */
+        }
+        
+
+                .btn{
             margin-top: 2%;
             margin-left: 12%;
         }
@@ -75,8 +83,8 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .profile-image {
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%; /* Make the image circular */
         }
 
@@ -109,16 +117,18 @@ if (isset($_SESSION['user_id'])) : ?>
             </thead>
             <tbody>
                 <?php foreach ($users as $user): ?>
-                <tr onclick="window.location.href='/users/view/<?= $user['id'] ?>'">
-                    <td>
+                <tr>
+                    <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
                         <?php if (!empty($user['image'])): ?>
                             <img src="/<?= htmlspecialchars($user['image']) ?>" alt="Profile Image" class="profile-image">
                         <?php else: ?>
                             <div class="placeholder-image">No Image</div>
                         <?php endif; ?>
                     </td>
-                    <td><?= htmlspecialchars($user['name']) ?></td>
-                    <td>
+                    <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
+                        <?= htmlspecialchars($user['name']) ?>
+                    </td>
+                    <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
                         <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
                             <?= htmlspecialchars($user['role']) ?>
                         </span>
@@ -140,45 +150,60 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        function confirmDelete(userId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    showLiveAlert('User has been deleted successfully.', 'success');
-                    setTimeout(() => {
-                        window.location.href = '/users/delete/' + userId;
-                    }, 3000); // 3 seconds delay
-                }
-            });
-        }
+<!-- Live Alert Placeholder -->
+<div id="liveAlertPlaceholder"></div>
+<button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
 
-        function showLiveAlert(message, type) {
-            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-            alertPlaceholder.innerHTML = '';
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = `
-                <div class="alert alert-${type} alert-dismissible" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `;
-            alertPlaceholder.appendChild(wrapper);
-            setTimeout(() => {
-                wrapper.remove();
-            }, 3000);
-        }
-    </script>
+<script>
+ function confirmDelete(userId) {
+Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#dc3545',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel'
+}).then((result) => {
+    if (result.isConfirmed) {
+        // Show live alert
+        showLiveAlert('User has been deleted successfully.', 'success');
 
+        // Redirect to delete URL after a delay
+        setTimeout(() => {
+            window.location.href = '/users/delete/' + userId;
+        }, 3000); // 3 seconds delay
+    }
+});
+}
+
+function showLiveAlert(message, type) {
+const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+// Clear any existing alerts
+alertPlaceholder.innerHTML = '';
+
+// Create the alert element
+const wrapper = document.createElement('div');
+wrapper.innerHTML = `
+    <div class="alert alert-${type} alert-dismissible" role="alert">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+`;
+
+// Append the alert to the placeholder
+alertPlaceholder.appendChild(wrapper);
+
+// Remove the alert after 3 seconds
+setTimeout(() => {
+    wrapper.remove();
+}, 3000);
+}
+</script>
 </body>
+
 <?php 
 else: 
     $this->redirect("/"); 

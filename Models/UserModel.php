@@ -51,30 +51,60 @@ class UserModel {
         return $stmt->execute([':id' => $id]);
     }
 
-    public function usercreate($name, $email, $password, $role, $image = null) {
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) 
-                                    VALUES (:name, :email, :password, :role, :image)");
-        $stmt->execute([
-            ':name' => $name,
-            ':email' => $email,
-            ':password' => $password,
-            ':role' => $role,
-            ':image' => $image // This can be NULL
-        ]);
-        return $stmt->rowCount(); // Returns the number of affected rows
+    public function usercreate($name, $email, $password, $role, $image) {
+        try {
+            $stmt = $this->db->prepare("
+                INSERT INTO users (name, email, password, role, image) 
+                VALUES (:name, :email, :password, :role, :image)
+            ");
+            
+            $stmt->execute([
+                ':name' => $name,
+                ':email' => $email,
+                ':password' => $password,
+                ':role' => $role,
+                ':image' => $image ?: "uploads/default.png" // Use a default image if NULL
+            ]);
+    
+            return $this->db->lastInsertId(); // Return the inserted user's ID instead of rowCount()
+        } catch (PDOException $e) {
+            die("Error creating user: " . $e->getMessage());
+        }
     }
+    
+    
 
     public function updateUser($id, $name, $email, $role, $image = null) {
-        $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role, image = :image WHERE id = :id");
-        $stmt->execute([
-            ':id' => $id,
-            ':name' => $name,
-            ':email' => $email,
-            ':role' => $role,
-            ':image' => $image // Store image path
-        ]);
-        return $stmt->rowCount(); // Returns affected rows
+        try {
+            $sql = "UPDATE users SET name = :name, email = :email, role = :role";
+            $params = [
+                ':id' => $id,
+                ':name' => $name,
+                ':email' => $email,
+                ':role' => $role
+            ];
+    
+            // Only update image if a new one was uploaded
+            if ($image !== null) {
+                $sql .= ", image = :image";
+                $params[':image'] = $image;
+            }
+    
+            $sql .= " WHERE id = :id";
+    
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+    
+            if ($stmt->rowCount() > 0) {
+                return true; // Successfully updated
+            } else {
+                return false; // No rows updated (maybe no change was made)
+            }
+        } catch (PDOException $e) {
+            die("Error updating user: " . $e->getMessage());
+        }
     }
+    
     public function user_detail($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);

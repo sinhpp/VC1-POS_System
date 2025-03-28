@@ -24,6 +24,8 @@ if (isset($_SESSION['user_id'])) : ?>
             box-shadow: 0px 0px 10px rgba(126, 54, 54, 0.1);
             max-width: 900px;
             width: 100%;
+            position: relative;
+            left:10%;
         }
 
         .upload-section {
@@ -186,7 +188,7 @@ if (isset($_SESSION['user_id'])) : ?>
             <h2>Upload Profile Picture</h2>
             <img id="profile-pic" class="profile-pic" src="#" alt="Profile Picture" />
             <div class="input-group">
-                <input type="file" id="image-input" name="image" accept="image/*" required onchange="previewImage(event)" style="display:none;">
+            <input id="file-input" type="file" name="image" accept="image/*" onchange="previewImage(event)">
                 <button type="button" id="upload-button" class="btn-upload" onclick="document.getElementById('image-input').click();">Upload Image</button>
             </div>
         </div>
