@@ -61,9 +61,8 @@ if (session_status() == PHP_SESSION_NONE) {
                 <div class="profile-card p-3">
                     <h5>Full Name: <span class="text-muted"><?= htmlspecialchars($user['name']) ?></span></h5>
                     <h5>Email: <span class="text-muted"><?= htmlspecialchars($user['email']) ?></span></h5>
-                    <h5>Phone: <span class="text-muted">(239) 816-9029</span></h5>
-                    <h5>Mobile: <span class="text-muted">(320) 380-4539</span></h5>
-                    <h5>Address: <span class="text-muted">Bay Area, San Francisco, CA</span></h5>
+                    <h5>Phone: <span class="text-muted"><?= htmlspecialchars($user['phone']) ?></span></h5>
+                    <h5>Address: <span class="text-muted"><?= htmlspecialchars($user['address']) ?></span></h5>
                 </div>
                 <!-- Project Status -->
                 <div class="row mt-3">
