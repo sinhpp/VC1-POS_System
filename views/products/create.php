@@ -142,7 +142,42 @@ if (isset($_SESSION['user_id'])) : ?>
 
         
     </div>
+    <h5>Upload Image</h5>
+
+<!-- File Input -->
+<input type="file" name="image" accept="image/*" id="imageInput">
+
+<!-- Image Preview -->
+<div class="image-preview" id="imagePreview">
+    <img 
+        src="" 
+        alt="Product Image" 
+        id="previewImg" 
+        style="display: none; max-width: 150px;">
+</div>
+
+<script>
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    const file = event.target.files[0]; // Get the selected file
+    const previewImg = document.getElementById('previewImg');
     
+    if (file) {
+        const reader = new FileReader();
+        
+        // When the file is read, set the image source to the result
+        reader.onload = function(e) {
+            previewImg.src = e.target.result; // Set the image source to the file's data URL
+            previewImg.style.display = 'block'; // Show the image
+        };
+        
+        reader.readAsDataURL(file); // Read the file as a data URL
+    } else {
+        previewImg.src = ''; // Reset the image source
+        previewImg.style.display = 'none'; // Hide the image
+    }
+});
+</script>
+
 
         </section>
         <script>
@@ -217,7 +252,7 @@ if (isset($_SESSION['user_id'])) : ?>
     <label>Discount Type</label>
     <input type="text" placeholder="Enter discount type" name="discount_type">
 
-    <section class="category">
+    <div class="category">
     <label>Category</label>
     <select id="categorySelect" name="category" required>
         <!-- General Categories -->
@@ -236,9 +271,10 @@ if (isset($_SESSION['user_id'])) : ?>
         
         <!-- Other Category Option -->
         <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
-    </select>
+    </div>
     
-    <label>Barcode:</label>
+</select>
+<label>Barcode:</label>
     <input id="productBarcode" type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
         <button id="generateBarcodeButton" type="button" class="btn btn-warning mt-2">Generate Barcode</button>
 
@@ -339,22 +375,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     </div>
 
     
-<section class="upload-img">
-    <h5>Upload Image</h5>
-    
-    <!-- File Input -->
-    <input type="file" name="image" accept="image/*">
-    
-    <!-- Image Preview -->
-    <div class="image-preview" id="imagePreview">
-        <img 
-            src="" 
-            alt="Product Image" 
-            id="previewImg" 
-            style="display: none; max-width: 150px;">
-    </div>
-
-</section>
+<!-- <section class="upload-img">
+   
+</section> -->
 
 <script>
     // When the category dropdown value changes
@@ -399,10 +422,12 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 }
 
 .container {
+    position: relative;
+    left:10%;
     max-width: 90%;
     height: auto;
     position: relative;
-    margin-top:10%;
+    margin-top:6%;
     border-radius: 8px;
  
  
@@ -439,19 +464,30 @@ h4 {
 
 .grid-container {
   
-    margin-left:20%;
+   
     display: grid;
-    grid-template-columns: 2fr 2fr;
+    grid-template-columns: 2.5fr 2fr;
     gap: 10px;
-    height: 150vh;
+    height: 100vh;
 }
 
 section {
-
+   
     padding: 10px;
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;}
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.pricing-stock{
+    height: 60%;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.category{
+    margin-top:2%;
+    border-radius: 8px;
 
+}
 
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
@@ -514,11 +550,15 @@ button:hover {
 .upload-img input {
     display: block;
 }
-
+element.style {
+    display: block;
+    
+  
+}
 .image-preview {
     margin-top: 10px;
     width: 100%;
-    height: 150px;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;

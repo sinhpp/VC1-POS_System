@@ -228,7 +228,7 @@ if (isset($_SESSION['user_id'])) : ?>
     display: flex;
     flex-direction: column;
    
-    width: 100%; /* Adjust width as needed */
+    width: 90%; /* Adjust width as needed */
  
     background: linear-gradient(145deg, #ffffff, #f9f9f9);
     padding: 10%; /* Adds spacing */
@@ -237,12 +237,12 @@ if (isset($_SESSION['user_id'])) : ?>
 }
 
 .table{
-    width: auto;
-    position: relative;
-    left: 16%; /* Adds spacing */
+    width: 80%;
+
+    margin-left: 12%; /* Adds spacing */
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers child elements */
+  
     justify-content: center;
 }
 
@@ -348,7 +348,7 @@ if (isset($_SESSION['user_id'])) : ?>
         .button{
             width: auto;
             position: relative;
-            right: 33%;
+          
         }
     </style>
 </head>
@@ -382,7 +382,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
                 <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
                 <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                <input type="text" id="priceSearch" placeholder="input price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
                     <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
                     <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
                 </div>
@@ -392,7 +392,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
                     <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
                     <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                        <input type="text" id="stockSearch" placeholder="input stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
                         <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
                             <i class="fas fa-arrow-down"></i> High
                         </button>
