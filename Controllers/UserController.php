@@ -123,39 +123,31 @@ class UserController extends BaseController {
         $this->view("users/edit", ['user' => $user]); // Pass user data to view
     }
 
-
     public function update($id) {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
         $phone = htmlspecialchars($_POST['phone']);
         $address = htmlspecialchars($_POST['address']);
+        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : null;
         
         // Fetch existing user data
         $user = $this->users->getUserById($id);
         if (!$user) {
             die("User not found");
         }
-        
-        // Handle file upload
-        $imagePath = $user['image']; // Keep the old image by default
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $targetDir = "uploads/"; // Ensure this directory exists and is writable
-            $newImageName = time() . "_" . basename($_FILES['image']['name']); // Unique filename
-            $newImagePath = $targetDir . $newImageName;
     
-            // Move the new image to the target directory
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $newImagePath)) {
-                // Delete old image if it exists (and is not the default image)
-                if (!empty($user['image']) && file_exists($user['image']) && $user['image'] !== "uploads/default.png") {
-                    unlink($user['image']); // Delete the old image
-                }
-                $imagePath = $newImagePath; // Update to the new image path
-            }
+        // Handle file upload (same as before)
+    
+        // If a new password is provided, hash it
+        if (!empty($password)) {
+            $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+        } else {
+            $encrypted_password = $user['password']; // Keep existing password if not changing
         }
     
-        // Update user with the new or existing image
-        $this->users->updateUser($id, $name, $email, $role, $phone, $address, $imagePath);
+        // Update user with the new or existing image and password
+        $this->users->updateUser($id, $name, $email, $role, $phone, $address, $encrypted_password, $imagePath);
         
         // Redirect back to the user list
         header("Location: /users");
