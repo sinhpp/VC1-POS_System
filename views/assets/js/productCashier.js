@@ -104,6 +104,7 @@ document.getElementById('cart-icon').addEventListener('click', function () {
     updateCartItems();
 });
 
+
 // Close cart modal
 closeModal.addEventListener('click', function () {
     cartModal.style.display = 'none';
