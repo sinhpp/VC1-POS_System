@@ -276,6 +276,17 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 20px;
       
         }
+        .table thead th {
+            background-color: #52C2EE;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: white;
+        }
+        th{
+            background-color: #8A5AD9 !important;
+        }
 
         /* Responsive Styles */
         @media (max-width: 1200px) {
@@ -360,6 +371,7 @@ if (isset($_SESSION['user_id'])) : ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="table-container">
     
@@ -401,8 +413,82 @@ if (isset($_SESSION['user_id'])) : ?>
                         </button>
                     </div>
                 </th>
+                <th>Category
+                <!-- Dropdown Icon -->
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleCatSortOptions(event, this)" style="cursor: pointer;"></i>
 
-                <th>Category</th>
+                <!-- Dropdown Menu -->
+                <div class="sort-options" id="cat-sort-options" style="display: none;">
+                    <input type="text" id="stockSearch" placeholder="Search categories..." oninput="searchCat()" style="margin-top: 5px; padding: 5px; width: calc(100% - 10px);">
+                    <div id="categoryList">
+                        <button onclick="selectCategory('Clothes', event)">Clothes</button>
+                        <button onclick="selectCategory('Bags', event)">Bags</button>
+                        <button onclick="selectCategory('Shoes', event)">Shoes</button>
+                        <button onclick="selectCategory('Accessories', event)">Accessories</button>
+                    </div>
+                </div>
+            </th>
+
+<script>
+    function toggleCatSortOptions(event) {
+        const sortOptions = document.getElementById('cat-sort-options');
+        sortOptions.style.display = sortOptions.style.display === 'block' ? 'none' : 'block';
+
+        // Position the dropdown menu correctly (if necessary)
+        const iconPos = event.target.getBoundingClientRect();
+        sortOptions.style.position = 'absolute'; // Use absolute positioning
+        sortOptions.style.top = `${iconPos.bottom + window.scrollY}px`;
+        sortOptions.style.left = `${iconPos.left}px`;
+    }
+
+    function searchCat() {
+        const input = document.getElementById('catSearch').value.toLowerCase();
+        const buttons = document.querySelectorAll('#categoryList button');
+
+        buttons.forEach(button => {
+            const text = button.textContent.toLowerCase();
+            button.style.display = text.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function selectCategory(category) {
+        console.log('Selected category:', category);
+        document.getElementById('cat-sort-options').style.display = 'none'; // Hide dropdown after selection
+    }
+
+    // Close dropdown when clicking outside of it
+    window.onclick = function(event) {
+        const dropdown = document.getElementById('cat-sort-options');
+        if (!event.target.matches('.fa-filter-circle-dollar') && dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    };
+</script>
+
+<style>
+    .sort-options {
+        background: white; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
+        z-index: 100; 
+        border-radius: 5px; 
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sort-options button {
+        display: block;
+        width: 100%; 
+        text-align: left; 
+        margin: 5px 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    
+    .sort-options button:hover {
+        background-color: #f0f0f0; /* Highlight on hover */
+    }
+</style>
                 <th>Created At</th>
                 <th>Action
 
@@ -424,8 +510,7 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                        <td><?= htmlspecialchars($product['category']) ?></td>
-                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td> <!-- This cell will be updated -->                        <td><?= htmlspecialchars($product['created_at']) ?></td>
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>

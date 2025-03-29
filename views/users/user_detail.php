@@ -14,6 +14,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .profile-card {
+            
             border-radius: 10px;
             padding: 20px;
             background: #fff;
@@ -29,6 +30,10 @@ if (session_status() == PHP_SESSION_NONE) {
             margin-top: 8% !important;
             margin-left: 28%;
             width: 70%;
+        }
+        .h5, h5 {
+            font-size: 1.25rem;
+            padding: 16px;
         }
     </style>
 </head>
