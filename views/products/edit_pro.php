@@ -23,29 +23,8 @@ if (isset($_SESSION['user_id'])) : ?>
         <input type="text" placeholder="Enter product name" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
 
         <label>Description Product</label>
-        <textarea placeholder="Enter product description" name="description" required><?= isset($product) ? htmlspecialchars($product['description'] ?? '') : '' ?></textarea>
+        <textarea placeholder="Enter product description" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions'] ?? '') : '' ?></textarea>
 
-        <div class="size-gender">
-            <div class="size">
-                <label>Size</label>
-                <div class="size-options">
-                    <button type="button" onclick="selectSize(this)">S</button>
-                    <button type="button" onclick="selectSize(this)">M</button>
-                    <button type="button" class="selected" onclick="selectSize(this)">L</button>
-                    <button type="button" onclick="selectSize(this)">XL</button>
-                    <button type="button" onclick="selectSize(this)">XXL</button>
-                </div>
-            </div>
-            <div class="gender">
-                <label>Gender</label>
-                <div class="gender-options">
-                    <button type="button" onclick="selectGender(this)" class="selected">Men</button>
-                    <button type="button" onclick="selectGender(this)">Women</button>
-                </div>
-            </div>
-        </div>
-
-        </section>
        <section class="pricing-stock">
     <h3>Pricing And Stocks</h3>
     <label>Base Pricing</label>
@@ -162,6 +141,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
         
         <!-- Other Category Option -->
         <option value="Other" <?= isset($product) && $product['category'] == 'Other' ? 'selected' : '' ?>>Other</option>
+
     </select>
 
     <!-- Additional Dropdown for Student Material (hidden by default) -->
@@ -175,6 +155,30 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
     <div id="otherCategoryInput" style="display: none;">
         <label for="otherInput">Please specify:</label>
         <input type="text" id="otherInput" name="other_category_input" placeholder="Enter other category" value="<?= isset($product) && $product['category'] == 'Other' ? htmlspecialchars($product['other_category_input'] ?? '') : '' ?>">
+    </div>
+
+    <div class="size-gender">
+        <div class="size">
+            <label>Size</label>
+            <div class="size-options">
+                <button type="button" onclick="selectSize(this, 'S')">S</button>
+                <button type="button" onclick="selectSize(this, 'M')">M</button>
+                <button type="button" class="selected" onclick="selectSize(this, 'L')">L</button>
+                <button type="button" onclick="selectSize(this, 'XL')">XL</button>
+                <button type="button" onclick="selectSize(this, 'XXL')">XXL</button>
+            </div>
+            <input type="hidden" name="size" id="size" value="L"> <!-- Default value -->
+        </div>
+        <div class="gender">
+            <label>Gender</label>
+            <div class="gender-options">
+                <button type="button" onclick="selectGender(this, 'Men')" class="selected">Men</button>
+                <button type="button" onclick="selectGender(this, 'Women')">Women</button>
+            </div>
+            <input type="hidden" name="gender" id="gender" value="Men"> <!-- Default value -->
+        </div>
+
+        
     </div>
 </section>
  

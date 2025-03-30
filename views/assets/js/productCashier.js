@@ -1,11 +1,11 @@
 let cartItems = []; // Array to store cart items
-const discountAmount = 2; // Fixed discount amount
+const discountAmount = 0; // Fixed discount amount
 const cartCountElement = document.getElementById('cart-count');
 const cartModal = document.getElementById('cartModal');
 const closeModal = document.querySelector('.close');
 const cartItemsContainer = document.getElementById('cart-items');
 const totalItemsElement = document.getElementById('total-items');
-const totalPriceElement = document.getElementById('total-price');
+// const totalPriceElement = document.getElementById('total-price');
 const finalPriceElement = document.getElementById('final-price');
 
 const addToCartButtons = document.querySelectorAll('.add-to-cart');
@@ -54,7 +54,7 @@ function updateCartItems() {
         totalPrice += item.price; // Sum up the price
     });
 
-    totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`; // Update total price in modal
+    // totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`; // Update total price in modal
     const finalPrice = totalPrice - discountAmount; // Calculate final price after discount
     finalPriceElement.textContent = `$${finalPrice > 0 ? finalPrice.toFixed(2) : 0.00}`; // Update final price
     totalItemsElement.textContent = cartItems.length; // Update total items count

@@ -69,7 +69,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <img src="https://via.placeholder.com/50" alt="Secret Concealer" class="me-3">
                         <div>
-                            <p class="mb-0"><strong>Secret Concealer</strong></p>
+                            <p class="mb-0"><strong>Clothes</strong></p>
                             <p class="text-muted small">Covers dark circles</p>
                         </div>
                         <span class="ms-auto">$21.45</span>
@@ -77,7 +77,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <img src="https://via.placeholder.com/50" alt="Vegan Powder" class="me-3">
                         <div>
-                            <p class="mb-0"><strong>Vegan Powder</strong></p>
+                            <p class="mb-0"><strong>Toy</strong></p>
                             <p class="text-muted small">Cloud Set Baked Setting & Smoothing Talc</p>
                         </div>
                         <span class="ms-auto">$15.00</span>
@@ -85,7 +85,7 @@
                     <div class="d-flex align-items-center mb-3">
                         <img src="https://via.placeholder.com/50" alt="Brow Pencil" class="me-3">
                         <div>
-                            <p class="mb-0"><strong>Brow Pencil</strong></p>
+                            <p class="mb-0"><strong>Shoes</strong></p>
                             <p class="text-muted small">Angled Mechanical</p>
                         </div>
                         <span class="ms-auto">$12.45</span>

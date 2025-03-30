@@ -38,7 +38,11 @@ class Database {
         }
         return self::$instance->conn;
     }
-
+ 
+    public function getConnection() {
+        return $this->conn;
+    }
+    
     // Prevent object cloning
     private function __clone() {}
 
