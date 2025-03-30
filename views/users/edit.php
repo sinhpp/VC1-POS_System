@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id'])) : ?>
         .container {
             margin-left:20%;
             display: flex;
-            background: #D8D6FF;
+            
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(129, 75, 75, 0.1);
@@ -87,7 +87,8 @@ if (isset($_SESSION['user_id'])) : ?>
             border-radius: 5px;
         }
         .update-btn {
-            background-color: red;
+            margin-top:20px;
+            background-color: blueviolet;
             color: white;
             border: none;
             padding: 10px 20px;

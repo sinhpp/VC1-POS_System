@@ -67,8 +67,8 @@ if (isset($_SESSION['user_id'])) : ?>
         }
 
         .table th {
-            background-color: #007bff !important;
-            color: #fff;
+            background-color: #8A5AD9 !important;
+            color: white !important;
             font-weight: 600;
             justify-content: center;
             align-items: center;
@@ -99,6 +99,20 @@ if (isset($_SESSION['user_id'])) : ?>
             color: #666; /* Text color for placeholder */
             font-weight: bold;
         }
+         
+       /* New styles for alert */
+.alert-small {
+    position: fixed; /* Fixed to the top */
+    top: 15px; /* Adjust top position */
+    left: 85%; /* Center the alert */
+    background-color: #4CAF50 !important; /* Green background */
+    border-radius: 5%;
+    max-height: 8% !important;
+    z-index: 1000; /* Ensure it's above other content */
+    max-width: 300px; /* Set max width */
+    width: 100%; /* Full width under max width */
+    opacity: 0.9; /* Slightly transparent */
+}
     </style>
 </head>
 <body>
@@ -147,59 +161,59 @@ if (isset($_SESSION['user_id'])) : ?>
         </table>
     </div>
 
-    <!-- Include SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Live Alert Placeholder -->
-<div id="liveAlertPlaceholder"></div>
-<button type="button" class="btn btn-primary" id="liveAlertBtn" style="display: none;">Show live alert</button>
+<div id="liveAlertPlaceholder" class="alert-small"></div>
 
 <script>
- function confirmDelete(userId) {
-Swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#dc3545',
-    cancelButtonColor: '#6c757d',
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'Cancel'
-}).then((result) => {
-    if (result.isConfirmed) {
-        // Show live alert
-        showLiveAlert('User has been deleted successfully.', 'success');
+function confirmDelete(userId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Use custom class for successful deletion alert
+            showLiveAlert('Deleted successfully.', 'custom-success');
 
-        // Redirect to delete URL after a delay
-        setTimeout(() => {
-            window.location.href = '/users/delete/' + userId;
-        }, 3000); // 3 seconds delay
-    }
-});
+            // Redirect to delete URL after a delay
+            setTimeout(() => {
+                window.location.href = '/users/delete/' + userId;
+            }, 3000); // 3 seconds delay
+        }
+    });
 }
 
-function showLiveAlert(message, type) {
-const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+function showLiveAlert(message, customClass) {
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
 
-// Clear any existing alerts
-alertPlaceholder.innerHTML = '';
+    // Clear any existing alerts
+    alertPlaceholder.innerHTML = '';
 
-// Create the alert element
-const wrapper = document.createElement('div');
-wrapper.innerHTML = `
-    <div class="alert alert-${type} alert-dismissible" role="alert">
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-`;
+    // Create the alert element with the custom class
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+        <div class="alert ${customClass} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
 
-// Append the alert to the placeholder
-alertPlaceholder.appendChild(wrapper);
+    // Append the alert to the placeholder
+    alertPlaceholder.appendChild(wrapper);
 
-// Remove the alert after 3 seconds
-setTimeout(() => {
-    wrapper.remove();
-}, 3000);
+    // Remove the alert after 3 seconds
+    setTimeout(() => {
+        wrapper.remove();
+    }, 3000);
+
 }
 </script>
 </body>
