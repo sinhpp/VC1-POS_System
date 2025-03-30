@@ -8,6 +8,8 @@ require_once "Controllers/DashboardController.php";
 require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
 require_once "Controllers/ProductCashierController.php";
+require_once "Controllers/BarcodeController.php";
+
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -48,4 +50,10 @@ $route->post("/products/delete_all", [ProductController::class, 'deleteAllProduc
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
 // Call the route method to process the request
+
+// Barcode Scanner POS System Routes
+$route->get("/pos", [PosController::class, 'index']); // Main POS interface
+$route->post("/api/barcode/scan", [BarcodeController::class, 'scan']); // Barcode scanning API
+$route->post("/api/pos/add-to-cart", [BarcodeController::class, 'addToCart']);
+
 $route->route();
