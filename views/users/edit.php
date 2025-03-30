@@ -162,16 +162,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 </div>
                                 <div class="input-group">
                                 <div class="input-group">
-    <label>Password</label>
-    <input type="password" id="password" name="password" placeholder="Enter new password">
-</div>
-
-<div class="input-group">
-    <label>Confirm Password</label>
-    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm new password">
-    <div id="password-error" class="error-message" style="display:none;">Passwords do not match. Please try again.</div>
-</div>
-                    <button type="submit" class="update-btn">Update Info</button>
+            <button type="submit" class="update-btn">Update Info</button>
                 </form>
             </div>
         </div>

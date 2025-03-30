@@ -179,9 +179,9 @@ class ProductModel {
         $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Bind the ID parameter
         return $stmt->execute(); // Execute the statement
-    }
     
-    
+   }
+     
     public function deleteAllProducts() {
         $stmt = $this->db->prepare("DELETE FROM products");
         return $stmt->execute();
