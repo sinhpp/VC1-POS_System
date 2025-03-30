@@ -186,6 +186,22 @@ class ProductModel {
         $stmt = $this->db->prepare("DELETE FROM products");
         return $stmt->execute();
     }
+    public function getProductByBarcode($barcode) {
+        $query = "SELECT * FROM products WHERE barcode = :barcode LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':barcode' => $barcode]);
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Returns product as associative array or false if not found
+    }
 
+    // Method to update stock
+    public function updateStock($barcode, $quantity) {
+        $query = "UPDATE products SET stock = stock - :quantity WHERE barcode = :barcode AND stock >= :quantity";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([
+            ':barcode' => $barcode,
+            ':quantity' => $quantity
+        ]);
+        return $stmt->rowCount() > 0; // Returns true if stock was updated
+    }
     // Other methods remain unchanged...
 }
