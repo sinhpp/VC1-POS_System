@@ -36,7 +36,6 @@ if (isset($_SESSION['user_id'])) : ?>
         /* Custom styles for Add Product forms and table */
         .form-container {
             
-<<<<<<< HEAD
             margin-left:20%;
             background: linear-gradient(135deg, #ffffff, #f9fafb);
             border: 1px solid #e5e7eb;
@@ -83,42 +82,6 @@ if (isset($_SESSION['user_id'])) : ?>
             max-width: 840px; /* 70% of original 1200px */
         }
         
-=======
-        <h5>General Information</h5>
-        <label>Name Product</label>
-        <input type="text" placeholder="Enter product name" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
-
-        <label>Base Pricing</label>
-        <input type="number" placeholder="$0.00" name="price" required min="0" step="0.01">
-
-        <label>Stock</label>
-        <input type="number" placeholder="Enter stock quantity" name="stock" required min="0" step="1">
-
-        <label>Discription</label>
-        <input type="text" placeholder="Enter description" name="descriptions" value="<?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?>" required>
-
-        <div class="size-gender">
-        <div class="size">
-            <label>Size</label>
-            <div class="size-options">
-                <button type="button" onclick="selectSize(this, 'S')">S</button>
-                <button type="button" onclick="selectSize(this, 'M')">M</button>
-                <button type="button" class="selected" onclick="selectSize(this, 'L')">L</button>
-                <button type="button" onclick="selectSize(this, 'XL')">XL</button>
-                <button type="button" onclick="selectSize(this, 'XXL')">XXL</button>
-            </div>
-            <input type="hidden" name="size" id="size" value="L"> <!-- Default value -->
-        </div>
-        <div class="gender">
-            <label>Gender</label>
-            <div class="gender-options">
-                <button type="button" onclick="selectGender(this, 'Men')" class="selected">Men</button>
-                <button type="button" onclick="selectGender(this, 'Women')">Women</button>
-            </div>
-            <input type="hidden" name="gender" id="gender" value="Men"> <!-- Default value -->
-        </div>
-
->>>>>>> dd47bd6 (SCRUM-25: fix code with database)
         
    
         
