@@ -58,6 +58,15 @@ $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
+require_once 'Controllers/OrderController.php'; // Add this line at the top
 
+// Fix route definitions
+$route->get("/order", [ProductScanController::class, 'index']);
+$route->post("/order/add", [ProductScanController::class, 'add']);
+$route->get("/order/checkout", [ProductScanController::class, 'checkout']); // Fixed path
+$route->post("/order/process-checkout", [ProductScanController::class, 'processCheckout']); // Fixed path
+$route->post("/order/scan", [ProductScanController::class, 'scan']); // Fixed endpoint name
+$route->post("/order/delete", [ProductScanController::class, 'delete']); // Fixed path
+$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']); // Changed to POST
 // Call the route method to process the request
 $route->route();
