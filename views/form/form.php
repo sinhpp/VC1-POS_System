@@ -50,7 +50,6 @@
                 <button class="submit-btn" type="submit" name="signup">Signup</button>
                 <p>Already have an account? <a href="/" onclick="showLogin()">Login</a></p>
             </form>
-
     </div>
     <div class="image-form">
         <img class="imgForm" src="/views/assets/images/form_background.png" alt="">
