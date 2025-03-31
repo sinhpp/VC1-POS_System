@@ -59,5 +59,10 @@ $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
 
+
+//LOw Stock Alert
+$route->get("/low_stock_alert", [ProductController::class, 'lowStockAlert']);
+
+
 // Call the route method to process the request
 $route->route();

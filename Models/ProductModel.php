@@ -228,4 +228,13 @@ class ProductModel {
         return $stmt->rowCount() > 0; // Returns true if stock was updated
     }
     // Other methods remain unchanged...
+
+
+    public function getLowStockProducts($threshold = 10)
+{
+    $stmt = $this->db->prepare("SELECT * FROM products WHERE stock <= :threshold ORDER BY stock ASC");
+    $stmt->execute([':threshold' => $threshold]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
