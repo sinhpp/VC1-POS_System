@@ -44,7 +44,10 @@ class UserController extends BaseController {
     
    
     public function authenticate() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $user = $this->users->getUserByEmail($email);
