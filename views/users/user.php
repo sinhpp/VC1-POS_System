@@ -42,10 +42,10 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         
         .table img {
-            max-width: 100% !important;
-            height: auto !important;
-            border-radius: 5% !important;
-            display: block;
+            max-width: 66px !important;
+            height: 66px !important;
+            border-radius: 50% !important; /* Adjust as needed */
+       
         }
         
         .btn{
@@ -86,7 +86,7 @@ if (isset($_SESSION['user_id'])) : ?>
         .profile-image {
             width: 80px;
             height: 80px;
-            border-radius: 50%;
+            border-radius: 80%; /* Make the image circular */
         }
 
         .placeholder-image {
