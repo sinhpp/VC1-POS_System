@@ -13,10 +13,10 @@ class ProductController extends BaseController {
         $this->view("products/product", ['products' => $products]); // Pass products to the view
     }
 /////////////////////////////
-    public function detail($id) {
-        $product = $this->products->product_detail($id);
-        $this->view("products/product_detail", ['product' => $product]);
-    }
+public function detail($id) {
+    $product = $this->products->product_detail($id);
+    $this->view("products/product_detail", ['product' => $product]);
+}
 
     ////////////////////////////////////////////////////////
     public function create() {

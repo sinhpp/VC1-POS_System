@@ -1,3 +1,4 @@
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -23,24 +24,31 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
             background-color: #f4f4f4;
         }
+    
 
-        th, td {
-            padding:10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
+    
+        .btn-success {
+            margin-top:2%;
+            
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+          
+            transition: all 0.3s ease;
+            background:rgb(17, 110, 38);
         }
-
+      
         th {
-            padding:20px;
-            background-color: #007BFF;
+            background-color: #007BFF !important; 
             color: white;
-            font-weight: 600;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            position: sticky;
             top: 0;
             z-index: 2;
         }
+        
 
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
@@ -62,9 +70,15 @@ if (isset($_SESSION['user_id'])) : ?>
             background-color: #dc3545;
             color: white;
         }
+        .btn-primary {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            box-shadow: 4px 4px 8px rgb(189 200 213), -4px -4px 8px rgb(255 255 255);
+        }
+        .header-right > li:not(:first-child) {
+            padding-left: 0rem !important; }
 
         .btn {
-            padding: 5px 10px;
             border-radius: 5px;
             text-decoration: none;
             margin-bottom: 2%;
@@ -86,6 +100,7 @@ if (isset($_SESSION['user_id'])) : ?>
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+      
 
         .product-image {
             width: 50px;
@@ -170,7 +185,8 @@ if (isset($_SESSION['user_id'])) : ?>
         .dropdown-menu a {
             display: flex;
             align-items: end;
-            padding: 10px;
+            gap:5px;
+            padding: 14px;
             text-decoration: none;
             color: black;
             font-size: 14px;
@@ -184,6 +200,7 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 5px 10px;
             margin: 0 5px;
             cursor: pointer;
+        
         }
 
         .page-btn.active {
@@ -195,46 +212,63 @@ if (isset($_SESSION['user_id'])) : ?>
             background-color: #0056b3;
             color: white;
         }
+
         /* Adjust the width of the main content area */
-.main-content {
+        .main-content {
    
     justify-content:center;
     align-items:center;
-    width: 100%; /* Make it full width */
+            width: 100%; /* Make it full width */
+   
    
 }
 
 /* Adjust the table width */
 .table-container {
-    margin-left:26%;
-    justify-content:center;
-    align-items:center;
-    margin-top:10%;
-    width: 80%; /* Make the table full width */
-    overflow-x: auto; /* Add horizontal scroll for smaller screens */
+    margin: 20px auto; /* Centers the container horizontally */
+    display: flex;
+    flex-direction: column;
+   
+    width: 90%; /* Adjust width as needed */
+ 
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    padding: 10%; /* Adds spacing */
+
+    border-radius: 8px; /* Optional: Makes corners rounded */
 }
+
+.table{
+    width: 80%;
+
+    margin-left: 12%; /* Adds spacing */
+    display: flex;
+    flex-direction: column;
+  
+    justify-content: center;
+}
+
+
 .sidebar {
     display: none; /* Hide the sidebar */
 }
 .navbar {
     padding: 10px 20px; /* Add padding */
 
-}
+        }
 
-.navbar-nav {
-    gap: 15px; /* Add space between navbar items */
-}
+        .navbar-nav {
+            gap: 15px; /* Add space between navbar items */
+        }
 
-.notification_dropdown .badge {
-    top: -10px; /* Adjust badge position */
-    right: -10px;
-}
+        .notification_dropdown .badge {
+            top: -10px; /* Adjust badge position */
+            right: -10px;
+        }
 
-.search-area {
-    max-width: 300px; /* Limit search bar width */
-}
+        .search-area {
+            max-width: 300px; /* Limit search bar width */
+        }
 
-    <style>
         /* Adjust width of main content */
         .main-content {
             width: 100%;
@@ -242,6 +276,17 @@ if (isset($_SESSION['user_id'])) : ?>
             margin: 0 auto;
             padding: 20px;
       
+        }
+        .table thead th {
+            background-color: #52C2EE;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: white;
+        }
+        th{
+            background-color: #8A5AD9 !important;
         }
 
         /* Responsive Styles */
@@ -302,9 +347,20 @@ if (isset($_SESSION['user_id'])) : ?>
                 font-size: 0.9rem;
             }
 
-            .header {
-                font-size: 1.2rem;
+            .header-right {
+                font-size: 0rem;
             }
+            
+        }
+        .pagination{
+
+            position: relative;
+            left:60%;
+        }
+        .button{
+            width: auto;
+            position: relative;
+          
         }
     </style>
 </head>
@@ -316,10 +372,15 @@ if (isset($_SESSION['user_id'])) : ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="table-container">
-    <a href="/products/create" class="btn btn-success">+ Add Product</a>
-
+    
+    <div class="table">
+    <div class="button">
+        
+        <a href="/products/create" class="btn btn-success">+ Add Product</a>
+    </div>
     <table>
         <thead>
             <tr>
@@ -329,32 +390,107 @@ if (isset($_SESSION['user_id'])) : ?>
                 </th>
                 <th>Image</th>
                 <th>Name</th>
+                
                 <th>Code</th>
                 <th>Price
 
                 <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
                 <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
-                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-down"></i> High</button>
-                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;">><i class="fas fa-arrow-up"></i> Low</button>
+                <input type="text" id="priceSearch" placeholder="input price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
+                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
                 </div>
                 </th>
 
                 <th>Stock
 
-                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
-                <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                    <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
-                    <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
-                        <i class="fas fa-arrow-down"></i> High
-                    </button>
-                    <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
-                        <i class="fas fa-arrow-up"></i> Low
-                    </button>
-                </div>
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                        <input type="text" id="stockSearch" placeholder="input stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-down"></i> High
+                        </button>
+                        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-up"></i> Low
+                        </button>
+                    </div>
                 </th>
+                <th>Category
+                <!-- Dropdown Icon -->
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleCatSortOptions(event, this)" style="cursor: pointer;"></i>
 
-                <th>Category</th>
+                <!-- Dropdown Menu -->
+                <div class="sort-options" id="cat-sort-options" style="display: none;">
+                    <input type="text" id="stockSearch" placeholder="Search categories..." oninput="searchCat()" style="margin-top: 5px; padding: 5px; width: calc(100% - 10px);">
+                    <div id="categoryList">
+                        <button onclick="selectCategory('Clothes', event)">Clothes</button>
+                        <button onclick="selectCategory('Bags', event)">Bags</button>
+                        <button onclick="selectCategory('Shoes', event)">Shoes</button>
+                        <button onclick="selectCategory('Accessories', event)">Accessories</button>
+                    </div>
+                </div>
+            </th>
+
+<script>
+    function toggleCatSortOptions(event) {
+        const sortOptions = document.getElementById('cat-sort-options');
+        sortOptions.style.display = sortOptions.style.display === 'block' ? 'none' : 'block';
+
+        // Position the dropdown menu correctly (if necessary)
+        const iconPos = event.target.getBoundingClientRect();
+        sortOptions.style.position = 'absolute'; // Use absolute positioning
+        sortOptions.style.top = `${iconPos.bottom + window.scrollY}px`;
+        sortOptions.style.left = `${iconPos.left}px`;
+    }
+
+    function searchCat() {
+        const input = document.getElementById('catSearch').value.toLowerCase();
+        const buttons = document.querySelectorAll('#categoryList button');
+
+        buttons.forEach(button => {
+            const text = button.textContent.toLowerCase();
+            button.style.display = text.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function selectCategory(category) {
+        console.log('Selected category:', category);
+        document.getElementById('cat-sort-options').style.display = 'none'; // Hide dropdown after selection
+    }
+
+    // Close dropdown when clicking outside of it
+    window.onclick = function(event) {
+        const dropdown = document.getElementById('cat-sort-options');
+        if (!event.target.matches('.fa-filter-circle-dollar') && dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    };
+</script>
+
+<style>
+    .sort-options {
+        background: white; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
+        z-index: 100; 
+        border-radius: 5px; 
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sort-options button {
+        display: block;
+        width: 100%; 
+        text-align: left; 
+        margin: 5px 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    
+    .sort-options button:hover {
+        background-color: #f0f0f0; /* Highlight on hover */
+    }
+</style>
                 <th>Created At</th>
                 <th>Action
 
@@ -376,15 +512,14 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                        <td><?= htmlspecialchars($product['category']) ?></td>
-                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td> <!-- This cell will be updated -->                        <td><?= htmlspecialchars($product['created_at']) ?></td>
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
                                 <div class="dropdown-menu">
                                     <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                                     <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                                    <a href="/products/detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                                 </div>
                             </div>
                         </td>
@@ -394,8 +529,11 @@ if (isset($_SESSION['user_id'])) : ?>
         </tbody>
     </table>
 
-    <!-- Pagination Buttons (Now at the bottom) -->
-    <div class="pagination" id="pagination-buttons"></div>
+    </div>
+     <!-- Pagination Buttons (Now at the bottom) -->
+     <div class="pagination" id="pagination-buttons"></div>
+    </div>
+   
 </div>
 
 <script>
@@ -508,10 +646,7 @@ init();
     background-color: #e9ecef;
 }
 
-.page-btn.active {
-    background-color: #007bff;
-    color: white;
-}
+
 </style>
 
 
@@ -750,48 +885,48 @@ function toggleDropdown(icon) {
 </style>
 <script>
     function toggleAllCheckboxes(source) {
-    document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-    updateDeleteIcon();
-}
-
-function updateDeleteIcon() {
-    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-    const deleteIcon = document.getElementById('delete-icon');
-
-    // Show trash icon if checkboxes are selected, otherwise hide it
-    deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
-}
-
-function handleDelete() {
-    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-
-    if (selectedCheckboxes.length > 0) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You will delete all selected products.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete them!',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                fetch('/products/delete_all', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ids: selectedIds })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) location.reload();
-                    else Swal.fire('Error', 'Failed to delete products.', 'error');
-                })
-                .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
-            }
-        });
+        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+        updateDeleteIcon();
     }
-}
 
- </script>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
- <?php else: $this->redirect("/"); endif; ?>
+    function updateDeleteIcon() {
+        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+        const deleteIcon = document.getElementById('delete-icon');
+
+        // Show trash icon if checkboxes are selected, otherwise hide it
+        deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+    }
+
+    function handleDelete() {
+        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+
+        if (selectedCheckboxes.length > 0) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will delete all selected products.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete them!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                    fetch('/products/delete_all', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ids: selectedIds })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) location.reload();
+                        else Swal.fire('Error', 'Failed to delete products.', 'error');
+                    })
+                    .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+                }
+            });
+        }
+    }
+
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<?php else: $this->redirect("/"); endif; ?>

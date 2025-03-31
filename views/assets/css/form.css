@@ -30,6 +30,7 @@ option {
     display: flex;
     width: 100%;
     max-width: 800px;
+    height: 500px;
     background-color: #3886f2;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     border-radius: 3%;
@@ -95,6 +96,7 @@ option {
 .form-box {
     background: rgb(255, 255, 255);
     padding: 20px;
+    padding-top: 20px;
     border-radius: 10px;
     width: 100%;
     text-align: center;
@@ -126,7 +128,7 @@ input {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    margin-top: 20px;
+    margin-top: 30px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -155,6 +157,15 @@ input {
 
 .submit-btn:hover {
     opacity: 0.9;
+}
+
+.asia-shop-logo img{
+    width: 50%;
+}
+h1{
+    text-align: left;
+    font-size: 30px;
+    font-family: "Protest Riot", sans-serif;
 }
 
 p {

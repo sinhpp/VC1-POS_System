@@ -44,7 +44,10 @@ class UserController extends BaseController {
     
    
     public function authenticate() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $user = $this->users->getUserByEmail($email);
@@ -82,7 +85,7 @@ class UserController extends BaseController {
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
     public function storeuser() {
-        if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'])) {
+        if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'], $_POST['phone'], $_POST['address'])) {
             die("Missing required fields.");
         }
     
@@ -91,11 +94,29 @@ class UserController extends BaseController {
         $password = htmlspecialchars($_POST['password']);
         $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
         $role = htmlspecialchars($_POST['role']);
+        $phone = htmlspecialchars($_POST['phone']);
+        $address = htmlspecialchars($_POST['address']);
+        
+        // Handle file upload
+        $imagePath = null;
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $targetDir = "uploads/"; // Ensure this directory exists and is writable
+            $newImageName = time() . "_" . basename($_FILES['image']['name']); // Unique filename
+            $imagePath = $targetDir . $newImageName;
     
-        $this->users->usercreate($name, $email, $encrypted_password, $role);
+            // Move the uploaded file to the target directory
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+                die("Failed to upload image.");
+            }
+        } else {
+            $imagePath = "uploads/default.png"; // Set a default image if none uploaded
+        }
+    
+        // Call the usercreate method
+        $this->users->usercreate($name, $email, $encrypted_password, $role, $phone, $address, $imagePath);
         header("Location: /users");
+        exit;
     }
-    
 
     public function edit($id) {
         $user = $this->users->getUserById($id); // Fetch user details from model
@@ -104,16 +125,46 @@ class UserController extends BaseController {
         }
         $this->view("users/edit", ['user' => $user]); // Pass user data to view
     }
-    
+
     public function update($id) {
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
-        $this->users->updateUser($id, $name, $email, $role);
-        header("Location: /users");
-    }  
-
-   
+        $phone = htmlspecialchars($_POST['phone']);
+        $address = htmlspecialchars($_POST['address']);
+        $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : null;
+        
+        // Fetch existing user data
+        $user = $this->users->getUserById($id);
+        if (!$user) {
+            die("User not found");
+        }
     
+        // Handle file upload (same as before)
+    
+        // If a new password is provided, hash it
+        if (!empty($password)) {
+            $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+        } else {
+            $encrypted_password = $user['password']; // Keep existing password if not changing
+        }
+    
+        // Update user with the new or existing image and password
+        $this->users->updateUser($id, $name, $email, $role, $phone, $address, $encrypted_password, $imagePath);
+        
+        // Redirect back to the user list
+        header("Location: /users");
+        exit;
+    }
+    
+    public function detail($id) {
+        $user = $this->users->user_detail($id);
+        if ($user) {
+            // Ensure this path matches the actual file structure
+            $this->view("users/user_detail", ['user' => $user]);
+        } else {
+            echo "User not found.";
+        }
+    }
 }
 ?>
