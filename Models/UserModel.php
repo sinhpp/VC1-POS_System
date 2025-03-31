@@ -26,7 +26,7 @@ class UserModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function createUser($name, $email, $password, $role) {
+    public function createUser($name, $email, $password, $role, $image = null) {
         // Check if the email already exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
@@ -36,48 +36,83 @@ class UserModel {
         }
 
         // Insert new user
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) VALUES (:name, :email, :password, :role)");
+        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) VALUES (:name, :email, :password, :role, :image)");
         return $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role
+            ':role' => $role,
+            ':image' => $image // Store image path
         ]);
     }
+
     public function deleteUser($id) {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
-    public function usercreate($name, $email, $password, $role) {
-        $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role) 
-                                    VALUES (:name, :email, :password, :role)");
-        $stmt->execute([
+
+    public function usercreate($name, $email, $password, $role, $phone, $address, $image) {
+        // Check if the email already exists
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+    
+        if ($stmt->fetchColumn() > 0) {
+            return "Email already exists.";
+        }
+    
+        // Insert new user
+        $stmt = $this->db->prepare("
+            INSERT INTO users (name, email, password, role, phone, address, image) 
+            VALUES (:name, :email, :password, :role, :phone, :address, :image)
+        ");
+        return $stmt->execute([
             ':name' => $name,
             ':email' => $email,
             ':password' => $password,
-            ':role' => $role
+            ':role' => $role,
+            ':phone' => $phone,
+            ':address' => $address,
+            ':image' => $image // Store image path
         ]);
-        return $stmt->rowCount(); // Returns the number of affected rows
     }
-    public function updateUser($id, $name, $email, $role) {
-        $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email, role = :role WHERE id = :id");
-        $stmt->execute([
-            ':id' => $id,
-            ':name' => $name,
-            ':email' => $email,
-            ':role' => $role
-        ]);
-        return $stmt->rowCount(); // Returns affected rows
-    }
+    public function updateUser($id, $name, $email, $role, $phone, $address, $password = null, $image = null) {
+        try {
+            $sql = "UPDATE users SET name = :name, email = :email, role = :role, phone = :phone, address = :address";
+            $params = [
+                ':id' => $id,
+                ':name' => $name,
+                ':email' => $email,
+                ':role' => $role,
+                ':phone' => $phone,
+                ':address' => $address
+            ];
     
-    ///////////////////////////////
-    public function view_user($id) {
+            // Update password if a new one is provided
+            if ($password !== null) {
+                $sql .= ", password = :password";
+                $params[':password'] = $password;
+            }
+    
+            // Only update image if a new one was uploaded
+            if ($image !== null) {
+                $sql .= ", image = :image";
+                $params[':image'] = $image;
+            }
+    
+            $sql .= " WHERE id = :id";
+    
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+    
+            return $stmt->rowCount() > 0; // Return true if rows were updated
+        } catch (PDOException $e) {
+            die("Error updating user: " . $e->getMessage());
+        }
+    }
+    public function user_detail($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    //////////////////////////////////////////
-    
 }
 ?>
