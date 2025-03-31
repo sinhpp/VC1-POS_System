@@ -13,113 +13,122 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount,$discount_type, $descriptions, $gender, $image) {
+    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image){
         // Check if barcode exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products WHERE barcode = :barcode");
         $stmt->execute([':barcode' => $barcode]);
         $count = $stmt->fetchColumn();
-
+    
         if ($count > 0) {
             return false; 
         }
-
+    
         // Ensure the uploads directory exists
         $uploadDir = __DIR__ . '/../uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-
+    
         // Handle image upload
         $imagePath = null;
-        $imageName = null; // Initialize $imageName
-
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
             $imageTmpPath = $image['tmp_name'];
             $imageName = basename($image['name']);
             $imagePath = $uploadDir . $imageName;
-
+    
             // Move file and check for errors
             if (!move_uploaded_file($imageTmpPath, $imagePath)) {
                 error_log("Error moving file: " . print_r(error_get_last(), true));
                 return false;
             }
         }
-
-        // Store relative path in database
-        $dbImagePath = 'uploads/' . ($imageName ?? ''); // Ensure $imageName is defined
-
-        // Log the size for debugging
-        error_log("Creating product with size: " . print_r($size, true)); // Debug line for size
-
-           // Insert new product
-    $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
-        return $stmt->execute([
-            ':name' => $name,
-            ':barcode' => $barcode,
-            ':price' => $price,
-            ':stock' => $stock,
-            ':category' => $category,
-            ':size' => $size ?? 'N/A', // Use 'N/A' only if $size is null
-            ':discount' => $discount,
-            ':discount_type' => $discount_type, // Ensure this is included
-            ':descriptions' => $descriptions,
-            ':gender' => $gender,
-            ':image' => $dbImagePath
-        ]);
-    }
-    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
-        // First, get the current product data to retain previous image if no new image uploaded
-        $currentProduct = $this->getProById($id);
-        $imagePath = $currentProduct['image']; // Assume current image is maintained
     
-        // Check if a new image is uploaded
-        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
-            // Handle the image upload
-            $uploadDir = __DIR__ . '/../uploads/';
-            
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
+      // Store relative path in database
+      $dbImagePath = 'uploads/' . $imageName;
+
+      // Insert new product
+      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
+      return $stmt->execute([
+          ':name' => $name,
+          ':barcode' => $barcode,
+          ':price' => $price,
+          ':stock' => $stock,
+          ':category' => $category,
+          ':size' => $size ?? 'N/A', // Provide a default value if $size is null
+          ':discount' => $discount,
+          ':discount_type' => $discount_type,
+          ':descriptions' => $descriptions,
+          ':gender' => $gender,
+          ':image' => $dbImagePath
+      ]);
+  }
     
-            $imageTmpPath = $image['tmp_name'];
-            $imageName = basename($image['name']);
-            $imagePath = $uploadDir . $imageName;
-    
-            // Move the file and check for errors
-            if (!move_uploaded_file($imageTmpPath, $imagePath)) {
-                error_log("Error moving file: " . print_r(error_get_last(), true));
-                return false; // Handle the error accordingly
-            }
-        } else {
-            // If no new image provided, retain the old image path
-            $imagePath = $currentProduct['image'];
+  public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
+    // Handle image upload
+    $imagePath = null;
+    if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/../uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
-    
-        // Prepare the SQL update statement
-        $stmt = $this->db->prepare("UPDATE products SET name = :name, barcode = :barcode, price = :price, stock = :stock, 
-            category = :category, size = :size, discount = :discount, discount_type = :discount_type, 
-            descriptions = :descriptions, gender = :gender, image = :image 
-            WHERE id = :id");
-    
-        // Bind parameters for the query
-        $bindingParams = [
-            ':id' => $id,
-            ':name' => $name,
-            ':barcode' => $barcode,
-            ':price' => $price,
-            ':stock' => $stock,
-            ':category' => $category,
-            ':size' => $size ?? 'N/A', // Handle empty size
-            ':discount' => $discount,
-            ':discount_type' => $discount_type,
-            ':descriptions' => $descriptions,
-            ':gender' => $gender,
-            ':image' => 'uploads/' . basename($imagePath), // Use the new or existing image path
-        ];
-    
-        // Execute the query
-        return $stmt->execute($bindingParams);
+
+        $imageTmpPath = $image['tmp_name'];
+        $imageName = basename($image['name']);
+        $imagePath = $uploadDir . $imageName;
+
+        if (!move_uploaded_file($imageTmpPath, $imagePath)) {
+            error_log("Error moving file: " . print_r(error_get_last(), true));
+            return false;
+        }
+
+        $dbImagePath = 'uploads/' . $imageName;
+    } else {
+        // If no new image is uploaded, keep the existing image path
+        $existingProduct = $this->getProById($id);
+        $dbImagePath = $existingProduct['image'];
     }
+
+    // Update product in database
+    $stmt = $this->db->prepare("UPDATE products SET 
+        name = :name, 
+        barcode = :barcode, 
+        price = :price, 
+        stock = :stock, 
+        category = :category,  
+        size = :size,
+        discount = :discount,
+        discount_type = :discount_type,
+        descriptions = :descriptions,
+        gender = :gender,
+        image = :image 
+        WHERE id = :id");
+
+    $result = $stmt->execute([
+        ':id' => $id,
+        ':name' => $name,
+        ':barcode' => $barcode,
+        ':price' => $price,
+        ':stock' => $stock,
+        ':category' => $category, 
+        ':size' => $size,
+        ':discount' => $discount,
+        ':discount_type' => $discount_type,
+        ':descriptions' => $descriptions, 
+        ':gender' => $gender,
+        ':image' => $dbImagePath
+    ]);
+
+    if ($result) {
+        error_log("Product updated successfully in database.");
+    } else {
+        error_log("Failed to update product: " . implode(", ", $stmt->errorInfo()));
+    }
+
+    return $result;
+} // ✅ Ensure function is properly closed
+
+    
+
     public function getProById($id) {
         $stmt = $this->db->prepare("SELECT * FROM products WHERE id = :id");
         $stmt->execute(['id' => $id]);
@@ -201,6 +210,22 @@ class ProductModel {
         $stmt = $this->db->prepare("DELETE FROM products");
         return $stmt->execute();
     }
+    public function getProductByBarcode($barcode) {
+        $query = "SELECT * FROM products WHERE barcode = :barcode LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':barcode' => $barcode]);
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Returns product as associative array or false if not found
+    }
 
+    // Method to update stock
+    public function updateStock($barcode, $quantity) {
+        $query = "UPDATE products SET stock = stock - :quantity WHERE barcode = :barcode AND stock >= :quantity";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([
+            ':barcode' => $barcode,
+            ':quantity' => $quantity
+        ]);
+        return $stmt->rowCount() > 0; // Returns true if stock was updated
+    }
     // Other methods remain unchanged...
 }

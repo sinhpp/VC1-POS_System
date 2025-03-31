@@ -5,6 +5,7 @@ require_once 'Models/ProductModel.php';
 require_once 'Models/OrderModel.php';
 require_once __DIR__ . '../../views/vendor/fpdf186/fpdf.php';
 
+
 class ProductScanController
 {
     private $productModel;
@@ -155,146 +156,119 @@ class ProductScanController
         exit();
     }
 
-    public function printReceipt()
+    public function printReceipt(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['checkout'])) {
-            if (empty($_SESSION['order']) || !isset($_SESSION['user_id'])) {
-                $_SESSION['error'] = "Invalid checkout request";
-                header("Location: /views/order/checkout.php");
-                exit();
-            }
-
-            try {
-                $this->db->beginTransaction();
-                // ... (existing customer, order, payment, sale logic remains unchanged)
-
-                // Generate PDF with styled design
-                ob_start();
-                $pdf = new FPDF();
-                $pdf->AddPage();
-
-                // Header: Red Circle and Business Name
-                $pdf->SetFillColor(255, 0, 0); // Red
-                // $pdf->Circle(20, 20, 10, 'F'); // Red circle at (20, 20) with radius 10
-                $pdf->SetFont('Arial', 'B', 16);
-                $pdf->SetTextColor(0, 0, 0); // Black
-                $pdf->SetXY(35, 15);
-
-
-                // Header: "INVOICE" and Date
-                $pdf->SetFont('Arial', 'B', 16);
-                $pdf->SetTextColor(255, 0, 0); // Red
-                $pdf->SetXY(120, 15);
-                $pdf->Cell(40, 10, 'SHOP Sreytoch', 0, 0, 'R');
-                $pdf->SetFont('Arial', '', 12);
-                $pdf->SetTextColor(0, 0, 0); // Black
-                $pdf->SetXY(120, 25);
-                $pdf->Cell(40, 10, date('F d, Y'), 0, 1, 'R');
-
-                // Business and Customer Info
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->SetXY(10, 40);
-                $pdf->Cell(90, 8, 'Shop Address', 0, 0);
-                $pdf->Cell(90, 8, 'To:', 0, 1);
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->SetXY(10, 48);
-                $pdf->Cell(90, 6, '271,street, Number 06/B,', 0, 0);
-                $pdf->Cell(90, 6, $_POST['customerName'], 0, 1);
-                $pdf->SetXY(10, 54);
-                $pdf->Cell(90, 6, 'SEN SOK ,TEUKTHA, KH', 0, 0);
-                $pdf->Cell(90, 6, $_POST['shippingAddress'], 0, 1);
-                $pdf->SetXY(10, 60);
-                $pdf->Cell(90, 6, '(+855) 16 872 177', 0, 0);
-                $pdf->Cell(90, 6, $_POST['billingAddress'], 0, 1);
-                $pdf->SetXY(10, 66);
-                $pdf->Cell(90, 6, '', 0, 0);
-                $pdf->Cell(90, 6, 'Number 06/B', 0, 1);
-                $pdf->Ln(10);
-
-                // Items Table Header
-                $pdf->SetFillColor(255, 0, 0); // Red
-                $pdf->SetTextColor(255, 255, 255); // White
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(90, 10, 'Items Description', 1, 0, 'C', 1);
-                $pdf->Cell(30, 10, 'Unit Price', 1, 0, 'C', 1);
-                $pdf->Cell(30, 10, 'Qty', 1, 0, 'C', 1);
-                $pdf->Cell(30, 10, 'Total', 1, 1, 'C', 1);
-
-                // Items Table Rows
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->SetTextColor(0, 0, 0); // Black
-                $pdf->SetFillColor(230, 230, 230); // Light gray
-                foreach ($_SESSION['order'] as $item) {
-                    $pdf->Cell(90, 10, $item['name'], 1, 0, 'L', 1);
-                    $pdf->Cell(30, 10, '$' . number_format($item['price'], 2), 1, 0, 'R', 1);
-                    $pdf->Cell(30, 10, $item['quantity'], 1, 0, 'C', 1);
-                    $pdf->Cell(30, 10, '$' . number_format($item['price'] * $item['quantity'], 2), 1, 1, 'R', 1);
-                }
-
-                // Totals Section
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', 'B', 12);
-                $pdf->Cell(150, 10, 'Subtotal:', 0, 0, 'R');
-                $pdf->Cell(30, 10, '$' . number_format($subtotal, 2), 0, 1, 'R');
-                $pdf->Cell(150, 10, 'Tax VAT 15%:', 0, 0, 'R');
-                $tax = $subtotal * 0.15;
-                $pdf->Cell(30, 10, '$' . number_format($tax, 2), 0, 1, 'R');
-                $pdf->Cell(150, 10, 'Discount 6%:', 0, 0, 'R');
-                $pdf->Cell(30, 10, '-$' . number_format($discount, 2), 0, 1, 'R');
-                $pdf->SetFillColor(255, 0, 0); // Red
-                $pdf->SetTextColor(255, 255, 255); // White
-                $pdf->Cell(150, 10, 'Total Due:', 0, 0, 'R', 1);
-                $pdf->Cell(30, 10, '$' . number_format($total_amount + $tax, 2), 1, 1, 'R', 1);
-
-                // Note Section
-                $pdf->SetTextColor(0, 0, 0); // Black
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Ln(5);
-                $pdf->Cell(0, 10, 'Note:', 0, 1);
-                // $pdf->MultiCell(0, 5, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
-
-                // Thank You Message
-                $pdf->Ln(5);
-                $pdf->SetFont('Arial', 'I', 12);
-                $pdf->Cell(0, 10, "Thank you for your purchase!", 0, 1, 'C');
-                $pdf->Cell(0, 10, "We appreciate your support and hope you enjoy your new item.", 0, 1, 'C');
-                $pdf->Cell(0, 10, "Looking forward to serving you again!", 0, 1, 'C');
-
-                // Footer: Three Columns
-                $pdf->SetY(-40);
-                $pdf->SetFont('Arial', 'B', 10);
-                $pdf->Cell(60, 8, 'Questions?', 0, 0);
-                $pdf->Cell(60, 8, 'Payment Info:', 0, 0);
-                $pdf->Cell(60, 8, 'Terms & Conditions/Note:', 0, 1);
-                $pdf->SetFont('Arial', '', 8);
-                $pdf->Cell(60, 5, 'Email us: sreytoch@gmail.com', 0, 0);
-                $pdf->Cell(60, 5, 'Account Name: 1234-567-890', 0, 0);
-                $pdf->Cell(60, 5, 'Lorem ipsum dolor sit amet, consectetur', 0, 1);
-                $pdf->Cell(60, 5, 'Call us: +123 456 7890', 0, 0);
-                $pdf->Cell(60, 5, 'Bank Detail: Bank Phnom', 0, 0);
-                $pdf->Cell(60, 5, 'adipiscing elit, sed do eiusmod', 0, 1);
-
-                $this->db->commit();
-
-                $tempFile = __DIR__ . '/../../temp/order_receipt_' . $order_id . '.pdf';
-                ob_end_clean();
-                $pdf->Output('F', $tempFile);
-
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: inline; filename="order_receipt_' . $order_id . '.pdf"');
-                readfile($tempFile);
-                echo '<script>window.print(); window.location.href="/order";</script>';
-
-                unset($_SESSION['order']);
-                unset($_SESSION['product']);
-                exit();
-            } catch (Exception $e) {
-                $this->db->rollBack();
-                $_SESSION['error'] = "Error processing checkout: " . $e->getMessage();
-                header("Location: /views/order/checkout.php");
-                exit();
-            }
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['checkout']) || empty($_SESSION['order'])) {
+            $_SESSION['error'] = "Invalid checkout request";
+            header("Location: /order");
+            exit();
         }
+
+        try {
+            $this->db->beginTransaction();
+
+            $subtotal = array_sum(array_map(
+                fn($item) => $item['price'] * $item['quantity'],
+                $_SESSION['order']
+            ));
+            $discountRate = 0.06;
+            $discount = $subtotal * $discountRate;
+            $total_amount = $subtotal - $discount;
+
+            $pdf = new FPDF('P', 'mm', 'A4');
+            $pdf->AddPage();
+            $pdf->SetAutoPageBreak(true, 10);
+
+            // Header
+            $pdf->SetFont('Arial', 'B', 16);
+            $pdf->Cell(0, 10, 'SREYTOCH SHOP', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 6, '271, Street Number 06/B, Sen Sok, Teuktha, KH', 0, 1, 'C');
+            $pdf->Cell(0, 6, 'Tel: (+855) 16 872 177', 0, 1, 'C');
+            $pdf->Cell(0, 6, 'Email: sreytoch@gmail.com', 0, 1, 'C');
+
+            // Receipt Info
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->SetTextColor(255, 0, 0);
+            $pdf->Cell(0, 10, 'RECEIPT', 0, 1, 'C');
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 6, 'Date: ' . date('F d, Y H:i:s'), 0, 1, 'C');
+
+            // Customer Info
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 11);
+            $pdf->Cell(0, 8, 'Customer Information', 0, 1);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(50, 6, 'Name:', 0, 0);
+            $pdf->Cell(0, 6, filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING), 0, 1);
+            $pdf->Cell(50, 6, 'Contact:', 0, 0);
+            $pdf->Cell(0, 6, filter_input(INPUT_POST, 'contactDetails', FILTER_SANITIZE_STRING), 0, 1);
+            $pdf->Cell(50, 6, 'Shipping Address:', 0, 0);
+            $pdf->MultiCell(0, 6, filter_input(INPUT_POST, 'shippingAddress', FILTER_SANITIZE_STRING));
+
+            // Order Details
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 11);
+            $pdf->Cell(0, 8, 'Order Details', 0, 1);
+            $pdf->SetFillColor(200, 200, 200);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(80, 8, 'Description', 1, 0, 'L', true);
+            $pdf->Cell(30, 8, 'Unit Price', 1, 0, 'R', true);
+            $pdf->Cell(20, 8, 'Qty', 1, 0, 'C', true);
+            $pdf->Cell(40, 8, 'Subtotal', 1, 1, 'R', true);
+
+            $pdf->SetFont('Arial', '', 10);
+            foreach ($_SESSION['order'] as $item) {
+                $pdf->Cell(80, 7, $item['name'], 1, 0, 'L');
+                $pdf->Cell(30, 7, '$' . number_format($item['price'], 2), 1, 0, 'R');
+                $pdf->Cell(20, 7, $item['quantity'], 1, 0, 'C');
+                $pdf->Cell(40, 7, '$' . number_format($item['price'] * $item['quantity'], 2), 1, 1, 'R');
+            }
+
+            // Totals
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(130, 7, 'Subtotal:', 0, 0, 'R');
+            $pdf->Cell(40, 7, '$' . number_format($subtotal, 2), 0, 1, 'R');
+            $pdf->Cell(130, 7, 'Discount (6%):', 0, 0, 'R');
+            $pdf->Cell(40, 7, '-$' . number_format($discount, 2), 0, 1, 'R');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->SetFillColor(255, 0, 0);
+            $pdf->SetTextColor(255, 255, 255);
+            $pdf->Cell(130, 10, 'Total Amount:', 'T', 0, 'R', true);
+            $pdf->Cell(40, 10, '$' . number_format($total_amount, 2), 'T', 1, 'R', true);
+            $pdf->SetTextColor(0, 0, 0);
+
+            // Footer
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 7, 'Payment Method: ' . ucfirst(filter_input(INPUT_POST, 'paymentMethod', FILTER_SANITIZE_STRING)), 0, 1);
+            $pdf->Ln(10);
+            $pdf->SetFont('Arial', 'I', 10);
+            $pdf->Cell(0, 6, 'Thank you for shopping with us!', 0, 1, 'C');
+
+            $this->db->commit();
+            $tempFile = __DIR__ . '/../../temp/receipt_' . time() . '.pdf';
+            $pdf->Output('F', $tempFile);
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename="receipt.pdf"');
+            readfile($tempFile);
+            
+            echo '<script>window.print();setTimeout(() => window.location.href = "/order", 1000);</script>';
+            
+            unlink($tempFile);
+            unset($_SESSION['order'], $_SESSION['product']);
+            exit();
+        } catch (Exception $e) {
+            // $this->db->rollBack();
+            $_SESSION['error'] = "Checkout error: " . $e->getMessage();
+            header("Location: /order");
+            exit();
+        }
+    }
         // ... (existing GET request handling remains unchanged)
     }
     // Helper method to draw a circle (not natively supported by FPDF)
@@ -302,4 +276,4 @@ class ProductScanController
     {
         $pdf->Ellipse($x, $y, $r, $r, 0, 0, 360, $style);
     }
-}
+

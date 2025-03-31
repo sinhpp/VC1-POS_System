@@ -160,9 +160,10 @@ if (isset($_SESSION['user_id'])) : ?>
                 <div class="input-group">
                     <label>Address</label>
                     <input type="text" name="address" value="<?= htmlspecialchars($user['address']); ?>" required>
-              
-
-                    <button type="submit" class="update-btn">Update Info</button>
+                </div>
+                                <div class="input-group">
+                                <div class="input-group">
+            <button type="submit" class="update-btn">Update Info</button>
                 </form>
             </div>
         </div>
