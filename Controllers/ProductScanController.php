@@ -263,7 +263,7 @@ class ProductScanController
             unset($_SESSION['order'], $_SESSION['product']);
             exit();
         } catch (Exception $e) {
-            $this->db->rollBack();
+            // $this->db->rollBack();
             $_SESSION['error'] = "Checkout error: " . $e->getMessage();
             header("Location: /order");
             exit();
