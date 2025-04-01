@@ -52,7 +52,10 @@ $finalTotal = $totalPrice - $discountAmount;
                         <option value="digital_wallet">Digital Wallet</option>
                     </select>
 
-                    <button type="submit" class="btn">Complete Order</button>
+                    <div class="button">
+                        <button type="submit" class="btn">Print Receipt</button>
+                        <button type="button" class="btn" onclick="completeOrder()">Complete Order</button>
+                    </div>
                 </form>
             </div>
 
@@ -93,7 +96,19 @@ $finalTotal = $totalPrice - $discountAmount;
             </div>
         </div>
     </div>
+    
+    <script>
+        function completeOrder() {
+            // Redirect to the order list page
+            window.location.href = '/order/order_list'; // Adjust the URL as needed
+        }
+    </script>
     <script src="/views/assets/js/checkout.js"></script>
 </body>
-
+<style>
+    .button {
+        display: flex;
+        gap: 10px;
+    }
+</style>
 </html>
