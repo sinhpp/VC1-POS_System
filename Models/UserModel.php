@@ -75,7 +75,7 @@ class UserModel {
             ':image' => $image // Store image path
         ]);
     }
-    public function updateUser($id, $name, $email, $role, $phone, $address, $password = null, $image = null) {
+    public function updateUser($id, $name, $email, $role, $phone, $address, $image = null) {
         try {
             $sql = "UPDATE users SET name = :name, email = :email, role = :role, phone = :phone, address = :address";
             $params = [
@@ -86,12 +86,6 @@ class UserModel {
                 ':phone' => $phone,
                 ':address' => $address
             ];
-    
-            // Update password if a new one is provided
-            if ($password !== null) {
-                $sql .= ", password = :password";
-                $params[':password'] = $password;
-            }
     
             // Only update image if a new one was uploaded
             if ($image !== null) {
@@ -104,7 +98,11 @@ class UserModel {
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
     
-            return $stmt->rowCount() > 0; // Return true if rows were updated
+            if ($stmt->rowCount() > 0) {
+                return true; // Successfully updated
+            } else {
+                return false; // No rows updated (maybe no change was made)
+            }
         } catch (PDOException $e) {
             die("Error updating user: " . $e->getMessage());
         }
