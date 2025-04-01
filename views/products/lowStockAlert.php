@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <!-- Header Section -->
-        <div class="header">
+        <header class="header">
             <div class="title">
                 <i class="fas fa-exclamation-triangle icon-alert"></i>
                 <h1>Low Stock Alert</h1>
@@ -18,14 +18,14 @@
             <div class="header-actions">
                 <button class="help-btn">
                     <i class="far fa-question-circle"></i>
-                    How do I use this?
+                    <span class="btn-text">How do I use this?</span>
                 </button>
                 <button class="save-btn">
                     <i class="far fa-save"></i>
-                    Save
+                    <span class="btn-text">Save</span>
                 </button>
             </div>
-        </div>
+        </header>
 
         <!-- Notification Section -->
         <div class="notification">
@@ -33,17 +33,24 @@
         </div>
 
         <!-- Tab Navigation -->
-        <div class="tabs">
-            <div class="tab active">Low Stock Products</div>
-            <div class="tab">Settings</div>
-        </div>
+        <nav class="tabs">
+            <button class="tab active">Low Stock Products</button>
+            <button class="tab">Settings</button>
+        </nav>
 
         <!-- Content Section -->
-        <div class="content">
+        <main class="content">
             <!-- Filter Section -->
-            <div class="filter-section">
-                <h2 class="list-title">Low Stock Product List</h2>
-                <div class="filters">
+            <section class="filter-section">
+                <div class="filter-header">
+                    <h2 class="list-title">Low Stock Product List</h2>
+                    <button class="toggle-filters" aria-expanded="true" aria-controls="filters-container">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Filters</span>
+                    </button>
+                </div>
+                
+                <div id="filters-container" class="filters">
                     <div class="filter-group">
                         <label for="product-name">Product Name</label>
                         <input type="text" id="product-name" class="filter-input">
@@ -52,9 +59,9 @@
                     <div class="filter-group">
                         <label for="quantity-min">Quantity</label>
                         <div class="quantity-range">
-                            <input type="number" id="quantity-min" class="filter-input quantity-input">
+                            <input type="number" id="quantity-min" class="filter-input quantity-input" placeholder="Min">
                             <span class="range-separator">-</span>
-                            <input type="number" id="quantity-max" class="filter-input quantity-input" value="2">
+                            <input type="number" id="quantity-max" class="filter-input quantity-input" value="2" placeholder="Max">
                         </div>
                         <span class="filter-hint">Filter by quantity range: from - to</span>
                     </div>
@@ -83,82 +90,94 @@
                     
                     <button class="filter-btn">
                         <i class="fas fa-filter"></i>
-                        Filter
+                        <span>Filter</span>
                     </button>
                 </div>
-            </div>
+            </section>
 
-            <!-- Product Table -->
-            <div class="product-table">
-                <div class="table-header">
-                    <div class="header-cell product-name">Product Name</div>
-                    <div class="header-cell quantity">Quantity</div>
-                    <div class="header-cell subtract-stock">Subtract Stock</div>
-                    <div class="header-cell status">Status</div>
+            <!-- Product List -->
+            <section class="product-list">
+                <!-- Table view (visible on larger screens) -->
+                <div class="product-table">
+                    <div class="table-header">
+                        <div class="header-cell product-name">Product Name</div>
+                        <div class="header-cell quantity">Quantity</div>
+                        <div class="header-cell subtract-stock">Subtract Stock</div>
+                        <div class="header-cell status">Status</div>
+                        <div class="header-cell actions">Actions</div>
+                    </div>
+                    
+                    <div class="table-body">
+                        <?php if (empty($products)): ?>
+                            <div class="empty-state">
+                                <p>No low stock products found.</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($products as $product): ?>
+                                <div class="table-row">
+                                    <div class="cell product-name">
+                                        <img src="/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-image">
+                                        <span><?= htmlspecialchars($product['name']) ?></span>
+                                    </div>
+                                    <div class="cell quantity"><?= htmlspecialchars($product['stock']) ?></div>
+                                    <div class="cell subtract-stock"><?= $product['subtract_stock'] ? 'Yes' : 'No' ?></div>
+                                    <div class="cell status">
+                                        <span class="status-pill <?= $product['status'] ? 'enabled' : 'disabled' ?>"><?= $product['status'] ? 'Enabled' : 'Disabled' ?></span>
+                                    </div>
+                                    <div class="cell actions">
+                                        <button class="action-btn" data-product-id="<?= $product['id'] ?>">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 
-                <div class="table-body">
-                    <!-- Product Row 1 -->
-                    <div class="table-row">
-                        <div class="cell product-name">
-                            <img src="https://placehold.co/60x80" alt="Atelier V Neck Blouse" class="product-image">
-                            <span>Atelier V Neck Blouse</span>
+                <!-- Card view (visible on smaller screens) -->
+                <div class="product-cards">
+                    <?php if (empty($products)): ?>
+                        <div class="empty-state">
+                            <p>No low stock products found.</p>
                         </div>
-                        <div class="cell quantity">0</div>
-                        <div class="cell subtract-stock">Yes</div>
-                        <div class="cell status">
-                            <span class="status-pill enabled">Enabled</span>
-                        </div>
-                        <div class="cell actions">
-                            <button class="action-btn">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Product Row 2 -->
-                    <div class="table-row">
-                        <div class="cell product-name">
-                            <img src="https://placehold.co/60x80" alt="Atelier Ruffle Dresses" class="product-image">
-                            <span>Atelier Ruffle Dresses</span>
-                        </div>
-                        <div class="cell quantity">1</div>
-                        <div class="cell subtract-stock">No</div>
-                        <div class="cell status">
-                            <span class="status-pill enabled">Enabled</span>
-                        </div>
-                        <div class="cell actions">
-                            <button class="action-btn">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Product Row 3 -->
-                    <div class="table-row">
-                        <div class="cell product-name">
-                            <img src="https://placehold.co/60x80" alt="Atelier Loose Blouse" class="product-image">
-                            <span>Atelier Loose Blouse</span>
-                        </div>
-                        <div class="cell quantity">2</div>
-                        <div class="cell subtract-stock">Yes</div>
-                        <div class="cell status">
-                            <span class="status-pill enabled">Enabled</span>
-                        </div>
-                        <div class="cell actions">
-                            <button class="action-btn">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <?php else: ?>
+                        <?php foreach ($products as $product): ?>
+                            <div class="product-card">
+                                <div class="card-header">
+                                    <img src="/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-image">
+                                    <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-row">
+                                        <span class="card-label">Quantity:</span>
+                                        <span class="card-value"><?= htmlspecialchars($product['stock']) ?></span>
+                                    </div>
+                                    <div class="card-row">
+                                        <span class="card-label">Subtract Stock:</span>
+                                        <span class="card-value"><?= $product['subtract_stock'] ? 'Yes' : 'No' ?></span>
+                                    </div>
+                                    <div class="card-row">
+                                        <span class="card-label">Status:</span>
+                                        <span class="status-pill <?= $product['status'] ? 'enabled' : 'disabled' ?>"><?= $product['status'] ? 'Enabled' : 'Disabled' ?></span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="action-btn" data-product-id="<?= $product['id'] ?>">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
-            </div>
+            </section>
             
             <!-- Pagination -->
             <div class="pagination">
                 <p>Showing 1 to 3 of 3 (1 Pages)</p>
             </div>
-        </div>
+        </main>
     </div>
 
     <script src="../assets/js/lowStockAlert.js"></script>

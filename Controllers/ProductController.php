@@ -159,4 +159,41 @@ public function detail($id) {
         }
         exit();
     }
+    public function lowStockAlert() {
+        // Default threshold value (can be made configurable later)
+        $threshold = 5;
+        
+        // Get low stock products from the model
+        $lowStockProducts = $this->products->getLowStockProducts($threshold);
+        
+        // Pass the data to the view
+        $this->view("products/lowStockAlert", ['products' => $lowStockProducts]);
+    }
+
+    // Add this method to check for low stock after purchase
+    public function checkLowStock() {
+        $threshold = 5; // Default threshold
+        $lowStockProducts = $this->products->getLowStockProducts($threshold);
+        
+        if (!empty($lowStockProducts)) {
+            // Add to dashboard notifications
+            $this->addLowStockNotification($lowStockProducts);
+            
+            // Send email alert
+            require_once "Models/EmailService.php";
+            $emailService = new EmailService();
+            $emailService->sendLowStockAlert($lowStockProducts);
+        }
+    }
+
+    // Method to add notification to the dashboard
+    private function addLowStockNotification($products) {
+        // Create a notification in the database
+        require_once "Models/NotificationModel.php";
+        $notificationModel = new NotificationModel();
+        
+        $message = count($products) . " products have low stock levels";
+        $link = "/products/lowStockAlert";
+        $notificationModel->addNotification('low_stock', $message, $link);
+    }
 }

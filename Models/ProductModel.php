@@ -239,11 +239,16 @@ class ProductModel {
     // Other methods remain unchanged...
 
 
-    public function getLowStockProducts($threshold = 10)
-{
-    $stmt = $this->db->prepare("SELECT * FROM products WHERE stock <= :threshold ORDER BY stock ASC");
-    $stmt->execute([':threshold' => $threshold]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
+    public function getLowStockProducts($threshold = 5) {
+        try {
+            $query = "SELECT * FROM products WHERE stock <= :threshold ORDER BY stock ASC";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':threshold', $threshold, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error fetching low stock products: " . $e->getMessage());
+            return [];
+        }
+    }
 }
