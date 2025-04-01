@@ -13,22 +13,22 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image){
+    public function createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
         // Check if barcode exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM products WHERE barcode = :barcode");
         $stmt->execute([':barcode' => $barcode]);
         $count = $stmt->fetchColumn();
-    
+        
         if ($count > 0) {
-            return false; 
+            return false; // Barcode exists, return failure
         }
-    
+        
         // Ensure the uploads directory exists
         $uploadDir = __DIR__ . '/../uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
-    
+        
         // Handle image upload
         $imagePath = null;
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
@@ -36,97 +36,106 @@ class ProductModel {
             $imageName = basename($image['name']);
             $imagePath = $uploadDir . $imageName;
     
-            // Move file and check for errors
+            // Move the uploaded file and check for errors
+            if (!move_uploaded_file($imageTmpPath, $imagePath)) {
+                error_log("Error moving file: " . print_r(error_get_last(), true));
+                return false; // Return false on error
+            }
+        } else {
+            // Handle cases where no image was uploaded
+            error_log("Image upload error: " . print_r($image, true));
+            return false;
+        }
+        
+        // Store relative path in database
+        $dbImagePath = 'uploads/' . $imageName;
+    
+        // Insert new product into the database
+        $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
+        return $stmt->execute([
+            ':name' => $name,
+            ':barcode' => $barcode,
+            ':price' => $price,
+            ':stock' => $stock,
+            ':category' => $category,
+            ':size' => $size ?? 'N/A', // Default to 'N/A' if size not provided
+            ':discount' => $discount,
+            ':discount_type' => $discount_type, // Use the passed discount type
+            ':descriptions' => $descriptions,
+            ':gender' => $gender,
+            ':image' => $dbImagePath
+        ]);
+    }
+    
+    public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
+        // Handle image upload
+        $imagePath = null;
+        if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../uploads/';
+            
+            // Create the uploads directory if it doesn't exist
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+    
+            $imageTmpPath = $image['tmp_name'];
+            
+            // Generate a unique image name to avoid clashes
+            $imageName = uniqid() . '-' . basename($image['name']);
+            $imagePath = $uploadDir . $imageName;
+    
             if (!move_uploaded_file($imageTmpPath, $imagePath)) {
                 error_log("Error moving file: " . print_r(error_get_last(), true));
                 return false;
             }
+    
+            $dbImagePath = 'uploads/' . $imageName;
+        } else {
+            // If no new image is uploaded, use the existing image path
+            $existingProduct = $this->getProById($id);
+            $dbImagePath = $existingProduct['image'];
         }
     
-      // Store relative path in database
-      $dbImagePath = 'uploads/' . $imageName;
-
-      // Insert new product
-      $stmt = $this->db->prepare("INSERT INTO products (name, barcode, price, stock, category, size, discount, discount_type, descriptions, gender, image) VALUES (:name, :barcode, :price, :stock, :category, :size, :discount, :discount_type, :descriptions, :gender, :image)");
-      return $stmt->execute([
-          ':name' => $name,
-          ':barcode' => $barcode,
-          ':price' => $price,
-          ':stock' => $stock,
-          ':category' => $category,
-          ':size' => $size ?? 'N/A', // Provide a default value if $size is null
-          ':discount' => $discount,
-          ':discount_type' => $discount_type,
-          ':descriptions' => $descriptions,
-          ':gender' => $gender,
-          ':image' => $dbImagePath
-      ]);
-  }
+        // Prepare SQL statement to update product in database
+        $stmt = $this->db->prepare("UPDATE products SET 
+            name = :name, 
+            barcode = :barcode, 
+            price = :price, 
+            stock = :stock, 
+            category = :category,  
+            size = :size,
+            discount = :discount,
+            discount_type = :discount_type,
+            descriptions = :descriptions,
+            gender = :gender,
+            image = :image 
+            WHERE id = :id");
     
-  public function updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image) {
-    // Handle image upload
-    $imagePath = null;
-    if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/../uploads/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+        // Execute the update statement
+        $result = $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':barcode' => $barcode,
+            ':price' => $price,
+            ':stock' => $stock,
+            ':category' => $category, 
+            ':size' => $size,
+            ':discount' => $discount,
+            ':discount_type' => $discount_type,
+            ':descriptions' => $descriptions, 
+            ':gender' => $gender,
+            ':image' => $dbImagePath
+        ]);
+    
+        // Logging based on the result of execution
+        if ($result) {
+            error_log("Product updated successfully in database.");
+        } else {
+            error_log("Failed to update product: " . implode(", ", $stmt->errorInfo()));
         }
-
-        $imageTmpPath = $image['tmp_name'];
-        $imageName = basename($image['name']);
-        $imagePath = $uploadDir . $imageName;
-
-        if (!move_uploaded_file($imageTmpPath, $imagePath)) {
-            error_log("Error moving file: " . print_r(error_get_last(), true));
-            return false;
-        }
-
-        $dbImagePath = 'uploads/' . $imageName;
-    } else {
-        // If no new image is uploaded, keep the existing image path
-        $existingProduct = $this->getProById($id);
-        $dbImagePath = $existingProduct['image'];
+    
+        return $result;
     }
-
-    // Update product in database
-    $stmt = $this->db->prepare("UPDATE products SET 
-        name = :name, 
-        barcode = :barcode, 
-        price = :price, 
-        stock = :stock, 
-        category = :category,  
-        size = :size,
-        discount = :discount,
-        discount_type = :discount_type,
-        descriptions = :descriptions,
-        gender = :gender,
-        image = :image 
-        WHERE id = :id");
-
-    $result = $stmt->execute([
-        ':id' => $id,
-        ':name' => $name,
-        ':barcode' => $barcode,
-        ':price' => $price,
-        ':stock' => $stock,
-        ':category' => $category, 
-        ':size' => $size,
-        ':discount' => $discount,
-        ':discount_type' => $discount_type,
-        ':descriptions' => $descriptions, 
-        ':gender' => $gender,
-        ':image' => $dbImagePath
-    ]);
-
-    if ($result) {
-        error_log("Product updated successfully in database.");
-    } else {
-        error_log("Failed to update product: " . implode(", ", $stmt->errorInfo()));
-    }
-
-    return $result;
-} // ✅ Ensure function is properly closed
-
     
 
     public function getProById($id) {
