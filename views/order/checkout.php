@@ -54,8 +54,9 @@ $showMore = $totalItems > $itemsPerPage;
                         <option value="digital_wallet">Digital Wallet</option>
                     </select>
                     <div class="btn-submit">
-                        <button type="submit" name="complete_order" class="btn-order">Order Completed</button>
-                        <button type="submit" name="print_receipt" class="btn-print">Print Receipt</button>
+                        <button type="submit" name="print_receipt" class="btn-print">Order Completed</button>
+                        <button type="submit" name="complete_order" class="btn-order">Print Receipt</button>
+                        
                     </div>
                 </form>
             </div>
