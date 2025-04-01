@@ -3,8 +3,8 @@ require_once __DIR__ . '../../layout.php';
 $error = $error ?? '';
 $order = $order ?? ($_SESSION['order'] ?? []);
 $totalPrice = 0; // Initialize total price
-foreach ($order as $item) {
-    $totalPrice += $item['price'] * $item['quantity']; // Sum up item totals
+foreach ($order as $product) {
+    $totalPrice += $product['price'] * $product['quantity']; // Sum up product totals
 }
 ?>
 
@@ -50,16 +50,16 @@ foreach ($order as $item) {
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="orderItems">
-                        <?php foreach ($order as $index => $item): ?>
+                    <tbody id="orderproducts">
+                        <?php foreach ($order as $index => $product): ?>
                             <tr>
-                                <td><img src='<?php echo $item['image']; ?>' width='50' alt='<?php echo $item['name']; ?>'></td>
-                                <td><?php echo $item['name']; ?></td>
-                                <td><?php echo $item['barcode']; ?></td>
-                                <td>$<?php echo $item['price']; ?></td>
-                                <td><?php echo $item['quantity']; ?></td>
-                                <td><?php echo $item['stock']; ?></td>
-                                <td><?php echo $item['created_at']; ?></td>
+                                <td><img src='<?php echo $product['image']; ?>' width='50' alt='<?php echo $product['name']; ?>'></td>
+                                <td><?php echo $product['name']; ?></td>
+                                <td><?php echo $product['barcode']; ?></td>
+                                <td>$<?php echo $product['price']; ?></td>
+                                <td><?php echo $product['quantity']; ?></td>
+                                <td><?php echo $product['stock']; ?></td>
+                                <td><?php echo $product['created_at']; ?></td>
                                 <td>
                                     <form action='/product/delete' method='POST'>
                                         <input type='hidden' name='index' value='<?php echo $index; ?>'>
@@ -78,13 +78,5 @@ foreach ($order as $item) {
             </form>
         </div>
     </div>
-
-    <script>
-        // Check if there's an error message in the session
-        <?php if (isset($_SESSION['error'])): ?>
-            alert("<?php echo $_SESSION['error']; ?>");
-            <?php unset($_SESSION['error']); // Clear the error after displaying ?>
-        <?php endif; ?>
-    </script>
 </div>
 <script src="/views/assets/js/order-summary.js"></script>

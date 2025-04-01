@@ -190,143 +190,161 @@ class ProductScanController
     }
 
     public function printReceipt(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['checkout']) || empty($_SESSION['order'])) {
-            $_SESSION['error'] = "Invalid checkout request";
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $_SESSION['error'] = "Invalid request method";
+        header("Location: /order");
+        exit();
+    }
+
+    $isPrintReceipt = isset($_POST['print_receipt']);
+    $isCompleteOrder = isset($_POST['complete_order']);
+
+    if (!$isPrintReceipt && !$isCompleteOrder) {
+        $_SESSION['error'] = "No valid action specified";
+        header("Location: /order");
+        exit();
+    }
+
+    try {
+        // Log incoming data
+        error_log("POST data: " . print_r($_POST, true));
+        error_log("Session order: " . print_r($_SESSION['order'], true));
+
+        // Prevent re-processing on refresh
+        if ($isPrintReceipt && isset($_SESSION['receipt_printed'])) {
+            unset($_SESSION['receipt_printed']);
             header("Location: /order");
             exit();
         }
 
-        try {
-            $this->db->beginTransaction();
+        $this->db->beginTransaction();
+        $orderId = null;
+        $totalAmount = 0;
+        $subtotal = 0;
+        $discount = 0;
 
-            // Check if customer with this phone number already exists
-            $phone = filter_input(INPUT_POST, 'contactDetails', FILTER_SANITIZE_STRING);
-            $stmt = $this->db->prepare("SELECT id FROM customers WHERE phone = :phone");
-            $stmt->execute([':phone' => $phone]);
-            $existingCustomer = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $customerId = null;
-            $customerEmail = !empty($_POST['customerEmail']) ? filter_input(INPUT_POST, 'customerEmail', FILTER_SANITIZE_EMAIL) : null;
-
-            if ($existingCustomer) {
-                $customerId = $existingCustomer['id'];
-
-                // Check if the provided email is already used by another customer
-                if ($customerEmail) {
-                    $stmt = $this->db->prepare("SELECT id FROM customers WHERE email = :email AND id != :id");
-                    $stmt->execute([
-                        ':email' => $customerEmail,
-                        ':id' => $customerId
-                    ]);
-                    $emailOwner = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    if ($emailOwner) {
-                        // Email is already used by another customer, use that customer instead
-                        $customerId = $emailOwner['id'];
-                    } else {
-                        // Update the email for the current customer
-                        $stmt = $this->db->prepare("UPDATE customers SET email = :email WHERE id = :id");
-                        $stmt->execute([
-                            ':email' => $customerEmail,
-                            ':id' => $customerId
-                        ]);
-                    }
-                }
-            } else {
-                // Check if the email already exists (for new customer)
-                if ($customerEmail) {
-                    $stmt = $this->db->prepare("SELECT id FROM customers WHERE email = :email");
-                    $stmt->execute([':email' => $customerEmail]);
-                    $emailOwner = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    if ($emailOwner) {
-                        // Email exists, use that customer
-                        $customerId = $emailOwner['id'];
-                    } else {
-                        // Insert new customer
-                        $stmt = $this->db->prepare("INSERT INTO customers (name, phone, email) VALUES (:name, :phone, :email)");
-                        $stmt->execute([
-                            ':name' => filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING),
-                            ':phone' => $phone,
-                            ':email' => $customerEmail
-                        ]);
-                        $customerId = $this->db->lastInsertId();
-                    }
-                } else {
-                    // No email provided, insert new customer
-                    $stmt = $this->db->prepare("INSERT INTO customers (name, phone, email) VALUES (:name, :phone, :email)");
-                    $stmt->execute([
-                        ':name' => filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING),
-                        ':phone' => $phone,
-                        ':email' => null
-                    ]);
-                    $customerId = $this->db->lastInsertId();
-                }
+        if ($isCompleteOrder) {
+            if (empty($_SESSION['order'])) {
+                $_SESSION['error'] = "No items in order";
+                error_log("No items in order");
+                header("Location: /order");
+                exit();
             }
 
-            // Calculate totals
-            $subtotal = array_sum(array_map(
-                fn($item) => $item['price'] * $item['quantity'],
-                $_SESSION['order']
-            ));
-            $stmt = $this->db->prepare("SELECT tax_rate FROM tax_config WHERE tax_name = 'VAT'");
-            $stmt->execute();
-            $taxRate = $stmt->fetchColumn() / 100 ?: 0.15; // Default to 15% if not found
-            $tax = $subtotal * $taxRate;
+            // Process customer
+            $phone = filter_input(INPUT_POST, 'contactDetails', FILTER_SANITIZE_STRING);
+            $customerName = filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING) ?: 'Unknown';
+            if (!$phone) {
+                throw new Exception("Contact details are required");
+            }
+
+            $stmt = $this->db->prepare("SELECT id FROM customers WHERE phone = :phone");
+            $stmt->execute([':phone' => $phone]);
+            $customerId = $stmt->fetchColumn();
+
+            if (!$customerId) {
+                $stmt = $this->db->prepare("INSERT INTO customers (name, phone) VALUES (:name, :phone)");
+                $stmt->execute([
+                    ':name' => $customerName,
+                    ':phone' => $phone
+                ]);
+                $customerId = $this->db->lastInsertId();
+                error_log("New customer inserted with ID: $customerId");
+            } else {
+                error_log("Existing customer found with ID: $customerId");
+            }
+
+            // Calculate totals (convert price from VARCHAR to float)
+            $subtotal = array_sum(array_map(function ($item) {
+                return (float)$item['price'] * $item['quantity'];
+            }, $_SESSION['order']));
             $discountRate = 0.06;
             $discount = $subtotal * $discountRate;
-            $totalAmount = $subtotal + $tax - $discount;
+            $totalAmount = $subtotal - $discount;
 
             // Insert order
             $stmt = $this->db->prepare("INSERT INTO orders (user_id, customer_id, total_amount, payment_status) VALUES (:user_id, :customer_id, :total, 'paid')");
             $stmt->execute([
-                ':user_id' => $_SESSION['user_id'] ?? 1, // Fallback user_id if not set
+                ':user_id' => $_SESSION['user_id'] ?? 1,
                 ':customer_id' => $customerId,
                 ':total' => $totalAmount
             ]);
             $orderId = $this->db->lastInsertId();
+            error_log("Order inserted with ID: $orderId");
 
             // Insert order items and update stock
             foreach ($_SESSION['order'] as $item) {
-                // Insert order item
+                $price = (float)$item['price']; // Convert VARCHAR to float
                 $stmt = $this->db->prepare("INSERT INTO order_items (order_id, product_id, quantity, unit_price, total_price) VALUES (:order_id, :product_id, :quantity, :unit_price, :total_price)");
                 $stmt->execute([
                     ':order_id' => $orderId,
                     ':product_id' => $item['id'],
                     ':quantity' => $item['quantity'],
-                    ':unit_price' => $item['price'],
-                    ':total_price' => $item['price'] * $item['quantity']
+                    ':unit_price' => $price,
+                    ':total_price' => $price * $item['quantity']
                 ]);
+                error_log("Order item inserted for product ID: {$item['id']}");
 
                 // Update stock
-                $this->productModel->updateStock($item['barcode'], $item['quantity']);
-
-                // Log inventory transaction
-                $stmt = $this->db->prepare("INSERT INTO inventory_transactions (product_id, change_type, quantity) VALUES (:product_id, 'sale', :quantity)");
-                $stmt->execute([
-                    ':product_id' => $item['id'],
-                    ':quantity' => $item['quantity']
-                ]);
+                $newStock = $this->productModel->updateStock($item['barcode'], $item['quantity']);
+                if ($newStock === false) {
+                    throw new Exception("Failed to update stock for barcode: {$item['barcode']}");
+                }
             }
 
-            // Insert payment
-            $paymentMethod = filter_input(INPUT_POST, 'paymentMethod', FILTER_SANITIZE_STRING);
+            // Insert payment (validate payment_method)
+            $paymentMethod = filter_input(INPUT_POST, 'paymentMethod', FILTER_SANITIZE_STRING) ?: 'cash';
+            $validMethods = ['cash', 'card', 'digital_wallet'];
+            if (!in_array($paymentMethod, $validMethods)) {
+                throw new Exception("Invalid payment method: $paymentMethod");
+            }
             $stmt = $this->db->prepare("INSERT INTO payments (order_id, payment_method, amount) VALUES (:order_id, :method, :amount)");
             $stmt->execute([
                 ':order_id' => $orderId,
                 ':method' => $paymentMethod,
                 ':amount' => $totalAmount
             ]);
+            error_log("Payment inserted for order ID: $orderId");
 
             $this->db->commit();
+            error_log("Transaction committed successfully");
+        }
 
-            // Generate PDF receipt
+        // Handle printing
+        if ($isPrintReceipt || $isCompleteOrder) {
+            if (empty($_SESSION['order']) && $isPrintReceipt) {
+                $stmt = $this->db->prepare("SELECT id, total_amount FROM orders WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 1");
+                $stmt->execute([':user_id' => $_SESSION['user_id'] ?? 1]);
+                $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$order) {
+                    $_SESSION['error'] = "No recent order found to print";
+                    header("Location: /order");
+                    exit();
+                }
+
+                $orderId = $order['id'];
+                $totalAmount = $order['total_amount'];
+                $stmt = $this->db->prepare("SELECT p.name, p.price, oi.quantity FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = :order_id");
+                $stmt->execute([':order_id' => $orderId]);
+                $_SESSION['order'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                error_log("Fetched latest order ID: $orderId for printing");
+            }
+
+            $subtotal = array_sum(array_map(function ($item) {
+                return (float)$item['price'] * $item['quantity'];
+            }, $_SESSION['order']));
+            $discountRate = 0.06;
+            $discount = $subtotal * $discountRate;
+            $totalAmount = $subtotal - $discount;
+            $orderId = $orderId ?? time();
+
+            // Generate PDF
             $pdf = new FPDF('P', 'mm', 'A4');
             $pdf->AddPage();
             $pdf->SetAutoPageBreak(true, 10);
 
-            // Header
             $pdf->SetFont('Arial', 'B', 16);
             $pdf->Cell(0, 10, 'SREYTOCH SHOP', 0, 1, 'C');
             $pdf->SetFont('Arial', '', 10);
@@ -334,7 +352,6 @@ class ProductScanController
             $pdf->Cell(0, 6, 'Tel: (+855) 16 872 177', 0, 1, 'C');
             $pdf->Cell(0, 6, 'Email: sreytoch@gmail.com', 0, 1, 'C');
 
-            // Receipt Info
             $pdf->Ln(5);
             $pdf->SetFont('Arial', 'B', 14);
             $pdf->SetTextColor(255, 0, 0);
@@ -344,7 +361,6 @@ class ProductScanController
             $pdf->Cell(0, 6, 'Date: ' . date('F d, Y H:i:s'), 0, 1, 'C');
             $pdf->Cell(0, 6, 'Order #: ' . $orderId, 0, 1, 'C');
 
-            // Customer Info
             $pdf->Ln(5);
             $pdf->SetFont('Arial', 'B', 11);
             $pdf->Cell(0, 8, 'Customer Information', 0, 1);
@@ -356,7 +372,6 @@ class ProductScanController
             $pdf->Cell(50, 6, 'Shipping Address:', 0, 0);
             $pdf->MultiCell(0, 6, filter_input(INPUT_POST, 'shippingAddress', FILTER_SANITIZE_STRING));
 
-            // Order Details
             $pdf->Ln(5);
             $pdf->SetFont('Arial', 'B', 11);
             $pdf->Cell(0, 8, 'Order Details', 0, 1);
@@ -369,19 +384,17 @@ class ProductScanController
 
             $pdf->SetFont('Arial', '', 10);
             foreach ($_SESSION['order'] as $item) {
+                $price = (float)$item['price'];
                 $pdf->Cell(80, 7, $item['name'], 1, 0, 'L');
-                $pdf->Cell(30, 7, '$' . number_format($item['price'], 2), 1, 0, 'R');
+                $pdf->Cell(30, 7, '$' . number_format($price, 2), 1, 0, 'R');
                 $pdf->Cell(20, 7, $item['quantity'], 1, 0, 'C');
-                $pdf->Cell(40, 7, '$' . number_format($item['price'] * $item['quantity'], 2), 1, 1, 'R');
+                $pdf->Cell(40, 7, '$' . number_format($price * $item['quantity'], 2), 1, 1, 'R');
             }
 
-            // Totals
             $pdf->Ln(5);
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(130, 7, 'Subtotal:', 0, 0, 'R');
             $pdf->Cell(40, 7, '$' . number_format($subtotal, 2), 0, 1, 'R');
-            $pdf->Cell(130, 7, 'Tax VAT (' . ($taxRate * 100) . '%):', 0, 0, 'R');
-            $pdf->Cell(40, 7, '$' . number_format($tax, 2), 0, 1, 'R');
             $pdf->Cell(130, 7, 'Discount (6%):', 0, 0, 'R');
             $pdf->Cell(40, 7, '-$' . number_format($discount, 2), 0, 1, 'R');
             $pdf->SetFont('Arial', 'B', 12);
@@ -391,93 +404,54 @@ class ProductScanController
             $pdf->Cell(40, 10, '$' . number_format($totalAmount, 2), 'T', 1, 'R', true);
             $pdf->SetTextColor(0, 0, 0);
 
-            // Payment Method
             $pdf->Ln(5);
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(0, 7, 'Payment Method: ' . ucfirst($paymentMethod), 0, 1);
 
-            // Footer
             $pdf->Ln(10);
             $pdf->SetFont('Arial', 'I', 10);
             $pdf->Cell(0, 6, 'Thank you for shopping with us!', 0, 1, 'C');
 
-            // Ensure the temp directory exists
             $tempDir = __DIR__ . '/../../temp';
             if (!is_dir($tempDir)) {
                 mkdir($tempDir, 0755, true);
             }
-
             $tempFile = $tempDir . '/receipt_' . $orderId . '.pdf';
             $pdf->Output('F', $tempFile);
 
-            // Handle receipt delivery based on user choice
-            $receiptDelivery = $_POST['receiptDelivery'] ?? 'print';
-            if ($receiptDelivery === 'email') {
-                if (empty($customerEmail) || !filter_var($customerEmail, FILTER_VALIDATE_EMAIL)) {
-                    unlink($tempFile);
-                    $_SESSION['error'] = "A valid email address is required for email delivery.";
-                    header("Location: /views/order/checkout.php");
-                    exit();
-                }
+            ob_clean();
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename="receipt_' . $orderId . '.pdf"');
+            readfile($tempFile);
+            unlink($tempFile);
 
-                // Send email with receipt
-                // $mail = new PHPMailer(true);
-                // try {
-                //     // Server settings
-                //     $mail->isSMTP();
-                //     $mail->Host = 'smtp.gmail.com'; // Replace with your SMTP server
-                //     $mail->SMTPAuth = true;
-                //     $mail->Username = 'your-email@gmail.com'; // Replace with your email
-                //     $mail->Password = 'your-app-password'; // Replace with your app password
-                //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                //     $mail->Port = 587;
+            // Clear products after printing
+            unset($_SESSION['order']);
+            error_log("Order cleared from session");
 
-                //     // Recipients
-                //     $mail->setFrom('your-email@gmail.com', 'Sreytoch Shop');
-                //     $mail->addAddress($customerEmail);
-
-                //     // Attachments
-                //     $mail->addAttachment($tempFile, 'receipt_' . $orderId . '.pdf');
-
-                //     // Content
-                //     $mail->isHTML(true);
-                //     $mail->Subject = 'Your Order Receipt - Order #' . $orderId;
-                //     $mail->Body = 'Dear ' . filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING) . ',<br><br>Thank you for your purchase at Sreytoch Shop! Please find your receipt attached.<br><br>Best regards,<br>Sreytoch Shop Team';
-                //     $mail->AltBody = 'Dear ' . filter_input(INPUT_POST, 'customerName', FILTER_SANITIZE_STRING) . ",\n\nThank you for your purchase at Sreytoch Shop! Please find your receipt attached.\n\nBest regards,\nSreytoch Shop Team";
-
-                //     $mail->send();
-                //     $_SESSION['success'] = "Receipt has been emailed to $customerEmail.";
-                // } catch (Exception $e) {
-                //     unlink($tempFile);
-                //     $_SESSION['error'] = "Failed to send email. Error: " . $mail->ErrorInfo;
-                //     header("Location: /views/order/checkout.php");
-                //     exit();
-                // }
-
-                // Clean up the temp file
-                // unlink($tempFile);
-            } else {
-                // Print the receipt
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: inline; filename="receipt_' . $orderId . '.pdf"');
-                readfile($tempFile);
-                echo '<script>window.print(); setTimeout(() => window.location.href = "/order", 1000);</script>';
-
-                // Clean up the temp file
-                unlink($tempFile);
+            if ($isPrintReceipt) {
+                $_SESSION['receipt_printed'] = true;
             }
 
-            // Clean up session data
-            unset($_SESSION['order']);
-            unset($_SESSION['product']);
-            exit();
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            $_SESSION['error'] = "Checkout error: " . $e->getMessage();
-            header("Location: /order");
+            echo '<script>
+                window.print();
+                setTimeout(() => {
+                    window.location.href = "/order";
+                }, 1000);
+            </script>';
             exit();
         }
+    } catch (Exception $e) {
+        $this->db->rollBack();
+        $_SESSION['error'] = "Error: " . $e->getMessage();
+        error_log("Database error: " . $e->getMessage());
+        header("Location: /order");
+        exit();
     }
+
+    header("Location: /order");
+    exit();
+}
 
     // Helper method to draw a circle (not natively supported by FPDF)
     function Circle($pdf, $x, $y, $r, $style = 'D')
