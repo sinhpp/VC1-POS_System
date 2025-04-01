@@ -1,19 +1,16 @@
 <?php
-require_once __DIR__ .'../../layout.php';
-$error = $error ?? '';
-$order = $order ?? ($_SESSION['order'] ?? []);
+require_once __DIR__ . '../../layout.php';
 $error = $error ?? '';
 $order = $order ?? ($_SESSION['order'] ?? []);
 $totalPrice = 0; // Initialize total price
 foreach ($order as $item) {
     $totalPrice += $item['price'] * $item['quantity']; // Sum up item totals
 }
-
 ?>
 
 <link rel="stylesheet" href="/views/assets/css/order-summary.css">
 
-<div class="container-order ">
+<div class="container-order">
     <div class="row">
         <!-- Product Scanner Section -->
         <div class="col-md-4">
@@ -25,36 +22,13 @@ foreach ($order as $item) {
                 </form>
                 <div id="productDetails" class="mt-3">
                     <?php
-                    if (isset($_SESSION['product'])) {
-                        $product = $_SESSION['product'];
-                        echo "
-                                <div class='card product-card'>
-                                    <img src='{$product['image']}' class='card-img-top' alt='{$product['name']}' width='30px'>
-                                    <div class='card-body'>
-                                        <h5 class='card-title'>{$product['name']}</h5>
-                                        <p class='card-text'>Barcode: {$product['barcode']}</p>
-                                        <p class='card-text'>Price: \${$product['price']}</p>
-                                        <p class='card-text'>Stock: {$product['stock']}</p>
-                                        <p class='card-text'>Category: {$product['category']}</p>
-                                        <p class='card-text'>Created At: {$product['created_at']}</p>
-                                        <form action='/order/add' method='POST'>
-                                            <input type='hidden' name='barcode' value='{$product['barcode']}'>
-                                            <button type='submit' name='add' class='btn btn-success'>Add to Order</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            ";
-                        unset($_SESSION['product']);
-                    } elseif (isset($_SESSION['error'])) {
+                    // Removed product details display
+                    if (isset($_SESSION['error'])) {
                         echo "<p class='text-danger'>{$_SESSION['error']}</p>";
                         unset($_SESSION['error']);
-                    } else {
-                        echo "<p>Scan a barcode to see product details.</p>";
                     }
                     ?>
-                    <?php if (!empty($error)): ?>
-                        <div class="alert alert-danger"><?php echo $error; ?></div>
-                    <?php endif; ?>
+                    <p>Scan a barcode to see product details.</p>
                 </div>
             </div>
         </div>
@@ -97,7 +71,6 @@ foreach ($order as $item) {
                     </tbody>
                 </table>
             </div>
-            <!-- Rest of the HTML -->
             <form action="/views/order/checkout.php" method="POST" class="mt-3">
                 <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
                 <input type="hidden" name="totalPrice" value="<?php echo $totalPrice; ?>">
@@ -105,5 +78,13 @@ foreach ($order as $item) {
             </form>
         </div>
     </div>
+
+    <script>
+        // Check if there's an error message in the session
+        <?php if (isset($_SESSION['error'])): ?>
+            alert("<?php echo $_SESSION['error']; ?>");
+            <?php unset($_SESSION['error']); // Clear the error after displaying ?>
+        <?php endif; ?>
+    </script>
 </div>
-<script src="/views//assets/js/order-summary.js"></script>
+<script src="/views/assets/js/order-summary.js"></script>
