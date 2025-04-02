@@ -107,7 +107,7 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    width: 600px !important;
     max-width: 90%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
