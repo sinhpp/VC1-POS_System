@@ -1,6 +1,10 @@
 <?php
 require_once 'Controllers/OrderControllers.php';
-
+function getOrderHistory() {
+    global $conn;
+    $query = "SELECT * FROM orders ORDER BY create_at DESC";
+    return $conn->query($query);
+}
 $orders = Order::getAllOrders();
 ?>
 
