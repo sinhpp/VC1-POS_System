@@ -58,8 +58,11 @@ $showMore = $totalItems > $itemsPerPage;
                     <div class="btn-submit">
                         <button type="submit" name="print_receipt" class="btn-print">Order Completed</button>
                         <button type="submit" name="complete_order" class="btn-order">Print Receipt</button>
-
                     </div>
+                    <!-- <div class="button">
+                        <button type="submit" name="print_receipt" class="btn-print">Print Receipt</button>
+                        <button type="button" name="complete_order" class="btn" onclick="completeOrder()">Complete Order</button>
+                    </div> -->
                 </form>
             </div>
 
@@ -116,6 +119,13 @@ $showMore = $totalItems > $itemsPerPage;
             </div>
         </div>
     </div>
+    
+    <script>
+        function completeOrder() {
+            // Redirect to the order list page
+            window.location.href = '/order/order_list'; // Adjust the URL as needed
+        }
+    </script>
     <script src="/views/assets/js/checkout.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -152,3 +162,10 @@ $showMore = $totalItems > $itemsPerPage;
         gap: 10px;
     }
 </style>
+<style>
+    .button {
+        display: flex;
+        gap: 10px;
+    }
+</style>
+</html>
