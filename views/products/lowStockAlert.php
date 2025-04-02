@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Low Stock Alert</title>
+
     <link rel="stylesheet" href="../assets/css/lowStockAlert.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Add Bootstrap CSS for responsive grid -->
@@ -58,12 +53,10 @@
 </head>
 <body>
     <!-- Include the sidebar -->
-    <?php include '../layouts/sidebar.php'; ?>
-    
     <!-- Toggle sidebar button for mobile -->
-    <button class="toggle-sidebar" id="toggleSidebar">
+    <!-- <button class="toggle-sidebar" id="toggleSidebar">
         <i class="fas fa-bars"></i>
-    </button>
+    </button> -->
     
     <div class="main-content">
         <div class="container-fluid">
