@@ -54,7 +54,13 @@ $finalTotal = $totalPrice - $discountAmount;
 
                     <div class="button">
                         <button type="submit" class="btn">Print Receipt</button>
-                        <button type="button" class="btn" onclick="completeOrder()">Complete Order</button>
+                        <form action="/order/store" method="POST" class="mt-3">
+    <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
+    <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($_SESSION['order'])); ?>">
+    <input type="hidden" name="action" value="store"> <!-- Hidden field for action -->
+    <button type="submit" class="btn btn-info">Complete Order</button>
+</form>
+
                     </div>
                 </form>
             </div>

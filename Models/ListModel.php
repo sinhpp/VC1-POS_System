@@ -24,40 +24,31 @@ class ListModel {
         return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function storeOrder($customer_id, $total_amount, $orderItems) {
-        $this->db->beginTransaction();
-        try {
-            $query = "INSERT INTO orders (customer_id, total_amount, payment_status, created_at)
-                      VALUES (:customer_id, :total_amount, 'pending', NOW())";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([
-                ':customer_id' => $customer_id,
-                ':total_amount' => $total_amount
-            ]);
-
-            $orderId = $this->db->lastInsertId();
-
-            $query = "INSERT INTO order_items (order_id, product_id, quantity, price) 
-                      VALUES (:order_id, :product_id, :quantity, :price)";
-            $stmt = $this->db->prepare($query);
-
-            foreach ($orderItems as $item) {
-                $stmt->execute([
-                    ':order_id' => $orderId,
-                    ':product_id' => $item['id'],
-                    ':quantity' => $item['quantity'],
-                    ':price' => $item['price']
-                ]);
+    public function storeOrder() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $customerId = filter_input(INPUT_POST, 'customer_id', FILTER_SANITIZE_NUMBER_INT);
+            $orderItems = json_decode(filter_input(INPUT_POST, 'order'), true); // Decode the order items
+    
+            if (empty($orderItems)) {
+                $_SESSION['error'] = "No items in the order.";
+                header("Location: /order/order_list");
+                exit();
             }
-
-            $this->db->commit();
-            return $orderId;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            throw new Exception("Error saving order: " . $e->getMessage());
+    
+            try {
+                $orderId = $this->orderModel->saveOrder($customerId, $orderItems);
+                $_SESSION['success'] = "Order saved successfully! Order ID: $orderId";
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                $_SESSION['error'] = "Failed to save order: " . $e->getMessage();
+            }
+        } else {
+            $_SESSION['error'] = "Invalid order data.";
         }
+    
+        header("Location: /order/order_list");
+        exit();
     }
-
     public function deleteOrder($order_id) {
         $query = "DELETE FROM orders WHERE id = :order_id";
         $stmt = $this->db->prepare($query);

@@ -57,11 +57,8 @@ $route->post("/product/delete", [ProductScanController::class, 'delete']); // Al
 $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 
 $route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
-$route->post("/order/store", [OrderListController::class, 'store']); // ✅ Add this!
+$route->post("/order/store", [OrderListController::class, 'storeOrder']); // ✅ Add this!
 $route->post("/order/delete", [OrderListController::class, 'delete']);
-
-
-
 
 
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
