@@ -259,9 +259,9 @@ class ProductScanController
             $subtotal = array_sum(array_map(function ($item) {
                 return (float)$item['price'] * $item['quantity'];
             }, $_SESSION['order']));
-            $discountRate = 0.06;
-            $discount = $subtotal * $discountRate;
-            $totalAmount = $subtotal - $discount;
+            // $discountRate = 0.06;
+            // $discount = $subtotal * $discountRate;
+            // $totalAmount = $subtotal - $discount;
 
             // Insert order
             $stmt = $this->db->prepare("INSERT INTO orders (user_id, customer_id, total_amount, payment_status) VALUES (:user_id, :customer_id, :total, 'paid')");
@@ -335,9 +335,9 @@ class ProductScanController
             $subtotal = array_sum(array_map(function ($item) {
                 return (float)$item['price'] * $item['quantity'];
             }, $_SESSION['order']));
-            $discountRate = 0.06;
-            $discount = $subtotal * $discountRate;
-            $totalAmount = $subtotal - $discount;
+            // $discountRate = 0.06;
+            // $discount = $subtotal * $discountRate;
+            // $totalAmount = $subtotal - $discount;
             $orderId = $orderId ?? time();
 
             // Generate PDF
@@ -395,13 +395,13 @@ class ProductScanController
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(130, 7, 'Subtotal:', 0, 0, 'R');
             $pdf->Cell(40, 7, '$' . number_format($subtotal, 2), 0, 1, 'R');
-            $pdf->Cell(130, 7, 'Discount (6%):', 0, 0, 'R');
-            $pdf->Cell(40, 7, '-$' . number_format($discount, 2), 0, 1, 'R');
+            // $pdf->Cell(130, 7, 'Discount (6%):', 0, 0, 'R');
+            // $pdf->Cell(40, 7, '-$' . number_format($discount, 2), 0, 1, 'R');
             $pdf->SetFont('Arial', 'B', 12);
             $pdf->SetFillColor(255, 0, 0);
             $pdf->SetTextColor(255, 255, 255);
             $pdf->Cell(130, 10, 'Total Amount:', 'T', 0, 'R', true);
-            $pdf->Cell(40, 10, '$' . number_format($totalAmount, 2), 'T', 1, 'R', true);
+            $pdf->Cell(40, 10, '$' . number_format($subtotal, 2), 'T', 1, 'R', true);
             $pdf->SetTextColor(0, 0, 0);
 
             $pdf->Ln(5);
