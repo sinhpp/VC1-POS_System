@@ -1,12 +1,19 @@
 <?php
 // Router.php (updated)
-require_once '../Controllers/OrderControllers.php'; // Ensure this is at the top
+
+// Include necessary controller files (assuming they are in the '../Controllers/' directory)
 require_once dirname(__DIR__) . '/Controllers/OrderController.php';
+require_once dirname(__DIR__) . '/Controllers/DashboardController.php';
+require_once dirname(__DIR__) . '/Controllers/FormController.php';
+require_once dirname(__DIR__) . '/Controllers/UserController.php';
+require_once dirname(__DIR__) . '/Controllers/ProductController.php';
+require_once dirname(__DIR__) . '/Controllers/ProductScanController.php';
+require_once dirname(__DIR__) . '/Controllers/ProductCashierController.php';
 
+// Instantiate the Router class correctly
+$route = new Router();
 
-$route = new $router();
-
-// Welcome
+// Welcome Routes
 $route->get("/dashboard", [DashboardController::class, 'show']);
 $route->get("/", [FormController::class, 'form']); // Homepage
 
@@ -34,13 +41,14 @@ $route->post("/products/delete_all", [ProductController::class, 'deleteAllProduc
 // Order Routes (Unified)
 $route->get("/order", [ProductScanController::class, 'index']);
 $route->post("/order/add", [ProductScanController::class, 'add']);
-$route->get("/order/checkout", [OrderController::class, 'checkout']); // Use OrderController
+$route->get("/order/checkout", [OrderController::class, 'checkout']);
 $route->post("/order/process-checkout", [ProductScanController::class, 'processCheckout']);
 $route->post("/order/scan", [ProductScanController::class, 'scan']);
 $route->post("/order/delete", [ProductScanController::class, 'delete']);
 $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 
-// Product Cashier
+// Product Cashier Route
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
+// Execute the routing
 $route->route();
