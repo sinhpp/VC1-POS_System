@@ -6168,21 +6168,21 @@ textarea.form-control {
 
 .bg-success {
   --bs-bg-opacity: 1;
-  background: linear-gradient(to right, rgb(127, 0, 255), rgb(225, 0, 255));
+  background: linear-gradient(to right, #6610f2, #6610f2);
 }
 
 .bg-info {
   --bs-bg-opacity: 1;
-  background: linear-gradient(to right, rgb(142, 45, 226), rgb(74, 0, 224)); }
+  background: linear-gradient(to right, #6610f2, #6610f2); }
 
 .bg-warning {
   --bs-bg-opacity: 1;
-  background: linear-gradient(to right, rgb(142, 45, 226), rgb(74, 0, 224));
+  background: linear-gradient(to right, #6610f2, #6610f2);
 }
 
 .bg-danger {
   --bs-bg-opacity: 1;
-  background: linear-gradient(to right, rgb(142, 45, 226), rgb(74, 0, 224)); }
+  background: linear-gradient(to right, #6610f2, #6610f2); }
 
 .bg-light {
   --bs-bg-opacity: 1;
@@ -8851,7 +8851,8 @@ label {
   background-color: var(--nav-headbg);
   transition: all .2s ease;
   z-index: 5; 
-  box-shadow: 4px 4px 8px rgb(189 200 213), -4px -4px 8px rgb(255 255 255);
+  box-shadow: 0 0 20px rgba(102, 16, 242, 0.15);
+  border-radius: 1rem;
 }
   .nav-header .logo-abbr {
     max-width: 47px; }
@@ -9316,21 +9317,23 @@ svg.pulse-svg {
       .header-right .notification_dropdown .nav-link svg {
         width: 24px;
         height: 24px; } }
-    .header-right .notification_dropdown .nav-link .badge {
-      position: absolute;
-      font-size: 0.625rem;
-      border-radius: 50%;
-      right: 0;
-      top: 0;
-      border: 2px solid #e8eaec;
-      font-weight: normal;
-      height: 30px;
-      width: 30px;
-      line-height: 18px;
-      text-align: center;
-      padding: 5px;
-      font-size: 14px; 
-      box-shadow: 4px 4px 8px rgb(189 200 213), -4px -4px 8px rgb(255 255 255);
+.header-right .notification_dropdown .nav-link .badge {
+  position: absolute;
+  font-size: 0.625rem;
+  border-radius: 50%;
+  right: 0;
+  top: 0;
+  border: 2px solid #e8eaec;
+  font-weight: normal;
+  height: 30px;
+  width: 30px;
+  line-height: 18px;
+  text-align: center;
+  padding: 5px;
+  font-size: 14px; 
+  box-shadow: 0 0 15px rgba(102, 16, 242, 0.2);
+  background: #6610f2;
+  color: #fff;
 }
       @media only screen and (max-width: 1400px) {
         .header-right .notification_dropdown .nav-link .badge {
@@ -9350,10 +9353,11 @@ svg.pulse-svg {
     box-shadow: 0 0 37px rgba(8, 21, 66, 0.05); }
     [data-theme-version="dark"] .header-right .dropdown-menu {
       box-shadow: none; }
-  .header-right .search-area {
-    width: 340px; 
-    box-shadow: 4px 4px 8px rgb(189 200 213), -4px -4px 8px rgb(255 255 255);
-    border-radius: 40px;
+.header-right .search-area {
+  width: 340px; 
+  box-shadow: 0 0 20px rgba(102, 16, 242, 0.1);
+  border-radius: 40px;
+  border: 1px solid rgba(102, 16, 242, 0.1);
 }
     .header-right .search-area .form-control {
       height: 56px;
