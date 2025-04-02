@@ -1,56 +1,55 @@
 <?php
 require_once __DIR__ . '/../Database/Database.php';
 
-class OrderModel {
+class ListModel {
     private $db;
 
     public function __construct() {
         $this->db = Database::getInstance();
     }
 
-    public function saveOrder($customerName, $contactDetails, $totalPrice, $orderItems) {
+    public function getOrders() {
+        $query = "
+            SELECT 
+                orders.id, 
+                orders.customer_id,
+                customers.name AS customer_name, 
+                orders.total_amount, 
+                orders.payment_status, 
+                orders.created_at
+            FROM orders
+            LEFT JOIN customers ON orders.customer_id = customers.id
+            ORDER BY orders.created_at DESC";
+        
+        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function storeOrder($customer_id, $total_amount, $orderItems) {
         $this->db->beginTransaction();
         try {
-            // Insert order details into the orders table
-            $query = "INSERT INTO orders (customer_name, contact_details, total_price, status)
-                      VALUES (:customer_name, :contact_details, :total_price, 'Pending')";
+            $query = "INSERT INTO orders (customer_id, total_amount, payment_status, created_at)
+                      VALUES (:customer_id, :total_amount, 'pending', NOW())";
             $stmt = $this->db->prepare($query);
             $stmt->execute([
-                ':customer_name' => $customerName,
-                ':contact_details' => $contactDetails,
-                ':total_price' => $totalPrice
+                ':customer_id' => $customer_id,
+                ':total_amount' => $total_amount
             ]);
-
+    
             $orderId = $this->db->lastInsertId();
-
-            // Prepare to insert order items
-            $query = "INSERT INTO order_items (order_id, product_id, quantity, unit_price, total_price) VALUES (:order_id, :product_id, :quantity, :unit_price, :total_price)";
+    
+            $query = "INSERT INTO order_items (order_id, product_id, quantity, price) 
+                      VALUES (:order_id, :product_id, :quantity, :price)";
             $stmt = $this->db->prepare($query);
-            $stockQuery = "UPDATE products SET stock = stock - :quantity WHERE id = :product_id AND stock >= :quantity";
-            $stockStmt = $this->db->prepare($stockQuery);
-
-            // Loop through each order item
+    
             foreach ($orderItems as $item) {
-                // Insert the order item
                 $stmt->execute([
                     ':order_id' => $orderId,
                     ':product_id' => $item['id'],
                     ':quantity' => $item['quantity'],
-                    ':unit_price' => $item['price'],
-                    ':total_price' => $item['price'] * $item['quantity']
+                    ':price' => $item['price']
                 ]);
-
-                // Update product stock
-                $stockStmt->execute([
-                    ':quantity' => $item['quantity'],
-                    ':product_id' => $item['id']
-                ]);
-                
-                if ($stockStmt->rowCount() == 0) {
-                    throw new Exception("Insufficient stock for product ID: " . $item['id']);
-                }
             }
-
+    
             $this->db->commit();
             return $orderId;
         } catch (Exception $e) {
@@ -58,4 +57,10 @@ class OrderModel {
             throw new Exception("Error saving order: " . $e->getMessage());
         }
     }
+    public function deleteOrder($order_id) {
+        $query = "DELETE FROM orders WHERE id = :order_id";
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute([':order_id' => $order_id]);
+    }
 }
+?>

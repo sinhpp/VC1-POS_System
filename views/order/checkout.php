@@ -10,25 +10,27 @@ $order = isset($_POST['order']) ? json_decode($_POST['order'], true) : [];
 $discountRate = 0.06; // 6% discount
 $discountAmount = $totalPrice * $discountRate;
 $finalTotal = $totalPrice - $discountAmount;
+
+// Define how many items to show initially
+$itemsPerPage = 1;
+$totalItems = count($order);
+$showMore = $totalItems > $itemsPerPage;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="/views/assets/css/checkout.css">
 </head>
-
 <body>
     <div class="container-checkout">
         <div class="checkout">
             <div class="payment-form">
                 <h2>Payment Method</h2>
                 <form method="POST" action="/order/print-receipt">
-                    <input type="hidden" name="checkout" value="1">
                     <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
                     <input type="hidden" name="totalPrice" value="<?php echo $finalTotal; ?>">
 
@@ -51,15 +53,14 @@ $finalTotal = $totalPrice - $discountAmount;
                         <option value="card">Card (Mastercard/Visa)</option>
                         <option value="digital_wallet">Digital Wallet</option>
                     </select>
-
-                    <div class="button">
-                        <button type="submit" class="btn">Print Receipt</button>
-                        <form action="/order/store" method="POST" class="mt-3">
-    <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
-    <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($_SESSION['order'])); ?>">
-    <input type="hidden" name="action" value="store"> <!-- Hidden field for action -->
-    <button type="submit" class="btn btn-info">Complete Order</button>
-</form>
+                    <div class="btn-submit">
+                    <form action="/order/store" method="POST">
+                        <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
+                        <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($_SESSION['order'])); ?>">
+                        
+                        <button type="submit" name="action" value="store" class="btn-order">Order Completed</button>
+                        <button type="submit" name="action" value="print" class="btn-print">Print Receipt</button>
+                    </form>
 
                     </div>
                 </form>
@@ -71,7 +72,7 @@ $finalTotal = $totalPrice - $discountAmount;
                     <p>No items in your order.</p>
                 <?php else: ?>
                     <div class="order-items">
-                        <?php foreach ($order as $product): ?>
+                        <?php foreach (array_slice($order, 0, $itemsPerPage) as $product): ?>
                             <div class="order-item">
                                 <img src="<?php echo htmlspecialchars($product['image']); ?>"
                                     alt="<?php echo htmlspecialchars($product['name']); ?>">
@@ -79,14 +80,30 @@ $finalTotal = $totalPrice - $discountAmount;
                                     <p><strong><?php echo htmlspecialchars($product['name']); ?></strong></p>
                                     <p>Barcode: <?php echo htmlspecialchars($product['barcode']); ?></p>
                                     <p>Price: $<?php echo htmlspecialchars($product['price']); ?></p>
-                                    <p>Stock: <?php echo htmlspecialchars($product['stock']); ?></p>
-                                    <p>Category: <?php echo htmlspecialchars($product['category']); ?></p>
-                                    <p>Created At: <?php echo htmlspecialchars($product['created_at']); ?></p>
                                     <p>Quantity: <?php echo htmlspecialchars($product['quantity']); ?></p>
                                 </div>
                                 <span>$<?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>
                             </div>
                         <?php endforeach; ?>
+                        <?php foreach (array_slice($order, $itemsPerPage) as $product): ?>
+                            <div class="order-item hidden">
+                                <img src="<?php echo htmlspecialchars($product['image']); ?>"
+                                    alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                <div>
+                                    <p><strong><?php echo htmlspecialchars($product['name']); ?></strong></p>
+                                    <p>Barcode: <?php echo htmlspecialchars($product['barcode']); ?></p>
+                                    <p>Price: $<?php echo htmlspecialchars($product['price']); ?></p>
+                                    <p>Quantity: <?php echo htmlspecialchars($product['quantity']); ?></p>
+                                </div>
+                                <span>$<?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php if ($showMore): ?>
+                            <div class="toggle-buttons mt-2">
+                                <button id="seeMoreBtn" class="btn btn-secondary">See More</button>
+                                <button id="seeLessBtn" class="btn btn-secondary" style="display: none;">See Less</button>
+                            </div>
+                        <?php endif; ?>
                         <hr>
                         <div class="totals">
                             <p>Product Total: <span>$<?php echo number_format($totalPrice, 2); ?></span></p>
@@ -102,19 +119,32 @@ $finalTotal = $totalPrice - $discountAmount;
             </div>
         </div>
     </div>
-    
-    <script>
-        function completeOrder() {
-            // Redirect to the order list page
-            window.location.href = '/order/order_list'; // Adjust the URL as needed
-        }
-    </script>
     <script src="/views/assets/js/checkout.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seeMoreBtn = document.getElementById('seeMoreBtn');
+            const seeLessBtn = document.getElementById('seeLessBtn');
+            const hiddenItems = document.querySelectorAll('.order-item.hidden');
+
+            if (seeMoreBtn && seeLessBtn) {
+                seeMoreBtn.addEventListener('click', function() {
+                    hiddenItems.forEach(item => item.classList.remove('hidden'));
+                    seeMoreBtn.style.display = 'none';
+                    seeLessBtn.style.display = 'inline-block';
+                });
+
+                seeLessBtn.addEventListener('click', function() {
+                    hiddenItems.forEach(item => item.classList.add('hidden'));
+                    seeLessBtn.style.display = 'none';
+                    seeMoreBtn.style.display = 'inline-block';
+                });
+            }
+        });
+    </script>
 </body>
-<style>
-    .button {
-        display: flex;
-        gap: 10px;
-    }
-</style>
 </html>
+
+<style>
+    .hidden { display: none; }
+    .toggle-buttons { display: flex; gap: 10px; }
+</style>
