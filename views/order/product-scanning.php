@@ -78,6 +78,6 @@ foreach ($order as $product) {
             </form>
         </div>
     </div>
-    <script src="/views/assets/js/order-summary.js"></script>
-</body>
-</html>
+    
+</div>
+<script src="/views/assets/js/order-summary.js"></script>
