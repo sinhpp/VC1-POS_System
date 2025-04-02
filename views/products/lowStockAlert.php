@@ -124,6 +124,11 @@
                               <i class="fas fa-filter"></i>
                               <span>Filter</span>
                           </button>
+                          <!-- Add this right after the filter-btn button in the filters container -->
+                          <button id="clear-filters" class="clear-filters-btn">
+                              <i class="fas fa-times"></i>
+                              <span>Clear Filters</span>
+                          </button>
                       </div>
                   </section>
 
@@ -227,7 +232,7 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
       <script src="../assets/js/lowStockAlert.js"></script>
     
-      <!-- Add sidebar toggle functionality -->
+      <!-- Add sidebar toggle toggle -->
       <script>
           $(document).ready(function() {
               // Toggle sidebar on mobile
@@ -261,41 +266,3 @@
       </script>
   </body>
   </html>
-
-  <!-- Add this button somewhere in the view for debugging -->
-<button id="debug-status" style="margin: 10px; padding: 5px 10px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px;">
-    Debug Status Elements
-</button>
-
-<script>
-    document.getElementById('debug-status').addEventListener('click', function() {
-        console.log("=== DEBUG STATUS ELEMENTS ===");
-        
-        // Debug table rows
-        document.querySelectorAll('.table-row').forEach((row, i) => {
-            const statusEl = row.querySelector('.status .status-pill');
-            if (statusEl) {
-                console.log(`Table Row ${i}:`, {
-                    text: statusEl.textContent,
-                    class: statusEl.className,
-                    display: row.style.display
-                });
-            }
-        });
-        
-        // Debug cards
-        document.querySelectorAll('.product-card').forEach((card, i) => {
-            const statusEl = card.querySelector('.status-pill');
-            if (statusEl) {
-                console.log(`Card ${i}:`, {
-                    text: statusEl.textContent,
-                    class: statusEl.className,
-                    display: card.style.display
-                });
-            }
-        });
-        
-        // Debug filter value
-        console.log("Current status filter:", document.getElementById('status').value);
-    });
-</script>
