@@ -50,8 +50,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <?php endif; ?>
                     <h4><?= htmlspecialchars($user['name']) ?></h4>
                     <p class="text-muted"><?= htmlspecialchars($user['role']) ?></p>
-                    <button class="btn btn-primary">Follow</button>
-                    <button class="btn btn-outline-primary">Message</button>
+                   
                 </div>
                 <div class="profile-card mt-3 p-3">
                 <p><strong>Website:</strong> https://bootdey.com</p>
