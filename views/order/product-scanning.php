@@ -7,13 +7,6 @@ foreach ($order as $product) {
     $totalPrice += $product['price'] * $product['quantity'];
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    
-</head>
-<body>
     <div class="container-order">
         <!-- Product Scanner Section -->
         <div class="scanner-section">
@@ -74,10 +67,8 @@ foreach ($order as $product) {
             <form action="/views/order/checkout.php" method="POST" style="margin-top: 15px;">
                 <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
                 <input type="hidden" name="totalPrice" value="<?php echo $totalPrice; ?>">
-                <button type="submit" class="btn btn-info">Proceed to Checkout</button>
+                <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
             </form>
         </div>
     </div>
     <script src="/views/assets/js/order-summary.js"></script>
-</body>
-</html>
