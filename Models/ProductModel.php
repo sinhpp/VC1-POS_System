@@ -110,7 +110,7 @@ class ProductModel {
         ':price' => $price,
         ':stock' => $stock,
         ':category' => $category, 
-        ':size' => $size,
+        ':size' => $size ?? 'N/A',
         ':discount' => $discount,
         ':discount_type' => $discount_type,
         ':descriptions' => $descriptions, 

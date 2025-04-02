@@ -25,50 +25,42 @@ public function detail($id) {
 
   
     public function store() {
-        session_start(); // Start session to store the message
-        var_dump($_POST);
-        // Collecting data from the form
-        $name = $_POST['name'];
-        $barcode = $_POST['barcode'];
-        $price = floatval($_POST['price']);
-        $stock = intval($_POST['stock']);
-        $category = $_POST['category'];
-        $size = $_POST['size'] ?? 'N/A'; // Default to 'N/A' if not provided
-        $discount = floatval($_POST['discount']);
-        $descriptions = $_POST['descriptions'];
-        $gender = $_POST['gender'] ?? 'Unisex'; // Default value if not provided
-        $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
+        session_start();
+        $name = trim($_POST['name'] ?? '');
+        $barcode = trim($_POST['barcode'] ?? '');
+        $price = floatval($_POST['price'] ?? 0);
+        $stock = intval($_POST['stock'] ?? 0);
+        $category = $_POST['category'] ?? '';
+        $size = $_POST['size'] ?? 'N/A';
+        $discount = floatval($_POST['discount'] ?? 0);
+        $discount_type = $_POST['discount_type'] ?? 'percentage'; // Capture from form, default to 'percentage'
+        $descriptions = trim($_POST['descriptions'] ?? '');
+        $gender = $_POST['gender'] ?? 'Unisex';
+        $image = $_FILES['image'] ?? null;
     
-        // Validate price and discount
-        if ($price < 0) {
-            $_SESSION['product_error'] = "Price cannot be negative.";
-            header("Location: /products/create"); // Redirect back to the form
+        // Validation logic (e.g., price, discount, etc.)
+        if ($price < 0 || $discount < 0) {
+            $_SESSION['product_error'] = "Price and discount cannot be negative.";
+            header("Location: /products/create");
             exit();
         }
     
-        if ($discount < 0) {
-            $_SESSION['product_error'] = "Discount cannot be negative.";
-            header("Location: /products/create"); // Redirect back to the form
-            exit();
-        }
-    
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
         if ($id) {
-            // Update the existing product
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $_FILES['image'])) {
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
                 $_SESSION['product_success'] = "Product updated successfully!";
             } else {
                 $_SESSION['product_error'] = "Error updating product.";
             }
         } else {
-            // Create a new product
-            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $_FILES['image'])) {
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
                 $_SESSION['product_success'] = "Product added successfully!";
             } else {
-                $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
+                $_SESSION['product_error'] = "Error: Barcode already exists.";
             }
         }
     
-        header("Location: /products"); // Redirect to products list
+        header("Location: /products");
         exit();
     }
     
@@ -78,30 +70,26 @@ public function detail($id) {
     }
     
     public function update($id) {
-        session_start(); 
-    
-        $name = $_POST['name'];
-        $barcode = $_POST['barcode'];
-        $price = floatval($_POST['price']);
-        $stock = intval($_POST['stock']);
-        $category = $_POST['category'] ?? null;
-        $size = $_POST['size'] ?? null;
+        session_start();
+        $name = trim($_POST['name'] ?? '');
+        $barcode = trim($_POST['barcode'] ?? '');
+        $price = floatval($_POST['price'] ?? 0);
+        $stock = intval($_POST['stock'] ?? 0);
+        $category = $_POST['category'] ?? '';
+        $size = $_POST['size'] ?? 'N/A';
         $discount = floatval($_POST['discount'] ?? 0);
-        $descriptions = $_POST['descriptions'] ?? null;
-        $gender = $_POST['gender'] ?? null;
+        $discount_type = $_POST['discount_type'] ?? 'percentage'; // Capture from form
+        $descriptions = trim($_POST['descriptions'] ?? '');
+        $gender = $_POST['gender'] ?? 'Unisex';
         $image = $_FILES['image'] ?? null;
     
-        // Debugging
-        error_log("Updating product ID: " . $id);
-        error_log("Received category: " . var_export($category, true));
-    
-        if (!$category) {
-            $_SESSION['product_error'] = "Category is missing!";
+        if (empty($category)) {
+            $_SESSION['product_error'] = "Category is required.";
             header("Location: /products/edit/$id");
             exit();
         }
     
-        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $descriptions, $gender, $image)) {
+        if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
             $_SESSION['product_error'] = "Failed to update product.";
