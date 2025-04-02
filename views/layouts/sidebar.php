@@ -78,9 +78,9 @@
         					<span class="nav-text">Order List</span>
         				</a>
         			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
+        			<li><a href="/product/low_stock_alert" aria-expanded="false">
         					<i class="flaticon-050-info"></i>
-        					<span class="nav-text">Reports</span>
+        					<span class="nav-text">LowStockProduct</span>
         				</a>
         			</li>
 					<li><a href="/order" class="ai-icon" aria-expanded="false">
@@ -108,16 +108,6 @@
         			<li><a href="/" aria-expanded="false">
         					<i class="fa-solid fa-right-from-bracket"></i>
         					<span class="nav-text">Logout</span>
-        				</a>
-        			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
-        					<i class="flaticon-043-menu"></i>
-        					<span class="nav-text">Table</span>
-        				</a>
-        			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
-        					<i class="flaticon-022-copy"></i>
-        					<span class="nav-text">Pages</span>
         				</a>
         			</li>
         		</ul>
