@@ -1,7 +1,7 @@
 <?php
 // Router.php (updated)
 
-// Include necessary controller files (assuming they are in the '../Controllers/' directory)
+// Include necessary controller files
 require_once dirname(__DIR__) . '/Controllers/OrderController.php';
 require_once dirname(__DIR__) . '/Controllers/DashboardController.php';
 require_once dirname(__DIR__) . '/Controllers/FormController.php';
@@ -10,8 +10,14 @@ require_once dirname(__DIR__) . '/Controllers/ProductController.php';
 require_once dirname(__DIR__) . '/Controllers/ProductScanController.php';
 require_once dirname(__DIR__) . '/Controllers/ProductCashierController.php';
 
-// Instantiate the Router class correctly
+// Instantiate the Router class
 $route = new Router();
+
+// Define your routes (unchanged)
+$route->get("/dashboard", [DashboardController::class, 'show']);
+$route->get("/", [FormController::class, 'form']);
+// ... (all other routes remain the same)
+$route->route();
 
 // Welcome Routes
 $route->get("/dashboard", [DashboardController::class, 'show']);

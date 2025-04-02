@@ -1,32 +1,26 @@
 <?php
-require_once 'Controllers/OrderControllers.php';
-function getOrderHistory() {
-    global $conn;
-    $query = "SELECT * FROM orders ORDER BY create_at DESC";
-    return $conn->query($query);
-}
-$orders = Order::getAllOrders();
+$orders = getOrderHistory();
+var_dump($orders);
 ?>
-
-<h2>Order History</h2>
-<table border="1">
-    <tr>
-        <th>Order ID</th>
-        <th>User ID</th>
-        <th>Total Amount</th>
-        <th>Status</th>
-        <th>Date</th>
-    </tr>
-    <?php foreach ($orders as $order): ?>
-    <tr>
-        <td><?= $order['id'] ?></td>
-        <td><?= $order['user_id'] ?></td>
-        <td>$<?= $order['total_amount'] ?></td>
-        <td><?= $order['status'] ?></td>
-        <td><?= $order['created_at'] ?></td>
-    </tr>
-    <td>
-    <a href="/invoice/download/<?= $order['id'] ?>">Download Invoice</a>
-    </td>
-    <?php endforeach; ?>
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Customer Name</th>
+            <th>Total</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($orders as $order): ?>
+        <tr>
+            <td>#<?php echo htmlspecialchars($order['id']); ?></td>
+            <td><?php echo htmlspecialchars($order['date']); ?></td>
+            <td><?php echo htmlspecialchars($order['customerName']); ?></td>
+            <td>$<?php echo number_format($order['total'], 2); ?></td>
+            <td><?php echo htmlspecialchars($order['status']); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
