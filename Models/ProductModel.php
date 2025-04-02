@@ -272,11 +272,23 @@ class ProductModel {
 
     public function getLowStockProducts($threshold = 5) {
         try {
-            $query = "SELECT * FROM products WHERE stock <= :threshold ORDER BY stock ASC";
+            // Make sure we're selecting the status field and calculating effective status
+            $query = "SELECT *, 
+                     CASE WHEN stock <= 0 THEN 0 ELSE COALESCE(status, 1) END as effective_status 
+                     FROM products 
+                     WHERE stock <= :threshold 
+                     ORDER BY stock ASC";
+        
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':threshold', $threshold, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            // For debugging
+            error_log("Low stock products: " . json_encode($products));
+        
+            return $products;
         } catch (PDOException $e) {
             error_log("Error fetching low stock products: " . $e->getMessage());
             return [];

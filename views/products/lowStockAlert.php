@@ -154,9 +154,12 @@
                                           <div class="cell quantity"><?= htmlspecialchars($product['stock']) ?></div>
                                           <div class="cell subtract-stock"><?= $product['subtract_stock'] ? 'Yes' : 'No' ?></div>
                                           <div class="cell status">
-                                              <span class="status-pill <?= ($product['stock'] <= 0) ? 'disabled' : ($product['status'] ? 'enabled' : 'disabled') ?>">
-                                                  <?= ($product['stock'] <= 0) ? 'Disabled' : ($product['status'] ? 'Enabled' : 'Disabled') ?>
-                                              </span>
+                                              <?php 
+                                              // Explicitly set status based on stock
+                                              $statusClass = ($product['stock'] <= 0) ? 'disabled' : 'enabled';
+                                              $statusText = ($product['stock'] <= 0) ? 'Disabled' : 'Enabled';
+                                              ?>
+                                              <span class="status-pill <?= $statusClass ?>"><?= $statusText ?></span>
                                           </div>
                                           <div class="cell actions">
                                               <button class="action-btn" data-product-id="<?= $product['id'] ?>">
@@ -193,9 +196,11 @@
                                           </div>
                                           <div class="card-row">
                                               <span class="card-label">Status:</span>
-                                              <span class="status-pill <?= ($product['stock'] <= 0) ? 'disabled' : ($product['status'] ? 'enabled' : 'disabled') ?>">
-                                                  <?= ($product['stock'] <= 0) ? 'Disabled' : ($product['status'] ? 'Enabled' : 'Disabled') ?>
-                                              </span>
+                                              <?php 
+                                              $statusClass = ($product['stock'] <= 0) ? 'disabled' : ($product['status'] ? 'enabled' : 'disabled');
+                                              $statusText = ($product['stock'] <= 0) ? 'Disabled' : ($product['status'] ? 'Enabled' : 'Disabled');
+                                              ?>
+                                              <span class="status-pill <?= $statusClass ?>"><?= $statusText ?></span>
                                           </div>
                                       </div>
                                       <div class="card-footer">
@@ -256,3 +261,41 @@
       </script>
   </body>
   </html>
+
+  <!-- Add this button somewhere in the view for debugging -->
+<button id="debug-status" style="margin: 10px; padding: 5px 10px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px;">
+    Debug Status Elements
+</button>
+
+<script>
+    document.getElementById('debug-status').addEventListener('click', function() {
+        console.log("=== DEBUG STATUS ELEMENTS ===");
+        
+        // Debug table rows
+        document.querySelectorAll('.table-row').forEach((row, i) => {
+            const statusEl = row.querySelector('.status .status-pill');
+            if (statusEl) {
+                console.log(`Table Row ${i}:`, {
+                    text: statusEl.textContent,
+                    class: statusEl.className,
+                    display: row.style.display
+                });
+            }
+        });
+        
+        // Debug cards
+        document.querySelectorAll('.product-card').forEach((card, i) => {
+            const statusEl = card.querySelector('.status-pill');
+            if (statusEl) {
+                console.log(`Card ${i}:`, {
+                    text: statusEl.textContent,
+                    class: statusEl.className,
+                    display: card.style.display
+                });
+            }
+        });
+        
+        // Debug filter value
+        console.log("Current status filter:", document.getElementById('status').value);
+    });
+</script>

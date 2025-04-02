@@ -166,6 +166,19 @@ public function detail($id) {
         // Get low stock products from the model
         $lowStockProducts = $this->products->getLowStockProducts($threshold);
         
+        // Process products to ensure status is correctly set
+        foreach ($lowStockProducts as &$product) {
+            // If stock is 0 or less, force status to disabled
+            if ($product['stock'] <= 0) {
+                $product['status'] = 0;
+            }
+            
+            // Ensure status exists
+            if (!isset($product['status'])) {
+                $product['status'] = 1; // Default to enabled
+            }
+        }
+        
         // Pass the data to the view
         $this->view("products/lowStockAlert", ['products' => $lowStockProducts]);
     }

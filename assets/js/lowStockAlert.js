@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add active class to clicked tab
             this.classList.add('active');
-            
-            // Here you would typically show/hide content based on the selected tab
-            // For now, we're just toggling the active state
         });
     });
     
@@ -39,64 +36,97 @@ document.addEventListener('DOMContentLoaded', function() {
     actionButtons.forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');
-            
-            // Here you would typically show a dropdown menu or take some action
-            console.log('Action clicked for product ID:', productId);
-            
-            // Example: Show a simple alert for demonstration
             alert('Actions for product ID: ' + productId);
         });
     });
     
-    // Add new function to update product status based on quantity
-    function updateProductStatus() {
-        // Get all product rows in table view
-        const tableRows = document.querySelectorAll('.table-row');
+    // COMPLETELY REWRITTEN FILTER FUNCTIONALITY
+    const filterBtn = document.querySelector('.filter-btn');
+    const statusSelect = document.getElementById('status');
+    
+    // Make sure all products are visible on page load
+    function resetAllProductVisibility() {
+        document.querySelectorAll('.table-row').forEach(row => {
+            row.style.display = '';
+        });
         
-        tableRows.forEach(row => {
-            const quantityCell = row.querySelector('.cell.quantity');
-            const statusCell = row.querySelector('.cell.status .status-pill');
-            
-            if (quantityCell && statusCell) {
-                const quantity = parseInt(quantityCell.textContent.trim(), 10);
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.style.display = '';
+        });
+    }
+    
+    // Call this immediately to ensure all products are visible
+    resetAllProductVisibility();
+    
+    // Filter products by status
+    function filterByStatus(status) {
+        console.log("Filtering by status:", status);
+        
+        // First reset all visibility
+        resetAllProductVisibility();
+        
+        // If status is empty or "all", show everything (already done by reset)
+        if (!status) {
+            console.log("No status filter, showing all products");
+            return;
+        }
+        
+        // Otherwise, filter by the selected status
+        document.querySelectorAll('.table-row').forEach(row => {
+            const statusElement = row.querySelector('.status .status-pill');
+            if (statusElement) {
+                const statusText = statusElement.textContent.trim();
+                console.log("Row status:", statusText, "Looking for:", status === 'enabled' ? 'Enabled' : 'Disabled');
                 
-                if (quantity <= 0) {
-                    // Set status to disabled with red color
-                    statusCell.className = 'status-pill disabled';
-                    statusCell.textContent = 'Disabled';
+                if ((status === 'enabled' && statusText !== 'Enabled') || 
+                    (status === 'disabled' && statusText !== 'Disabled')) {
+                    row.style.display = 'none';
                 }
             }
         });
         
-        // Get all product cards in card view
-        const productCards = document.querySelectorAll('.product-card');
-        
-        productCards.forEach(card => {
-            const quantityValue = card.querySelector('.card-row:nth-child(1) .card-value');
-            const statusPill = card.querySelector('.status-pill');
-            
-            if (quantityValue && statusPill) {
-                const quantity = parseInt(quantityValue.textContent.trim(), 10);
+        document.querySelectorAll('.product-card').forEach(card => {
+            const statusElement = card.querySelector('.status-pill');
+            if (statusElement) {
+                const statusText = statusElement.textContent.trim();
                 
-                if (quantity <= 0) {
-                    // Set status to disabled with red color
-                    statusPill.className = 'status-pill disabled';
-                    statusPill.textContent = 'Disabled';
+                if ((status === 'enabled' && statusText !== 'Enabled') || 
+                    (status === 'disabled' && statusText !== 'Disabled')) {
+                    card.style.display = 'none';
                 }
             }
         });
     }
     
-    // Call the function on page load
-    updateProductStatus();
+    // Update pagination count
+    function updatePaginationCount() {
+        const pagination = document.querySelector('.pagination p');
+        if (pagination) {
+            const visibleTableRows = Array.from(document.querySelectorAll('.table-row')).filter(row => 
+                row.style.display !== 'none').length;
+            const visibleCards = Array.from(document.querySelectorAll('.product-card')).filter(card => 
+                card.style.display !== 'none').length;
+            
+            const visibleCount = window.innerWidth >= 768 ? visibleTableRows : visibleCards;
+            pagination.textContent = `Showing 1 to ${visibleCount} of ${visibleCount} (1 Pages)`;
+        }
+    }
     
-    // Add event listener for filter button to update statuses after filtering
-    const filterBtn = document.querySelector('.filter-btn');
+    // Add event listener to the filter button
     if (filterBtn) {
         filterBtn.addEventListener('click', function() {
-            // Assuming there's some filtering logic here
-            // After filtering is complete, update statuses
-            setTimeout(updateProductStatus, 100);
+            const status = statusSelect ? statusSelect.value : '';
+            filterByStatus(status);
+            updatePaginationCount();
+        });
+    }
+    
+    // Add event listener to the status select for immediate filtering
+    if (statusSelect) {
+        statusSelect.addEventListener('change', function() {
+            console.log("Status changed to:", this.value);
+            filterByStatus(this.value);
+            updatePaginationCount();
         });
     }
     
@@ -112,6 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (productTable) productTable.style.display = 'none';
             if (productCards) productCards.style.display = 'grid';
         }
+        
+        // Update pagination after layout change
+        updatePaginationCount();
     }
     
     // Initial call
@@ -119,4 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Listen for window resize
     window.addEventListener('resize', handleResponsiveLayout);
+    
+    // Initial pagination update
+    updatePaginationCount();
 });
