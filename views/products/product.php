@@ -1,3 +1,4 @@
+
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -23,22 +24,9 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
             background-color: #f4f4f4;
         }
-        table {
-            width: 85%;
-            border-collapse: separate;
-            border-spacing: 0;
-            display: inline;
-            margin-left:5%;
-            justify-content: center;
-            align-items: center;
-          
-        }
+    
 
-        th, td {
-            padding:10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
+    
         .btn-success {
             margin-top:2%;
             
@@ -46,22 +34,21 @@ if (isset($_SESSION['user_id'])) : ?>
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
-            text-align: center;
+          
             transition: all 0.3s ease;
-            background: #26A142;
+            background:rgb(17, 110, 38);
         }
-
-        th {
       
-            background-color: #007BFF;
+        th {
+            background-color: #007BFF !important; 
             color: white;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            position: sticky;
             top: 0;
             z-index: 2;
         }
+        
 
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
@@ -92,7 +79,6 @@ if (isset($_SESSION['user_id'])) : ?>
             padding-left: 0rem !important; }
 
         .btn {
-            padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             margin-bottom: 2%;
@@ -114,6 +100,7 @@ if (isset($_SESSION['user_id'])) : ?>
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+      
 
         .product-image {
             width: 50px;
@@ -238,17 +225,29 @@ if (isset($_SESSION['user_id'])) : ?>
 
 /* Adjust the table width */
 .table-container {
-    margin: 20px;
-    overflow: hidden;
-    border-radius: 18px;
-    margin-left:24%;
-    justify-content:center;
-    align-items:center;
-    margin-top:10%;
-    overflow-x: auto; /* Add horizontal scroll for smaller screens */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Centers the container horizontally */
+    display: flex;
+    flex-direction: column;
+   
+    width: 90%; /* Adjust width as needed */
+ 
     background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    padding: 10%; /* Adds spacing */
+
+    border-radius: 8px; /* Optional: Makes corners rounded */
 }
+
+.table{
+    width: 80%;
+
+    margin-left: 12%; /* Adds spacing */
+    display: flex;
+    flex-direction: column;
+  
+    justify-content: center;
+}
+
+
 .sidebar {
     display: none; /* Hide the sidebar */
 }
@@ -277,6 +276,17 @@ if (isset($_SESSION['user_id'])) : ?>
             margin: 0 auto;
             padding: 20px;
       
+        }
+        .table thead th {
+            background-color: #52C2EE;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: white;
+        }
+        th{
+            background-color: #8A5AD9 !important;
         }
 
         /* Responsive Styles */
@@ -345,7 +355,12 @@ if (isset($_SESSION['user_id'])) : ?>
         .pagination{
 
             position: relative;
-            left:40%;
+            left:60%;
+        }
+        .button{
+            width: auto;
+            position: relative;
+          
         }
     </style>
 </head>
@@ -357,10 +372,15 @@ if (isset($_SESSION['user_id'])) : ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="table-container">
-    <a href="/products/create" class="btn btn-success">+ Add Product</a>
-
+    
+    <div class="table">
+    <div class="button">
+        
+        <a href="/products/create" class="btn btn-success">+ Add Product</a>
+    </div>
     <table>
         <thead>
             <tr>
@@ -376,7 +396,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
                 <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
                 <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+                <input type="text" id="priceSearch" placeholder="input price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
                     <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
                     <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
                 </div>
@@ -386,7 +406,7 @@ if (isset($_SESSION['user_id'])) : ?>
 
                     <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
                     <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
-                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+                        <input type="text" id="stockSearch" placeholder="input stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
                         <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
                             <i class="fas fa-arrow-down"></i> High
                         </button>
@@ -395,8 +415,82 @@ if (isset($_SESSION['user_id'])) : ?>
                         </button>
                     </div>
                 </th>
+                <th>Category
+                <!-- Dropdown Icon -->
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleCatSortOptions(event, this)" style="cursor: pointer;"></i>
 
-                <th>Category</th>
+                <!-- Dropdown Menu -->
+                <div class="sort-options" id="cat-sort-options" style="display: none;">
+                    <input type="text" id="stockSearch" placeholder="Search categories..." oninput="searchCat()" style="margin-top: 5px; padding: 5px; width: calc(100% - 10px);">
+                    <div id="categoryList">
+                        <button onclick="selectCategory('Clothes', event)">Clothes</button>
+                        <button onclick="selectCategory('Bags', event)">Bags</button>
+                        <button onclick="selectCategory('Shoes', event)">Shoes</button>
+                        <button onclick="selectCategory('Accessories', event)">Accessories</button>
+                    </div>
+                </div>
+            </th>
+
+<script>
+    function toggleCatSortOptions(event) {
+        const sortOptions = document.getElementById('cat-sort-options');
+        sortOptions.style.display = sortOptions.style.display === 'block' ? 'none' : 'block';
+
+        // Position the dropdown menu correctly (if necessary)
+        const iconPos = event.target.getBoundingClientRect();
+        sortOptions.style.position = 'absolute'; // Use absolute positioning
+        sortOptions.style.top = `${iconPos.bottom + window.scrollY}px`;
+        sortOptions.style.left = `${iconPos.left}px`;
+    }
+
+    function searchCat() {
+        const input = document.getElementById('catSearch').value.toLowerCase();
+        const buttons = document.querySelectorAll('#categoryList button');
+
+        buttons.forEach(button => {
+            const text = button.textContent.toLowerCase();
+            button.style.display = text.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function selectCategory(category) {
+        console.log('Selected category:', category);
+        document.getElementById('cat-sort-options').style.display = 'none'; // Hide dropdown after selection
+    }
+
+    // Close dropdown when clicking outside of it
+    window.onclick = function(event) {
+        const dropdown = document.getElementById('cat-sort-options');
+        if (!event.target.matches('.fa-filter-circle-dollar') && dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    };
+</script>
+
+<style>
+    .sort-options {
+        background: white; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
+        z-index: 100; 
+        border-radius: 5px; 
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sort-options button {
+        display: block;
+        width: 100%; 
+        text-align: left; 
+        margin: 5px 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    
+    .sort-options button:hover {
+        background-color: #f0f0f0; /* Highlight on hover */
+    }
+</style>
                 <th>Created At</th>
                 <th>Action
 
@@ -418,8 +512,7 @@ if (isset($_SESSION['user_id'])) : ?>
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                        <td><?= htmlspecialchars($product['category']) ?></td>
-                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td> <!-- This cell will be updated -->                        <td><?= htmlspecialchars($product['created_at']) ?></td>
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
@@ -436,8 +529,11 @@ if (isset($_SESSION['user_id'])) : ?>
         </tbody>
     </table>
 
-    <!-- Pagination Buttons (Now at the bottom) -->
-    <div class="pagination" id="pagination-buttons"></div>
+    </div>
+     <!-- Pagination Buttons (Now at the bottom) -->
+     <div class="pagination" id="pagination-buttons"></div>
+    </div>
+   
 </div>
 
 <script>
