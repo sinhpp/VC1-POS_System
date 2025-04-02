@@ -17,7 +17,7 @@ if (!in_array($currentRoute, $hiddenRoutes)) {
 } 
 ?>
 
-<?php $content = $content ?? ''; ?>
+<?php $content;?>
 
 <?php require_once('layouts/footer.php'); ?>
 
