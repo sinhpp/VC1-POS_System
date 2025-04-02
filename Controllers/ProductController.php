@@ -63,7 +63,6 @@ public function detail($id) {
         header("Location: /products");
         exit();
     }
-    
     public function edit($id) {
         $product = $this->products->getProById($id);
         $this->view("products/edit_pro", ['product' => $product]);
@@ -92,13 +91,15 @@ public function detail($id) {
         if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
-            $_SESSION['product_error'] = "Failed to update product.";
+            $_SESSION['product_error'] = "Failed to update product. Check your input values.";
         }
     
         header("Location: /products");
         exit();
     }
-    // Other methods remain unchanged...
+
+
+
 
     public function delete($id) {
         // Call the deleteProduct method from the ProductModel
