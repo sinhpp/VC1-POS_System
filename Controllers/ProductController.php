@@ -99,8 +99,6 @@ public function detail($id) {
     }
 
 
-
-
     public function delete($id) {
         // Call the deleteProduct method from the ProductModel
         if ($this->products->deleteProduct($id)) {
@@ -123,4 +121,6 @@ public function detail($id) {
         }
         exit();
     }
+
+    
 }

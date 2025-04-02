@@ -237,4 +237,7 @@ class ProductModel {
         return $stmt->rowCount() > 0; // Returns true if stock was updated
     }
     // Other methods remain unchanged...
+
+
+    
 }
