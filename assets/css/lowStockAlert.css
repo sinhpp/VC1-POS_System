@@ -313,18 +313,19 @@ body {
 .status-pill {
   padding: 4px 8px;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: 12px;
   font-weight: 500;
+  display: inline-block;
 }
 
-.enabled {
-  background-color: rgba(76, 175, 80, 0.1);
-  color: var(--success-color);
+.status-pill.enabled {
+  background-color: #e6f7ee;
+  color: #00a650;
 }
 
-.disabled {
-  background-color: rgba(244, 67, 54, 0.1);
-  color: var(--danger-color);
+.status-pill.disabled {
+  background-color: #ffebee;
+  color: #f44336;
 }
 
 .action-btn {

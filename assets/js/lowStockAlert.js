@@ -48,6 +48,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Add new function to update product status based on quantity
+    function updateProductStatus() {
+        // Get all product rows in table view
+        const tableRows = document.querySelectorAll('.table-row');
+        
+        tableRows.forEach(row => {
+            const quantityCell = row.querySelector('.cell.quantity');
+            const statusCell = row.querySelector('.cell.status .status-pill');
+            
+            if (quantityCell && statusCell) {
+                const quantity = parseInt(quantityCell.textContent.trim(), 10);
+                
+                if (quantity <= 0) {
+                    // Set status to disabled with red color
+                    statusCell.className = 'status-pill disabled';
+                    statusCell.textContent = 'Disabled';
+                }
+            }
+        });
+        
+        // Get all product cards in card view
+        const productCards = document.querySelectorAll('.product-card');
+        
+        productCards.forEach(card => {
+            const quantityValue = card.querySelector('.card-row:nth-child(1) .card-value');
+            const statusPill = card.querySelector('.status-pill');
+            
+            if (quantityValue && statusPill) {
+                const quantity = parseInt(quantityValue.textContent.trim(), 10);
+                
+                if (quantity <= 0) {
+                    // Set status to disabled with red color
+                    statusPill.className = 'status-pill disabled';
+                    statusPill.textContent = 'Disabled';
+                }
+            }
+        });
+    }
+    
+    // Call the function on page load
+    updateProductStatus();
+    
+    // Add event listener for filter button to update statuses after filtering
+    const filterBtn = document.querySelector('.filter-btn');
+    if (filterBtn) {
+        filterBtn.addEventListener('click', function() {
+            // Assuming there's some filtering logic here
+            // After filtering is complete, update statuses
+            setTimeout(updateProductStatus, 100);
+        });
+    }
+    
     // Handle responsive behavior based on screen size
     function handleResponsiveLayout() {
         const productTable = document.querySelector('.product-table');
