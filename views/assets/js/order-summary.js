@@ -1,6 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
     const increaseButtons = document.querySelectorAll('.increase-quantity');
-    
+    const checkoutForm = document.querySelector("form[action='/views/order/checkout.php']");
+const orderTableBody = document.querySelector("#orderproducts");
+
+checkoutForm.addEventListener("submit", function (event) {
+    if (orderTableBody.children.length === 0) {
+        event.preventDefault(); // Prevent form submission
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom-end", // ✅ Bottom-Right Position
+            showConfirmButton: false,
+            timer: 2000, // Closes in 2 seconds
+            timerProgressBar: true,
+            customClass: {
+                popup: "small-toast"
+            }
+        });
+
+        Toast.fire({
+            icon: "warning",
+            title: "Your order list is empty!"
+        });
+    }
+});
+
     increaseButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();

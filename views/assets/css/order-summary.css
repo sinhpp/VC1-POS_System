@@ -10,9 +10,11 @@ body {
 }
 
 .container-order {
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  */
     width: 90%;
     margin: 20px auto;
     overflow: hidden;
+    
     /* margin-left: 400px; */
 }
 
@@ -27,9 +29,13 @@ body {
 
 .order-page {
     float: left;
-    width: 60%;
-    margin-left: 21%;
+    width: 79%;
+    padding: 30px;
+
+    margin-left: 22.7%;
+    margin-top: 20px;
     padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .form-control {
@@ -175,8 +181,8 @@ th {
 /* Scanner Section */
 .scanner-section {
     /* background: #fff; */
-    padding: 20px;
-    width: 70%;
+    padding: 30px;
+    width: 79%;
     margin-top: 30px;
     margin-right: -130px;
     margin-left: 300px;
