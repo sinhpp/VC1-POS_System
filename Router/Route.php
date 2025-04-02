@@ -56,9 +56,11 @@ $route->post("/order/add", [ProductScanController::class, 'add']); // Already co
 $route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
 $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 
-
 $route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
-$route->get("/order/view/{id}", [OrderListController::class, 'viewOrder']);
+$route->post("/order/store", [OrderListController::class, 'store']); // ✅ Add this!
+$route->post("/order/delete", [OrderListController::class, 'delete']);
+
+
 
 
 
