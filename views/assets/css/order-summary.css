@@ -10,6 +10,131 @@ body {
 }
 
 .container-order {
+    width: 90%;
+    margin: 20px auto;
+    overflow: hidden;
+    /* margin-left: 400px; */
+}
+
+.scanner-section {
+    float: left;
+    width: 35%;
+    padding: 15px;
+    
+    /* margin-left: 400px; */
+    border: 1px solid #ccc;
+}
+
+.order-page {
+    float: left;
+    width: 60%;
+    margin-left: 21%;
+    padding: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    padding: 8px 15px;
+    cursor: pointer;
+    border: none;
+    color: white;
+}
+
+.btn-primary { background-color: #007bff; }
+.btn-danger { background-color: #dc3545; }
+.btn-info { background-color: #17a2b8; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.text-danger {
+    color: red;
+}
+
+@media screen and (max-width: 1024px) {
+    .scanner-section {
+        width: 40%;
+    }
+    .order-page {
+        width: 55%;
+    }
+    th, td {
+        padding: 6px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .scanner-section, .order-page {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+    }
+    .scanner-section {
+        margin-bottom: 20px;
+    }
+    table {
+        font-size: 14px;
+    }
+    th, td {
+        padding: 5px;
+    }
+    img {
+        width: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-order {
+        width: 95%;
+        margin: 10px auto;
+       
+    }
+    h3, h4 {
+        font-size: 18px;
+    }
+    .form-control {
+        padding: 6px;
+    }
+    .btn {
+        padding: 6px 12px;
+        width: 100%;
+        margin: 5px 0;
+    }
+    table {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 4px;
+    }
+    img {
+        width: 30px;
+    }
+    /* Hide less important columns on small screens */
+    th:nth-child(6), td:nth-child(6),  /* Stock */
+    th:nth-child(7), td:nth-child(7) {  /* Created At */
+        display: none;
+    }
+}
+.container-order {
     padding-left: 300px;
     margin: 50px auto;
     padding: 30px;
@@ -52,8 +177,9 @@ body {
     /* background: #fff; */
     padding: 20px;
     width: 70%;
+    margin-top: 30px;
     margin-right: -130px;
-    margin-left: 50px;
+    margin-left: 300px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -156,7 +282,7 @@ body {
     
     padding: 20px;
     border-radius: 8px;
-    margin-left: -90px;
+    /* margin-left: -90px; */
     margin-right: 150px;
     
     
