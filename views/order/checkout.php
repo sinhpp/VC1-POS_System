@@ -19,12 +19,14 @@ $showMore = $totalItems > $itemsPerPage;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="/views/assets/css/checkout.css">
 </head>
+
 <body>
     <div class="container-checkout">
         <div class="checkout">
@@ -56,7 +58,7 @@ $showMore = $totalItems > $itemsPerPage;
                     <div class="btn-submit">
                         <button type="submit" name="print_receipt" class="btn-print">Order Completed</button>
                         <button type="submit" name="complete_order" class="btn-order">Print Receipt</button>
-                        
+
                     </div>
                 </form>
             </div>
@@ -137,9 +139,16 @@ $showMore = $totalItems > $itemsPerPage;
         });
     </script>
 </body>
+
 </html>
 
 <style>
-    .hidden { display: none; }
-    .toggle-buttons { display: flex; gap: 10px; }
+    .hidden {
+        display: none;
+    }
+
+    .toggle-buttons {
+        display: flex;
+        gap: 10px;
+    }
 </style>

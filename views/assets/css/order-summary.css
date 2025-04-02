@@ -14,11 +14,11 @@ body {
     margin: 50px auto;
     padding: 30px;
     margin-top: 90px;
-    max-width:1550px;
+    max-width: 1550px;
     background-color: #FFF;
 
-   
-    
+
+
 }
 
 .mt-2 {
@@ -111,6 +111,7 @@ body {
 .btn-danger:hover {
     background-color: #c82333;
 }
+
 .btn-info {
     background-color: #17a2b8;
     color: white;
@@ -126,7 +127,7 @@ body {
     border-radius: 4px;
     overflow: hidden;
     margin-top: 15px;
-    
+
 }
 
 .card-img-top {
@@ -153,14 +154,14 @@ body {
 
 /* Order Page Section */
 .order-page {
-    
+
     padding: 20px;
     border-radius: 8px;
     margin-left: -90px;
     margin-right: 150px;
-    
-    
-   
+
+
+
 }
 
 .order-page h3 {
