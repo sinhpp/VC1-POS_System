@@ -2,6 +2,8 @@
 <?php
 require_once __DIR__ . '../../layout.php';
 ?>
+
+
 <h2 style="text-align: center; color: #4CAF50;">Order List</h2>
 
 <table style="width: 65%; border-collapse: collapse; margin: 20px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden;">
@@ -36,7 +38,11 @@ require_once __DIR__ . '../../layout.php';
         <?php endif; ?>
     </tbody>
 </table>
-
+<form action="/order/store" method="POST" class="mt-3">
+    <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
+    <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($_SESSION['order'])); ?>">
+    <button type="submit" class="btn btn-info">Store Order</button>
+</form>
 <style>
     tbody tr:hover {
         background-color: #d1e7dd; /* Light green for hover effect */

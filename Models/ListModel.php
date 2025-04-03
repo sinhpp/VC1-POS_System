@@ -34,13 +34,13 @@ class ListModel {
                 ':customer_id' => $customer_id,
                 ':total_amount' => $total_amount
             ]);
-
+    
             $orderId = $this->db->lastInsertId();
-
+    
             $query = "INSERT INTO order_items (order_id, product_id, quantity, price) 
                       VALUES (:order_id, :product_id, :quantity, :price)";
             $stmt = $this->db->prepare($query);
-
+    
             foreach ($orderItems as $item) {
                 $stmt->execute([
                     ':order_id' => $orderId,
@@ -49,7 +49,7 @@ class ListModel {
                     ':price' => $item['price']
                 ]);
             }
-
+    
             $this->db->commit();
             return $orderId;
         } catch (Exception $e) {
@@ -57,7 +57,6 @@ class ListModel {
             throw new Exception("Error saving order: " . $e->getMessage());
         }
     }
-
     public function deleteOrder($order_id) {
         $query = "DELETE FROM orders WHERE id = :order_id";
         $stmt = $this->db->prepare($query);
