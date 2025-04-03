@@ -34,16 +34,7 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 0;
         }
         
-        .header {
-            
-            color: white;
-            padding: 15px 20px;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+     
         [data-header-position="fixed"] .header {
             position: fixed;
             top: 0;
