@@ -192,10 +192,6 @@
         }
     }
 
-
-
-		</style>
-		<!--**********************************
     /* Responsive improvements */
     @media (max-width: 768px) {
         .dlabnav {
