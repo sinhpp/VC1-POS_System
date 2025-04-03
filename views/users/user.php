@@ -329,7 +329,7 @@ if (isset($_SESSION['user_id'])) : ?>
                     <th>Role</th>
                     <th>Date Created</th>
                     <th>Role</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -377,10 +377,10 @@ if (isset($_SESSION['user_id'])) : ?>
                             <?= htmlspecialchars($user['role']) ?>
                         </span>
                     </td>
-                    <td>
+                    <!-- <td>
                         <span class="status-indicator <?= $statusClass ?>"></span>
                         <?= $status ?>
-                    </td>
+                    </td> -->
                     <td>
                         <div class="action-buttons">
                             <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm">
