@@ -62,6 +62,8 @@ $route->post("/order/store", [OrderListController::class, 'storeOrder']); // ✅
 $route->post("/order/delete", [OrderListController::class, 'delete']);
 
 
+
+// Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
 

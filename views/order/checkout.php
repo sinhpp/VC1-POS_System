@@ -7,9 +7,9 @@ $totalPrice = isset($_POST['totalPrice']) && is_numeric($_POST['totalPrice'])
     ? floatval($_POST['totalPrice'])
     : 0;
 $order = isset($_POST['order']) ? json_decode($_POST['order'], true) : [];
-$discountRate = 0.06; // 6% discount
-$discountAmount = $totalPrice * $discountRate;
-$finalTotal = $totalPrice - $discountAmount;
+// $discountRate = 0.06; // 6% discount
+// $discountAmount = $totalPrice * $discountRate;
+// $finalTotal = $totalPrice - $discountAmount;
 
 // Define how many items to show initially
 $itemsPerPage = 1;
@@ -54,13 +54,8 @@ $showMore = $totalItems > $itemsPerPage;
                         <option value="digital_wallet">Digital Wallet</option>
                     </select>
                     <div class="btn-submit">
-                    <form action="/order/store" method="POST">
-                        <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
-                        <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($_SESSION['order'])); ?>">
-                        
-                        <button type="submit" name="action" value="store" class="btn-order">Order Completed</button>
-                        <button type="submit" name="action" value="print" class="btn-print">Print Receipt</button>
-                    </form>
+                        <button type="submit" name="print_receipt" class="btn-print">Order Completed</button>
+                        <button type="submit" name="complete_order" class="btn-order">Print Receipt</button>
 
                     </div>
                     <!-- <div class="button">
@@ -145,9 +140,16 @@ $showMore = $totalItems > $itemsPerPage;
         });
     </script>
 </body>
+
 </html>
 
 <style>
-    .hidden { display: none; }
-    .toggle-buttons { display: flex; gap: 10px; }
+    .hidden {
+        display: none;
+    }
+
+    .toggle-buttons {
+        display: flex;
+        gap: 10px;
+    }
 </style>

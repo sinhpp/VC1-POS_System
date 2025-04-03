@@ -210,72 +210,55 @@
         					</div>
         				</a>
 
-        			</li>
-        			<li><a href="/dashboard" aria-expanded="false">
-        					<i class="flaticon-025-dashboard"></i>
-        					<span class="nav-text">Dashboard</span>
-        				</a>
-        			</li>
-        			<li><a href="/users" aria-expanded="false">
-        					<i class="fa-solid fa-user"></i>
-        					<span class="nav-text">User</span>
-        				</a>
-        			</li>
-        			<li><a href="/order/order_list" aria-expanded="false">
-        					<i class="flaticon-041-graph"></i>
-        					<span class="nav-text">Order List</span>
-        				</a>
-        			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
-        					<i class="flaticon-050-info"></i>
-        					<span class="nav-text">Reports</span>
-        				</a>
-        			</li>
-					<li><a href="/order" class="ai-icon" aria-expanded="false">
-					<i class="fa-solid fa-barcode"></i>
-        					<span class="nav-text">Order Scan</span>
-        				</a>
-        			</li>
-        			<li><a href="/products" aria-expanded="false" class="has-arrow" aria-expanded="false">
-        					<i class="flaticon-045-heart"></i>
-        					<span class="nav-text">Products</span>
-        				</a>
-						<ul aria-expanded="false">
-							<li><a href="/products">Product List</a></li>
-							<!-- Updated Category link to trigger modal -->
-							<li><a href="javascript:void(0);" class="open-category-modal">Category</a></li>
-						</ul>
-        			</li>
-					
-        			<li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
-        					<i class="fa-solid fa-window-maximize"></i>
-        					<span class="nav-text">Expenses</span>
-        				</a>
-        			</li>
-        			<li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
-        					<i class="material-symbols-outlined"></i>
-        					<span class="nav-text">Order</span>
-        				</a>
-        			</li>
-					
-        			<li><a href="/" aria-expanded="false">
-        					<i class="fa-solid fa-right-from-bracket"></i>
-        					<span class="nav-text">Logout</span>
-        				</a>
-        			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
-        					<i class="flaticon-043-menu"></i>
-        					<span class="nav-text">Table</span>
-        				</a>
-        			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
-        					<i class="flaticon-022-copy"></i>
-        					<span class="nav-text">Pages</span>
-        				</a>
-        			</li>
-        		</ul>
-        	</div>
-        </div>
-        <!--**********************************
+            </li>
+            <li><a href="/dashboard" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li><a href="/users" aria-expanded="false">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="nav-text">User</span>
+                </a>
+            </li>
+            <li><a href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-041-graph"></i>
+                    <span class="nav-text">Order List</span>
+                </a>
+            </li>
+            <li><a href="/product/low_stock_alert" aria-expanded="false">
+                    <i class="flaticon-050-info"></i>
+                    <span class="nav-text">LowStock</span>
+                </a>
+            </li>
+            <li><a href="/order" class="ai-icon" aria-expanded="false">
+                <i class="fa-solid fa-barcode"></i>
+                    <span class="nav-text">Order Scan</span>
+                </a>
+            </li>
+            <li><a href="/products" aria-expanded="false">
+                    <i class="flaticon-045-heart"></i>
+                    <span class="nav-text">Products List</span>
+                </a>
+            </li>
+            <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+                    <i class="fa-solid fa-window-maximize"></i>
+                    <span class="nav-text">Expenses</span>
+                </a>
+            </li>
+            <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
+                    <i class="material-symbols-outlined"></i>
+                    <span class="nav-text">Order</span>
+                </a>
+            </li>
+            <li><a href="/" aria-expanded="false">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--**********************************
             Sidebar end
         ***********************************-->

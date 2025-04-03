@@ -105,8 +105,10 @@ class ProductScanController
                 foreach ($_SESSION['order'] as &$item) {
                     if ($item['barcode'] === $barcode) {
                         if ($item['quantity'] + 1 <= $product['stock']) {
-                            $item['quantity'] += 1; // Increment quantity
-                            $found = true;
+                            $item['quantity'] -= 1;
+
+                            // Reduce stock in the database
+                            $this->productModel->updateStock($barcode, 1);
                         } else {
                             $_SESSION['error'] = "Cannot add more items; stock limit reached!";
                         }

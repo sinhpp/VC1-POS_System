@@ -328,7 +328,7 @@ if (isset($_SESSION['user_id'])) : ?>
                     <th>Name</th>
                     <th>Role</th>
                     <th>Date Created</th>
-                    <th>Role</th>
+                   
                     <!-- <th>Status</th> -->
                     <th>Actions</th>
                 </tr>
@@ -372,11 +372,7 @@ if (isset($_SESSION['user_id'])) : ?>
                     <td>
                         <?= isset($user['created_at']) ? date('m/d/Y', strtotime($user['created_at'])) : date('m/d/Y') ?>
                     </td>
-                    <td>
-                        <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
-                            <?= htmlspecialchars($user['role']) ?>
-                        </span>
-                    </td>
+                   
                     <!-- <td>
                         <span class="status-indicator <?= $statusClass ?>"></span>
                         <?= $status ?>
