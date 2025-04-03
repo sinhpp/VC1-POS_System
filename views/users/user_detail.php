@@ -35,6 +35,9 @@ if (session_status() == PHP_SESSION_NONE) {
         .star-icon.selected {
             color: gold; /* Selected color */
         }
+        h5{
+            padding: 16px;
+        }
     </style>
 </head>
 <body>
