@@ -35,6 +35,10 @@ class UserModel {
             return "Email already exists.";
         }
 
+        // Validate role
+        $validRoles = ['admin', 'stock_manager', 'user'];
+        $role = in_array($role, $validRoles) ? $role : 'user';
+
         // Insert new user
         $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) VALUES (:name, :email, :password, :role, :image)");
         return $stmt->execute([
@@ -60,6 +64,10 @@ class UserModel {
             return "Email already exists.";
         }
     
+        // Validate role
+        $validRoles = ['admin', 'stock_manager', 'user'];
+        $role = in_array($role, $validRoles) ? $role : 'user';
+
         // Insert new user
         $stmt = $this->db->prepare("
             INSERT INTO users (name, email, password, role, phone, address, image) 
@@ -75,8 +83,13 @@ class UserModel {
             ':image' => $image // Store image path
         ]);
     }
+
     public function updateUser($id, $name, $email, $role, $phone, $address, $image = null) {
         try {
+            // Validate role
+            $validRoles = ['admin', 'stock_manager', 'user'];
+            $role = in_array($role, $validRoles) ? $role : 'user';
+
             $sql = "UPDATE users SET name = :name, email = :email, role = :role, phone = :phone, address = :address";
             $params = [
                 ':id' => $id,
@@ -107,18 +120,11 @@ class UserModel {
             die("Error updating user: " . $e->getMessage());
         }
     }
+
     public function user_detail($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    
-    public function getCategories() {
-        $stmt = $this->db->prepare("SELECT DISTINCT category FROM products");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
 }
 ?>
