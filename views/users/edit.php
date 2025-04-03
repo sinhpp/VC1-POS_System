@@ -141,6 +141,7 @@ if (isset($_SESSION['user_id'])) : ?>
                         <select name="role" class="role" required>
                             <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
                             <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+                            <option value="stock manager" <?= ($user['role'] == 'stock manager') ? 'selected' : ''; ?>>Stock manager</option>
                         </select>
                     </div>
                     

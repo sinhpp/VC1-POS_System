@@ -35,10 +35,11 @@ class UserModel {
             return "Email already exists.";
         }
 
-        // Validate role
-        $validRoles = ['admin', 'stock_manager', 'user'];
-        $role = in_array($role, $validRoles) ? $role : 'user';
+       // Validate role
+       $validRoles = ['admin', 'stock_manager', 'user'];
+       $role = in_array($role, $validRoles) ? $role : 'user';
 
+       
         // Insert new user
         $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) VALUES (:name, :email, :password, :role, :image)");
         return $stmt->execute([
