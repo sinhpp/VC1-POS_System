@@ -8,7 +8,6 @@
         display: flex;
         flex-direction: column;
     }
-
     /* Scrollable section */
     .dlabnav-scroll {
         flex: 1; /* Allows content to expand */
