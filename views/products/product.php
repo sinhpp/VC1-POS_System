@@ -39,15 +39,7 @@ if (isset($_SESSION['user_id'])) : ?>
             background:rgb(17, 110, 38);
         }
       
-        th {
-            background-color: #007BFF !important; 
-            color: white;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            top: 0;
-            z-index: 2;
-        }
+      
         
 
         .table-striped tbody tr:nth-child(odd) {
@@ -229,7 +221,7 @@ if (isset($_SESSION['user_id'])) : ?>
     display: flex;
     flex-direction: column;
    
-    width: 90%; /* Adjust width as needed */
+    width: 96%; /* Adjust width as needed */
  
     background: linear-gradient(145deg, #ffffff, #f9f9f9);
     padding: 10%; /* Adds spacing */
@@ -240,7 +232,7 @@ if (isset($_SESSION['user_id'])) : ?>
 .table{
     width: 80%;
 
-    margin-left: 12%; /* Adds spacing */
+    margin-left: 14%; /* Adds spacing */
     display: flex;
     flex-direction: column;
   
@@ -286,7 +278,7 @@ if (isset($_SESSION['user_id'])) : ?>
             color: white;
         }
         th{
-            background-color: #8A5AD9 !important;
+            background-color: teal !important;
         }
 
         /* Responsive Styles */
@@ -362,7 +354,98 @@ if (isset($_SESSION['user_id'])) : ?>
             position: relative;
           
         }
+        h2 {
+    color: #333;
+}
+.container {
+    text-align: center;    
+    justify-content: space-between;
+    padding: 0 ;
+    max-width: 100%;
+    margin: auto;
+}
+
+
+.search {
+    padding: 10px;
+    width: 50%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+table {
+  
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--table-bg, white); /* Change this color */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--header-bg, #333); /* Change this color */
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--row-alt-bg, #f2f2f2); /* Change this color */
+}
+
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+td img {
+    display: block;
+    margin: 0 auto;
+}
+.filters {
+    margin-bottom: 15px;
+ 
+    justify-content: space-between;
+    width: 100%;
+    display: flex;
+ 
+}
+
+.search, .filter {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+
+
+select.filter:focus {
+    outline: none;
+    border-color: #555;
+}
+
+
+button.filter-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.filter-btn:hover {
+    background-color: #0056b3;
+}
     </style>
+
+
+        
 </head>
 <body>
 </head>
@@ -375,12 +458,35 @@ if (isset($_SESSION['user_id'])) : ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div class="table-container">
-    
+
+
+
     <div class="table">
-    <div class="button">
+    
+    <div class="container">
+
+        <div class="filters">
+            <input type="text" class="search" placeholder="Search...">
+            
+            <select class="filter" id="stock-filter">
+                <option value="">Stock</option>
+                <option value="low">Low Stock</option>
+                <option value="medium">Medium Stock</option>
+                <option value="high">High Stock</option>
+            </select>
+            <select class="filter" id="category-filter">
+                <option value="">Category</option>
+                <option value="clothing">Clothing</option>
+                <option value="electronics">Electronics</option>
+                <option value="accessories">Accessories</option>
+            </select>
+
+            <div class="button">
         
         <a href="/products/create" class="btn btn-success">+ Add Product</a>
     </div>
+        </div>
+</div>
     <table>
         <thead>
             <tr>
@@ -648,9 +754,24 @@ init();
 
 
 </style>
-
+<script>
+        function filterByCategory() {
+            var selectedCategory = document.getElementById("categoryFilter").value.toLowerCase();
+            var rows = document.querySelectorAll("#productTable tr");
+            rows.forEach(row => {
+                var category = row.getAttribute("data-category").toLowerCase();
+                if (selectedCategory === "" || category === selectedCategory) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
 
 <script>
+
+
     document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("click", function(event) {
         const sortOptions = document.getElementById("sort-options");
