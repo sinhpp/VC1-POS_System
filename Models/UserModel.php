@@ -112,5 +112,13 @@ class UserModel {
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    
+    public function getCategories() {
+        $stmt = $this->db->prepare("SELECT DISTINCT category FROM products");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

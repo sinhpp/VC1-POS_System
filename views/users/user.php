@@ -223,7 +223,15 @@ if (isset($_SESSION['user_id'])) : ?>
                         <?= htmlspecialchars($user['name']) ?>
                     </td>
                     <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
-                        <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
+                        <span class="badge <?php 
+                            if ($user['role'] === 'admin') {
+                                echo 'bg-success';
+                            } elseif ($user['role'] === 'stock_manager') {
+                                echo 'bg-primary'; // Blue for stock_manager
+                            } else {
+                                echo 'bg-info';
+                            }
+                        ?> role-badge">
                             <?= htmlspecialchars($user['role']) ?>
                         </span>
                     </td>
@@ -291,7 +299,7 @@ function showLiveAlert(message, customClass) {
     setTimeout(() => {
         wrapper.remove();
     }, 3000);
-}y
+}
 </script>
 </body>
 
