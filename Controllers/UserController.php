@@ -109,6 +109,7 @@ class UserController extends BaseController {
         $phone = htmlspecialchars($_POST['phone']);
         $address = htmlspecialchars($_POST['address']);
         
+
         // Handle file upload
         $imagePath = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
