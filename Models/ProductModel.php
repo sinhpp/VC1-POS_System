@@ -228,16 +228,70 @@ class ProductModel {
 
     // Method to update stock
     public function updateStock($barcode, $quantity) {
-        $query = "UPDATE products SET stock = stock - :quantity WHERE barcode = :barcode AND stock >= :quantity";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([
-            ':barcode' => $barcode,
-            ':quantity' => $quantity
-        ]);
-        return $stmt->rowCount() > 0; // Returns true if stock was updated
+        // First, start a transaction to ensure data consistency
+        $this->db->beginTransaction();
+        
+        try {
+            // Update the stock
+            $query = "UPDATE products SET stock = stock - :quantity WHERE barcode = :barcode AND stock >= :quantity";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([
+                ':barcode' => $barcode,
+                ':quantity' => $quantity
+            ]);
+            
+            // If stock update was successful, check if stock is now zero and update status accordingly
+            if ($stmt->rowCount() > 0) {
+                // Get current stock level
+                $checkQuery = "SELECT stock FROM products WHERE barcode = :barcode";
+                $checkStmt = $this->db->prepare($checkQuery);
+                $checkStmt->execute([':barcode' => $barcode]);
+                $currentStock = $checkStmt->fetchColumn();
+                
+                // If stock is zero or less, disable the product
+                if ($currentStock <= 0) {
+                    $updateStatusQuery = "UPDATE products SET status = 0 WHERE barcode = :barcode";
+                    $updateStatusStmt = $this->db->prepare($updateStatusQuery);
+                    $updateStatusStmt->execute([':barcode' => $barcode]);
+                }
+                
+                $this->db->commit();
+                return true;
+            } else {
+                $this->db->rollBack();
+                return false;
+            }
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("Error updating stock: " . $e->getMessage());
+            return false;
+        }
     }
     // Other methods remain unchanged...
 
 
-    
+    public function getLowStockProducts($threshold = 5) {
+        try {
+            // Make sure we're selecting the status field and calculating effective status
+            $query = "SELECT *, 
+                     CASE WHEN stock <= 0 THEN 0 ELSE COALESCE(status, 1) END as effective_status 
+                     FROM products 
+                     WHERE stock <= :threshold 
+                     ORDER BY stock ASC";
+        
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':threshold', $threshold, PDO::PARAM_INT);
+            $stmt->execute();
+        
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            // For debugging
+            error_log("Low stock products: " . json_encode($products));
+        
+            return $products;
+        } catch (PDOException $e) {
+            error_log("Error fetching low stock products: " . $e->getMessage());
+            return [];
+        }
+    }
 }

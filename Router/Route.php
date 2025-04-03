@@ -68,5 +68,10 @@ $route->post("/order/delete", [OrderListController::class, 'delete']);
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
 
+
+//LOw Stock Alert
+$route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAlert']);
+
+
 // Call the route method to process the request
 $route->route();

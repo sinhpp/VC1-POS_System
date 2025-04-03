@@ -7,9 +7,9 @@ $totalPrice = isset($_POST['totalPrice']) && is_numeric($_POST['totalPrice'])
     ? floatval($_POST['totalPrice'])
     : 0;
 $order = isset($_POST['order']) ? json_decode($_POST['order'], true) : [];
-$discountRate = 0.06; // 6% discount
-$discountAmount = $totalPrice * $discountRate;
-$finalTotal = $totalPrice - $discountAmount;
+// $discountRate = 0.06; // 6% discount
+// $discountAmount = $totalPrice * $discountRate;
+// $finalTotal = $totalPrice - $discountAmount;
 
 // Define how many items to show initially
 $itemsPerPage = 1;
@@ -107,12 +107,11 @@ $showMore = $totalItems > $itemsPerPage;
                         <hr>
                         <div class="totals">
                             <p>Product Total: <span>$<?php echo number_format($totalPrice, 2); ?></span></p>
-                            <p>Discount (6%): <span>($<?php echo number_format($discountAmount, 2); ?>)</span></p>
                             <p>Delivery Fee: <span>Free</span></p>
                         </div>
                         <hr>
                         <div class="total">
-                            <h3>Total: <span>$<?php echo number_format($finalTotal, 2); ?></span></h3>
+                            <h3>Total: <span>$<?php echo number_format($totalPrice, 2); ?></span></h3>
                         </div>
                     </div>
                 <?php endif; ?>
