@@ -55,6 +55,7 @@ $route->post("/productDetails", [ProductScanController::class, 'scan']); // For 
 $route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
 $route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
 $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 
 $route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
 $route->post("/order/store", [OrderListController::class, 'storeOrder']); // ✅ Add this!
@@ -64,6 +65,11 @@ $route->post("/order/delete", [OrderListController::class, 'delete']);
 
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
+
+
+
+//LOw Stock Alert
+$route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAlert']);
 
 
 // Call the route method to process the request
