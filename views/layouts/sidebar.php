@@ -163,13 +163,7 @@
     background-color: #218838; /* Darker green on hover */
 }
 
-.metismenu .has-arrow::after {
-    content: "\f107"; /* FontAwesome down arrow, adjust as needed */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    position: absolute;
-    right: 1em;
-}
+
 .metismenu ul {
     padding-left: 20px;
     display: none; /* Hidden by default, metismenu will toggle this */
