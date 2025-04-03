@@ -293,6 +293,18 @@ if (isset($_SESSION['user_id'])) : ?>
                 margin: 2px 0;
             }
         }
+        .role-admin {
+            background-color: teal; /* Teal background for Admin role */
+            color: white; /* White text for better contrast */
+            padding: 5px 10px; /* Add some padding */
+            border-radius: 5px; /* Rounded corners */
+        }
+        .role-cashier {
+            background-color: #007bff; /* Blue background for Cashier role */
+            color: white; /* White text for better contrast */
+            padding: 5px 10px; /* Add some padding */
+            border-radius: 5px; /* Rounded corners */
+        }
         
         /* Extra small devices */
         @media (max-width: 576px) {
@@ -365,7 +377,7 @@ if (isset($_SESSION['user_id'])) : ?>
             <?= htmlspecialchars($user['name']) ?>
         </td>
         <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
-            <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
+            <span class="badge <?= $user['role'] === 'admin' ? 'role-admin' : ($user['role'] === 'cashier' ? 'role-cashier' : 'role-publisher') ?>">
                 <?= htmlspecialchars($user['role']) ?>
             </span>
         </td>
