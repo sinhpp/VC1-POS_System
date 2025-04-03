@@ -59,6 +59,11 @@ $route->post("/order/print-receipt", [ProductScanController::class, 'printReceip
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
+
+
+//LOw Stock Alert
+$route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAlert']);
+
 require_once 'Controllers/OrderController.php'; // Add this line at the top
 
 // Fix route definitions

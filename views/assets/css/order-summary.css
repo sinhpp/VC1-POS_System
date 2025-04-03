@@ -10,9 +10,11 @@ body {
 }
 
 .container-order {
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  */
     width: 90%;
     margin: 20px auto;
     overflow: hidden;
+    
     /* margin-left: 400px; */
 }
 
@@ -27,9 +29,13 @@ body {
 
 .order-page {
     float: left;
-    width: 60%;
-    margin-left: 21%;
+    width: 79%;
+    padding: 30px;
+
+    margin-left: 22.7%;
+    margin-top: 20px;
     padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .form-control {
@@ -48,7 +54,7 @@ body {
 
 .btn-primary { background-color: #007bff; }
 .btn-danger { background-color: #dc3545; }
-.btn-info { background-color: #17a2b8; }
+.btn-info { background-color: #007bff; }
 
 table {
     width: 100%;
@@ -139,11 +145,11 @@ th {
     margin: 50px auto;
     padding: 30px;
     margin-top: 90px;
-    max-width:1550px;
+    max-width: 1550px;
     background-color: #FFF;
 
-   
-    
+
+
 }
 
 .mt-2 {
@@ -175,8 +181,8 @@ th {
 /* Scanner Section */
 .scanner-section {
     /* background: #fff; */
-    padding: 20px;
-    width: 70%;
+    padding: 30px;
+    width: 79%;
     margin-top: 30px;
     margin-right: -130px;
     margin-left: 300px;
@@ -237,6 +243,7 @@ th {
 .btn-danger:hover {
     background-color: #c82333;
 }
+
 .btn-info {
     background-color: #17a2b8;
     color: white;
@@ -252,7 +259,7 @@ th {
     border-radius: 4px;
     overflow: hidden;
     margin-top: 15px;
-    
+
 }
 
 .card-img-top {
@@ -279,14 +286,14 @@ th {
 
 /* Order Page Section */
 .order-page {
-    
+
     padding: 20px;
     border-radius: 8px;
     /* margin-left: -90px; */
     margin-right: 150px;
-    
-    
-   
+
+
+
 }
 
 .order-page h3 {
