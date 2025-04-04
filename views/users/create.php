@@ -217,8 +217,11 @@ if (isset($_SESSION['user_id'])) : ?>
                     <option value="" disabled selected>Select Role</option>
                     <option value="admin">Admin</option>
                     <option value="cashier">Cashier</option>
+                    <option value="stock_manager">Stock Manager</option> <!-- FIXED -->
                 </select>
             </div>
+
+            
             <!-- Phone Field -->
             <div class="input-group">
                 <label>Phone</label>

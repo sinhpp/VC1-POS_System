@@ -58,6 +58,10 @@ $showMore = $totalItems > $itemsPerPage;
                         <button type="submit" name="complete_order" class="btn-order">Print Receipt</button>
 
                     </div>
+                    <!-- <div class="button">
+                        <button type="submit" name="print_receipt" class="btn-print">Print Receipt</button>
+                        <button type="button" name="complete_order" class="btn" onclick="completeOrder()">Complete Order</button>
+                    </div> -->
                 </form>
             </div>
 

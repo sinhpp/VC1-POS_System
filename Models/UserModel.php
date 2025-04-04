@@ -34,7 +34,11 @@ class UserModel {
         if ($stmt->fetchColumn() > 0) {
             return "Email already exists.";
         }
+            // Validate role
+            $validRoles = ['admin', 'cashier', 'stock_manager']; // Fix: Include cashier and stock_manager here
+            $role = in_array($role, $validRoles) ? $role : 'user';
 
+       
         // Insert new user
         $stmt = $this->db->prepare("INSERT INTO users (name, email, password, role, image) VALUES (:name, :email, :password, :role, :image)");
         return $stmt->execute([
@@ -52,6 +56,7 @@ class UserModel {
     }
 
     public function usercreate($name, $email, $password, $role, $phone, $address, $image) {
+        
         // Check if the email already exists
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
         $stmt->execute([':email' => $email]);
@@ -59,7 +64,10 @@ class UserModel {
         if ($stmt->fetchColumn() > 0) {
             return "Email already exists.";
         }
-    
+        $validRoles = ['admin', 'cashier', 'stock_manager'];
+        $role = in_array($role, $validRoles) ? $role : 'user'; // Validate role
+        
+
         // Insert new user
         $stmt = $this->db->prepare("
             INSERT INTO users (name, email, password, role, phone, address, image) 
@@ -75,8 +83,12 @@ class UserModel {
             ':image' => $image // Store image path
         ]);
     }
+
     public function updateUser($id, $name, $email, $role, $phone, $address, $image = null) {
         try {
+            $validRoles = ['admin', 'cashier', 'stock_manager'];
+            $role = in_array($role, $validRoles) ? $role : 'user'; // Validate role
+            
             $sql = "UPDATE users SET name = :name, email = :email, role = :role, phone = :phone, address = :address";
             $params = [
                 ':id' => $id,
@@ -107,6 +119,7 @@ class UserModel {
             die("Error updating user: " . $e->getMessage());
         }
     }
+
     public function user_detail($id) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);

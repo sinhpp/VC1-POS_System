@@ -51,8 +51,14 @@ if (session_status() == PHP_SESSION_NONE) {
                         <div class="rounded-circle mb-3" style="width: 120px; height: 120px; background-color: #e0e0e0; display: flex; justify-content: center; align-items: center;">No Image</div>
                     <?php endif; ?>
                     <h4><?= htmlspecialchars($user['name']) ?></h4>
-                    <p class="text-muted"><?= htmlspecialchars($user['role']) ?></p>
-
+                    <p class="text-muted">
+                        <?php 
+                            // Get the role and format it (replace underscores with spaces, and capitalize each word)
+                            $role = $user['role'] ?? 'user'; // Default to 'user' if role is missing
+                            $formattedRole = ucwords(str_replace('_', ' ', $role)); // Capitalize the first letter of each word
+                        ?>
+                        <?= htmlspecialchars($formattedRole) ?> <!-- Display formatted role -->
+                    </p>
                     <div class="text-center mt-4">
                         <div id="star-rating">
                             <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -61,6 +67,7 @@ if (session_status() == PHP_SESSION_NONE) {
                         </div>
                     </div>
                 </div>
+               
             </div>
             <div class="col-md-8">
                 <div class="profile-card p-3">

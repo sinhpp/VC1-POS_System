@@ -34,16 +34,7 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 0;
         }
         
-        .header {
-            
-            color: white;
-            padding: 15px 20px;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+     
         [data-header-position="fixed"] .header {
             position: fixed;
             top: 0;
@@ -210,6 +201,22 @@ if (isset($_SESSION['user_id'])) : ?>
             
    
         }
+        .role-admin {
+            background-color: #4CAF50;  /* Example style */
+        }
+        .role-cashier {
+            background-color: #FF9800;  /* Example style */
+        }
+        .role-stock-manager {
+            background-color:rgb(206, 229, 36);  /* Example style */
+        }
+        .role-publisher {
+            background-color: #9C27B0;  /* Example style */
+        }
+        .role-default {
+            background-color: #B0BEC5;  /* Example style */
+        }
+
         
         /* .pagination-container {
             display: flex;
@@ -378,10 +385,31 @@ if (isset($_SESSION['user_id'])) : ?>
             <?= htmlspecialchars($user['name']) ?>
         </td>
         <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
-            <span class="badge <?= $user['role'] === 'admin' ? 'role-admin' : ($user['role'] === 'cashier' ? 'role-cashier' : 'role-publisher') ?>">
-                <?= htmlspecialchars($user['role']) ?>
+            <?php 
+                // Ensure that the role exists and print the role value for debugging
+                $role = $user['role'] ?? 'user'; // Default to 'user' if role is missing
+                
+                // Format the role name (replace underscores with spaces, and capitalize the first letter of each word)
+                $formattedRole = ucwords(str_replace('_', ' ', $role)); 
+
+
+                // Define role classes for each role
+                $roleClasses = [
+                    'admin' => 'role-admin',
+                    'cashier' => 'role-cashier',
+                    'stock_manager' => 'role-stock-manager',
+                    'publisher' => 'role-publisher',
+                ];
+
+                // Use the role class if exists, otherwise use a default class
+                $roleClass = isset($roleClasses[$role]) ? $roleClasses[$role] : 'role-default'; 
+            ?>
+            <span class="badge <?= $roleClass ?>">
+                <?= htmlspecialchars($formattedRole) ?> <!-- Display formatted role -->
             </span>
         </td>
+
+
                     <td>
                         <?= isset($user['created_at']) ? date('m/d/Y', strtotime($user['created_at'])) : date('m/d/Y') ?>
                     </td>

@@ -21,6 +21,7 @@ class UserController extends BaseController {
     public function form() {
         $this->view("form/form");
     }
+
     public function store() {
         session_start(); // Start session to store the message
     
@@ -42,7 +43,6 @@ class UserController extends BaseController {
         }
     }
     
-   
     public function authenticate() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -56,12 +56,24 @@ class UserController extends BaseController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_role'] = $user['role'];
             $_SESSION['users'] = true;
-            $this->redirect("/dashboard"); // Redirect to users list on success
+            
+            // Redirect based on role
+            switch ($user['role']) {
+                case 'admin':
+                    $this->redirect("/dashboard");
+                    break;
+                case 'stock_manager':
+                    $this->redirect("/stock/inventory");
+                    break;
+                default:
+                    $this->redirect("/dashboard");
+            }
         } else {
             // Return the form with an error message
             $this->view("form/form", ['error' => 'Invalid email or password']);
         }
     }
+
     public function delete($id) {
         $this->users->deleteUser($id);
         header("Location: /users");
@@ -83,6 +95,7 @@ class UserController extends BaseController {
     public function createuser() {
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
+
     public function storeuser() {
         if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'], $_POST['phone'], $_POST['address'])) {
             die("Missing required fields.");
@@ -96,6 +109,7 @@ class UserController extends BaseController {
         $phone = htmlspecialchars($_POST['phone']);
         $address = htmlspecialchars($_POST['address']);
         
+
         // Handle file upload
         $imagePath = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -124,7 +138,6 @@ class UserController extends BaseController {
         }
         $this->view("users/edit", ['user' => $user]); // Pass user data to view
     }
-
 
     public function update($id) {
         $name = htmlspecialchars($_POST['name']);

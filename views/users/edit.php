@@ -135,14 +135,15 @@ if (isset($_SESSION['user_id'])) : ?>
                         <input type="text" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
                     </div>
 
-                     
                     <div class="input-group">
                         <label>Role</label>
                         <select name="role" class="role" required>
                             <option value="cashier" <?= ($user['role'] == 'cashier') ? 'selected' : ''; ?>>Cashier</option>
                             <option value="admin" <?= ($user['role'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+                            <option value="stock_manager" <?= ($user['role'] == 'stock_manager') ? 'selected' : ''; ?>>Stock Manager</option>
                         </select>
                     </div>
+
                     
                     <div class="input-group">
                         <label>Email Address</label>
