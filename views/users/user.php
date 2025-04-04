@@ -42,7 +42,7 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         .header1 {
             
-            background: #7FA5EB;
+            background: #1FA1A1;
             padding: 15px 20px;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
