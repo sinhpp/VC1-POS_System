@@ -57,6 +57,8 @@ $route->post("/product/delete", [ProductScanController::class, 'delete']); // Al
 // $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 // $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 $route->post("/order/process-and-print", [ProductScanController::class, 'processAndPrint']);
+$route->get("/order/process-and-print", [ProductScanController::class, 'processAndPrint']);
+
 $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 

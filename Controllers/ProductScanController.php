@@ -94,14 +94,16 @@ class ProductScanController
     }
 
 
-    public function add() {
+    public function add()
+    {
         if (isset($_POST['add'])) {
             $barcode = filter_input(INPUT_POST, 'barcode', FILTER_SANITIZE_STRING);
             $product = $this->productModel->getProductByBarcode($barcode);
-    
+
             if ($product && $product['stock'] > 0) {
                 $found = false;
-    
+
+                // Check if the product already exists in the order
                 foreach ($_SESSION['order'] as &$item) {
                     if ($item['barcode'] === $barcode) {
                         if ($item['quantity'] + 1 <= $product['stock']) {
@@ -112,13 +114,19 @@ class ProductScanController
                         } else {
                             $_SESSION['error'] = "Cannot add more items; stock limit reached!";
                         }
+                        $found = true;
                         break;
                     }
                 }
-    
+
+                // If the product is new in the order list
                 if (!$found) {
                     $product['quantity'] = 1;
-                    $_SESSION['order'][] = $product; // Add new product to order
+
+                    // Reduce stock in the database
+                    $this->productModel->updateStock($barcode, 1);
+
+                    $_SESSION['order'][] = $product;
                 }
             } else {
                 $_SESSION['error'] = "Product is out of stock!";
@@ -127,6 +135,7 @@ class ProductScanController
         header("Location: /order");
         exit();
     }
+
 
     public function delete()
     {
@@ -356,4 +365,3 @@ class ProductScanController
     {
         $pdf->Ellipse($x, $y, $r, $r, 0, 0, 360, $style);
     }
-
