@@ -9,6 +9,7 @@ require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
+require_once "Controllers/OrderListController.php";
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -56,6 +57,15 @@ $route->post("/product/delete", [ProductScanController::class, 'delete']); // Al
 // $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 // $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 $route->post("/order/process-and-print", [ProductScanController::class, 'processAndPrint']);
+$route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+
+$route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
+$route->post("/order/store", [OrderListController::class, 'storeOrder']); 
+$route->post("/order/delete", [OrderListController::class, 'delete']);
+
+
+
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 

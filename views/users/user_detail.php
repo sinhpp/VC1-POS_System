@@ -1,5 +1,4 @@
 <?php
-// Assuming you have started the session and included necessary files
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -12,16 +11,13 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .profile-card {
-            
             border-radius: 10px;
             padding: 20px;
             background: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .progress {
-            height: 5px;
         }
         body {
             background-color: #f8f9fa;
@@ -31,8 +27,15 @@ if (session_status() == PHP_SESSION_NONE) {
             margin-left: 28%;
             width: 70%;
         }
-        .h5, h5 {
-            font-size: 1.25rem;
+        .star-icon {
+            font-size: 1.5rem;
+            color: gray; /* Default color */
+            cursor: pointer;
+        }
+        .star-icon.selected {
+            color: gold; /* Selected color */
+        }
+        h5{
             padding: 16px;
         }
     </style>
@@ -40,7 +43,6 @@ if (session_status() == PHP_SESSION_NONE) {
 <body>
     <div class="container mt-5">
         <div class="row">
-            <!-- Profile Section -->
             <div class="col-md-4">
                 <div class="profile-card text-center p-3">
                     <?php if (!empty($user['image'])): ?>
@@ -60,8 +62,24 @@ if (session_status() == PHP_SESSION_NONE) {
                     <p><strong>Instagram:</strong> bootdey</p>
                     <p><strong>Facebook:</strong> bootdey</p> -->
                 <!-- </div> -->
+                    <p class="text-muted">
+                        <?php 
+                            // Get the role and format it (replace underscores with spaces, and capitalize each word)
+                            $role = $user['role'] ?? 'user'; // Default to 'user' if role is missing
+                            $formattedRole = ucwords(str_replace('_', ' ', $role)); // Capitalize the first letter of each word
+                        ?>
+                        <?= htmlspecialchars($formattedRole) ?> <!-- Display formatted role -->
+                    </p>
+                    <div class="text-center mt-4">
+                        <div id="star-rating">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <i class="fas fa-star star-icon <?= $i <= ($_SESSION['current_rating'] ?? 0) ? 'selected' : '' ?>" data-index="<?= $i ?>"></i>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                </div>
+               
             </div>
-            <!-- Details Section -->
             <div class="col-md-8">
                 <div class="profile-card p-3">
                     <h5>Full Name: <span class="text-muted"><?= htmlspecialchars($user['name']) ?></span></h5>
@@ -69,7 +87,6 @@ if (session_status() == PHP_SESSION_NONE) {
                     <h5>Phone: <span class="text-muted"><?= htmlspecialchars($user['phone']) ?></span></h5>
                     <h5>Address: <span class="text-muted"><?= htmlspecialchars($user['address']) ?></span></h5>
                 </div>
-                <!-- Project Status -->
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="profile-card p-3">
@@ -95,5 +112,23 @@ if (session_status() == PHP_SESSION_NONE) {
             </div>
         </div>
     </div>
+
+    <script>
+        const stars = document.querySelectorAll('.star-icon');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const index = star.getAttribute('data-index');
+
+                stars.forEach((s, i) => {
+                    if (i < index) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

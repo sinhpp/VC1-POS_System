@@ -17,7 +17,6 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +41,6 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
         }
     </style>
 </head>
-
 <body>
     <div class="container-checkout">
         <div class="checkout">
@@ -116,7 +114,34 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                 viewButton.style.display = 'none';
             }
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateButtonStates();
+            const barcodeInput = document.getElementById('barcodeInputCheckout');
+            barcodeInput.focus();
 
+            <?php if (isset($_SESSION['out_of_stock_alert'])): ?>
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Out of Stock',
+                    text: 'The product with barcode "<?php echo $_SESSION['out_of_stock_alert']; ?>" is out of stock!',
+                    confirmButtonText: 'OK'
+                });
+                <?php unset($_SESSION['out_of_stock_alert']); ?>
+            <?php endif; ?>
+        });
+
+        document.getElementById('scanFormCheckout').addEventListener('submit', function(event) {
+            const barcode = document.getElementById('barcodeInputCheckout').value.trim();
+            if (!barcode) {
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Input',
+                    text: 'Please scan a barcode!',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
         // Call updateButtonStates on page load
         document.addEventListener('DOMContentLoaded', updateButtonStates);
     </script>
