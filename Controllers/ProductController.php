@@ -40,7 +40,7 @@ public function detail($id) {
         $gender = $_POST['gender'] ?? 'Unisex'; // Default value if not provided
         $id = isset($_POST['id']) ? intval($_POST['id']) : null; // Get ID if present
     
-        // ✅ Validate negative values before proceeding
+        //  Validate negative values before proceeding
         if ($price < 0) {
             $_SESSION['product_error'] = "Price cannot be negative.";
             header("Location: /products/create"); 
@@ -53,7 +53,7 @@ public function detail($id) {
             exit();
         }
     
-        // ✅ Check if we're updating or creating a product
+        // Check if we're updating or creating a product
         if ($id) {
             // Update the existing product
             if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $_FILES['image'])) {
