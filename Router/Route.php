@@ -53,9 +53,9 @@ $route->post("/product/process-checkout", [ProductScanController::class, 'proces
 $route->post("/productDetails", [ProductScanController::class, 'scan']); // For scanning
 $route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
 $route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
-$route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
-$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
-
+// $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+// $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+$route->post("/order/process-and-print", [ProductScanController::class, 'processAndPrint']);
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
 
