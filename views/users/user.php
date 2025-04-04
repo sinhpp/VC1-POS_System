@@ -30,7 +30,7 @@ if (isset($_SESSION['user_id'])) : ?>
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             background: linear-gradient(145deg, #ffffff, #f9f9f9);
-            margin-top: 10%;
+            margin-top: 15%;
             padding: 0;
         }
         
@@ -51,11 +51,12 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         .header1 {
             
-            background: teal;
+            background: #6CD0CF;
             padding: 15px 20px;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
             display: flex;
+           
             justify-content: space-between;
             align-items: center;
         }
