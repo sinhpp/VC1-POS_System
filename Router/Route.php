@@ -9,8 +9,12 @@ require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
+<<<<<<< HEAD
 require_once "Controllers/BarcodeController.php";
 
+=======
+require_once "Controllers/OrderListController.php";
+>>>>>>> 58ff945f1260dc5b2702edec2fb57dcc7fea1936
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -32,7 +36,7 @@ $route->get("/users/create", [UserController::class, 'createuser']);
 $route->post("/users/storeuser", [UserController::class, 'storeuser']);
 $route->get("/users/edit/{id}", [UserController::class, 'edit']);
 $route->post("/users/update/{id}", [UserController::class, 'update']); 
-$route->get("users/view_user/{id}", [UserController::class, 'detail']);
+$route->get("users/view/{id}", [UserController::class, 'detail']);
 
 // Products
 
@@ -56,9 +60,21 @@ $route->post("/productDetails", [ProductScanController::class, 'scan']); // For 
 $route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
 $route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
 $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+
+$route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
+$route->post("/order/store", [OrderListController::class, 'storeOrder']); // ✅ Add this!
+$route->post("/order/delete", [OrderListController::class, 'delete']);
+
+
 
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
+
+
+
+//LOw Stock Alert
+$route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAlert']);
 
 
 // Call the route method to process the request

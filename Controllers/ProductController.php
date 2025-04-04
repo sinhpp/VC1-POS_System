@@ -22,11 +22,23 @@ public function detail($id) {
     public function create() {
         $this->view("/products/create");  // This should point to 'views/products/create_product.php'
     }
+
+  
     public function store() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        session_start();
+        $name = trim($_POST['name'] ?? '');
+        $barcode = trim($_POST['barcode'] ?? '');
+        $price = floatval($_POST['price'] ?? 0);
+        $stock = intval($_POST['stock'] ?? 0);
+        $category = $_POST['category'] ?? '';
+        $size = $_POST['size'] ?? 'N/A';
+        $discount = floatval($_POST['discount'] ?? 0);
+        $discount_type = $_POST['discount_type'] ?? 'percentage'; // Capture from form, default to 'percentage'
+        $descriptions = trim($_POST['descriptions'] ?? '');
+        $gender = $_POST['gender'] ?? 'Unisex';
+        $image = $_FILES['image'] ?? null;
     
+<<<<<<< HEAD
         // Collecting data from the form
         $name = $_POST['name'];
         $barcode = $_POST['barcode'];
@@ -54,55 +66,54 @@ public function detail($id) {
         }
     
         // Check if we're updating or creating a product
+=======
+        // Validation logic (e.g., price, discount, etc.)
+        if ($price < 0 || $discount < 0) {
+            $_SESSION['product_error'] = "Price and discount cannot be negative.";
+            header("Location: /products/create");
+            exit();
+        }
+    
+        $id = isset($_POST['id']) ? intval($_POST['id']) : null;
+>>>>>>> 58ff945f1260dc5b2702edec2fb57dcc7fea1936
         if ($id) {
-            // Update the existing product
-            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $_FILES['image'])) {
+            if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
                 $_SESSION['product_success'] = "Product updated successfully!";
             } else {
                 $_SESSION['product_error'] = "Error updating product.";
             }
         } else {
-            // Create a new product
-            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount,$discount_type, $descriptions, $gender, $_FILES['image'])) {
+            if ($this->products->createProduct($name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
                 $_SESSION['product_success'] = "Product added successfully!";
             } else {
-                $_SESSION['product_error'] = "Error: Barcode already exists. Please use a different barcode.";
+                $_SESSION['product_error'] = "Error: Barcode already exists.";
             }
         }
     
-        header("Location: /products"); // Redirect to products list
+        header("Location: /products");
         exit();
     }
-    
     public function edit($id) {
         $product = $this->products->getProById($id);
         $this->view("products/edit_pro", ['product' => $product]);
     }
     
     public function update($id) {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        
-    
-        $name = $_POST['name'];
-        $barcode = $_POST['barcode'];
-        $price = floatval($_POST['price']);
-        $stock = intval($_POST['stock']);
-        $category = $_POST['category'] ?? null;
-        $size = $_POST['size'] ?? null;
+        session_start();
+        $name = trim($_POST['name'] ?? '');
+        $barcode = trim($_POST['barcode'] ?? '');
+        $price = floatval($_POST['price'] ?? 0);
+        $stock = intval($_POST['stock'] ?? 0);
+        $category = $_POST['category'] ?? '';
+        $size = $_POST['size'] ?? 'N/A';
         $discount = floatval($_POST['discount'] ?? 0);
-        $discount_type = $_POST['discount_type'];
-        $descriptions = $_POST['descriptions'] ?? null;
-        $gender = $_POST['gender'] ?? null;
+        $discount_type = $_POST['discount_type'] ?? 'percentage'; // Capture from form
+        $descriptions = trim($_POST['descriptions'] ?? '');
+        $gender = $_POST['gender'] ?? 'Unisex';
         $image = $_FILES['image'] ?? null;
     
-        // Debugging
-        error_log("Updating product ID: " . $id);
-        error_log("Received category: " . var_export($category, true));
-    
-        if (!$category) {
-            $_SESSION['product_error'] = "Category is missing!";
+        if (empty($category)) {
+            $_SESSION['product_error'] = "Category is required.";
             header("Location: /products/edit/$id");
             exit();
         }
@@ -110,14 +121,16 @@ public function detail($id) {
         if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
-            $_SESSION['product_error'] = "Failed to update product.";
+            $_SESSION['product_error'] = "Failed to update product. Check your input values.";
         }
+    
         header("Location: /products");
         exit();
     }
 
-      // Delete product
-      public function delete($id) {
+
+    public function delete($id) {
+        // Call the deleteProduct method from the ProductModel
         if ($this->products->deleteProduct($id)) {
             $_SESSION['product_success'] = "Product deleted successfully!";
         } else {
@@ -137,5 +150,55 @@ public function detail($id) {
             echo json_encode(['success' => false, 'message' => 'Failed to delete products.']);
         }
         exit();
+    }
+    public function lowStockAlert() {
+        // Default threshold value (can be made configurable later)
+        $threshold = 5;
+        
+        // Get low stock products from the model
+        $lowStockProducts = $this->products->getLowStockProducts($threshold);
+        
+        // Process products to ensure status is correctly set
+        foreach ($lowStockProducts as &$product) {
+            // If stock is 0 or less, force status to disabled
+            if ($product['stock'] <= 0) {
+                $product['status'] = 0;
+            }
+            
+            // Ensure status exists
+            if (!isset($product['status'])) {
+                $product['status'] = 1; // Default to enabled
+            }
+        }
+        
+        // Pass the data to the view
+        $this->view("products/lowStockAlert", ['products' => $lowStockProducts]);
+    }
+
+    // Add this method to check for low stock after purchase
+    public function checkLowStock() {
+        $threshold = 5; // Default threshold
+        $lowStockProducts = $this->products->getLowStockProducts($threshold);
+        
+        if (!empty($lowStockProducts)) {
+            // Add to dashboard notifications
+            $this->addLowStockNotification($lowStockProducts);
+            
+            // Send email alert
+            require_once "Models/EmailService.php";
+            $emailService = new EmailService();
+            $emailService->sendLowStockAlert($lowStockProducts);
+        }
+    }
+
+    // Method to add notification to the dashboard
+    private function addLowStockNotification($products) {
+        // Create a notification in the database
+        require_once "Models/NotificationModel.php";
+        $notificationModel = new NotificationModel();
+        
+        $message = count($products) . " products have low stock levels";
+        $link = "/products/lowStockAlert";
+        $notificationModel->addNotification('low_stock', $message, $link);
     }
 }
