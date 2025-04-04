@@ -236,10 +236,15 @@
                     <span class="nav-text">Order Scan</span>
                 </a>
             </li>
-            <li><a href="/products" aria-expanded="false">
+            <li class="dropdown">
+                <a href="javascript:void(0);" aria-expanded="false" class="products-list" onclick="toggleDropdown()">
                     <i class="flaticon-045-heart"></i>
                     <span class="nav-text">Products List</span>
                 </a>
+                <ul class="dropdown-menu" id="dropdownMenu">
+                    <li><a href="/products">Product list</a></li>
+                    <li><a href="javascript:void(0);" data-toggle="modal" data-target="#categoryModal">Category</a></li>
+                </ul>
             </li>
             <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
                     <i class="fa-solid fa-window-maximize"></i>
@@ -262,3 +267,93 @@
 <!--**********************************
             Sidebar end
         ***********************************-->
+
+
+
+        <style>
+        
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin-top: 50px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .form-container {
+            display: none; /* Initially hide the form */
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .dropdown-menu {
+            display: none; /* Initially hide the dropdown */
+        }
+    </style>
+
+      <!-- Modal for Create Category -->
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryModalLabel">Create Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createCategoryForm">
+                    <div class="form-group">
+                        <label for="categoryName">Category Name:</label>
+                        <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create</button>
+                </form>
+                <div id="categoryFeedback" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Handle category creation
+    document.getElementById('createCategoryForm').onsubmit = function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const categoryName = document.getElementById('categoryName').value;
+        const feedbackElement = document.getElementById('categoryFeedback');
+
+        // Simulate category creation
+        if (categoryName) {
+            feedbackElement.innerHTML = `<div class="alert alert-success">Category "${categoryName}" created successfully!</div>`;
+            document.getElementById('categoryName').value = ''; // Clear the input field
+            $('#categoryModal').modal('hide'); // Hide the modal after submission
+        } else {
+            feedbackElement.innerHTML = `<div class="alert alert-danger">Please enter a category name.</div>`;
+        }
+    };
+
+    // Close dropdown when clicking outside
+    window.onclick = function(event) {
+        if (!event.target.matches('.products-list') && !event.target.closest('.dropdown-menu')) {
+            document.getElementById('dropdownMenu').style.display = 'none';
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
