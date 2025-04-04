@@ -31,51 +31,98 @@ if (isset($_SESSION['user_id'])) : ?>
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             background: linear-gradient(145deg, #ffffff, #f9f9f9);
             margin-top: 10%;
+            padding: 0;
+        }
+        
+     
+        [data-header-position="fixed"] .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .header1 {
+            
+            background: teal;
+            padding: 15px 20px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        [data-header-position="fixed"] .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header1 h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: white !important;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            color: pink;
+        }
+        .header1-buttons .btn{
+            color: white !important;
+        }
+        
+        .header-buttons .btn {
+            margin: 0;
+            
+            color: white !important;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .container-fluid{
+            width: 90%;
         }
 
         .table {
-            width: 80%;
+            width: 100%;
             border-collapse: separate;
-            border-spacing: 0;
-            display: block;
-            margin-left:7%;
             justify-content: center;
             text-align: center;
             margin-left: 10%;
         }
         
         .table img {
-            max-width: 66px !important;
-            height: 66px !important;
-            border-radius: 50% !important; /* Adjust as needed */
-       
-        }
-        
-        .btn{
-            margin-top: 2%;
-            margin-left: 12%;
+            max-width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            margin-right: 10px;
         }
         
         .table thead th {
             background-color: #f8f9fa;
-            padding: 12px;
-            text-align: center;
-            border-bottom: 2px solid #dee2e6;
+            padding: 12px 20px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
             font-weight: 600;
             color: #333;
         }
 
         .table th, .table td {
-            padding: 12px 15px;
+            padding: 12px 20px;
             border-bottom: 1px solid #e0e0e0;
         }
 
         .table th {
-            background-color: #8A5AD9 !important;
-            color: white !important;
+            background-color: #f8f9fa !important;
+            color: #333 !important;
             font-weight: 600;
-            justify-content: center;
-            align-items: center;
             top: 0;
             z-index: 2;
         }
@@ -83,13 +130,12 @@ if (isset($_SESSION['user_id'])) : ?>
         .table tr:hover {
             background-color: rgba(0, 123, 255, 0.05);
             transition: background-color 0.3s ease;
-            cursor: pointer; /* Pointer cursor for hover effect */
+            cursor: pointer;
         }
 
-        .profile-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 80%; /* Make the image circular */
+        .user-info {
+            display: flex;
+            align-items: center;
         }
 
         .placeholder-image {
@@ -102,6 +148,7 @@ if (isset($_SESSION['user_id'])) : ?>
             align-items: center;
             color: #666;
             font-weight: bold;
+            margin-right: 10px;
         }
          
         .alert-small {
@@ -117,6 +164,82 @@ if (isset($_SESSION['user_id'])) : ?>
             opacity: 0.9;
         }
         
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-active {
+            background-color: #4CAF50;
+        }
+
+        .status-suspended {
+            background-color: #F44336;
+        }
+
+        .status-inactive {
+            background-color: #FF9800;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-buttons .btn {
+            margin: 0;
+            padding: 4px 7px;
+        }
+        .action-buttons .material-icons {
+            font-size: 16px !important; /* Smaller icon size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align:center;
+            
+   
+        }
+        .role-admin {
+            background-color: #4CAF50;  /* Example style */
+        }
+        .role-cashier {
+            background-color: #FF9800;  /* Example style */
+        }
+        .role-stock-manager {
+            background-color:rgb(206, 229, 36);  /* Example style */
+        }
+        .role-publisher {
+            background-color: #9C27B0;  /* Example style */
+        }
+        .role-default {
+            background-color: #B0BEC5;  /* Example style */
+        }
+
+        
+        /* .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-top: 1px solid #dee2e6;
+        } */
+
+        .pagination {
+            margin: 0;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #2196F3;
+            border-color: #2196F3;
+        }
+
+        .pagination .page-link {
+            color: #2196F3;
+        }
+        
         /* Responsive styles for tablet */
         @media (max-width: 992px) {
             .table-responsive {
@@ -124,18 +247,15 @@ if (isset($_SESSION['user_id'])) : ?>
                 margin-top: 15%;
             }
             
-            .table {
-                width: 90%;
-                margin-left: 5%;
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
             
-            .btn {
-                margin-left: 5%;
-            }
-            
-            .profile-image {
-                width: 60px;
-                height: 60px;
+            .header-buttons {
+                width: 100%;
+                justify-content: flex-end;
             }
         }
         
@@ -150,33 +270,31 @@ if (isset($_SESSION['user_id'])) : ?>
             
             .table {
                 width: 100%;
-                margin-left: 0;
                 font-size: 0.9rem;
             }
             
             .table th, .table td {
-                padding: 8px 5px;
+                padding: 8px 10px;
             }
             
-            .btn {
-                margin-left: 5%;
-                margin-bottom: 10px;
-                display: block;
+            .header-buttons {
+                flex-direction: column;
+                width: 100%;
             }
             
-            .profile-image {
-                width: 50px;
-                height: 50px;
+            .header-buttons .btn {
+                width: 100%;
+                margin-bottom: 5px;
             }
+/*             
+            .pagination-container {
+                flex-direction: column;
+                gap: 10px;
+            } */
             
-            .btn-sm {
-                padding: 0.2rem 0.4rem;
-                font-size: 0.75rem;
-            }
             
             /* Stack action buttons on mobile */
             .action-buttons {
-                display: flex;
                 flex-direction: column;
             }
             
@@ -184,119 +302,307 @@ if (isset($_SESSION['user_id'])) : ?>
                 margin: 2px 0;
             }
         }
+        .role-admin {
+            background-color: teal; /* Teal background for Admin role */
+            color: white; /* White text for better contrast */
+            padding: 5px 10px; /* Add some padding */
+            border-radius: 5px; /* Rounded corners */
+        }
+        .role-cashier {
+            background-color: #007bff; /* Blue background for Cashier role */
+            color: white; /* White text for better contrast */
+            padding: 5px 10px; /* Add some padding */
+            border-radius: 5px; /* Rounded corners */
+        }
         
         /* Extra small devices */
         @media (max-width: 576px) {
-            .table th:nth-child(3), .table td:nth-child(3) { /* Hide role column on very small screens */
+            .table th:nth-child(3), .table td:nth-child(3) { /* Hide date column on very small screens */
                 display: none;
-            }
-            
-            .profile-image {
-                width: 40px;
-                height: 40px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container-fluid table-responsive">
-        
         <table class="table table-striped table-hover shadow-sm rounded">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/users/create" class="btn1 btn-success">+ Create User</a>
-        </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="/users/create" class="btn btn-success">+ Create User</a>
+            </div>
             <thead>
                 <tr>
-                    <th>Profile</th>
-                    <th>Username</th>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
                     <th>Role</th>
+                    <th>Date Created</th>
+                   
+                    <!-- <th>Status</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
+                <?php 
+                $counter = 1;
+                foreach ($users as $user): 
+                    // Determine status (this is an example - adjust based on your actual data)
+                    $status = 'Active'; // Default status
+                    $statusClass = 'status-active';
+                    
+                    // You would need to add a status field to your users table
+                    // This is just a placeholder logic
+                    if (isset($user['status'])) {
+                        $status = $user['status'];
+                        if ($status == 'Suspended') {
+                            $statusClass = 'status-suspended';
+                        } else if ($status == 'Inactive') {
+                            $statusClass = 'status-inactive';
+                        }
+                    }
+                ?>
                 <tr>
+                    <td><?= $counter++ ?></td>
                     <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
-                        <?php if (!empty($user['image'])): ?>
-                            <img src="/<?= htmlspecialchars($user['image']) ?>" alt="Profile Image" class="profile-image">
-                        <?php else: ?>
-                            <div class="placeholder-image">No Image</div>
-                        <?php endif; ?>
+            <?php if (!empty($user['image'])): ?>
+                <img src="/<?= htmlspecialchars($user['image']) ?>" alt="Profile Image" class="profile-image">
+            <?php else: ?>
+                <div class="placeholder-image">No Image</div>
+            <?php endif; ?>
+        </td>
+        <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
+            <?= htmlspecialchars($user['name']) ?>
+        </td>
+        <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
+            <?php 
+                // Ensure that the role exists and print the role value for debugging
+                $role = $user['role'] ?? 'user'; // Default to 'user' if role is missing
+                
+                // Format the role name (replace underscores with spaces, and capitalize the first letter of each word)
+                $formattedRole = ucwords(str_replace('_', ' ', $role)); 
+
+
+                // Define role classes for each role
+                $roleClasses = [
+                    'admin' => 'role-admin',
+                    'cashier' => 'role-cashier',
+                    'stock_manager' => 'role-stock-manager',
+                    'publisher' => 'role-publisher',
+                ];
+
+                // Use the role class if exists, otherwise use a default class
+                $roleClass = isset($roleClasses[$role]) ? $roleClasses[$role] : 'role-default'; 
+            ?>
+            <span class="badge <?= $roleClass ?>">
+                <?= htmlspecialchars($formattedRole) ?> <!-- Display formatted role -->
+            </span>
+        </td>
+
+
+                    <td>
+                        <?= isset($user['created_at']) ? date('m/d/Y', strtotime($user['created_at'])) : date('m/d/Y') ?>
                     </td>
-                    <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
-                        <?= htmlspecialchars($user['name']) ?>
-                    </td>
-                    <td onclick="window.location.href='/users/view/<?= $user['id'] ?>'" style="cursor: pointer;">
-                        <span class="badge <?= $user['role'] === 'admin' ? 'bg-success' : 'bg-info' ?> role-badge">
-                            <?= htmlspecialchars($user['role']) ?>
-                        </span>
-                    </td>
+                   
+                    <!-- <td>
+                        <span class="status-indicator <?= $statusClass ?>"></span>
+                        <?= $status ?>
+                    </td> -->
                     <td>
                         <div class="action-buttons">
-                            <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm mx-1">
+                            <a href="/users/edit/<?= $user['id'] ?>" class="btn btn-warning btn-sm">
                                 <i class="material-icons">edit</i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(<?= $user['id'] ?>)">
+                            <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $user['id'] ?>)">
                                 <i class="material-icons">delete</i>
                             </a>
                         </div>
                     </td>
                 </tr>
                 <?php endforeach; ?>
+                
+                <?php if (empty($users)): ?>
+                <!-- Sample data for demonstration - only shown if no users exist -->
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="placeholder-image">M</div>
+                            <span>Michael Holz</span>
+                        </div>
+                    </td>
+                    <td>04/10/2013</td>
+                    <td><span class="badge bg-success">Admin</span></td>
+                    <td><span class="status-indicator status-active"></span>Active</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-warning btn-sm"><i class="material-icons">edit</i></button>
+                            <button class="btn btn-danger btn-sm"><i class="material-icons">delete</i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="placeholder-image">P</div>
+                            <span>Paula Wilson</span>
+                        </div>
+                    </td>
+                    <td>05/08/2014</td>
+                    <td><span class="badge bg-info">Publisher</span></td>
+                    <td><span class="status-indicator status-active"></span>Active</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-warning btn-sm"><i class="material-icons">edit</i></button>
+                            <button class="btn btn-danger btn-sm"><i class="material-icons">delete</i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="placeholder-image">A</div>
+                            <span>Antonio Moreno</span>
+                        </div>
+                    </td>
+                    <td>11/05/2015</td>
+                    <td><span class="badge bg-info">Publisher</span></td>
+                    <td><span class="status-indicator status-suspended"></span>Suspended</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-warning btn-sm"><i class="material-icons">edit</i></button>
+                            <button class="btn btn-danger btn-sm"><i class="material-icons">delete</i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="placeholder-image">M</div>
+                            <span>Mary Saveley</span>
+                        </div>
+                    </td>
+                    <td>06/09/2016</td>
+                    <td><span class="badge bg-info">Reviewer</span></td>
+                    <td><span class="status-indicator status-active"></span>Active</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-warning btn-sm"><i class="material-icons">edit</i></button>
+                            <button class="btn btn-danger btn-sm"><i class="material-icons">delete</i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="placeholder-image">M</div>
+                            <span>Martin Sommer</span>
+                        </div>
+                    </td>
+                    <td>12/08/2017</td>
+                    <td><span class="badge bg-info">Moderator</span></td>
+                    <td><span class="status-indicator status-inactive"></span>Inactive</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-warning btn-sm">
+                                <i class="material-icons" style="font-size: 14px;">edit</i>
+                            </button>
+                            <button class="btn btn-danger btn-sm">
+                                <i class="material-icons" style="font-size: 14px;">delete</i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <?php endif; ?>
             </tbody>
         </table>
+        
+        <!-- Pagination -->
+        <!-- <div class="pagination-container">
+            <div>
+                Showing <span>5</span> out of <span>25</span> entries
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div> -->
     </div>
 
-  <!-- Include SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Live Alert Placeholder -->
-<div id="liveAlertPlaceholder" class="alert-small"></div>
+    <!-- Live Alert Placeholder -->
+    <div id="liveAlertPlaceholder" class="alert-small"></div>
 
-<script>
-function confirmDelete(userId) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Use custom class for successful deletion alert
-            showLiveAlert('Deleted successfully.', 'custom-success');
+    <script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Use custom class for successful deletion alert
+                showLiveAlert('Deleted successfully.', 'custom-success');
 
-            // Redirect to delete URL after a delay
-            setTimeout(() => {
-                window.location.href = '/users/delete/' + userId;
-            }, 3000); // 3 seconds delay
-        }
+                // Redirect to delete URL after a delay
+                setTimeout(() => {
+                    window.location.href = '/users/delete/' + userId;
+                }, 3000); // 3 seconds delay
+            }
+        });
+    }
+
+    function showLiveAlert(message, customClass) {
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+        // Clear any existing alerts
+        alertPlaceholder.innerHTML = '';
+        // Create the alert element with the custom class
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = `
+            <div class="alert ${customClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        // Append the alert to the placeholder
+        alertPlaceholder.appendChild(wrapper);
+        // Remove the alert after 3 seconds
+        setTimeout(() => {
+            wrapper.remove();
+        }, 3000);
+    }
+
+    // Export to Excel functionality
+    document.getElementById('exportBtn').addEventListener('click', function() {
+        // You can implement the export functionality here
+        // For now, just show an alert
+        showLiveAlert('Exporting to Excel...', 'custom-success');
     });
-}
-
-function showLiveAlert(message, customClass) {
-    const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-    // Clear any existing alerts
-    alertPlaceholder.innerHTML = '';
-    // Create the alert element with the custom class
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = `
-        <div class="alert ${customClass} alert-dismissible fade show" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    `;
-    // Append the alert to the placeholder
-    alertPlaceholder.appendChild(wrapper);
-    // Remove the alert after 3 seconds
-    setTimeout(() => {
-        wrapper.remove();
-    }, 3000);
-}y
-</script>
+    </script>
 </body>
 
 <?php 

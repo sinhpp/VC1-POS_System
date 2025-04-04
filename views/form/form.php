@@ -58,6 +58,7 @@
                         <option value="" disabled selected>Select Role</option>
                         <option value="admin">Admin</option>
                         <option value="cashier">Cashier</option>
+                        <option value="cashier">stock manager</option>
                     </select>
                 </div>
                 <button class="submit-btn" type="submit" name="signup">Signup</button>

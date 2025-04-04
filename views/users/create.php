@@ -8,7 +8,6 @@ if (isset($_SESSION['user_id'])) : ?>
          body {
             font-family: Arial, sans-serif;
             display: block;
-
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -33,6 +32,9 @@ if (isset($_SESSION['user_id'])) : ?>
             text-align: center;
             padding: 20px;
             border-right: 1px solid #ddd;
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
         }
 
         .upload-section h2 {
@@ -77,6 +79,7 @@ if (isset($_SESSION['user_id'])) : ?>
             cursor: pointer;
             border-radius: 5px;
             transition: all 0.3s ease;
+            margin-top: 10px; /* Add margin for spacing */
         }
 
         .btn-upload:hover {
@@ -188,8 +191,8 @@ if (isset($_SESSION['user_id'])) : ?>
             <h2>Upload Profile Picture</h2>
             <img id="profile-pic" class="profile-pic" src="#" alt="Profile Picture" />
             <div class="input-group">
-            <input id="file-input" type="file" name="image" accept="image/*" onchange="previewImage(event)">
-                <button type="button" id="upload-button" class="btn-upload" onclick="document.getElementById('image-input').click();">Upload Image</button>
+                <input id="file-input" type="file" name="image" accept="image/*" onchange="previewImage(event)" style="display: none;">
+                <button type="button" id="file-input" class="btn-upload" onclick="document.getElementById('file-input').click();">Upload Image</button>
             </div>
         </div>
 
@@ -214,9 +217,12 @@ if (isset($_SESSION['user_id'])) : ?>
                     <option value="" disabled selected>Select Role</option>
                     <option value="admin">Admin</option>
                     <option value="cashier">Cashier</option>
+                    <option value="stock_manager">Stock Manager</option> <!-- FIXED -->
                 </select>
             </div>
-                        <!-- Phone Field -->
+
+            
+            <!-- Phone Field -->
             <div class="input-group">
                 <label>Phone</label>
                 <input type="text" name="phone" placeholder="Enter your phone number" required>
@@ -227,7 +233,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 <label>Address</label>
                 <input type="text" name="address" placeholder="Enter your address" required>
             </div>
-                        <!-- Password Field -->
+            <!-- Password Field -->
             <div class="input-group">
                 <label>Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter password" required>
