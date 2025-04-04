@@ -77,11 +77,12 @@ if (isset($_SESSION['user_id'])) : ?>
         .header1-buttons .btn{
             color: white !important;
         }
+
         
         .header-buttons .btn {
             margin: 0;
             
-            color: white !important;
+      
             border: none;
             display: flex;
             align-items: center;
