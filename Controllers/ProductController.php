@@ -175,18 +175,26 @@ public function detail($id) {
 
     ///////////// create category////////////////
 
-    public function storeCategory(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:100',
-        ]);
-
-        $category = Category::create([
-            'name' => $request->name,
-        ]);
-
-        return response()->json(['success' => true, 'category' => $category], 201);
+    public function createCategory() {
+        $feedbackMessage = ''; // Initialize feedback message
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = trim($_POST['categoryName']);
+    
+            if (!empty($name)) {
+                if ($this->products->createCategory($name)) { // Use $this->products
+                    // Redirect or set a success message
+                    header("Location: /products"); // Change to your redirect path
+                    exit;
+                } else {
+                    $feedbackMessage = "Error creating category.";
+                }
+            } else {
+                $feedbackMessage = "Category name cannot be empty.";
+            }
+        }
+    
+        // Include the view or return feedback
+        return $feedbackMessage;
     }
-
-
 }

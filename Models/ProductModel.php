@@ -296,19 +296,9 @@ class ProductModel {
     }
 
     /////////////////category////////////
-
-    public function up()
-    {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 100);
-            $table->timestamps();
-        });
+    public function createCategory($name) {
+        $stmt = $this->db->prepare("INSERT INTO categories (name) VALUES (:name)");
+        $stmt->bindParam(':name', $name);
+        return $stmt->execute();
     }
-
-    public function down()
-    {
-        Schema::dropIfExists('categories');
-    
-}
 }
