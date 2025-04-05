@@ -171,4 +171,22 @@ public function detail($id) {
         $link = "/products/lowStockAlert";
         $notificationModel->addNotification('low_stock', $message, $link);
     }
+
+
+    ///////////// create category////////////////
+
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+        ]);
+
+        $category = Category::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json(['success' => true, 'category' => $category], 201);
+    }
+
+
 }
