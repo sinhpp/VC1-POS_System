@@ -126,7 +126,7 @@
                 </a>
                 <ul class="dropdown-menu" id="dropdownMenu">
                     <li><a href="/products">Product list</a></li>
-                    <li><a href="javascript:void(0);" id="openCategory" onclick="openCategoryModal()">Category</a></li>
+                    <li><a href="/products/category" id="openCategory">Category</a></li>
                 </ul>
             </li>
             <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
@@ -143,67 +143,3 @@
 <!--**********************************
             Sidebar end
 ***********************************-->
-
-<!-- Modal for Create Category -->
-<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="categoryModalLabel">Create Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="createCategoryForm" method="POST" action="/products/create-category">
-                    <div class="form-group">
-                        <label for="categoryName">Category Name:</label>
-                        <input type="text" class="form-control" id="categoryName" name="categoryName" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Create</button>
-                </form>
-                <div id="categoryFeedback" class="mt-3"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Include jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-
-<script>
-function openCategoryModal() {
-    $('#categoryModal').modal('show');
-}
-
-function submitCategoryForm(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const formData = new FormData(document.getElementById('createCategoryForm'));
-
-    fetch('/products/create-category', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        const feedbackDiv = document.getElementById('categoryFeedback');
-        if (data.success) {
-            feedbackDiv.innerHTML = "Category created successfully!";
-            document.getElementById('categoryName').value = ''; // Clear the input
-        } else {
-            feedbackDiv.innerHTML = data.message; // Display error message
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-// Attach event listener to the form
-document.getElementById('createCategoryForm').addEventListener('submit', submitCategoryForm);
-</script>
-
-</body>
-</html>

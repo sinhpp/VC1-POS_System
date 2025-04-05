@@ -456,37 +456,43 @@ button.filter-btn:hover {
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<?php
+$categories = $this->getCategories(); // Fetch categories using the public method
+?>
 
 <div class="table-container">
-
-
-
     <div class="table">
-    
-    <div class="container">
+        <div class="container">
+            <div class="filters">
+                <input type="text" class="search" placeholder="Search...">
+                
+                <select class="filter" id="stock-filter">
+                    <option value="">Stock</option>
+                    <option value="low">Low Stock</option>
+                    <option value="medium">Medium Stock</option>
+                    <option value="high">High Stock</option>
+                </select>
 
-        <div class="filters">
-            <input type="text" class="search" placeholder="Search...">
-            
-            <select class="filter" id="stock-filter">
-                <option value="">Stock</option>
-                <option value="low">Low Stock</option>
-                <option value="medium">Medium Stock</option>
-                <option value="high">High Stock</option>
-            </select>
-            <select class="filter" id="category-filter">
-                <option value="">Category</option>
-                <option value="clothing">Clothing</option>
-                <option value="electronics">Electronics</option>
-                <option value="accessories">Accessories</option>
-            </select>
+                <select class="filter" id="category-filter">
+                    <option value="">Category</option>
+                    <?php if (isset($categories) && count($categories) > 0): ?>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= htmlspecialchars($category['name']); ?>">
+                                <?= htmlspecialchars($category['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="">No categories available</option>
+                    <?php endif; ?>
+                </select>
 
-            <div class="button">
-        
-        <a href="/products/create" class="btn btn-success">+ Add Product</a>
-    </div>
+                <div class="button">
+                    <a href="/products/creat" class="btn btn-success">+ Add Product</a>
+                </div>
+            </div>
         </div>
-</div>
+    
+
     <table>
         <thead>
             <tr>
