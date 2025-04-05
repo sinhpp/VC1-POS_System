@@ -17,6 +17,7 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,14 +34,17 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
             cursor: pointer;
             margin-top: 10px;
         }
+
         .view-details:hover {
             background-color: #0056b3;
         }
+
         .order-items.hidden {
             display: none;
         }
     </style>
 </head>
+
 <body>
     <div class="container-checkout">
         <div class="checkout">
@@ -84,12 +88,14 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                     <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
                     <input type="hidden" name="total" value="<?php echo $total; ?>">
                     <input type="hidden" name="paymentMethod" id="paymentMethodInput" value="<?php echo $paymentMethod; ?>">
-                    <button type="submit" class="place-order">
-                        <i class="fas fa-shopping-cart"></i> Print receipt
-                    </button>
-                    <button type="submit" class="place-order">
-                        <i class="fas fa-shopping-cart"></i> Place Order
-                    </button>
+                    <div class="print-receipt d-flex">
+                        <button type="submit" class="place-order">
+                            <i class="fas fa-shopping-cart"></i> Print Receipt
+                        </button>
+                        <button type="submit" class="place-order">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -105,7 +111,7 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
             const orderDetails = document.getElementById('orderDetails');
             const toggleButton = document.querySelector('.toggle-details');
             const viewButton = document.querySelector('.view-details');
-            
+
             if (orderDetails.classList.contains('hidden')) {
                 toggleButton.style.display = 'none';
                 viewButton.style.display = 'inline-block';
@@ -119,4 +125,5 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
         document.addEventListener('DOMContentLoaded', updateButtonStates);
     </script>
 </body>
+
 </html>
