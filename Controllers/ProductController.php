@@ -1,6 +1,6 @@
 <?php
 require_once "Models/ProductModel.php";
-require_once "Models/CategoryModel.php"; // Include CategoryModel if needed
+require_once "Models/CategoryModel.php"; // Make sure to include CategoryModel
 
 class ProductController extends BaseController {
     private $products;
@@ -11,7 +11,6 @@ class ProductController extends BaseController {
         $this->categories = new CategoryModel(); // Initialize CategoryModel
     }
 
-    // Method to get categories
     public function getCategories() {
         return $this->categories->getCategories(); // Fetch categories from CategoryModel
     }
@@ -20,16 +19,17 @@ class ProductController extends BaseController {
         $products = $this->products->getProducts(); // Fetch products from the model
         $this->view("products/product", ['products' => $products]); // Pass products to the view
     }
-/////////////////////////////
-public function detail($id) {
-    $product = $this->products->product_detail($id);
-    $this->view("products/product_detail", ['product' => $product]);
-}
 
-    ////////////////////////////////////////////////////////
-    public function create() {
-        $this->view("/products/create");  // This should point to 'views/products/create_product.php'
+    public function detail($id) {
+        $product = $this->products->product_detail($id);
+        $this->view("products/product_detail", ['product' => $product]);
     }
+
+    public function create() {
+        $categories = $this->getCategories(); // Get categories to pass to the view
+        $this->view("/products/create", ['categories' => $categories]);  // Pass categories to the view
+    }
+
 
   
     public function store() {
@@ -95,7 +95,7 @@ public function detail($id) {
             header("Location: /products/edit/$id");
             exit();
         }
-    
+
         if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
@@ -179,5 +179,4 @@ public function detail($id) {
         $link = "/products/lowStockAlert";
         $notificationModel->addNotification('low_stock', $message, $link);
     }
-
 }

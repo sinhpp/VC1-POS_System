@@ -450,15 +450,16 @@ button.filter-btn:hover {
 <body>
 </head>
 <body>
+<?php
+$categories = $this->getCategories(); 
+?>
 <!-- Include SweetAlert2 CSS and JS -->
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<?php
-$categories = $this->getCategories(); 
-?>
+
 
 <div class="table-container">
     <div class="table">
