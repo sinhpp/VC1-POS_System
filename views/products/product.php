@@ -464,7 +464,7 @@ $categories = $this->getCategories(); // Fetch categories using the public metho
     <div class="table">
         <div class="container">
             <div class="filters">
-                <input type="text" class="search" placeholder="Search...">
+                <input type="text" class="search" id="product-search" placeholder="Search...">
                 
                 <select class="filter" id="stock-filter">
                     <option value="">Stock</option>
@@ -474,7 +474,7 @@ $categories = $this->getCategories(); // Fetch categories using the public metho
                 </select>
 
                 <select class="filter" id="category-filter">
-                    <option value="">Category</option>
+                    <option value="">All Categories</option>
                     <?php if (isset($categories) && count($categories) > 0): ?>
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= htmlspecialchars($category['name']); ?>">
@@ -502,51 +502,12 @@ $categories = $this->getCategories(); // Fetch categories using the public metho
                 </th>
                 <th>Image</th>
                 <th>Name</th>
-                
                 <th>Code</th>
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Category</th>
-
-<script>
-    function toggleCatSortOptions(event) {
-        const sortOptions = document.getElementById('cat-sort-options');
-        sortOptions.style.display = sortOptions.style.display === 'block' ? 'none' : 'block';
-
-        // Position the dropdown menu correctly (if necessary)
-        const iconPos = event.target.getBoundingClientRect();
-        sortOptions.style.position = 'absolute'; // Use absolute positioning
-        sortOptions.style.top = `${iconPos.bottom + window.scrollY}px`;
-        sortOptions.style.left = `${iconPos.left}px`;
-    }
-
-    function searchCat() {
-        const input = document.getElementById('catSearch').value.toLowerCase();
-        const buttons = document.querySelectorAll('#categoryList button');
-
-        buttons.forEach(button => {
-            const text = button.textContent.toLowerCase();
-            button.style.display = text.includes(input) ? 'block' : 'none';
-        });
-    }
-
-    function selectCategory(category) {
-        console.log('Selected category:', category);
-        document.getElementById('cat-sort-options').style.display = 'none'; // Hide dropdown after selection
-    }
-
-    // Close dropdown when clicking outside of it
-    window.onclick = function(event) {
-        const dropdown = document.getElementById('cat-sort-options');
-        if (!event.target.matches('.fa-filter-circle-dollar') && dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-        }
-    };
-</script>
-
                 <th>Created At</th>
                 <th>Action
-
                 <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
                 </th>
             </tr>
@@ -558,14 +519,15 @@ $categories = $this->getCategories(); // Fetch categories using the public metho
                 </tr>
             <?php else: ?>
                 <?php foreach ($products as $product): ?>
-                    <tr>
+                    <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
                         <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
                         <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
-                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td class="product-name"><?= htmlspecialchars($product['name']) ?></td>
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td> <!-- This cell will be updated -->                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
@@ -593,30 +555,75 @@ $categories = $this->getCategories(); // Fetch categories using the public metho
 const products = <?= json_encode($products); ?>; // Convert PHP array to JavaScript
 const productsPerPage = 10;
 let currentPage = 1;
-let totalPages = Math.ceil(products.length / productsPerPage);
+let filteredProducts = [...products]; // Create a copy of the products array
+let totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+// Filter products based on category, stock, and search term
+function filterProducts() {
+    const categoryFilter = document.getElementById('category-filter').value.toLowerCase();
+    const stockFilter = document.getElementById('stock-filter').value.toLowerCase();
+    const searchTerm = document.getElementById('product-search').value.toLowerCase();
+    
+    // Reset filtered products to all products
+    filteredProducts = products.filter(product => {
+        // Category filter
+        const categoryMatch = !categoryFilter || product.category.toLowerCase() === categoryFilter;
+        
+        // Stock filter
+        let stockMatch = true;
+        if (stockFilter) {
+            const stock = parseInt(product.stock);
+            if (stockFilter === 'low' && stock <= 10) stockMatch = true;
+            else if (stockFilter === 'medium' && stock > 10 && stock <= 50) stockMatch = true;
+            else if (stockFilter === 'high' && stock > 50) stockMatch = true;
+            else stockMatch = false;
+        }
+        
+        // Search filter (match name, barcode, or category)
+        const searchMatch = !searchTerm || 
+            product.name.toLowerCase().includes(searchTerm) || 
+            product.barcode.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm);
+        
+        return categoryMatch && stockMatch && searchMatch;
+    });
+    
+    // Update total pages based on filtered products
+    totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    
+    // Reset to first page when filters change
+    currentPage = 1;
+    
+    // Render the filtered products
+    renderProducts(1);
+}
 
 function renderProducts(page) {
     currentPage = page;
     const start = (currentPage - 1) * productsPerPage;
     const end = start + productsPerPage;
-    const currentProducts = products.slice(start, end);
+    const currentProducts = filteredProducts.slice(start, end);
 
     const tbody = document.getElementById('product-list');
     tbody.innerHTML = '';
 
     if (currentProducts.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products available.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products match your filters.</td></tr>';
     } else {
         currentProducts.forEach(product => {
             const row = document.createElement('tr');
+            row.className = 'product-row';
+            row.setAttribute('data-category', product.category);
+            row.setAttribute('data-stock', product.stock);
+            
             row.innerHTML = `
                 <td><input type="checkbox" class="product-checkbox" value="${product.id}"></td>
                 <td><img src="/${product.image}" alt="Product Image" class="product-image"></td>
-                <td>${product.name}</td>
+                <td class="product-name">${product.name}</td>
                 <td>${product.barcode}</td>
-                <td>$${product.price}</td>
+                <td>$${parseFloat(product.price).toFixed(2)}</td>
                 <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
-                <td>${product.category}</td>
+                <td class="category-cell">${product.category}</td>
                 <td>${product.created_at}</td>
                 <td class="action-icons">
                     <div class="dropdown">
@@ -624,7 +631,7 @@ function renderProducts(page) {
                         <div class="dropdown-menu">
                             <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                             <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                            <a href="/products/product_detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                            <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                         </div>
                     </div>
                 </td>
@@ -640,20 +647,23 @@ function renderPagination() {
     const paginationDiv = document.getElementById('pagination-buttons');
     paginationDiv.innerHTML = ''; // Clear previous pagination buttons
 
-    for (let i = 1; i <= Math.min(5, totalPages); i++) {
-        const button = document.createElement('button');
-        button.classList.add('page-btn');
-        button.textContent = i;
-        button.onclick = function () {
-            renderProducts(i);
-            updateActivePage(i);
-        };
+    // Only show pagination if we have more than one page
+    if (totalPages > 1) {
+        for (let i = 1; i <= Math.min(5, totalPages); i++) {
+            const button = document.createElement('button');
+            button.classList.add('page-btn');
+            button.textContent = i;
+            button.onclick = function () {
+                renderProducts(i);
+                updateActivePage(i);
+            };
 
-        if (i === currentPage) {
-            button.classList.add('active'); // Highlight active page
+            if (i === currentPage) {
+                button.classList.add('active'); // Highlight active page
+            }
+
+            paginationDiv.appendChild(button);
         }
-
-        paginationDiv.appendChild(button);
     }
 }
 
@@ -670,10 +680,17 @@ function updateActivePage(page) {
 
 // Initial load - Now only 10 products will show on page 1
 function init() {
+    // Add event listeners for filters
+    document.getElementById('category-filter').addEventListener('change', filterProducts);
+    document.getElementById('stock-filter').addEventListener('change', filterProducts);
+    document.getElementById('product-search').addEventListener('input', filterProducts);
+    
+    // Initial render
     renderProducts(1);
 }
 
-init();
+// Call init when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 
@@ -687,7 +704,6 @@ init();
 
 .page-btn {
     background-color: #f8f9fa;
- 
     border: 1px solid #ddd;
     padding: 8px 12px;
     margin: 2px;
@@ -699,19 +715,27 @@ init();
     background-color: #e9ecef;
 }
 
+.page-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
 
+/* Highlight search matches */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
 </style>
 
 <script>
-
-
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("click", function(event) {
         const sortOptions = document.getElementById("sort-options");
         const sortIcon = document.querySelector(".sort-icon");
 
         // Close dropdown if clicking outside (not on icon or options)
-        if (sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
+        if (sortOptions && sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
             sortOptions.style.display = "none";
         }
     });
@@ -730,52 +754,57 @@ function toggleDropdown(icon) {
     });
 }
 
-</script>
+function toggleAllCheckboxes(source) {
+    document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+    updateDeleteIcon();
+}
 
-<script>
-    function toggleAllCheckboxes(source) {
-        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-        updateDeleteIcon();
+function updateDeleteIcon() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    const deleteIcon = document.getElementById('delete-icon');
+
+    // Show trash icon if checkboxes are selected, otherwise hide it
+    deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+}
+
+function handleDelete() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+
+    if (selectedCheckboxes.length > 0) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete all selected products.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete them!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                fetch('/products/delete_all', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) location.reload();
+                    else Swal.fire('Error', 'Failed to delete
+                    else Swal.fire('Error', 'Failed to delete products.', 'error');
+                })
+                .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+            }
+        });
     }
+}
 
-    function updateDeleteIcon() {
-        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-        const deleteIcon = document.getElementById('delete-icon');
-
-        // Show trash icon if checkboxes are selected, otherwise hide it
-        deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
-    }
-
-    function handleDelete() {
-        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-
-        if (selectedCheckboxes.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You will delete all selected products.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                    fetch('/products/delete_all', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ids: selectedIds })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) location.reload();
-                        else Swal.fire('Error', 'Failed to delete products.', 'error');
-                    })
-                    .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
-                }
-            });
-        }
-    }
-
+// Add event listener to checkboxes to update delete icon
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to all checkboxes
+    document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateDeleteIcon);
+    });
+});
 </script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php else: $this->redirect("/"); endif; ?>
