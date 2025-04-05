@@ -487,7 +487,7 @@ $categories = $this->getCategories(); // Fetch categories using the public metho
                 </select>
 
                 <div class="button">
-                    <a href="/products/creat" class="btn btn-success">+ Add Product</a>
+                    <a href="/products/create" class="btn btn-success">+ Add Product</a>
                 </div>
             </div>
         </div>
