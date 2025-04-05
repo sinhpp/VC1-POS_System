@@ -19,12 +19,6 @@ class ProductController extends BaseController {
         $products = $this->products->getProducts(); // Fetch products from the model
         $this->view("products/product", ['products' => $products]); // Pass products to the view
     }
-
-    public function detail($id) {
-        $product = $this->products->product_detail($id);
-        $this->view("products/product_detail", ['product' => $product]);
-    }
-
     public function create() {
         $categories = $this->getCategories(); // Get categories to pass to the view
         $this->view("/products/create", ['categories' => $categories]);  // Pass categories to the view
@@ -75,6 +69,10 @@ class ProductController extends BaseController {
         $product = $this->products->getProById($id);
         $this->view("products/edit_pro", ['product' => $product]);
     }
+    public function edits($id) {
+        $product = $this->products->getProById($id);
+        $this->view("products/product_detail", ['product' => $product]);
+    }
     
     public function update($id) {
         session_start();
@@ -106,6 +104,11 @@ class ProductController extends BaseController {
         exit();
     }
 
+    public function detail($id) {
+        echo "Detail method called with ID: " . $id; // Debugging line
+        $product = $this->products->product_detail($id);
+        $this->view("products/product_detail", ['product' => $product]);
+    }
 
     public function delete($id) {
         // Call the deleteProduct method from the ProductModel
