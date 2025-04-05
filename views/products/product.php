@@ -789,7 +789,7 @@ function handleDelete() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) location.reload();
-                    else Swal.fire('Error', 'Failed to delete
+               
                     else Swal.fire('Error', 'Failed to delete products.', 'error');
                 })
                 .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
