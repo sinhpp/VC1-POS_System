@@ -69,10 +69,7 @@ class ProductController extends BaseController {
         $product = $this->products->getProById($id);
         $this->view("products/edit_pro", ['product' => $product]);
     }
-    public function edits($id) {
-        $product = $this->products->getProById($id);
-        $this->view("products/product_detail", ['product' => $product]);
-    }
+ 
     
     public function update($id) {
         session_start();
@@ -105,7 +102,7 @@ class ProductController extends BaseController {
     }
 
     public function detail($id) {
-        echo "Detail method called with ID: " . $id; // Debugging line
+    
         $product = $this->products->product_detail($id);
         $this->view("products/product_detail", ['product' => $product]);
     }
