@@ -41,53 +41,109 @@ class ProductScanController
         require_once __DIR__ . '/../views/order/product-scanning.php';
     }
 
-    public function scan()
-    {
+    public function scan() {
+        header('Content-Type: application/json');
         if (isset($_POST['scan'])) {
             $barcode = filter_input(INPUT_POST, 'barcode', FILTER_SANITIZE_STRING);
-
-            if (empty($barcode)) {
-                $_SESSION['error'] = "Please provide a valid barcode!";
-                header("Location: /order");
-                exit();
-            }
+            $rawBarcode = $barcode; // Keep raw for logging
+            $barcode = trim($barcode, " \t\n\r\0\x0B");
+            $barcode = preg_replace('/[^0-9a-zA-Z]/', '', $barcode);
+            error_log("[" . date('Y-m-d H:i:s') . "] Raw barcode received: '$rawBarcode'");
+            error_log("[" . date('Y-m-d H:i:s') . "] Cleaned barcode: '$barcode'");
 
             $product = $this->productModel->getProductByBarcode($barcode);
+            error_log("[" . date('Y-m-d H:i:s') . "] Product lookup result: " . json_encode($product));
 
             if ($product) {
                 if ($product['stock'] > 0) {
-                    $this->productModel->updateStock($barcode, 1);
-                    $product['stock'] -= 1; // Reflect updated stock
-
+                    $result = $this->productModel->updateStock($barcode, 1);
+                    error_log("[" . date('Y-m-d H:i:s') . "] Stock decrease for '$barcode': " . ($result ? "success" : "failed"));
+                    if (!$result) {
+                        echo json_encode(['status' => 'error', 'message' => 'Failed to update stock']);
+                        exit();
+                    }
+                    // Check if the product is already in the order
                     $found = false;
                     foreach ($_SESSION['order'] as &$item) {
                         if ($item['barcode'] === $barcode) {
-                            if ($item['quantity'] + 1 <= $product['stock'] + $item['quantity']) {
-                                $item['quantity'] += 1;
-                                $item['stock'] = $product['stock'];
-                                $found = true;
-                            } else {
-                                $_SESSION['error'] = "Cannot add more items; stock limit reached!";
-                            }
+                            $item['quantity'] += 1;
+                            $item['stock'] -= 1; // Update stock in the session
+                            $found = true;
+                            error_log("[" . date('Y-m-d H:i:s') . "] Incremented quantity for '$barcode' to " . $item['quantity']);
                             break;
                         }
                     }
-
                     if (!$found) {
                         $product['quantity'] = 1;
+                        $product['stock'] -= 1;
                         $_SESSION['order'][] = $product;
+                        error_log("[" . date('Y-m-d H:i:s') . "] Added new product '$barcode' with quantity 1");
                     }
-
-                    $_SESSION['product'] = $product;
+                    $updatedStock = $this->getUpdatedStock();
+                    echo json_encode([
+                        'status' => 'success',
+                        'order' => $_SESSION['order'],
+                        'updatedStock' => $updatedStock
+                    ]);
                 } else {
-                    $_SESSION['error'] = "Product is out of stock!";
+                    error_log("[" . date('Y-m-d H:i:s') . "] Out of stock: '$barcode'");
+                    echo json_encode(['status' => 'error', 'message' => 'Product out of stock!']);
                 }
             } else {
-                $_SESSION['error'] = "Product not found!";
+                error_log("[" . date('Y-m-d H:i:s') . "] Product not found for barcode: '$barcode'");
+                echo json_encode(['status' => 'error', 'message' => "Product not found for barcode: '$barcode'"]);
+            }
+        } else {
+            error_log("[" . date('Y-m-d H:i:s') . "] Invalid scan request");
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
+        }
+        exit();
+    }
+
+    public function delete() {
+        header('Content-Type: application/json');
+        if (isset($_POST['delete'])) {
+            $index = filter_input(INPUT_POST, 'index', FILTER_VALIDATE_INT);
+            $barcode = filter_input(INPUT_POST, 'barcode', FILTER_SANITIZE_STRING);
+            $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
+            error_log("[" . date('Y-m-d H:i:s') . "] Delete request: index=$index, barcode='$barcode', quantity=$quantity");
+
+            if ($index !== false && isset($_SESSION['order'][$index]) && $barcode && $quantity > 0) {
+                $result = $this->productModel->restoreStock($barcode, $quantity);
+                error_log("[" . date('Y-m-d H:i:s') . "] Stock restore for '$barcode': " . ($result ? "success" : "failed"));
+                if (!$result) {
+                    echo json_encode(['status' => 'error', 'message' => 'Failed to restore stock']);
+                    exit();
+                }
+                unset($_SESSION['order'][$index]);
+                $_SESSION['order'] = array_values($_SESSION['order']);
+                $updatedStock = $this->getUpdatedStock();
+                echo json_encode([
+                    'status' => 'success',
+                    'order' => $_SESSION['order'],
+                    'updatedStock' => $updatedStock
+                ]);
+            } else {
+                error_log("[" . date('Y-m-d H:i:s') . "] Invalid delete data");
+                echo json_encode(['status' => 'error', 'message' => 'Invalid item or data']);
+            }
+        } else {
+            error_log("[" . date('Y-m-d H:i:s') . "] Invalid delete request");
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
+        }
+        exit();
+    }
+
+    private function getUpdatedStock() {
+        $updatedStock = [];
+        $barcodes = array_unique(array_column($_SESSION['order'], 'barcode'));
+        foreach ($barcodes as $barcode) {
+            $product = $this->productModel->getProductByBarcode($barcode);
+            if ($product) {
+                $updatedStock[$barcode] = $product['stock'];
             }
         }
-        header("Location: /order");
-        exit();
+        return $updatedStock;
     }
 
     public function add()
@@ -131,21 +187,7 @@ class ProductScanController
         header("Location: /order");
         exit();
     }
-
-
-    public function delete()
-    {
-        if (isset($_POST['delete'])) {
-            $index = filter_input(INPUT_POST, 'index', FILTER_VALIDATE_INT);
-            if ($index !== false && isset($_SESSION['order'][$index])) {
-                unset($_SESSION['order'][$index]);
-                $_SESSION['order'] = array_values($_SESSION['order']);
-            }
-        }
-        header("Location: /order");
-        exit();
-    }
-
+ 
     public function checkout()
     {
         if (empty($_SESSION['order'])) {
