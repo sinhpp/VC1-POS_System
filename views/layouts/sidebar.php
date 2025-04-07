@@ -98,10 +98,15 @@
                     <span class="nav-text">Order Scan</span>
                 </a>
             </li>
-            <li><a href="/products" aria-expanded="false">
+            <li class="dropdown">
+                <a href="javascript:void(0);" aria-expanded="false" class="products-list" onclick="toggleDropdown()">
                     <i class="flaticon-045-heart"></i>
                     <span class="nav-text">Products List</span>
                 </a>
+                <ul class="dropdown-menu" id="dropdownMenu">
+                    <li><a href="/products">Product list</a></li>
+                    <li><a href="/products/category" id="openCategory">Category</a></li>
+                </ul>
             </li>
             
             <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
