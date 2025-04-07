@@ -167,7 +167,7 @@
                 </a>
             </li>
             
-            <li><a href="/logout" aria-expanded="false">
+            <li><a href="/" aria-expanded="false">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span class="nav-text">Logout</span>
                 </a>
