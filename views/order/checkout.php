@@ -93,8 +93,9 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                             <i class="fas fa-shopping-cart"></i> Print Receipt
                         </button>
                         <button type="submit" class="place-order">
-                            <i class="fas fa-shopping-cart"></i> Place Order
+                            <i class="fas fa-shopping-cart"></i> Complete Order 
                         </button>
+
                     </div>
                 </form>
             </div>

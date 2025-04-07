@@ -107,7 +107,7 @@
                 <i class="fa-solid fa-user"></i>
                 <span class="nav-text">User</span>
             </a></li>
-            <li><a href="javascript:void(0);" aria-expanded="false">
+            <li><a href="/order/order_list" aria-expanded="false">
                 <i class="flaticon-041-graph"></i>
                 <span class="nav-text">Order List</span>
             </a></li>
@@ -127,6 +127,7 @@
                 <ul class="dropdown-menu" id="dropdownMenu">
                     <li><a href="/products">Product list</a></li>
                     <li><a href="/products/category" id="openCategory">Category</a></li>
+                    <li><a href="/products/create" id="openCategory">add barcode</a></li>
                 </ul>
             </li>
             <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
