@@ -23,6 +23,8 @@ ob_start();
         box-shadow: 0 0 15px rgba(0,0,0,0.1);
         padding: 25px;
         margin-bottom: 30px;
+        margin-top:5%;
+        margin-left:10%;
     }
     
     .category-header {
@@ -145,7 +147,7 @@ ob_start();
 <div class="container mt-4">
     <div class="category-container">
         <div class="category-header">
-            <h1 class="mb-0">Categories Management</h1>
+            <h4 class="mb-0">Categories Management</h4>
         </div>
         
         <div class="d-flex justify-content-end">
