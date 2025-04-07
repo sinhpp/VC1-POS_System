@@ -78,9 +78,9 @@
         					<span class="nav-text">Order List</span>
         				</a>
         			</li>
-        			<li><a href="javascript:void()" aria-expanded="false">
+        			<li><a href="/product/low_stock_alert" aria-expanded="false">
         					<i class="flaticon-050-info"></i>
-        					<span class="nav-text">Reports</span>
+        					<span class="nav-text">Low Stocks</span>
         				</a>
         			</li>
 					<li><a href="/order" class="ai-icon" aria-expanded="false">
