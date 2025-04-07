@@ -1,53 +1,90 @@
-<style>
-			/* Sidebar container */
-.dlabnav {
-    height: 100vh; /* Full viewport height */
-    position: fixed; /* Fixed to the left */
-    display: flex;
-    flex-direction: column;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        /* Sidebar container */
+        .dlabnav {
+            height: 100vh; /* Full viewport height */
+            position: fixed; /* Fixed to the left */
+            display: flex;
+            flex-direction: column;
+            z-index: 999; /* Ensure sidebar is above other elements */
+        }
 
-/* Scrollable section */
-.dlabnav-scroll {
-    flex: 1; /* Allows content to expand */
-    overflow-y: auto; /* Enables vertical scrolling */
-    padding: 10px 8px; /* Add some padding for better spacing */
-    
-    /* Hide scrollbar */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    -webkit-overflow-scrolling: touch; /* Momentum scrolling on mobile */
-    scroll-behavior: smooth; /* Smooth scrolling effect */
-    overscroll-behavior: contain; /* Prevents bounce effect */
-}
+        /* Scrollable section */
+        .dlabnav-scroll {
+            flex: 1; /* Allows content to expand */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 10px 8px; /* Add some padding for better spacing */
+        }
 
-/* Hide scrollbar for Chrome, Safari, Edge */
-.dlabnav-scroll::-webkit-scrollbar {
-    display: none;
-}
+        /* Remove hide scrollbar */
+        /* .dlabnav-scroll::-webkit-scrollbar {
+            display: none; 
+        } */
 
-/* Better spacing for menu items */
-.metismenu li {
-    padding: 5px 10px;
-    list-style: none;
-}
+        /* Better spacing for menu items */
+        .metismenu li {
+            padding: 5px 10px;
+            list-style: none;
+        }
 
-/* Improve touch scrolling on mobile */
-@media (hover: none) and (pointer: coarse) {
-    .dlabnav-scroll {
-        scroll-behavior: auto; /* Prevents scrolling bugs */
-    }
-}
+        .metismenu li a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
 
-/* Responsive improvements */
-@media (max-width: 768px) {
-    .dlabnav {
-        width: 220px; /* Slightly smaller sidebar for mobile */
-    }
-}
+        /* Hover effect for main menu items */
+        .metismenu li a:hover {
+            background-color: #e9ecef;
+        }
 
-		</style>
-		<!--**********************************
+        /* Dropdown-specific styles */
+        .dropdown ul {
+            display: none;
+            position: relative;
+            padding: 0;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Show dropdown on hover */
+        .dropdown:hover > ul {
+            display: block;
+        }
+
+        /* Modal styles */
+        .modal {
+            z-index: 1050; /* Ensure modal is above sidebar */
+        }
+
+        .modal-content {
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!--**********************************
             Sidebar start
 ***********************************-->
 <div class="dlabnav">
@@ -70,7 +107,7 @@
                 <i class="fa-solid fa-user"></i>
                 <span class="nav-text">User</span>
             </a></li>
-            <li><a href="/order/order_list" aria-expanded="false">
+            <li><a href="javascript:void(0);" aria-expanded="false">
                 <i class="flaticon-041-graph"></i>
                 <span class="nav-text">Order List</span>
             </a></li>
@@ -90,7 +127,6 @@
                 <ul class="dropdown-menu" id="dropdownMenu">
                     <li><a href="/products">Product list</a></li>
                     <li><a href="/products/category" id="openCategory">Category</a></li>
-                    <li><a href="/products/create" id="openCategory">add barcode</a></li>
                 </ul>
             </li>
             <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
@@ -102,8 +138,10 @@
                 <span class="nav-text">Logout</span>
             </a></li>
         </ul>
+        <!-- Adding dummy content for scrolling -->
+        <div style="height: 2000px;"></div>
     </div>
 </div>
 <!--**********************************
             Sidebar end
-        ***********************************-->
+***********************************-->
