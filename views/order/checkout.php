@@ -13,11 +13,13 @@ $total = $subtotal + $shippingFee;
 
 $paymentMethod = isset($_POST['paymentMethod']) ? $_POST['paymentMethod'] : 'card';
 $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfirst($paymentMethod);
+
+// Simulate customer ID for now (replace with $_SESSION['user_id'] if using auth)
+$customerId = 1;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,17 +35,14 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
             cursor: pointer;
             margin-top: 10px;
         }
-
         .view-details:hover {
             background-color: #0056b3;
         }
-
         .order-items.hidden {
             display: none;
         }
     </style>
 </head>
-
 <body>
     <div class="container-checkout">
         <div class="checkout">
@@ -84,7 +83,10 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                     <option value="digital_wallet" <?php echo $paymentMethod === 'digital_wallet' ? 'selected' : ''; ?>>Digital Wallet</option>
                 </select>
 
+                <!-- ✅ FORM START -->
                 <form id="checkoutForm" action="/order/store" method="POST">
+                    <!-- ✅ CUSTOMER ID HIDDEN INPUT -->
+                    <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
 
                     <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
                     <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
@@ -92,39 +94,41 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                     <input type="hidden" name="paymentMethod" id="paymentMethodInput" value="<?php echo $paymentMethod; ?>">
 
                     <div class="print-receipt d-flex">
-                        <!-- Print Receipt button -->
+                        <!-- Print Receipt Button -->
                         <button type="submit" class="place-order" onclick="setFormAction('print')">
-                            <i class="fas fa-shopping-cart"></i> Print Receipt
+                            <i class="fas fa-print"></i> Print Receipt
                         </button>
 
-                        <!-- Complete Order button -->
+                        <!-- Complete Order Button -->
                         <button type="submit" name="action" value="store">
-                            <i class="fas fa-shopping-cart"></i> Complete Order
+                            <i class="fas fa-check-circle"></i> Complete Order
                         </button>
                     </div>
                 </form>
+                <!-- ✅ FORM END -->
+
             </div>
         </div>
     </div>
 
     <script src="/views/assets/js/checkout.js"></script>
     <script>
-        // Handle form action switch based on button click
         function setFormAction(actionType) {
             const form = document.getElementById('checkoutForm');
             if (actionType === 'print') {
-                form.action = '/order/process-and-print';
-            } else if (actionType === 'store') {
                 form.action = '/order/store';
+                const hiddenAction = document.createElement('input');
+                hiddenAction.type = 'hidden';
+                hiddenAction.name = 'action';
+                hiddenAction.value = 'print';
+                form.appendChild(hiddenAction);
             }
         }
 
-        // Update payment method input on change
         document.getElementById('paymentMethod').addEventListener('change', function () {
             document.getElementById('paymentMethodInput').value = this.value;
         });
 
-        // Toggle order details
         function toggleOrderDetails() {
             const orderDetails = document.getElementById('orderDetails');
             orderDetails.classList.toggle('hidden');
@@ -145,9 +149,7 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
             }
         }
 
-        // Run on page load
         document.addEventListener('DOMContentLoaded', updateButtonStates);
     </script>
 </body>
-
 </html>
