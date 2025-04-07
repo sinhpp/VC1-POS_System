@@ -42,38 +42,38 @@ class UserController extends BaseController {
             exit();
         }
     }
-    
-    public function authenticate() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        $email = htmlspecialchars($_POST['email']);
-        $password = htmlspecialchars($_POST['password']);
-        $user = $this->users->getUserByEmail($email);
-    
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_name'] = $user['name'];
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_role'] = $user['role'];
-            $_SESSION['users'] = true;
-            
-            // Redirect based on role
-            switch ($user['role']) {
-                case 'admin':
-                    $this->redirect("/dashboard");
-                    break;
-                case 'stock_manager':
-                    $this->redirect("/stock/inventory");
-                    break;
-                default:
-                    $this->redirect("/dashboard");
-            }
-        } else {
-            // Return the form with an error message
-            $this->view("form/form", ['error' => 'Invalid email or password']);
-        }
-    }
+          public function authenticate() {
+              if (session_status() == PHP_SESSION_NONE) {
+                  session_start();
+              }
+              $email = htmlspecialchars($_POST['email']);
+              $password = htmlspecialchars($_POST['password']);
+              $user = $this->users->getUserByEmail($email);
 
+              if ($user && password_verify($password, $user['password'])) {
+                  $_SESSION['user_name'] = $user['name'];
+                  $_SESSION['user_id'] = $user['id'];
+                  $_SESSION['user_role'] = $user['role'];
+                  $_SESSION['user_email'] = $user['email']; // Store the email
+                  $_SESSION['user_image'] = $user['image']; // Store the image path
+                  $_SESSION['users'] = true;
+        
+                  // Redirect based on role
+                  switch ($user['role']) {
+                      case 'admin':
+                          $this->redirect("/dashboard");
+                          break;
+                      case 'stock_manager':
+                          $this->redirect("/stock/inventory");
+                          break;
+                      default:
+                          $this->redirect("/dashboard");
+                  }
+              } else {
+                  // Return the form with an error message
+                  $this->view("form/form", ['error' => 'Invalid email or password']);
+              }
+          }
     public function delete($id) {
         $this->users->deleteUser($id);
         header("Location: /users");
