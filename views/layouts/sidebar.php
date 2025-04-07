@@ -2,7 +2,7 @@
 <style>
     /* Sidebar container */
 .dlabnav {
-    height: 100vh; /* Full viewport height */
+    height: 80%vh; /* Full viewport height */
     position: fixed; /* Fixed to the left */
     display: flex;
     flex-direction: column;
@@ -16,9 +16,9 @@
         }
 
         /* Remove hide scrollbar */
-        /* .dlabnav-scroll::-webkit-scrollbar {
+        .dlabnav-scroll::-webkit-scrollbar {
             display: none; 
-        } */
+        } 
 
         /* Better spacing for menu items */
         .metismenu li {
@@ -167,7 +167,7 @@
                 </a>
             </li>
             
-            <li><a href="/logout" aria-expanded="false">
+            <li><a href="/" aria-expanded="false">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span class="nav-text">Logout</span>
                 </a>
