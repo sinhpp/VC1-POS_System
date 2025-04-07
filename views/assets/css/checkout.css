@@ -72,7 +72,10 @@ select {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
+.place-order{
+    width: 20%;
+    margin-right: 30px;
+}
 /* Responsive styles */
 @media (max-width: 1024px) {
     .order-summary h2 {
@@ -102,6 +105,9 @@ select {
 @media (max-width: 480px) {
     .order-summary h2 {
         font-size: 18px;
+    }
+    .place-order{
+        width:70%;
     }
     .totals p, .total h3 {
         font-size: 14px;

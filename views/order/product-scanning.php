@@ -7,6 +7,7 @@ $totalPrice = 0;
 foreach ($order as $product) {
     $totalPrice += $product['price'] * $product['quantity'];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -17,12 +18,6 @@ foreach ($order as $product) {
     <title>Product Scanning</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- <style>
-        /* Optional: Add some basic styling */
-        .container-order { display: flex; gap: 20px; }
-        .scanner-section, .order-page { flex: 1; }
-        .text-danger { color: red; }
-    </style> -->
     <link rel="stylesheet" href="/views/assets/css/order-summary.css">
 </head>
 <body>
@@ -68,7 +63,7 @@ foreach ($order as $product) {
                                     <td>$<?php echo number_format($product['price'], 2); ?></td>
                                     <td><?php echo $product['quantity']; ?></td>
                                     <td class="stock-value"><?php echo $product['stock']; ?></td>
-                                    <td><?php echo $product['created_at'] ?? date('Y-m-d H:i:s'); ?></td>
+                                    <td><?php echo date('Y-m-d'); ?></td>
                                     <td>
                                         <form action='/product/delete' method='POST'>
                                             <input type='hidden' name='index' value='<?php echo $index; ?>'>
@@ -91,48 +86,28 @@ foreach ($order as $product) {
             <?php endif; ?>
         </div>
     </div>
-
+                                <script src="/views/assets/js/order-summary.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const scanForm = document.getElementById('scanForm');
-        const barcodeInput = document.getElementById('barcodeInput');
-
-        // Auto-focus on barcode input for scanner convenience
-        barcodeInput.focus();
-
-        scanForm.addEventListener('submit', function(event) {
-            const barcode = barcodeInput.value.trim();
-            if (!barcode) {
-                event.preventDefault();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Input',
-                    text: 'Please enter or scan a barcode!',
-                    confirmButtonText: 'OK'
-                });
-            }
+    // Handle alerts from PHP session
+    <?php if (isset($_SESSION['product_not_found_alert'])): ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Product Not Found',
+            text: 'The product with barcode "<?php echo $_SESSION['product_not_found_alert']; ?>" was not found in the database!',
+            confirmButtonText: 'OK'
         });
+        <?php unset($_SESSION['product_not_found_alert']); ?>
+    <?php endif; ?>
 
-        <?php if (isset($_SESSION['product_not_found_alert'])): ?>
-            Swal.fire({
-                icon: 'error',
-                title: 'Product Not Found',
-                text: 'The product with barcode "<?php echo $_SESSION['product_not_found_alert']; ?>" was not found in the database!',
-                confirmButtonText: 'OK'
-            });
-            <?php unset($_SESSION['product_not_found_alert']); ?>
-        <?php endif; ?>
-
-        <?php if (isset($_SESSION['out_of_stock_alert'])): ?>
-            Swal.fire({
-                icon: 'warning',
-                title: 'Out of Stock',
-                text: 'The product with barcode "<?php echo $_SESSION['out_of_stock_alert']; ?>" is out of stock!',
-                confirmButtonText: 'OK'
-            });
-            <?php unset($_SESSION['out_of_stock_alert']); ?>
-        <?php endif; ?>
-    });
+    <?php if (isset($_SESSION['out_of_stock_alert'])): ?>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Out of Stock',
+            text: 'The product with barcode "<?php echo $_SESSION['out_of_stock_alert']; ?>" is out of stock!',
+            confirmButtonText: 'OK'
+        });
+        <?php unset($_SESSION['out_of_stock_alert']); ?>
+    <?php endif; ?>
     </script>
 </body>
 </html>
