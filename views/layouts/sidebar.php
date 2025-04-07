@@ -2,36 +2,75 @@
 <style>
     /* Sidebar container */
 .dlabnav {
-    height: 80%; /* Full viewport height */
+    height: 100vh; /* Full viewport height */
     position: fixed; /* Fixed to the left */
     display: flex;
     flex-direction: column;
 }
 
-/* Scrollable section */
-.dlabnav-scroll {
-    flex: 1; /* Allows content to expand */
-    overflow-y: auto; /* Enables vertical scrolling */
-    padding: 10px 8px; /* Add some padding for better spacing */
-    
-    /* Hide scrollbar */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    -webkit-overflow-scrolling: touch; /* Momentum scrolling on mobile */
-    scroll-behavior: smooth; /* Smooth scrolling effect */
-    overscroll-behavior: contain; /* Prevents bounce effect */
-}
+        /* Scrollable section */
+        .dlabnav-scroll {
+            flex: 1; /* Allows content to expand */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 10px 8px; /* Add some padding for better spacing */
+        }
 
-/* Hide scrollbar for Chrome, Safari, Edge */
-.dlabnav-scroll::-webkit-scrollbar {
-    display: none;
-}
+        /* Remove hide scrollbar */
+        /* .dlabnav-scroll::-webkit-scrollbar {
+            display: none; 
+        } */
 
-/* Better spacing for menu items */
-.metismenu li {
-    padding: 5px 10px;
-    list-style: none;
-}
+        /* Better spacing for menu items */
+        .metismenu li {
+            padding: 5px 10px;
+            list-style: none;
+        }
+        .metismenu li a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for main menu items */
+        .metismenu li a:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Dropdown-specific styles */
+        .dropdown ul {
+            display: none;
+            position: relative;
+            padding: 0;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Show dropdown on hover */
+        .dropdown:hover > ul {
+            display: block;
+        }
+
+        /* Modal styles */
+        .modal {
+            z-index: 1050; /* Ensure modal is above sidebar */
+        }
+
+        .modal-content {
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
 
 /* Improve touch scrolling on mobile */
 @media (hover: none) and (pointer: coarse) {
@@ -56,65 +95,7 @@
     border: 2px solid #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
-/* Profile dropdown menu */
-.profile-dropdown {
-    position: absolute;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding: 10px 0;
-    min-width: 200px;
-    z-index: 1000;
-    display: none;
-}
-
-.profile-dropdown.show {
-    display: block;
-}
-
-.profile-dropdown a {
-    display: block;
-    padding: 8px 15px;
-    color: #333;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.profile-dropdown a:hover {
-    background-color: #f5f5f5;
-}
-
-.profile-dropdown .divider {
-    height: 1px;
-    background-color: #e9ecef;
-    margin: 5px 0;
-}
 </style>
-
-<?php
-// Ensure session is started
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-// If user is logged in, refresh user data from database to ensure it's up-to-date
-if (isset($_SESSION['user_id'])) {
-    // This would require access to the UserModel, so we'll need to include it
-    require_once "Models/UserModel.php";
-    $userModel = new UserModel();
-    $freshUserData = $userModel->getUserById($_SESSION['user_id']);
-    
-    if ($freshUserData) {
-        // Update session with fresh data
-        $_SESSION['user_name'] = $freshUserData['name'];
-        $_SESSION['user_email'] = $freshUserData['email'];
-        $_SESSION['user_role'] = $freshUserData['role'];
-        $_SESSION['user_image'] = $freshUserData['image'];
-    }
-}
-?>
-
 <!--**********************************
     Sidebar start
 ***********************************-->
@@ -138,24 +119,6 @@ if (isset($_SESSION['user_id'])) {
                         <?php endif; ?>
                     </div>
                 </a>
-                <!-- Profile dropdown menu -->
-                <div class="dropdown-menu dropdown-menu-end profile-dropdown">
-                    <?php if(isset($_SESSION['user_id'])): ?>
-                        <a href="/users/edit/<?php echo $_SESSION['user_id']; ?>" class="dropdown-item ai-icon">
-                            <i class="fa-solid fa-user-pen"></i>
-                            <span class="ms-2">Edit Profile</span>
-                        </a>
-                        <a href="/users/detail/<?php echo $_SESSION['user_id']; ?>" class="dropdown-item ai-icon">
-                            <i class="fa-solid fa-address-card"></i>
-                            <span class="ms-2">View Profile</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    <?php endif; ?>
-                    <a href="/logout" class="dropdown-item ai-icon">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span class="ms-2">Logout</span>
-                    </a>
-                </div>
             </li>
             <li><a href="/dashboard" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
@@ -182,10 +145,15 @@ if (isset($_SESSION['user_id'])) {
                     <span class="nav-text">Order Scan</span>
                 </a>
             </li>
-            <li><a href="/products" aria-expanded="false">
+            <li class="dropdown">
+                <a href="javascript:void(0);" aria-expanded="false" class="products-list" onclick="toggleDropdown()">
                     <i class="flaticon-045-heart"></i>
                     <span class="nav-text">Products List</span>
                 </a>
+                <ul class="dropdown-menu" id="dropdownMenu">
+                    <li><a href="/products">Product list</a></li>
+                    <li><a href="/products/category" id="openCategory">Category</a></li>
+                </ul>
             </li>
             
             <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
@@ -199,7 +167,7 @@ if (isset($_SESSION['user_id'])) {
                 </a>
             </li>
             
-            <li><a href="/" aria-expanded="false">
+            <li><a href="/logout" aria-expanded="false">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span class="nav-text">Logout</span>
                 </a>
@@ -210,25 +178,3 @@ if (isset($_SESSION['user_id'])) {
 <!--**********************************
     Sidebar end
 ***********************************-->
-
-<script>
-// Add this JavaScript to handle the profile dropdown
-document.addEventListener('DOMContentLoaded', function() {
-    const profileLink = document.querySelector('.header-profile .nav-link');
-    const profileDropdown = document.querySelector('.profile-dropdown');
-    
-    if (profileLink && profileDropdown) {
-        profileLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            profileDropdown.classList.toggle('show');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!profileLink.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.remove('show');
-            }
-        });
-    }
-});
-</script>
