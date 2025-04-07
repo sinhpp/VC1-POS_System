@@ -7,7 +7,6 @@ $totalPrice = 0;
 foreach ($order as $product) {
     $totalPrice += $product['price'] * $product['quantity'];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -22,19 +21,17 @@ foreach ($order as $product) {
 </head>
 <body>
     <div class="container-order">
-        <!-- Product Scanner Section -->
         <div class="scanner-section">
             <h4>Product Scanner</h4>
             <form action="/productDetails" method="POST" id="scanForm">
-                <input type="text" id="barcodeInput" name="barcode" class="form-control" placeholder="Scan or enter barcode" required>
-                <button type="submit" name="scan" value="1" class="btn btn-primary">Scan Product</button>
+                <input type="text" id="barcodeInput" name="barcode" class="form-control" placeholder="Scan barcode here" required autofocus>
+                <button type="submit" name="scan" value="1" class="btn btn-primary">Manual Scan</button>
             </form>
             <?php if (isset($_SESSION['error'])): ?>
                 <p class='text-danger' style='margin-top: 15px;'><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
             <?php endif; ?>
         </div>
 
-        <!-- Order List Section -->
         <div class="order-page">
             <h3>Order List</h3>
             <?php if (empty($order)): ?>
@@ -86,28 +83,37 @@ foreach ($order as $product) {
             <?php endif; ?>
         </div>
     </div>
-                                <script src="/views/assets/js/order-summary.js"></script>
-    <script>
-    // Handle alerts from PHP session
-    <?php if (isset($_SESSION['product_not_found_alert'])): ?>
-        Swal.fire({
-            icon: 'error',
-            title: 'Product Not Found',
-            text: 'The product with barcode "<?php echo $_SESSION['product_not_found_alert']; ?>" was not found in the database!',
-            confirmButtonText: 'OK'
-        });
-        <?php unset($_SESSION['product_not_found_alert']); ?>
-    <?php endif; ?>
 
-    <?php if (isset($_SESSION['out_of_stock_alert'])): ?>
-        Swal.fire({
-            icon: 'warning',
-            title: 'Out of Stock',
-            text: 'The product with barcode "<?php echo $_SESSION['out_of_stock_alert']; ?>" is out of stock!',
-            confirmButtonText: 'OK'
-        });
-        <?php unset($_SESSION['out_of_stock_alert']); ?>
-    <?php endif; ?>
+    <script src="/views/assets/js/order-summary.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const scanForm = document.getElementById('scanForm');
+    const barcodeInput = document.getElementById('barcodeInput');
+
+    barcodeInput.focus();
+    console.log('Input focused on load');
+
+    barcodeInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const value = barcodeInput.value.trim();
+            if (value !== '') {
+                console.log('Submitting barcode:', value);
+                scanForm.submit();
+            }
+        }
+    });
+
+    europé
+
+    scanForm.addEventListener('submit', function() {
+        console.log('Form submitted with:', barcodeInput.value);
+        setTimeout(() => {
+            barcodeInput.value = '';
+            barcodeInput.focus();
+        }, 50);
+    });
+});
     </script>
 </body>
 </html>

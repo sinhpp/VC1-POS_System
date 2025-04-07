@@ -52,20 +52,19 @@ class ProductScanController
                 exit();
             }
 
-            // Fetch product by barcode
             $product = $this->productModel->getProductByBarcode($barcode);
 
             if ($product) {
                 if ($product['stock'] > 0) {
-                    // Reduce stock in the database
                     $this->productModel->updateStock($barcode, 1);
+                    $product['stock'] -= 1; // Reflect updated stock
 
-                    // Check if the product already exists in the order
                     $found = false;
                     foreach ($_SESSION['order'] as &$item) {
                         if ($item['barcode'] === $barcode) {
-                            if ($item['quantity'] + 1 <= $product['stock'] + $item['quantity']) { // Check against original stock
-                                $item['quantity'] += 1; // Increment quantity
+                            if ($item['quantity'] + 1 <= $product['stock'] + $item['quantity']) {
+                                $item['quantity'] += 1;
+                                $item['stock'] = $product['stock'];
                                 $found = true;
                             } else {
                                 $_SESSION['error'] = "Cannot add more items; stock limit reached!";
@@ -74,13 +73,11 @@ class ProductScanController
                         }
                     }
 
-                    // If the product is new, add it to the order
                     if (!$found) {
-                        $product['quantity'] = 1; // Initialize quantity
-                        $_SESSION['order'][] = $product; // Add full product data to the order
+                        $product['quantity'] = 1;
+                        $_SESSION['order'][] = $product;
                     }
 
-                    // Store the latest scanned product for display (optional)
                     $_SESSION['product'] = $product;
                 } else {
                     $_SESSION['error'] = "Product is out of stock!";
@@ -89,10 +86,9 @@ class ProductScanController
                 $_SESSION['error'] = "Product not found!";
             }
         }
-        header("Location: /order"); // Redirect to refresh the order list
+        header("Location: /order");
         exit();
     }
-
 
     public function add()
     {
