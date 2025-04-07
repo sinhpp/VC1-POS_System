@@ -7,30 +7,23 @@
     flex-direction: column;
 }
 
-/* Scrollable section */
-.dlabnav-scroll {
-    flex: 1; /* Allows content to expand */
-    overflow-y: auto; /* Enables vertical scrolling */
-    padding: 10px 8px; /* Add some padding for better spacing */
-    
-    /* Hide scrollbar */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    -webkit-overflow-scrolling: touch; /* Momentum scrolling on mobile */
-    scroll-behavior: smooth; /* Smooth scrolling effect */
-    overscroll-behavior: contain; /* Prevents bounce effect */
-}
+        /* Scrollable section */
+        .dlabnav-scroll {
+            flex: 1; /* Allows content to expand */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 10px 8px; /* Add some padding for better spacing */
+        }
 
-/* Hide scrollbar for Chrome, Safari, Edge */
-.dlabnav-scroll::-webkit-scrollbar {
-    display: none;
-}
+        /* Remove hide scrollbar */
+        /* .dlabnav-scroll::-webkit-scrollbar {
+            display: none; 
+        } */
 
-/* Better spacing for menu items */
-.metismenu li {
-    padding: 5px 10px;
-    list-style: none;
-}
+        /* Better spacing for menu items */
+        .metismenu li {
+            padding: 5px 10px;
+            list-style: none;
+        }
 
 /* Improve touch scrolling on mobile */
 @media (hover: none) and (pointer: coarse) {
