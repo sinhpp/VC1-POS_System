@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Dashboard</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
-    <style>
-        /* Sidebar container */
-        .dlabnav {
-            height: 100vh; /* Full viewport height */
-            position: fixed; /* Fixed to the left */
-            display: flex;
-            flex-direction: column;
-            z-index: 999; /* Ensure sidebar is above other elements */
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+<style>
+    /* Sidebar container */
+.dlabnav {
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixed to the left */
+    display: flex;
+    flex-direction: column;
+}
 
         /* Scrollable section */
         .dlabnav-scroll {
@@ -117,8 +109,9 @@
             </a></li>
             <li><a href="/order" class="ai-icon" aria-expanded="false">
                 <i class="fa-solid fa-barcode"></i>
-                <span class="nav-text">Order Scan</span>
-            </a></li>
+                    <span class="nav-text">Order Scan</span>
+                </a>
+            </li>
             <li class="dropdown">
                 <a href="javascript:void(0);" aria-expanded="false" class="products-list" onclick="toggleDropdown()">
                     <i class="flaticon-045-heart"></i>
@@ -128,6 +121,12 @@
                     <li><a href="/products">Product list</a></li>
                     <li><a href="/products/category" id="openCategory">Category</a></li>
                 </ul>
+            </li>
+            
+            <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+                    <i class="fa-solid fa-window-maximize"></i>
+                    <span class="nav-text">Expenses</span>
+                </a>
             </li>
             <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
                 <i class="material-symbols-outlined"></i>
