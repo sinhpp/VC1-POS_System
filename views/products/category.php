@@ -15,43 +15,189 @@ $pageTitle = "Categories";
 ob_start();
 ?>
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Categories</h1>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <div class="button">
-                <a href="javascript:void(0);" id="openCategory" onclick="openCategoryModal()">Create Category</a>
-            </div>
-            <thead class="thead-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Category Name</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (isset($categories) && count($categories) > 0): ?>
-                    <?php foreach ($categories as $index => $category): ?>
+<!-- Custom CSS for enhanced UI -->
+<style>
+    .category-container {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .category-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .create-btn {
+        background: linear-gradient(to right, #11998e, #38ef7d);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 20px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .create-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        color: white;
+    }
+    
+    .category-table {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    
+    .category-table thead {
+        background: linear-gradient(to right, #5e35b1, #3949ab);
+        color: white;
+    }
+    
+    .category-table th, .category-table td {
+        vertical-align: middle;
+    }
+    
+    .action-buttons .btn {
+        margin: 2px;
+        border-radius: 50px;
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+    }
+    
+    .action-buttons .btn:hover {
+        transform: scale(1.1);
+    }
+    
+    .btn-edit {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: #212529;
+    }
+    
+    .btn-delete {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+    
+    .empty-state {
+        padding: 30px;
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .category-container {
+            padding: 15px;
+        }
+        
+        .category-header h1 {
+            font-size: 1.8rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .create-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .category-header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .category-table th, .category-table td {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .action-buttons .btn {
+            width: 32px;
+            height: 32px;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="category-container">
+        <div class="category-header">
+            <h1 class="mb-0">Categories Management</h1>
+        </div>
+        
+        <div class="d-flex justify-content-end">
+            <a href="javascript:void(0);" class="create-btn" id="openCategory" onclick="openCategoryModal()">
+                <i class="material-icons me-2" style="vertical-align: middle;"> Create Category
+            </a>
+        </div>
+        
+        <div class="table-responsive category-table">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="45%">Category Name</th>
+                        <th width="30%">Created At</th>
+                        <th width="20%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (isset($categories) && count($categories) > 0): ?>
+                        <?php foreach ($categories as $index => $category): ?>
+                            <tr>
+                                <td><?= $index + 1; ?></td>
+                                <td>
+                                    <span class="fw-bold"><?= htmlspecialchars($category['name']); ?></span>
+                                </td>
+                                <td><?= htmlspecialchars($category['created_at']); ?></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button class="btn btn-delete" onclick="deleteCategory('<?= $category['id']; ?>')">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
                         <tr>
-                            <td><?= $index + 1; ?></td>
-                            <td><?= htmlspecialchars($category['name']); ?></td>
-                            <td><?= htmlspecialchars($category['created_at']); ?></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-warning btn-sm" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')"><i class="material-icons">edit</i></button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteCategory('<?= $category['id']; ?>')"><i class="material-icons">delete</i></button>
+                            <td colspan="4" class="empty-state">
+                                <div class="py-4">
+                                    <i class="material-icons" style="font-size: 48px; color: #dee2e6;">category</i>
+                                    <p class="mt-3 mb-0">No categories found. Create your first category!</p>
                                 </div>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="4" class="text-center">No categories found.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -65,20 +211,25 @@ require_once __DIR__ . '/../layout.php';
 
 <!-- Modal for Create Category -->
 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="categoryModalLabel">Create Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="createCategoryForm" method="POST" action="/products/create-category">
                     <div class="form-group mb-3">
-                        <label for="categoryName">Category Name:</label>
-                        <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                        <label for="categoryName" class="form-label">Category Name:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="material-icons">category</i></span>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName" required placeholder="Enter category name">
+                        </div>
                     </div>
                     <input type="hidden" id="categoryId" name="categoryId" value="">
-                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="material-icons me-2" style="vertical-align: middle;">save</i> Save Category
+                    </button>
                 </form>
                 <div id="categoryFeedback" class="mt-3"></div>
             </div>
@@ -139,6 +290,7 @@ function deleteCategory(id) {
     }
 }
 
+
 // Handle form submission
 document.getElementById('createCategoryForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
@@ -155,27 +307,24 @@ document.getElementById('createCategoryForm').addEventListener('submit', functio
     })
     .then(response => response.json())
     .then(data => {
-        const feedbackDiv = document.getElementById('categoryFeedback');
+    const feedbackDiv = document.getElementById('categoryFeedback');
+    
+    if (data.success) {
+        feedbackDiv.innerHTML = '<div class="alert alert-success">' + 
+            (categoryId ? 'Category updated' : 'Category created') + ' successfully!</div>';
         
-        if (data.success) {
-            feedbackDiv.innerHTML = '<div class="alert alert-success">' + 
-                (categoryId ? 'Category updated' : 'Category created') + ' successfully!</div>';
-            
-            // Hide the modal after a short delay
-            setTimeout(() => {
-                bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
-                // Refresh the page to show the updated list
-                location.reload();
-            }, 1500);
-        } else {
-            feedbackDiv.innerHTML = '<div class="alert alert-danger">' + 
-                (data.message || 'An error occurred') + '</div>';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('categoryFeedback').innerHTML = 
-            '<div class="alert alert-danger">An unexpected error occurred</div>';
-    });
+        // Hide the modal after a short delay
+        setTimeout(() => {
+            bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+            // Refresh the page to show the updated list
+            location.reload();
+        }, 1500);
+    } else {
+        feedbackDiv.innerHTML = '<div class="alert alert-danger">' + 
+            (data.message || 'An error occurred') + '</div>';
+    }
+})
+
 });
+
 </script>

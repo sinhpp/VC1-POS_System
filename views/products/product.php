@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -438,9 +437,27 @@ button.filter-btn {
     border-radius: 5px;
     cursor: pointer;
 }
+.alert{
+    display: inline;
+    position: static;
+ 
+}
 
 button.filter-btn:hover {
     background-color: #0056b3;
+}
+.alert#toast {
+    display: none;
+    position: absolute;
+ 
+  
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 100; /* Ensure it appears above other elements */
 }
     </style>
 
@@ -497,10 +514,12 @@ $categories = $this->getCategories();
     <table>
         <thead>
             <tr>
-                <th>
-                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
-                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
-                </th>
+            <th>
+    <div style="position: relative;">
+        <div class="alert" id="toast" style="display:none; position: absolute; bottom: 100%; left: 0; margin-bottom: 5px;">Delete all!</div>
+        <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+    </div>
+</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Code</th>
@@ -535,6 +554,7 @@ $categories = $this->getCategories();
                                 <div class="dropdown-menu">
                                     <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                                     <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    <!-- Fixed link: Changed from product_detail to detail -->
                                     <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                                 </div>
                             </div>
@@ -630,9 +650,10 @@ function renderProducts(page) {
                     <div class="dropdown">
                         <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
                         <div class="dropdown-menu">
-                            <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
-                            <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                            <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                            <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                            <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                            <!-- Fixed link: Changed from product_detail to detail -->
+                            <a href="/products/product_detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                         </div>
                     </div>
                 </td>
@@ -757,8 +778,23 @@ function toggleDropdown(icon) {
 
 function toggleAllCheckboxes(source) {
     document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-    updateDeleteIcon();
+    updateToastVisibility();
 }
+
+function updateToastVisibility() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    const toast = document.getElementById('toast');
+    toast.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+
+    if (selectedCheckboxes.length > 0) {
+        toast.onclick = handleDelete;
+        toast.style.cursor = 'pointer';
+    } else {
+        toast.onclick = null;
+        toast.style.cursor = 'default';
+    }
+}
+
 
 function updateDeleteIcon() {
     const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');

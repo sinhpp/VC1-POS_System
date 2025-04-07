@@ -22,6 +22,10 @@ if (isset($_SESSION['user_id'])) : ?>
             font-family: 'Poppins', sans-serif;
             background-color: #f3f4f6;
         }
+        form-header{
+            position: relative;
+            top: 5%;
+        }
         
         /* Custom styles for Add Product forms and table */
         .form-container {
@@ -37,6 +41,7 @@ if (isset($_SESSION['user_id'])) : ?>
         }
         
         .form-header {
+            margin-top:10%;
             background: linear-gradient(90deg, #3b82f6, #2563eb);
             color: white;
             padding: 1.5rem;
