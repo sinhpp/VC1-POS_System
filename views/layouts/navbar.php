@@ -62,7 +62,7 @@
                         <ul class="navbar-nav header-right">
 							<li class="nav-item">
                             <div class="search-container">
-                                <input type="text" id="search" placeholder="Search by name or price">
+                                <input type="text" id="searchInput" placeholder="Search by name or price..." onkeyup="filterProducts()">
                                 <i class="fas fa-search search-icon"></i>
                                 <i class="fas fa-shopping-cart cart-icon" title="View Cart" id="cart-icon">
                                  <span class="cart-count" id="cart-count">0</span>

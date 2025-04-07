@@ -125,3 +125,24 @@ document.getElementById('checkout-button').addEventListener('click', function ()
         alert('Your cart is empty!');
     }
 });
+
+function filterProducts() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+        const title = card.querySelector('.product-title').textContent.toLowerCase();
+        const price = card.querySelector('.product-price').textContent.replace('$', '').toLowerCase();
+
+        if (title.includes(input) || price.includes(input)) {
+            card.style.display = ""; // Show the card
+        } else {
+            card.style.display = "none"; // Hide the card
+        }
+    });
+}
+
+document.getElementById('filter-toggle').addEventListener('click', function() {
+    const filter = document.getElementById('filter');
+    filter.style.display = (filter.style.display === 'block') ? 'none' : 'block';
+});

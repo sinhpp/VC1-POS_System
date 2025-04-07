@@ -1,53 +1,64 @@
         <style>
-			/* Sidebar container */
-.dlabnav {
-    height: 100vh; /* Full viewport height */
-    position: fixed; /* Fixed to the left */
-    display: flex;
-    flex-direction: column;
-}
+        	/* Sidebar container */
+        	.dlabnav {
+        		height: 100vh;
+        		/* Full viewport height */
+        		position: fixed;
+        		/* Fixed to the left */
+        		display: flex;
+        		flex-direction: column;
+        	}
 
-/* Scrollable section */
-.dlabnav-scroll {
-    flex: 1; /* Allows content to expand */
-    overflow-y: auto; /* Enables vertical scrolling */
-    padding: 10px 8px; /* Add some padding for better spacing */
-    
-    /* Hide scrollbar */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    -webkit-overflow-scrolling: touch; /* Momentum scrolling on mobile */
-    scroll-behavior: smooth; /* Smooth scrolling effect */
-    overscroll-behavior: contain; /* Prevents bounce effect */
-}
+        	/* Scrollable section */
+        	.dlabnav-scroll {
+        		flex: 1;
+        		/* Allows content to expand */
+        		overflow-y: auto;
+        		/* Enables vertical scrolling */
+        		padding: 10px 8px;
+        		/* Add some padding for better spacing */
 
-/* Hide scrollbar for Chrome, Safari, Edge */
-.dlabnav-scroll::-webkit-scrollbar {
-    display: none;
-}
+        		/* Hide scrollbar */
+        		-ms-overflow-style: none;
+        		/* IE and Edge */
+        		scrollbar-width: none;
+        		/* Firefox */
+        		-webkit-overflow-scrolling: touch;
+        		/* Momentum scrolling on mobile */
+        		scroll-behavior: smooth;
+        		/* Smooth scrolling effect */
+        		overscroll-behavior: contain;
+        		/* Prevents bounce effect */
+        	}
 
-/* Better spacing for menu items */
-.metismenu li {
-    padding: 5px 10px;
-    list-style: none;
-}
+        	/* Hide scrollbar for Chrome, Safari, Edge */
+        	.dlabnav-scroll::-webkit-scrollbar {
+        		display: none;
+        	}
 
-/* Improve touch scrolling on mobile */
-@media (hover: none) and (pointer: coarse) {
-    .dlabnav-scroll {
-        scroll-behavior: auto; /* Prevents scrolling bugs */
-    }
-}
+        	/* Better spacing for menu items */
+        	.metismenu li {
+        		padding: 5px 10px;
+        		list-style: none;
+        	}
 
-/* Responsive improvements */
-@media (max-width: 768px) {
-    .dlabnav {
-        width: 220px; /* Slightly smaller sidebar for mobile */
-    }
-}
+        	/* Improve touch scrolling on mobile */
+        	@media (hover: none) and (pointer: coarse) {
+        		.dlabnav-scroll {
+        			scroll-behavior: auto;
+        			/* Prevents scrolling bugs */
+        		}
+        	}
 
-		</style>
-		<!--**********************************
+        	/* Responsive improvements */
+        	@media (max-width: 768px) {
+        		.dlabnav {
+        			width: 220px;
+        			/* Slightly smaller sidebar for mobile */
+        		}
+        	}
+        </style>
+        <!--**********************************
             Sidebar start
         ***********************************-->
         <div class="dlabnav">
@@ -83,8 +94,8 @@
         					<span class="nav-text">Reports</span>
         				</a>
         			</li>
-					<li><a href="/order" class="ai-icon" aria-expanded="false">
-					<i class="fa-solid fa-barcode"></i>
+        			<li><a href="/order" class="ai-icon" aria-expanded="false">
+        					<i class="fa-solid fa-barcode"></i>
         					<span class="nav-text">Order Scan</span>
         				</a>
         			</li>
@@ -93,18 +104,18 @@
         					<span class="nav-text">Products List</span>
         				</a>
         			</li>
-					
+
         			<li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
         					<i class="fa-solid fa-window-maximize"></i>
         					<span class="nav-text">Expenses</span>
         				</a>
         			</li>
         			<li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
-        					<i class="material-symbols-outlined"></i>
-        					<span class="nav-text">Order</span>
+        					<i class="fa-regular fa-clipboard-list-check"></i>
+        					<span class="nav-text">Products</span>
         				</a>
         			</li>
-					
+
         			<li><a href="/" aria-expanded="false">
         					<i class="fa-solid fa-right-from-bracket"></i>
         					<span class="nav-text">Logout</span>
