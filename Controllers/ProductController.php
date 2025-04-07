@@ -38,7 +38,6 @@ public function detail($id) {
         $gender = $_POST['gender'] ?? 'Unisex';
         $image = $_FILES['image'] ?? null;
     
-<<<<<<< HEAD
         // Collecting data from the form
         $name = $_POST['name'];
         $barcode = $_POST['barcode'];
@@ -66,7 +65,6 @@ public function detail($id) {
         }
     
         // Check if we're updating or creating a product
-=======
         // Validation logic (e.g., price, discount, etc.)
         if ($price < 0 || $discount < 0) {
             $_SESSION['product_error'] = "Price and discount cannot be negative.";
@@ -75,7 +73,6 @@ public function detail($id) {
         }
     
         $id = isset($_POST['id']) ? intval($_POST['id']) : null;
->>>>>>> 58ff945f1260dc5b2702edec2fb57dcc7fea1936
         if ($id) {
             if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
                 $_SESSION['product_success'] = "Product updated successfully!";

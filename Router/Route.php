@@ -9,12 +9,9 @@ require_once "Controllers/UserController.php";
 require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
-<<<<<<< HEAD
 require_once "Controllers/BarcodeController.php";
 
-=======
 require_once "Controllers/OrderListController.php";
->>>>>>> 58ff945f1260dc5b2702edec2fb57dcc7fea1936
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -80,6 +77,7 @@ $route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAler
 // Call the route method to process the request
 
 // Barcode Scanner POS System Routes
+
 $route->get("/pos", [PosController::class, 'index']); // Main POS interface
 $route->post("/api/barcode/scan", [BarcodeController::class, 'scan']); // Barcode scanning API
 $route->post("/api/pos/add-to-cart", [BarcodeController::class, 'addToCart']);
