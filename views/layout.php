@@ -21,5 +21,6 @@ if (!in_array($currentRoute, $hiddenRoutes)) {
 <?php echo $content; ?>
 <?php require_once('layouts/footer.php'); ?>
 
+
 </body>
 </html>
