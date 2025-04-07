@@ -10,6 +10,7 @@ require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
 require_once "Controllers/OrderListController.php";
+// require_once "Controllers/CategoryController.php";
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -44,6 +45,10 @@ $route->get("products/product_detail/{id}", [ProductController::class, 'detail']
 $route->put("/products/update/{id}", [ProductController::class, 'update']);
 $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
+
+// Route for creating a category
+$route->post("/products/create-category", [CategoryController::class, 'createCategory']);
+$route->get("/products/category", [CategoryController::class, 'listCategories']); // Add a route to list categories
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 // Product Scanning Routes
@@ -76,15 +81,6 @@ $route->get("/product_cashier/product", [ProductCashierController::class, 'index
 //LOw Stock Alert
 $route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAlert']);
 
-require_once 'Controllers/OrderController.php'; // Add this line at the top
 
-// Fix route definitions
-$route->get("/order", [ProductScanController::class, 'index']);
-$route->post("/order/add", [ProductScanController::class, 'add']);
-$route->get("/order/checkout", [ProductScanController::class, 'checkout']); // Fixed path
-$route->post("/order/process-checkout", [ProductScanController::class, 'processCheckout']); // Fixed path
-$route->post("/order/scan", [ProductScanController::class, 'scan']); // Fixed endpoint name
-$route->post("/order/delete", [ProductScanController::class, 'delete']); // Fixed path
-$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']); // Changed to POST
 // Call the route method to process the request
 $route->route();

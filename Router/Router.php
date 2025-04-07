@@ -1,60 +1,102 @@
 <?php
-// Router.php (updated)
+require_once(__DIR__ . '/../Controllers/FormController.php');
+$router = new Router();
+$router->get('/form', [new FormController(), 'form']); // Route to form
 
-// Include necessary controller files
-require_once dirname(__DIR__) . '/Controllers/OrderController.php';
-require_once dirname(__DIR__) . '/Controllers/DashboardController.php';
-require_once dirname(__DIR__) . '/Controllers/FormController.php';
-require_once dirname(__DIR__) . '/Controllers/UserController.php';
-require_once dirname(__DIR__) . '/Controllers/ProductController.php';
-require_once dirname(__DIR__) . '/Controllers/ProductScanController.php';
-require_once dirname(__DIR__) . '/Controllers/ProductCashierController.php';
+class Router 
+{
+    private $uri;
+    private $method;
+    private $routes = [];
 
-// Instantiate the Router class
-$route = new Router();
+    /**
+     * Constructor to initialize the URI and request method.
+     */
+    public function __construct()
+    {
+        $this->uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $this->method = $_SERVER['REQUEST_METHOD'];
+    }
 
-// Define your routes (unchanged)
-$route->get("/dashboard", [DashboardController::class, 'show']);
-$route->get("/", [FormController::class, 'form']);
-// ... (all other routes remain the same)
-$route->route();
+    /**
+     * Registers a GET route.
+     *
+     * @param string $uri The URI of the route.
+     * @param array $action The controller class and method to be executed.
+     */
+    public function get($uri, $action)
+    {
+        $this->routes[$uri] = [
+            'method' => 'GET',
+            'action' => $action
+        ];
+    }
 
-// Welcome Routes
-$route->get("/dashboard", [DashboardController::class, 'show']);
-$route->get("/", [FormController::class, 'form']); // Homepage
+    /**
+     * Registers a POST route.
+     *
+     * @param string $uri The URI of the route.
+     * @param array $action The controller class and method to be executed.
+     */
+    public function post($uri, $action)
+    {
+        $this->routes[$uri] = [
+            'method' => 'POST',
+            'action' => $action
+        ];
+    }
 
-// User Routes
-$route->post("/form/authenticate", [UserController::class, 'authenticate']);
-$route->get("/users", [UserController::class, 'index']);
-$route->get("/users/create", [UserController::class, 'create']);
-$route->post("/users/store", [UserController::class, 'store']);
-$route->delete("/users/delete/{id}", [UserController::class, 'delete']);
-$route->get("/users/logout", [UserController::class, 'logout']);
-$route->get("/users/edit/{id}", [UserController::class, 'edit']);
-$route->post("/users/update/{id}", [UserController::class, 'update']);
-$route->get("/users/view_user/{id}", [UserController::class, 'detail']);
+    /**
+     * Registers a PUT route.
+     *
+     * @param string $uri The URI of the route.
+     * @param array $action The controller class and method to be executed.
+     */
+    public function put($uri, $action)
+    {
+        $this->routes[$uri] = [
+            'method' => 'PUT',
+            'action' => $action
+        ];
+    }
 
-// Product Routes
-$route->get("/products", [ProductController::class, 'index']);
-$route->get("/products/create", [ProductController::class, 'create']);
-$route->post("/products/store", [ProductController::class, 'store']);
-$route->get("/products/edit_pro/{id}", [ProductController::class, 'edit']);
-$route->put("/products/update/{id}", [ProductController::class, 'update']);
-$route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
-$route->get("/products/product_detail/{id}", [ProductController::class, 'detail']);
-$route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
+    /**
+     * Registers a DELETE route.
+     *
+     * @param string $uri The URI of the route.
+     * @param array $action The controller class and method to be executed.
+     */
+    public function delete($uri, $action)
+    {
+        $this->routes[$uri] = [
+            'method' => 'DELETE',
+            'action' => $action
+        ];
+    }
 
-// Order Routes (Unified)
-$route->get("/order", [ProductScanController::class, 'index']);
-$route->post("/order/add", [ProductScanController::class, 'add']);
-$route->get("/order/checkout", [OrderController::class, 'checkout']);
-$route->post("/order/process-checkout", [ProductScanController::class, 'processCheckout']);
-$route->post("/order/scan", [ProductScanController::class, 'scan']);
-$route->post("/order/delete", [ProductScanController::class, 'delete']);
-$route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+    /**
+     * Routes the request to the appropriate controller and method.
+     */
+    public function route()
+    {
+        foreach ($this->routes as $uri => $route) {
+            // Convert route pattern to a regex that matches numbers (for IDs)
+            $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([0-9]+)', trim($uri, '/'));
 
-// Product Cashier Route
-$route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
+            if (preg_match("#^$pattern$#", trim($this->uri, '/'), $matches)) {
+                array_shift($matches); // Remove full match
+                $controllerClass = $route['action'][0];
+                $function = $route['action'][1];
 
-// Execute the routing
-$route->route();
+                $controller = new $controllerClass();
+                $controller->$function(...$matches); // Pass extracted parameters
+                exit;
+            }
+        }
+
+        http_response_code(404);
+        require_once 'views/errors/404.php';
+    }
+
+    
+}

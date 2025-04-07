@@ -19,10 +19,10 @@ class OrderController extends BaseController {
         // Send the email using a mailer library (e.g., PHPMailer)
         $mailer = new \PHPMailer\PHPMailer\PHPMailer();
         $mailer->isSMTP();
-        $mailer->Host = 'smtp.example.com'; // From config.php
+        $mailer->Host = SMTP_HOST; // Use constant or config variable
         $mailer->SMTPAuth = true;
-        $mailer->Username = 'zenngii168@gmail.com';
-        $mailer->Password = 'hdzj larg wckf ziyq';
+        $mailer->Username = SMTP_USERNAME; // Use constant or config variable
+        $mailer->Password = SMTP_PASSWORD; // Use constant or config variable
         $mailer->setFrom('support@awesomestore.com', 'Awesome Store');
         $mailer->addAddress($customer->email, $customer->name);
         $mailer->Subject = 'Order Confirmation - #' . $order->id;
@@ -38,12 +38,12 @@ class OrderController extends BaseController {
         header('Location: /order/success');
     }
 
-    public function dowlaodInvoice($orderId) {
+    public function downloadInvoice($orderId) { // Fixed method name
         $orderModel = $this->model('OrderModel');
         $order = $orderModel->getOrder($orderId);
         $customer = $orderModel->getCustomer($order->customerId);
 
-        $pdfContent = $this->view->renderToString9('receipts/invoice', [
+        $pdfContent = $this->view->renderToString('receipts/invoice', [ // Fixed method name
             'order' => $order,
             'customer' => $customer
         ]);
@@ -53,7 +53,7 @@ class OrderController extends BaseController {
         $dompdf->loadHtml($pdfContent);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        $dompdf->stream('invoice_' . $orderId . 'pdf', ['Attachment' => true]);
+        $dompdf->stream('invoice_' . $orderId . '.pdf', ['Attachment' => true]); // Fixed file extension
     }
 
     public function viewOrders() {
