@@ -6,12 +6,16 @@
 
         <div class="filter" id="filter">
             <button onclick="filterProducts('All')">All</button>
-            <button onclick="filterProducts('Bag')">Bag</button>
-            <button onclick="filterProducts('Clothe')">Clothe</button>
+            <!-- <button onclick="filterProducts('T-shirt')">T-shirt</button> -->
+            <button onclick="filterProducts('Clothes')">Clothes</button>
             <button onclick="filterProducts('Shoe')">Shoe</button>
-            <button onclick="filterProducts('Uniform')">Uniform</button>
+            <button onclick="filterProducts('Bag')">Bag</button>
+            <!-- <button onclick="filterProducts('Shirt')">Shirt</button> -->
+            <!-- <button onclick="filterProducts('Nightwear')">Nightwear</button> -->
+            <!-- <button onclick="filterProducts('Uniform')">Uniform</button> -->
+            <button onclick="filterProducts('Student Material')">Student Material</button>
             <button onclick="filterProducts('Sport')">Sport</button>
-            <button onclick="filterProducts('Toy')">Toy</button>
+            <button onclick="filterProducts('Other')">Other</button>
         </div>
 
         <div class="grid" id="product-grid">
@@ -31,7 +35,6 @@
                     </select>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
-                <!-- <button class="add-to-cart">Add to Cart</button> -->
             </div>
             <div class="product-card">
                 <div class="img">

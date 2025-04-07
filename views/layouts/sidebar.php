@@ -112,7 +112,7 @@
         			</li>
         			<li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
         					<i class="fa-regular fa-clipboard-list-check"></i>
-        					<span class="nav-text">Products</span>
+        					<span class="nav-text">Order</span>
         				</a>
         			</li>
 

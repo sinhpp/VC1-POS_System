@@ -146,3 +146,4 @@ document.getElementById('filter-toggle').addEventListener('click', function() {
     const filter = document.getElementById('filter');
     filter.style.display = (filter.style.display === 'block') ? 'none' : 'block';
 });
+

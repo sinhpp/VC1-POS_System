@@ -399,6 +399,9 @@
     .container {
         padding: 30%;
     }
+    #searchInput{
+        margin-top: 700px;
+    }
 
     .div-container {
         margin-left: -110px;
