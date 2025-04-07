@@ -2,7 +2,7 @@
 <style>
     /* Sidebar container */
 .dlabnav {
-    height: 100vh; /* Full viewport height */
+    height: 80%; /* Full viewport height */
     position: fixed; /* Fixed to the left */
     display: flex;
     flex-direction: column;
@@ -16,9 +16,9 @@
         }
 
         /* Remove hide scrollbar */
-        /* .dlabnav-scroll::-webkit-scrollbar {
+         .dlabnav-scroll::-webkit-scrollbar {
             display: none; 
-        } */
+        } 
 
         /* Better spacing for menu items */
         .metismenu li {
