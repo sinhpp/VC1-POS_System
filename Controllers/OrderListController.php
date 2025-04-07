@@ -20,24 +20,33 @@ class OrderListController extends BaseController {
     public function storeOrder() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $customerId = filter_input(INPUT_POST, 'customer_id', FILTER_SANITIZE_NUMBER_INT);
-            $orderItems = json_decode(filter_input(INPUT_POST, 'order'), true);
-            $totalAmount = filter_input(INPUT_POST, 'total', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-            $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
-    
+            $orderItems = json_decode(filter_input(INPUT_POST, 'order'), true); // Decode the order items
+            $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING); // Get the action type
+
             if (empty($orderItems)) {
                 $_SESSION['error'] = "No items in the order.";
                 header("Location: /order/order_list");
                 exit();
             }
-    
+
             try {
+                // Calculate total amount based on order items
+                $totalAmount = array_sum(array_map(function($item) {
+                    return $item['quantity'] * $item['price'];
+                }, $orderItems));
+
+                // Store the order and get the order ID
                 $orderId = $this->orderModel->storeOrder($customerId, $totalAmount, $orderItems);
                 $_SESSION['success'] = "Order saved successfully! Order ID: $orderId";
-    
-                // Since you're not printing, just redirect to the order list
-                header("Location: /order/order_list");
-                exit();
-    
+
+                // Additional actions based on the button clicked
+                if ($action === 'print') {
+                    header("Location: /order/print_receipt?id=" . $orderId);
+                    exit();
+                } elseif ($action === 'store') {
+                    header("Location: /order/order_list");
+                    exit();
+                }
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 $_SESSION['error'] = "Failed to save order: " . $e->getMessage();
@@ -45,15 +54,14 @@ class OrderListController extends BaseController {
         } else {
             $_SESSION['error'] = "Invalid order data.";
         }
-    
+
         header("Location: /order/order_list");
         exit();
     }
-    
 
     public function delete() {
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['order_id'])) {
-            $order_id = $_POST['order_id'];
+            $order_id = filter_input(INPUT_POST, 'order_id', FILTER_SANITIZE_NUMBER_INT);
 
             if ($this->orderModel->deleteOrder($order_id)) {
                 $_SESSION['success'] = "Order successfully deleted!";

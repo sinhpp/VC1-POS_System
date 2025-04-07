@@ -107,7 +107,7 @@
                 <i class="fa-solid fa-user"></i>
                 <span class="nav-text">User</span>
             </a></li>
-            <li><a href="javascript:void(0);" aria-expanded="false">
+            <li><a href="order/order_list" aria-expanded="false">
                 <i class="flaticon-041-graph"></i>
                 <span class="nav-text">Order List</span>
             </a></li>
