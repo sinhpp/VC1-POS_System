@@ -1,90 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Dashboard</title>
-    <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
-    <style>
-        /* Sidebar container */
-        .dlabnav {
-            height: 100vh; /* Full viewport height */
-            position: fixed; /* Fixed to the left */
-            display: flex;
-            flex-direction: column;
-            z-index: 999; /* Ensure sidebar is above other elements */
-        }
+<style>
+			/* Sidebar container */
+.dlabnav {
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixed to the left */
+    display: flex;
+    flex-direction: column;
+}
 
-        /* Scrollable section */
-        .dlabnav-scroll {
-            flex: 1; /* Allows content to expand */
-            overflow-y: auto; /* Enables vertical scrolling */
-            padding: 10px 8px; /* Add some padding for better spacing */
-        }
+/* Scrollable section */
+.dlabnav-scroll {
+    flex: 1; /* Allows content to expand */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px 8px; /* Add some padding for better spacing */
+    
+    /* Hide scrollbar */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    -webkit-overflow-scrolling: touch; /* Momentum scrolling on mobile */
+    scroll-behavior: smooth; /* Smooth scrolling effect */
+    overscroll-behavior: contain; /* Prevents bounce effect */
+}
 
-        /* Hide scrollbar */
-        .dlabnav-scroll::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome, Safari, Edge */
-        }
+/* Hide scrollbar for Chrome, Safari, Edge */
+.dlabnav-scroll::-webkit-scrollbar {
+    display: none;
+}
 
-        /* Better spacing for menu items */
-        .metismenu li {
-            padding: 5px 10px;
-            list-style: none;
-        }
+/* Better spacing for menu items */
+.metismenu li {
+    padding: 5px 10px;
+    list-style: none;
+}
 
-        .metismenu li a {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            color: #6c757d;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+/* Improve touch scrolling on mobile */
+@media (hover: none) and (pointer: coarse) {
+    .dlabnav-scroll {
+        scroll-behavior: auto; /* Prevents scrolling bugs */
+    }
+}
 
-        /* Hover effect for main menu items */
-        .metismenu li a:hover {
-            background-color: #e9ecef;
-        }
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .dlabnav {
+        width: 220px; /* Slightly smaller sidebar for mobile */
+    }
+}
 
-        /* Dropdown-specific styles */
-        .dropdown ul {
-            display: none;
-            position: relative;
-            padding: 0;
-            margin: 0;
-            background-color: #f8f9fa;
-        }
-
-        /* Show dropdown on hover */
-        .dropdown:hover > ul {
-            display: block;
-        }
-
-        /* Modal styles */
-        .modal {
-            z-index: 1050; /* Ensure modal is above sidebar */
-        }
-
-        .modal-content {
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
-<!--**********************************
+		</style>
+		<!--**********************************
             Sidebar start
 ***********************************-->
 <div class="dlabnav">
@@ -143,4 +106,4 @@
 </div>
 <!--**********************************
             Sidebar end
-***********************************-->
+        ***********************************-->
