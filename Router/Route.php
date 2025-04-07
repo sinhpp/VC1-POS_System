@@ -10,6 +10,7 @@ require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
 require_once "Controllers/OrderListController.php";
+require_once "Controllers/CategoryController.php";
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
@@ -44,6 +45,10 @@ $route->get("products/product_detail/{id}", [ProductController::class, 'detail']
 $route->put("/products/update/{id}", [ProductController::class, 'update']);
 $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 
+
+// Route for creating a category
+$route->post("/products/create-category", [CategoryController::class, 'createCategory']);
+$route->get("/products/category", [CategoryController::class, 'listCategories']); // Add a route to list categories
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 // Product Scanning Routes
