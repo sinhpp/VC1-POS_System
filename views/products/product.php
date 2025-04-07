@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -51,6 +50,7 @@ if (isset($_SESSION['user_id'])) : ?>
             transition: all 0.3s ease;
             background: #26A142;
         }
+<<<<<<< HEAD
 
         th {
       
@@ -63,6 +63,11 @@ if (isset($_SESSION['user_id'])) : ?>
             top: 0;
             z-index: 2;
         }
+=======
+      
+      
+        
+>>>>>>> main
 
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
@@ -254,7 +259,7 @@ if (isset($_SESSION['user_id'])) : ?>
     display: flex;
     flex-direction: column;
    
-    width: 90%; /* Adjust width as needed */
+    width: 96%; /* Adjust width as needed */
  
 >>>>>>> main
     background: linear-gradient(145deg, #ffffff, #f9f9f9);
@@ -265,7 +270,7 @@ if (isset($_SESSION['user_id'])) : ?>
 .table{
     width: 80%;
 
-    margin-left: 12%; /* Adds spacing */
+    margin-left: 14%; /* Adds spacing */
     display: flex;
     flex-direction: column;
   
@@ -312,7 +317,7 @@ if (isset($_SESSION['user_id'])) : ?>
             color: white;
         }
         th{
-            background-color: #8A5AD9 !important;
+            background-color: teal !important;
         }
 
         /* Responsive Styles */
@@ -392,11 +397,123 @@ if (isset($_SESSION['user_id'])) : ?>
           
 >>>>>>> main
         }
+        h2 {
+    color: #333;
+}
+.container {
+    text-align: center;    
+    justify-content: space-between;
+    padding: 0 ;
+    max-width: 100%;
+    margin: auto;
+}
+
+
+.search {
+    padding: 10px;
+    width: 50%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+table {
+  
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--table-bg, white); /* Change this color */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--header-bg, #333); /* Change this color */
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--row-alt-bg, #f2f2f2); /* Change this color */
+}
+
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+td img {
+    display: block;
+    margin: 0 auto;
+}
+.filters {
+    margin-bottom: 15px;
+ 
+    justify-content: space-between;
+    width: 100%;
+    display: flex;
+ 
+}
+
+.search, .filter {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+
+
+select.filter:focus {
+    outline: none;
+    border-color: #555;
+}
+
+
+button.filter-btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.alert{
+    display: inline;
+    position: static;
+ 
+}
+
+button.filter-btn:hover {
+    background-color: #0056b3;
+}
+.alert#toast {
+    display: none;
+    position: absolute;
+ 
+  
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 100; /* Ensure it appears above other elements */
+}
     </style>
+
+
+        
 </head>
 <body>
 </head>
 <body>
+<?php
+$categories = $this->getCategories(); 
+?>
 <!-- Include SweetAlert2 CSS and JS -->
 <!-- Include SweetAlert2 CSS and JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -404,7 +521,9 @@ if (isset($_SESSION['user_id'])) : ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+
 <div class="table-container">
+<<<<<<< HEAD
 <<<<<<< HEAD
     <a href="/products/create" class="btn btn-success">+ Add Product</a>
 
@@ -426,22 +545,53 @@ if (isset($_SESSION['user_id'])) : ?>
                 <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
 =======
     
+=======
+>>>>>>> main
     <div class="table">
-    <div class="button">
-        
-        <a href="/products/create" class="btn btn-success">+ Add Product</a>
-    </div>
+        <div class="container">
+            <div class="filters">
+                <input type="text" class="search" id="product-search" placeholder="Search...">
+                
+                <select class="filter" id="stock-filter">
+                    <option value="">Stock</option>
+                    <option value="low">Low Stock</option>
+                    <option value="medium">Medium Stock</option>
+                    <option value="high">High Stock</option>
+                </select>
+
+                <select class="filter" id="category-filter">
+                    <option value="">All Categories</option>
+                    <?php if (isset($categories) && count($categories) > 0): ?>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= htmlspecialchars($category['name']); ?>">
+                                <?= htmlspecialchars($category['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="">No categories available</option>
+                    <?php endif; ?>
+                </select>
+
+                <div class="button">
+                    <a href="/products/create" class="btn btn-success">+ Add Product</a>
+                </div>
+            </div>
+        </div>
+    
+
     <table>
         <thead>
             <tr>
-                <th>
-                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
-                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
-                </th>
+            <th>
+    <div style="position: relative;">
+        <div class="alert" id="toast" style="display:none; position: absolute; bottom: 100%; left: 0; margin-bottom: 5px;">Delete all!</div>
+        <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+    </div>
+</th>
                 <th>Image</th>
                 <th>Name</th>
-                
                 <th>Code</th>
+<<<<<<< HEAD
                 <th>Price
 
                 <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
@@ -557,6 +707,13 @@ if (isset($_SESSION['user_id'])) : ?>
                 <th>Action
 
 >>>>>>> main
+=======
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Created At</th>
+                <th>Action
+>>>>>>> main
                 <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
                 </th>
             </tr>
@@ -568,18 +725,23 @@ if (isset($_SESSION['user_id'])) : ?>
                 </tr>
             <?php else: ?>
                 <?php foreach ($products as $product): ?>
-                    <tr>
+                    <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
                         <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
                         <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
-                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td class="product-name"><?= htmlspecialchars($product['name']) ?></td>
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
+<<<<<<< HEAD
 <<<<<<< HEAD
                         <td><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
 =======
                         <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td> <!-- This cell will be updated -->                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+>>>>>>> main
+=======
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
 >>>>>>> main
                         <td class="action-icons">
                             <div class="dropdown">
@@ -587,7 +749,8 @@ if (isset($_SESSION['user_id'])) : ?>
                                 <div class="dropdown-menu">
                                     <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                                     <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                                    <!-- Fixed link: Changed from product_detail to detail -->
+                                    <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                                 </div>
                             </div>
                         </td>
@@ -613,30 +776,75 @@ if (isset($_SESSION['user_id'])) : ?>
 const products = <?= json_encode($products); ?>; // Convert PHP array to JavaScript
 const productsPerPage = 10;
 let currentPage = 1;
-let totalPages = Math.ceil(products.length / productsPerPage);
+let filteredProducts = [...products]; // Create a copy of the products array
+let totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+// Filter products based on category, stock, and search term
+function filterProducts() {
+    const categoryFilter = document.getElementById('category-filter').value.toLowerCase();
+    const stockFilter = document.getElementById('stock-filter').value.toLowerCase();
+    const searchTerm = document.getElementById('product-search').value.toLowerCase();
+    
+    // Reset filtered products to all products
+    filteredProducts = products.filter(product => {
+        // Category filter
+        const categoryMatch = !categoryFilter || product.category.toLowerCase() === categoryFilter;
+        
+        // Stock filter
+        let stockMatch = true;
+        if (stockFilter) {
+            const stock = parseInt(product.stock);
+            if (stockFilter === 'low' && stock <= 10) stockMatch = true;
+            else if (stockFilter === 'medium' && stock > 10 && stock <= 50) stockMatch = true;
+            else if (stockFilter === 'high' && stock > 50) stockMatch = true;
+            else stockMatch = false;
+        }
+        
+        // Search filter (match name, barcode, or category)
+        const searchMatch = !searchTerm || 
+            product.name.toLowerCase().includes(searchTerm) || 
+            product.barcode.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm);
+        
+        return categoryMatch && stockMatch && searchMatch;
+    });
+    
+    // Update total pages based on filtered products
+    totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+    
+    // Reset to first page when filters change
+    currentPage = 1;
+    
+    // Render the filtered products
+    renderProducts(1);
+}
 
 function renderProducts(page) {
     currentPage = page;
     const start = (currentPage - 1) * productsPerPage;
     const end = start + productsPerPage;
-    const currentProducts = products.slice(start, end);
+    const currentProducts = filteredProducts.slice(start, end);
 
     const tbody = document.getElementById('product-list');
     tbody.innerHTML = '';
 
     if (currentProducts.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products available.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products match your filters.</td></tr>';
     } else {
         currentProducts.forEach(product => {
             const row = document.createElement('tr');
+            row.className = 'product-row';
+            row.setAttribute('data-category', product.category);
+            row.setAttribute('data-stock', product.stock);
+            
             row.innerHTML = `
                 <td><input type="checkbox" class="product-checkbox" value="${product.id}"></td>
                 <td><img src="/${product.image}" alt="Product Image" class="product-image"></td>
-                <td>${product.name}</td>
+                <td class="product-name">${product.name}</td>
                 <td>${product.barcode}</td>
-                <td>$${product.price}</td>
+                <td>$${parseFloat(product.price).toFixed(2)}</td>
                 <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
-                <td>${product.category}</td>
+                <td class="category-cell">${product.category}</td>
                 <td>${product.created_at}</td>
                 <td class="action-icons">
                     <div class="dropdown">
@@ -644,6 +852,7 @@ function renderProducts(page) {
                         <div class="dropdown-menu">
                             <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
                             <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                            <!-- Fixed link: Changed from product_detail to detail -->
                             <a href="/products/product_detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
                         </div>
                     </div>
@@ -660,20 +869,23 @@ function renderPagination() {
     const paginationDiv = document.getElementById('pagination-buttons');
     paginationDiv.innerHTML = ''; // Clear previous pagination buttons
 
-    for (let i = 1; i <= Math.min(5, totalPages); i++) {
-        const button = document.createElement('button');
-        button.classList.add('page-btn');
-        button.textContent = i;
-        button.onclick = function () {
-            renderProducts(i);
-            updateActivePage(i);
-        };
+    // Only show pagination if we have more than one page
+    if (totalPages > 1) {
+        for (let i = 1; i <= Math.min(5, totalPages); i++) {
+            const button = document.createElement('button');
+            button.classList.add('page-btn');
+            button.textContent = i;
+            button.onclick = function () {
+                renderProducts(i);
+                updateActivePage(i);
+            };
 
-        if (i === currentPage) {
-            button.classList.add('active'); // Highlight active page
+            if (i === currentPage) {
+                button.classList.add('active'); // Highlight active page
+            }
+
+            paginationDiv.appendChild(button);
         }
-
-        paginationDiv.appendChild(button);
     }
 }
 
@@ -690,10 +902,17 @@ function updateActivePage(page) {
 
 // Initial load - Now only 10 products will show on page 1
 function init() {
+    // Add event listeners for filters
+    document.getElementById('category-filter').addEventListener('change', filterProducts);
+    document.getElementById('stock-filter').addEventListener('change', filterProducts);
+    document.getElementById('product-search').addEventListener('input', filterProducts);
+    
+    // Initial render
     renderProducts(1);
 }
 
-init();
+// Call init when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
 </script>
 
 
@@ -707,7 +926,6 @@ init();
 
 .page-btn {
     background-color: #f8f9fa;
- 
     border: 1px solid #ddd;
     padding: 8px 12px;
     margin: 2px;
@@ -719,206 +937,31 @@ init();
     background-color: #e9ecef;
 }
 
+.page-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
 
+/* Highlight search matches */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
 </style>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("click", function(event) {
         const sortOptions = document.getElementById("sort-options");
         const sortIcon = document.querySelector(".sort-icon");
 
         // Close dropdown if clicking outside (not on icon or options)
-        if (sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
+        if (sortOptions && sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
             sortOptions.style.display = "none";
         }
     });
 });
-
-// Function to toggle visibility of Price filter
-function toggleSortOptions(event) {
-    event.stopPropagation(); // Prevents event from bubbling up to other elements
-    closeAllSortOptions();  // Close any other open filters (Stock filter)
-    const priceOptions = document.getElementById("price-sort-options"); // Get the Price dropdown
-    priceOptions.style.display = priceOptions.style.display === "none" || priceOptions.style.display === "" ? "block" : "none"; // Toggle the dropdown
-}
-
-
-    function sortTable(columnIndex) {
-        let table = document.querySelector(".table-container table");
-        let rows = Array.from(table.rows).slice(1);
-        let isAscending = table.dataset.sortOrder === "asc";
-
-        rows.sort((a, b) => {
-            let aValue = a.cells[columnIndex].textContent.trim();
-            let bValue = b.cells[columnIndex].textContent.trim();
-            return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-        });
-
-        table.tBodies[0].innerHTML = "";
-        rows.forEach(row => table.tBodies[0].appendChild(row));
-        table.dataset.sortOrder = isAscending ? "desc" : "asc";
-    }
-
-    function sortPrice(order) {
-    let table = document.querySelector(".table-container table");
-    let rows = Array.from(table.rows).slice(1);
-    
-    rows.sort((a, b) => {
-        let aPrice = parseFloat(a.cells[4].textContent.replace('$', '').replace(',', ''));
-        let bPrice = parseFloat(b.cells[4].textContent.replace('$', '').replace(',', ''));
-        return order === 'high' ? bPrice - aPrice : aPrice - bPrice;
-    });
-
-    table.tBodies[0].innerHTML = "";
-    rows.forEach(row => table.tBodies[0].appendChild(row));
-
-    // Show alert and hide it after 2 seconds
-    showToast(`Sorted by ${order === 'high' ? 'highest' : 'lowest'} price`);
-    
-    // Hide alert after sorting
-    setTimeout(() => { hideToast(); });
-
-    // Hide dropdown
-    document.getElementById("sort-options").style.display = "none";
-}
-
-function searchPrice() {
-    let input = document.getElementById("priceSearch").value.trim();
-    let table = document.querySelector(".table-container table");
-    let rows = Array.from(table.rows).slice(1);
-    
-    rows.forEach(row => {
-        let priceText = row.cells[4].textContent.replace('$', '').replace(',', '').trim();
-        let priceValue = parseFloat(priceText);
-        
-        // Show row if price matches, otherwise hide
-        row.style.display = input === "" || priceText.includes(input) ? "" : "none";
-    });
-
-    // Hide alert when searching
-    hideToast();
-}
-
-function toggleSortOptions(event) {
-    event.stopPropagation();
-    const options = document.getElementById("sort-options");
-    options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none";
-
-    closeAllSortOptions();  // Close other filters (Price filter)
-    options.style.display = options.style.display === "none" || options.style.display === "" ? "block" : "none"; // Toggle the dropdown
-}
-
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.style.display = 'block';
-}
-
-function hideToast() {
-    const toast = document.getElementById('toast');
-    toast.style.display = 'none';
-}
-
-// Hide dropdown if clicking outside
-document.addEventListener("click", function(event) {
-    const sortOptions = document.getElementById("sort-options");
-    const sortIcon = document.querySelector(".sort-icon");
-
-    if (sortOptions.style.display === "block" && !sortOptions.contains(event.target) && event.target !== sortIcon) {
-        sortOptions.style.display = "none";
-    }
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Attach event listener to both input fields
-    document.getElementById("priceSearch").addEventListener("keydown", handleEnterKey);
-    document.getElementById("stockSearch").addEventListener("keydown", handleEnterKey);
-});
-
-function handleEnterKey(event) {
-    if (event.key === "Enter") { 
-        event.preventDefault(); // Prevent form submission if inside a form
-        closeAllSortOptions();  // Close all dropdowns
-    }
-}
-
-    document.addEventListener("DOMContentLoaded", function() {
-        document.addEventListener("click", function(event) {
-            const stockSortOptions = document.getElementById("stock-sort-options");
-
-            // Close dropdown if clicking outside the stock sort options
-            if (stockSortOptions.style.display === "block" && !stockSortOptions.contains(event.target)) {
-                stockSortOptions.style.display = "none";
-            }
-        });
-    });
-
-    // Toggle the stock sort options dropdown
-    // Function to toggle visibility of Stock filter
-function toggleStockSortOptions(event) {
-    
-    event.stopPropagation(); // Prevents the event from bubbling up to other elements
-    closeAllSortOptions();  // Close other filters (Price filter)
-    const stockOptions = document.getElementById("stock-sort-options"); // Get the Stock dropdown
-    stockOptions.style.display = stockOptions.style.display === "none" || stockOptions.style.display === "" ? "block" : "none"; // Toggle the dropdown
-}
-
-    // Function to sort by stock (high or low)
-    function sortStock(order) {
-        let table = document.querySelector(".table-container table");
-        let rows = Array.from(table.rows).slice(1); // Get all rows except the header
-        
-        rows.sort((a, b) => {
-            let aStock = parseInt(a.cells[5].textContent.trim()); // Assuming stock is in column 6 (index 5)
-            let bStock = parseInt(b.cells[5].textContent.trim());
-            return order === 'high' ? bStock - aStock : aStock - bStock;
-        });
-
-        table.tBodies[0].innerHTML = "";
-        rows.forEach(row => table.tBodies[0].appendChild(row));
-
-        // showToast(`Sorted by ${order === 'high' ? 'highest' : 'lowest'} stock`);
-        
-        // Hide dropdown after sorting
-        document.getElementById("stock-sort-options").style.display = "none";
-    }
-
-    // Function to search within the stock column
-    function searchStock() {
-        let input = document.getElementById("stockSearch").value.trim();
-        let table = document.querySelector(".table-container table");
-        let rows = Array.from(table.rows).slice(1); // Get all rows except the header
-
-        rows.forEach(row => {
-            let stockText = row.cells[5].textContent.trim(); // Assuming stock is in column 6 (index 5)
-            row.style.display = input === "" || stockText.includes(input) ? "" : "none";
-        });
-
-        hideToast(); // Hide toast when searching
-    }
-
-    // Function to show toast messages
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.style.display = 'block';
-    }
-
-    // Function to hide toast messages
-    function hideToast() {
-        const toast = document.getElementById('toast');
-        toast.style.display = 'none';
-    }
-
-    // Function to close all open filter dropdowns
-    function closeAllSortOptions() {
-    const allSortOptions = document.querySelectorAll(".sort-options");
-    allSortOptions.forEach(option => {
-        option.style.display = "none"; // Close all dropdowns
-    });
-}
-// drop down for action
 
 function toggleDropdown(icon) {
     let dropdownMenu = icon.nextElementSibling;
@@ -933,73 +976,72 @@ function toggleDropdown(icon) {
     });
 }
 
+function toggleAllCheckboxes(source) {
+    document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
+    updateToastVisibility();
+}
 
-</script>
-<style>
+function updateToastVisibility() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    const toast = document.getElementById('toast');
+    toast.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
 
-    .btn
-    .sort-options {
-        position: absolute;
-        background-color: white;
-        border: 1px solid #ccc;
-        z-index: 1000;
+    if (selectedCheckboxes.length > 0) {
+        toast.onclick = handleDelete;
+        toast.style.cursor = 'pointer';
+    } else {
+        toast.onclick = null;
+        toast.style.cursor = 'default';
     }
-    .sort-options button {
-        display: block;
-        width: 100%;
-        padding: 8px;
-        border: none;
-        background: none;
-        cursor: pointer;
-    }
-    .sort-options button:hover {
-        background-color: #f0f0f0;
-    }
-</style>
-<script>
-    function toggleAllCheckboxes(source) {
-        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = source.checked);
-        updateDeleteIcon();
-    }
+}
 
-    function updateDeleteIcon() {
-        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-        const deleteIcon = document.getElementById('delete-icon');
 
-        // Show trash icon if checkboxes are selected, otherwise hide it
-        deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+function updateDeleteIcon() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+    const deleteIcon = document.getElementById('delete-icon');
+
+    // Show trash icon if checkboxes are selected, otherwise hide it
+    deleteIcon.style.display = selectedCheckboxes.length > 0 ? 'inline-block' : 'none';
+}
+
+function handleDelete() {
+    const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+
+    if (selectedCheckboxes.length > 0) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will delete all selected products.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete them!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+                fetch('/products/delete_all', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ids: selectedIds })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) location.reload();
+               
+                    else Swal.fire('Error', 'Failed to delete products.', 'error');
+                })
+                .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
+            }
+        });
     }
+}
 
-    function handleDelete() {
-        const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-
-        if (selectedCheckboxes.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You will delete all selected products.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-                    fetch('/products/delete_all', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ids: selectedIds })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) location.reload();
-                        else Swal.fire('Error', 'Failed to delete products.', 'error');
-                    })
-                    .catch(error => Swal.fire('Error', 'An error occurred while deleting products.', 'error'));
-                }
-            });
-        }
-    }
-
+// Add event listener to checkboxes to update delete icon
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to all checkboxes
+    document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateDeleteIcon);
+    });
+});
 </script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php else: $this->redirect("/"); endif; ?>

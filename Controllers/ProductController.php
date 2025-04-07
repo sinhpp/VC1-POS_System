@@ -1,29 +1,30 @@
 <?php
 require_once "Models/ProductModel.php";
+require_once "Models/CategoryModel.php"; // Make sure to include CategoryModel
 
 class ProductController extends BaseController {
     private $products;
+    private $categories; // Add a property for CategoryModel
 
     public function __construct() {
         $this->products = new ProductModel();
+        $this->categories = new CategoryModel(); // Initialize CategoryModel
+    }
+
+    public function getCategories() {
+        return $this->categories->getCategories(); // Fetch categories from CategoryModel
     }
 
     public function index() {
         $products = $this->products->getProducts(); // Fetch products from the model
         $this->view("products/product", ['products' => $products]); // Pass products to the view
     }
-/////////////////////////////
-public function detail($id) {
-    $product = $this->products->product_detail($id);
-    $this->view("products/product_detail", ['product' => $product]);
-}
-
-    ////////////////////////////////////////////////////////
+    
     public function create() {
-        $this->view("/products/create");  // This should point to 'views/products/create_product.php'
+        $categories = $this->getCategories(); // Get categories to pass to the view
+        $this->view("/products/create", ['categories' => $categories]);  // Pass categories to the view
     }
 
-  
     public function store() {
         session_start();
         $name = trim($_POST['name'] ?? '');
@@ -63,11 +64,12 @@ public function detail($id) {
         header("Location: /products");
         exit();
     }
+    
     public function edit($id) {
         $product = $this->products->getProById($id);
         $this->view("products/edit_pro", ['product' => $product]);
     }
-    
+ 
     public function update($id) {
         session_start();
         $name = trim($_POST['name'] ?? '');
@@ -87,7 +89,7 @@ public function detail($id) {
             header("Location: /products/edit/$id");
             exit();
         }
-    
+
         if ($this->products->updateProduct($id, $name, $barcode, $price, $stock, $category, $size, $discount, $discount_type, $descriptions, $gender, $image)) {
             $_SESSION['product_success'] = "Product updated successfully!";
         } else {
@@ -98,6 +100,30 @@ public function detail($id) {
         exit();
     }
 
+    public function detail($id) {
+        // Fix: Make sure to convert $id to integer and validate it
+        $id = intval($id);
+        
+        if ($id <= 0) {
+            // Handle invalid ID
+            $_SESSION['product_error'] = "Invalid product ID.";
+            header("Location: /products");
+            exit();
+        }
+        
+        // Get the product by ID using the same method as edit
+        $product = $this->products->getProById($id);
+        
+        if (!$product) {
+            // Handle product not found
+            $_SESSION['product_error'] = "Product not found.";
+            header("Location: /products");
+            exit();
+        }
+        
+        // Pass the product to the view
+        $this->view("products/product_detail", ['product' => $product]);
+    }
 
     public function delete($id) {
         // Call the deleteProduct method from the ProductModel
@@ -109,6 +135,7 @@ public function detail($id) {
         header("Location: /products");
         exit();
     }
+    
     public function deleteAllProducts() {
         session_start();
         header('Content-Type: application/json'); // Set the content type to JSON
@@ -121,6 +148,7 @@ public function detail($id) {
         }
         exit();
     }
+    
     public function lowStockAlert() {
         // Default threshold value (can be made configurable later)
         $threshold = 5;
