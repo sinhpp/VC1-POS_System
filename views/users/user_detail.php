@@ -51,17 +51,6 @@ if (session_status() == PHP_SESSION_NONE) {
                         <div class="rounded-circle mb-3" style="width: 120px; height: 120px; background-color: #e0e0e0; display: flex; justify-content: center; align-items: center;">No Image</div>
                     <?php endif; ?>
                     <h4><?= htmlspecialchars($user['name']) ?></h4>
-                    <p class="text-muted"><?= htmlspecialchars($user['role']) ?></p>
-                    <!-- <button class="btn btn-primary">Follow</button>
-                    <button class="btn btn-outline-primary">Message</button> -->
-                </div>
-                <!-- <div class="profile-card mt-3 p-3"> -->
-                <!-- <p><strong>Website:</strong> https://bootdey.com</p>
-                    <p><strong>Github:</strong> bootdey</p>
-                    <p><strong>Twitter:</strong> @bootdey</p>
-                    <p><strong>Instagram:</strong> bootdey</p>
-                    <p><strong>Facebook:</strong> bootdey</p> -->
-                <!-- </div> -->
                     <p class="text-muted">
                         <?php 
                             // Get the role and format it (replace underscores with spaces, and capitalize each word)
