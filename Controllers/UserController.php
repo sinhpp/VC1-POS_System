@@ -49,14 +49,15 @@ class UserController extends BaseController {
               $email = htmlspecialchars($_POST['email']);
               $password = htmlspecialchars($_POST['password']);
               $user = $this->users->getUserByEmail($email);
-    
+
               if ($user && password_verify($password, $user['password'])) {
                   $_SESSION['user_name'] = $user['name'];
                   $_SESSION['user_id'] = $user['id'];
                   $_SESSION['user_role'] = $user['role'];
-                  $_SESSION['user_email'] = $user['email']; // Add this line to store the email
+                  $_SESSION['user_email'] = $user['email']; // Store the email
+                  $_SESSION['user_image'] = $user['image']; // Store the image path
                   $_SESSION['users'] = true;
-            
+        
                   // Redirect based on role
                   switch ($user['role']) {
                       case 'admin':

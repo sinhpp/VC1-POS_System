@@ -38,6 +38,16 @@
         width: 220px; /* Slightly smaller sidebar for mobile */
     }
 }
+
+/* User profile image styling */
+.user-profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 </style>
 <!--**********************************
     Sidebar start
@@ -47,7 +57,11 @@
         <ul class="metismenu" id="menu">
             <li class="dropdown header-profile">
                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                    <img src="/views/assets/images/ion/man (1).png" width="20" alt="" />
+                    <?php if(isset($_SESSION['user_image']) && !empty($_SESSION['user_image']) && file_exists($_SESSION['user_image'])): ?>
+                        <img src="/<?php echo htmlspecialchars($_SESSION['user_image']); ?>" class="user-profile-img" alt="User Profile" />
+                    <?php else: ?>
+                        <img src="/views/assets/images/ion/man (1).png" class="user-profile-img" alt="Default Profile" />
+                    <?php endif; ?>
                     <div class="header-info ms-3">
                         <?php if(isset($_SESSION['user_name'])): ?>
                             <span class="font-w600 "><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
@@ -101,19 +115,9 @@
                 </a>
             </li>
             
-            <li><a href="/" aria-expanded="false">
+            <li><a href="/logout" aria-expanded="false">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span class="nav-text">Logout</span>
-                </a>
-            </li>
-            <li><a href="javascript:void()" aria-expanded="false">
-                    <i class="flaticon-043-menu"></i>
-                    <span class="nav-text">Table</span>
-                </a>
-            </li>
-            <li><a href="javascript:void()" aria-expanded="false">
-                    <i class="flaticon-022-copy"></i>
-                    <span class="nav-text">Pages</span>
                 </a>
             </li>
         </ul>
