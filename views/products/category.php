@@ -17,131 +17,204 @@ ob_start();
 
 <!-- Custom CSS for enhanced UI -->
 <style>
-    .category-container {
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        padding: 25px;
-        margin-bottom: 30px;
-        margin-top:5%;
-        margin-left:10%;
-    }
+/* Container styling */
+
+.category-container{
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+.container {
+    max-width: 70%;
+    margin: auto;
+    padding: 20px;
+  
+    border-radius: 10px;
+  
+    position: relative;
+    top: 20%;
+    left: 10%;
+}
+
+
+/* Header styling */
+.category-header h4 {
+    color: #343a40;
+    font-weight: bold;
     
-    .category-header {
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: white;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
+    padding-bottom: 10px;
+}
+
+/* Button styling */
+.create-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.create-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table styling */
+.category-table {
+  
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+   
+    padding: 15px;
+    text-align: left;
+}
+
+.table th {
+   
+    color: white;
+}
+
+.table tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #5a6268;
+}
+
+.btn-edit {
+    background-color: #28a745;
+}
+
+.btn-edit:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: #dee2e6;
+}
+
+.empty-state p {
+    margin-top: 10px;
+    color: #6c757d;
+}
+
+/* Modal styling */
+.modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+}
+
+/* Responsive styling */
+@media (max-width: 1024px) {
     .create-btn {
-        background: linear-gradient(to right, #11998e, #38ef7d);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        display: inline-block;
-        margin-bottom: 20px;
-        text-decoration: none;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        width: 100%;
     }
-    
-    .create-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-        color: white;
+
+    .action-buttons {
+        flex-direction: row;
+        justify-content: space-between;
     }
-    
-    .category-table {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 10px;
+        font-size: 14px;
     }
-    
-    .category-table thead {
-        background: linear-gradient(to right, #5e35b1, #3949ab);
-        color: white;
+
+    .btn {
+        padding: 5px 8px;
     }
-    
-    .category-table th, .category-table td {
-        vertical-align: middle;
+
+    .empty-state i {
+        font-size: 36px;
     }
-    
-    .action-buttons .btn {
-        margin: 2px;
-        border-radius: 50px;
-        width: 38px;
-        height: 38px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 15px;
     }
-    
-    .action-buttons .btn:hover {
-        transform: scale(1.1);
+
+    .category-header h4 {
+        font-size: 18px;
     }
-    
-    .btn-edit {
-        background-color: #ffc107;
-        border-color: #ffc107;
-        color: #212529;
+
+    .create-btn {
+        font-size: 14px;
     }
-    
-    .btn-delete {
-        background-color: #dc3545;
-        border-color: #dc3545;
-        color: white;
+
+    .table th, .table td {
+        font-size: 12px;
     }
-    
-    .empty-state {
-        padding: 30px;
-        text-align: center;
-        color: #6c757d;
-        font-style: italic;
+
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
     }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .category-container {
-            padding: 15px;
-        }
-        
-        .category-header h1 {
-            font-size: 1.8rem;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-        }
-        
-        .create-btn {
-            width: 100%;
-            text-align: center;
-        }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
     }
-    
-    @media (max-width: 576px) {
-        .category-header h1 {
-            font-size: 1.5rem;
-        }
-        
-        .category-table th, .category-table td {
-            padding: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .action-buttons .btn {
-            width: 32px;
-            height: 32px;
-        }
-    }
+}
 </style>
 
 <div class="container mt-4">

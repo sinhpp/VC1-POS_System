@@ -222,6 +222,9 @@ if (isset($_SESSION['user_id'])) : ?>
    
    
 }
+.addProductBtn{
+    display: inline;
+}
 
 /* Adjust the table width */
 .table-container {
@@ -424,7 +427,7 @@ td img {
 }
 
 .search, .filter {
-    padding: 10px;
+    padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin: 5px;
@@ -454,6 +457,12 @@ button.filter-btn {
 
 button.filter-btn:hover {
     background-color: #0056b3;
+}
+/* Larger alert styling */
+.alert {
+    font-size: 1.25rem; /* Increase font size */
+    padding: 15px 20px; /* Increase padding */
+    border-radius: 8px; /* Slightly round corners */
 }
 .alert#toast {
     display: none;
@@ -521,24 +530,24 @@ $categories = $this->getCategories();
                     <?php endif; ?>
                 </select>
 
-                <div class="p-4 bg-light">
+            
                 <button id="addProductBtn" class="btn btn-success">
                     Add Product
                 </button>
-            </div>
+           
 
             <!-- Modal -->
             <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+
+                      
                             <h5 class="modal-title" id="categoryModalLabel">Add Category</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="categoryContent" style="font-weight: bold;">
                             <!-- Modal content will be loaded here -->
-                        </div>
-                    </div>
+                        
+                    
                 </div>
             </div>
 
@@ -613,20 +622,41 @@ $categories = $this->getCategories();
 <script>
 
 ////alert category/////////////////////////////////////////////////////////////////
-    // Get button and modal elements
-    const addProductBtn = document.getElementById("addProductBtn");
-    const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
-    const categoryContent = document.getElementById("categoryContent");
 
-    addProductBtn.addEventListener("click", () => {
-        // Fetch the category content and load it into the modal
-        fetch("/views/products/show_category.php")
-            .then(response => response.text())
-            .then(html => {
-                categoryContent.innerHTML = html;
-                categoryModal.show(); // Show the modal using Bootstrap's modal method
-            });
-    });
+const addProductBtn = document.getElementById("addProductBtn");
+const categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+const categoryContent = document.getElementById("categoryContent");
+const feedbackDiv = document.getElementById('categoryFeedback'); // Ensure this div exists in your HTML
+
+addProductBtn.addEventListener("click", () => {
+    // Fetch the category content and load it into the modal
+    fetch("/views/products/show_category.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            categoryContent.innerHTML = html;
+            categoryModal.show(); // Show the modal using Bootstrap's modal method
+            
+            // Show alert indicating the category was loaded successfully
+            showAlert('Category loaded successfully!', 'success');
+        })
+        .catch(error => {
+            // Handle any errors
+            showAlert('Failed to load category. Please try again.', 'danger');
+        });
+});
+
+// Function to show alert
+function showAlert(message, type) {
+    feedbackDiv.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert" style="font-size: 1.25rem;">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+}
 /////////////////////////////end alert category/////////////////////////////////////////////////////////
 const products = <?= json_encode($products); ?>; // Convert PHP array to JavaScript
 const productsPerPage = 10;
