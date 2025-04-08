@@ -112,5 +112,10 @@ class Order {
             throw new Exception("Failed to get orders: " . $e->getMessage());
         }
     }
+    public static function getAllOrders() {
+        $db = new Database();
+        $query = "SELECT * FROM orders ORDER BY oreder_date DESC";
+        return $db->query($query)->fetchAll();
+    }
 }
 ?>

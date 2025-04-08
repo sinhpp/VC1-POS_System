@@ -1,6 +1,7 @@
 <?php
 namespace Controllers; // Adjust based on your project structure
 
+use Order;
 use ProductController;
 
 class OrderController {
@@ -14,5 +15,9 @@ class OrderController {
         
         // Redirect or return response...
         return true;
+    }
+    public function index() {
+        $orders = Order::getAllOrders(); // Assuming this method fetches all orders
+        include './views/order/admin_order_history.php';
     }
 }
