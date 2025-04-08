@@ -294,3 +294,46 @@ class ProductModel {
         }
     }
 }
+  <?php
+  require_once "Database/Database.php";
+
+
+  class ProductModel {
+      private $db;
+
+
+
+
+
+
+      public function __construct() {
+          $this->db = Database::getInstance(); // Get PDO instance
+      }
+
+
+
+
+
+
+      public function getProducts() {
+          $stmt = $this->db->prepare("SELECT * FROM products");
+          $stmt->execute();
+          return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+    
+      // Other existing methods...
+    
+      // Method to get all products with stock > 0
+      public function getAllProducts() {
+          $stmt = $this->db->prepare("SELECT * FROM products WHERE stock > 0");
+          $stmt->execute();
+          return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+
+      // Method to get all categories
+      public function getCategories() {
+          $stmt = $this->db->prepare("SELECT DISTINCT name FROM categories");
+          $stmt->execute();
+          return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+  }
