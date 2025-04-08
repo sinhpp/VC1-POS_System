@@ -158,7 +158,7 @@ class UserController extends BaseController {
             $targetDir = "uploads/"; // Ensure this directory exists and is writable
             $newImageName = time() . "_" . basename($_FILES['image']['name']); // Unique filename
             $newImagePath = $targetDir . $newImageName;
-    
+
             // Move the new image to the target directory
             if (move_uploaded_file($_FILES['image']['tmp_name'], $newImagePath)) {
                 // Delete old image if it exists (and is not the default image)
@@ -168,9 +168,22 @@ class UserController extends BaseController {
                 $imagePath = $newImagePath; // Update to the new image path
             }
         }
-    
+
         // Update user with the new or existing image
         $this->users->updateUser($id, $name, $email, $role, $phone, $address, $imagePath);
+        
+        // Update session data if the current user is updating their own profile
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $id) {
+            $_SESSION['user_name'] = $name;
+            $_SESSION['user_email'] = $email;
+            $_SESSION['user_role'] = $role;
+            $_SESSION['user_image'] = $imagePath;
+            // You can add more session variables as needed
+        }
         
         // Redirect back to the user list
         header("Location: /users");
