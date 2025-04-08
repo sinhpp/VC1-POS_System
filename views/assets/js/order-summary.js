@@ -39,7 +39,7 @@
             isProcessing = true;
             console.log('Scanner detected, submitting:', barcode);
             addProductToOrder(barcode);
-        }, 500); // Increased debounce time to 500ms
+        }, 3000); // Increased debounce time to 500ms
 
         barcodeInput.addEventListener('input', function() {
             const barcode = barcodeInput.value.trim();
