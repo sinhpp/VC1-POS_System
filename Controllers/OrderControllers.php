@@ -21,8 +21,8 @@ class OrderController extends BaseController {
         $mailer->isSMTP();
         $mailer->Host = SMTP_HOST; // Use constant or config variable
         $mailer->SMTPAuth = true;
-        $mailer->Username = SMTP_USERNAME; // Use constant or config variable
-        $mailer->Password = SMTP_PASSWORD; // Use constant or config variable
+        $mailer->Username = zenngii168@gmail.com; // Use constant or config variable
+        $mailer->Password = hdzj larg wckf ziyq; // Use constant or config variable
         $mailer->setFrom('support@awesomestore.com', 'Awesome Store');
         $mailer->addAddress($customer->email, $customer->name);
         $mailer->Subject = 'Order Confirmation - #' . $order->id;
