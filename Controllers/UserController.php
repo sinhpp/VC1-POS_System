@@ -42,38 +42,38 @@ class UserController extends BaseController {
             exit();
         }
     }
-    
-    public function authenticate() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        $email = htmlspecialchars($_POST['email']);
-        $password = htmlspecialchars($_POST['password']);
-        $user = $this->users->getUserByEmail($email);
-    
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_name'] = $user['name'];
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_role'] = $user['role'];
-            $_SESSION['users'] = true;
-            
-            // Redirect based on role
-            switch ($user['role']) {
-                case 'admin':
-                    $this->redirect("/dashboard");
-                    break;
-                case 'stock_manager':
-                    $this->redirect("/stock/inventory");
-                    break;
-                default:
-                    $this->redirect("/dashboard");
-            }
-        } else {
-            // Return the form with an error message
-            $this->view("form/form", ['error' => 'Invalid email or password']);
-        }
-    }
+          public function authenticate() {
+              if (session_status() == PHP_SESSION_NONE) {
+                  session_start();
+              }
+              $email = htmlspecialchars($_POST['email']);
+              $password = htmlspecialchars($_POST['password']);
+              $user = $this->users->getUserByEmail($email);
 
+              if ($user && password_verify($password, $user['password'])) {
+                  $_SESSION['user_name'] = $user['name'];
+                  $_SESSION['user_id'] = $user['id'];
+                  $_SESSION['user_role'] = $user['role'];
+                  $_SESSION['user_email'] = $user['email']; // Store the email
+                  $_SESSION['user_image'] = $user['image']; // Store the image path
+                  $_SESSION['users'] = true;
+        
+                  // Redirect based on role
+                  switch ($user['role']) {
+                      case 'admin':
+                          $this->redirect("/dashboard");
+                          break;
+                      case 'stock_manager':
+                          $this->redirect("/stock/inventory");
+                          break;
+                      default:
+                          $this->redirect("/dashboard");
+                  }
+              } else {
+                  // Return the form with an error message
+                  $this->view("form/form", ['error' => 'Invalid email or password']);
+              }
+          }
     public function delete($id) {
         $this->users->deleteUser($id);
         header("Location: /users");
@@ -158,7 +158,7 @@ class UserController extends BaseController {
             $targetDir = "uploads/"; // Ensure this directory exists and is writable
             $newImageName = time() . "_" . basename($_FILES['image']['name']); // Unique filename
             $newImagePath = $targetDir . $newImageName;
-    
+
             // Move the new image to the target directory
             if (move_uploaded_file($_FILES['image']['tmp_name'], $newImagePath)) {
                 // Delete old image if it exists (and is not the default image)
@@ -168,9 +168,22 @@ class UserController extends BaseController {
                 $imagePath = $newImagePath; // Update to the new image path
             }
         }
-    
+
         // Update user with the new or existing image
         $this->users->updateUser($id, $name, $email, $role, $phone, $address, $imagePath);
+        
+        // Update session data if the current user is updating their own profile
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $id) {
+            $_SESSION['user_name'] = $name;
+            $_SESSION['user_email'] = $email;
+            $_SESSION['user_role'] = $role;
+            $_SESSION['user_image'] = $imagePath;
+            // You can add more session variables as needed
+        }
         
         // Redirect back to the user list
         header("Location: /users");
