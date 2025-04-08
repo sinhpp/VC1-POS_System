@@ -34,6 +34,18 @@ class OrderController extends BaseController {
             error_log('Email sending failed: ' . $mailer->ErrorInfo);
         }
 
+        // Send email to cashier
+        $cashierEmail = 'cashier@awesomestore.com'; // Replace with actual cashier email or fetch dynamically
+        $mailer->clearAddresses(); // Clear previous recipient
+        $mailer->addAddress($cashierEmail, 'Cashier');
+        $mailer->Subject = 'New Order Placed - #' . $order->id;
+        $mailer->Body = 'A new order has been placed. Order ID: #' . $order->id;
+
+        if (!$mailer->send()) {
+            // Handle error (e.g., log it)
+            error_log('Cashier email sending failed: ' . $mailer->ErrorInfo);
+        }
+
         // Redirect or return response
         header('Location: /order/success');
     }

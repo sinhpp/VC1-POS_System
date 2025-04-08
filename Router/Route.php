@@ -10,11 +10,7 @@ require_once "Controllers/ProductController.php";
 require_once 'Controllers/ProductScanController.php';
 require_once "Controllers/ProductCashierController.php";
 require_once "Controllers/OrderListController.php";
-<<<<<<< HEAD
-// require_once "Controllers/CategoryController.php";
-=======
 require_once "Controllers/CategoryController.php";
->>>>>>> main
 // require_once 'Controllers/OrderController.php';
 
 // Create an instance of Router
