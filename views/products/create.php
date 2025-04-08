@@ -33,11 +33,12 @@ if (isset($_SESSION['user_id'])) : ?>
             background: linear-gradient(135deg, #ffffff, #f9fafb);
             border: 1px solid #e5e7eb;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 90%;
+            width: 70%;
             max-width: 1200px;
             border-radius: 16px;
             overflow: hidden;
             position: relative;
+            left: 10%;
         }
         
         .form-header {
@@ -130,6 +131,11 @@ if (isset($_SESSION['user_id'])) : ?>
             max-width: 200px;
             max-height: 200px;
             object-fit: contain;
+        }
+        .p-6{
+            padding: auto !important;
+            position: relative;
+           
         }
         
         /* Responsive styles */
