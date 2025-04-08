@@ -3,6 +3,9 @@
     max-width: 100%;
     margin: auto;
 }
+.div-container{
+    margin-left: 10px;
+}
 
 .size-cart-container {
     display: flex;
@@ -44,8 +47,8 @@
 }
 
 #searchInput:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #0D6EFD;
+    box-shadow: 0 0 5px #0a57cb;
     outline: none;
 }
 
@@ -61,7 +64,7 @@
     margin-left: 15px;
     font-size: 20px;
     cursor: pointer;
-    color: #007bff;
+    color: #0D6EFD;
     position: relative;
 }
 
@@ -70,7 +73,7 @@
     cursor: pointer;
     top: -18px;
     right: -14px;
-    background-color: #6610F2;
+    background-color: #0D6EFD;
     color: white;
     border: solid 2px #E8EAEC;
     border-radius: 50%;
@@ -93,7 +96,7 @@
 }
 
 .filter button {
-    background-color: #6610F2;
+    background-color: #0D6EFD;
     color: white;
     border: none;
     padding: 6px 20px;
@@ -105,7 +108,7 @@
 }
 
 .filter button:hover {
-    background-color: #570dce;
+    background-color: #0D6EFD;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -113,19 +116,17 @@
 .filter button.active {
     background-color: #fff;
     font-weight: bold;
-    box-shadow: 0 1px 6px #6610F2;
-    border: 2px solid #6610F2;
-    color: #6610F2;
+    box-shadow: 0 1px 6px #0D6EFD;
+    border: 2px solid #0D6EFD;
+    color: #0D6EFD;
 }
 
 .grid {
-    margin-left: 360px;
-    margin-top: 20px;
-    display: grid;
+    display: grid; /* Ensure grid display is set */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 19.8px;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 20px; /* Add gap for space between grid items */
+    margin-top: 20px;
+    margin-left: 100%;
 }
 
 .product-card {
@@ -136,7 +137,8 @@
     color: #000;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* transition: transform 0.3s, box-shadow 0.3s; */
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: 10px; /* Add margin to create space between cards */
 }
 
 .product-card label {
@@ -164,12 +166,12 @@
 
 .product-price {
     font-size: 18px;
-    color: #6a0dfe;
+    color: #0D6EFD;
     font-weight: bold;
 }
 
 .add-to-cart {
-    background-color: #6610F2;
+    background-color: #0D6EFD;
     color: white;
     border: none;
     padding: 2px;
@@ -181,7 +183,7 @@
 }
 
 .add-to-cart:hover {
-    background-color: #510dbd;
+    background-color: #0D6EFD;
     transform: scale(1.05);
 }
 
@@ -353,7 +355,7 @@
         height: 34px;
         /* transition: background-color 0.3s, transform 0.2s; */
 
-        background-color: #6610F2;
+        background-color: #0D6EFD;
         color: white;
         border: none;
         padding: 2px;
@@ -365,7 +367,7 @@
     }
 
     .add-to-cart:hover {
-        background-color: #510dbd;
+        background-color: #0D6EFD;
         /* transform: scale(1.05); */
     }
 }
@@ -381,7 +383,7 @@
     display: none;
     font-size: 24px;
     cursor: pointer;
-    color: #6610F2;
+    color: #0D6EFD;
     margin-left: 20px;
 }
 
@@ -398,9 +400,6 @@
 @media (max-width: 768px) {
     .container {
         padding: 30%;
-    }
-    #searchInput{
-        margin-top: 700px;
     }
 
     .div-container {
@@ -462,25 +461,24 @@
         border-radius: 8px;
         color: #fff;
         padding: 14px;
-        background: #6610F2;
-        /* Purple background */
+        background: #0D6EFD;
         border: 2px solid transparent;
         cursor: pointer;
-        /* position: fixed; */
-        top: 800px;
-        left: -50px;
+        margin-top: -10px;
+        margin-left: 90px;
     }
 
     #filter-toggle:hover {
-        border-color: #5708d6;
+        border-color: #0f63df;
         /* Hover border color */
     }
 
     /* Grid Layout */
     .grid {
-        padding: 30%;
+        padding: 18%;
         margin: auto;
         margin-top: -60px;
+        margin-left: 90px;
     }
 
     /* Product Card */

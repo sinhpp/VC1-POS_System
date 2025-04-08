@@ -1,18 +1,32 @@
+ <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="waviy">
+       <span style="--i:1">L</span>
+       <span style="--i:2">o</span>
+       <span style="--i:3">a</span>
+       <span style="--i:4">d</span>
+       <span style="--i:5">i</span>
+       <span style="--i:6">n</span>
+       <span style="--i:7">g</span>
+       <span style="--i:8">.</span>
+       <span style="--i:9">.</span>
+       <span style="--i:10">.</span>
+    </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
 <link rel="stylesheet" href="/views/assets/css/form.css">
 <div class="container1">
     
     <div class="form-box">
 
-        <h2 id="loginForm" class="form-container1 active">Form Login</h2>
-        <h2 id="signupForm" class="form-container1">Form Signup</h2>
-
-
-        <div class="toggle-buttons">
-            <button id="login-btn" class="active" onclick="showLogin('login')">Login</button>
-            <button id="signup-btn" onclick="showSignup('signup')">Signup</button>
+        <h1 id="loginForm" class="form-container1 active">Welcome <br>to,</h1>
+        <div class="asia-shop-logo">
+            <img src="/views/assets/images/AsiaShop.png" alt="Asia Shop Logo">
         </div>
-
-
         <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
         <?php if (isset($success)) echo "<p style='color:green;'>$success</p>"; ?>
 
@@ -24,9 +38,8 @@
                 <i class="fas fa-eye" id="toggle-login-password" onclick="togglePassword('login-password', 'toggle-login-password')"></i>
             </div>
 
-            <a href="/views/form/forgotPassword.php" class="forgot-password">Forgot password?</a>
             <button class="submit-btn" type="submit" name="login">Login</button>
-            <p>Not a member? <a href="#" onclick="showSignup()">Signup now</a></p>
+            <p>Safe business <a href="#">Stock management</a></p>
         </form>
 
 
@@ -45,12 +58,12 @@
                         <option value="" disabled selected>Select Role</option>
                         <option value="admin">Admin</option>
                         <option value="cashier">Cashier</option>
+                        <option value="cashier">stock manager</option>
                     </select>
                 </div>
                 <button class="submit-btn" type="submit" name="signup">Signup</button>
                 <p>Already have an account? <a href="/" onclick="showLogin()">Login</a></p>
             </form>
-
     </div>
     <div class="image-form">
         <img class="imgForm" src="/views/assets/images/form_background.png" alt="">

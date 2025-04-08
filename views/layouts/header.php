@@ -27,8 +27,8 @@
      
     <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-	 <link rel="stylesheet" href="/views/vendor/nouislider/nouislider.min.css"> 
-	 <!-- <--Style css -->
+   <link rel="stylesheet" href="/views/vendor/nouislider/nouislider.min.css"> 
+   <!-- <--Style css -->
      <link href="/views/assets/css/dashboard.css" rel="stylesheet">
 
     <!-- SweetAlert JS -->
