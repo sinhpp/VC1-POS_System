@@ -199,4 +199,18 @@ class ProductController extends BaseController {
         $link = "/products/lowStockAlert";
         $notificationModel->addNotification('low_stock', $message, $link);
     }
+public function cashierView()
+{
+    // Get all products from the database
+    $products = $this->productModel->getAllProducts();
+    
+    // Get all categories for filtering
+    $categories = $this->productModel->getCategories();
+    
+    // Load the cashier view with product data
+    $this->view('product_cashier/product', [
+        'products' => $products,
+        'categories' => $categories
+    ]);
+}
 }
