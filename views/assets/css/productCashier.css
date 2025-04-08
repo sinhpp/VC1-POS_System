@@ -122,11 +122,10 @@
 }
 
 .grid {
-    display: grid; /* Ensure grid display is set */
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px; /* Add gap for space between grid items */
+    gap: 20px; /* Add gap for space between items */
     margin-top: 20px;
-    margin-left: 100%;
 }
 
 .product-card {
@@ -138,7 +137,7 @@
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
-    margin: 10px; /* Add margin to create space between cards */
+    margin: 15px; /* Increased margin for more space */
 }
 
 .product-card label {
