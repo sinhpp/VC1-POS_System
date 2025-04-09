@@ -427,7 +427,7 @@ td img {
 }
 
 .search, .filter {
-    padding: 5px;
+    padding: 5px ;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin: 5px;
@@ -487,6 +487,9 @@ button.filter-btn:hover {
     justify-content: space-between;
     flex-wrap: wrap;
 }
+.btn{
+    background color:  blue !important;
+}
 }
     </style>  
 </head>
@@ -541,7 +544,7 @@ $categories = $this->getCategories();
                 <div class="modal-dialog">
 
                       
-                            <h5 class="modal-title" id="categoryModalLabel">Add Category</h5>
+                       
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="categoryContent" style="font-weight: bold;">
