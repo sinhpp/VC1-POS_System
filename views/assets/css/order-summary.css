@@ -15,16 +15,10 @@ body {
     margin: 20px auto;
     overflow: hidden;
    
-    /* margin-left: 400px; */
+ 
 }
 
-/* .scanner-section {
-    float: left;
-    width: 35%;
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin-top: 90px;
-} */
+
 
 .order-page {
     float: left;
@@ -41,7 +35,7 @@ body {
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
 }
 
 .btn {
@@ -112,6 +106,9 @@ th {
         width: 95%;
         margin: 10px auto;
        
+    }
+    #orderProducts table {
+        display: none; /* Hide table on mobile */
     }
     h3, h4 {
         font-size: 18px;
@@ -198,7 +195,7 @@ th {
 .form-control {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 4px;
     font-size: 1rem;
 }
@@ -261,10 +258,16 @@ th {
 
 }
 .input-group {
-    /* display: flex; */
-    /* gap: 10px; */
     margin-top: 10px;
     
+}
+.swal2-popup.small-swal {
+    font-size: 0.88rem;
+    width: 300px !important;
+    padding: 0.75rem 1rem;
+    margin-right: 20px;
+    margin-bottom: 10px !important;
+   
 }
 .input-group input {
     flex: 1;
@@ -456,6 +459,9 @@ th {
         font-size: 13px;
         
     }
+      #orderProducts table {
+            display: none; /* Hide table on mobile */
+        }
     .order-page{
         width: 100%;
         margin-left: -5px;
