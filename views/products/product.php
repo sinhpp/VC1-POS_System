@@ -269,7 +269,7 @@ if (isset($_SESSION['user_id'])) : ?>
             border-bottom: 2px solid #dee2e6;
             font-weight: 600;
             color: white;
-            font-size: 0.85rem; /* Smaller header font */
+            font-size: 0.95rem; /* Smaller header font */
         }
         
         th {

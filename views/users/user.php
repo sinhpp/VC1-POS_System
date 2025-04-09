@@ -18,24 +18,27 @@ if (isset($_SESSION['user_id'])) : ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+
+        
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
             color: #333;
         }
 
-        /* .table-responsive {
+        .table-responsive {
             position: relative;
-            margin: 20px auto;
-            max-width: 70%;
+            left: 3%;
+
+            max-width: 80%;
             overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            background: #ffffff;
-            margin-top: 2rem;
+            border-radius: 12px;
+
+
+            margin-top: 10%;
             padding: 0;
-            transition: all 0.3s ease;
-        } */
+            transition: all 0.3s ease; /* Smooth transitions when resizing */
+        }
         
         [data-header-position="fixed"] .header {
             position: fixed;
@@ -88,11 +91,12 @@ if (isset($_SESSION['user_id'])) : ?>
         .container-fluid {
             width: 95%;
             max-width: 1400px;
+           
         }
 
         .table {
             position: relative;
-            top:100px;
+          
             left:20%;
             width: 80%;
             border-collapse: separate;
@@ -288,162 +292,156 @@ if (isset($_SESSION['user_id'])) : ?>
         .swal2-cancel {
             border-radius: 8px !important;
         }
-        
-        /* Responsive styles for tablet */
-        @media (max-width: 992px) {
-            .table-responsive {
-                max-width: 95%;
-                margin-top: 1.5rem;
-            }
-            
-            .header1 {
-                padding: 15px 20px;
-            }
-            
-            .header1 h1 {
-                font-size: 20px;
-            }
-            
-            .header1-buttons {
-                gap: 8px;
-            }
-            
-            .header1-buttons .btn {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
+        .btn-success{
+            margin-top: 3%;
+            margin-left: 87%;
         }
         
-        /* Responsive styles for mobile */
-        @media (max-width: 768px) {
-            .table-responsive {
-                max-width: 100%;
-                margin: 0.5rem 0;
-                border-radius: 12px;
-            }
-            
-            .header1 {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-                padding: 15px;
-            }
-            
-            .header1-buttons {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .header1-buttons .btn {
-                font-size: 0.8rem;
-                padding: 6px 10px;
-            }
-            
-            .table {
-                font-size: 0.85rem;
-            }
-            
-            .table th, .table td {
-                padding: 10px 12px;
-            }
-            
-            .badge {
-                padding: 4px 8px;
-                font-size: 0.7rem;
-            }
-            
-            .action-buttons {
-                flex-direction: row;
-                gap: 5px;
-            }
-            
-            .action-buttons .btn {
-                padding: 4px 8px;
-            }
-            
-            .action-buttons .material-icons {
-                font-size: 14px !important;
-            }
-        }
-        
-        /* Extra small devices */
-        @media (max-width: 576px) {
-            .table th:nth-child(5), .table td:nth-child(5) { /* Hide date column on very small screens */
-                display: none;
-            }
-            
-            .header1 h1 {
-                font-size: 18px;
-            }
-            
-            .header1-buttons {
-                flex-direction: column;
-                gap: 8px;
-                width: 100%;
-            }
-            
-            .header1-buttons .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .table img, .placeholder-image {
-                width: 32px !important;
-                height: 32px !important;
-            }
-        }
-        
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #121212;
-                color: #e0e0e0;
-            }
-            
-            .table-responsive {
-                background: #1e1e1e;
-                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            }
-            
-            .table thead th {
-                background-color: #2a2a2a;
-                color: #e0e0e0;
-                border-bottom: 1px solid #333;
-            }
-            
-            .table th, .table td {
-                border-bottom: 1px solid #333;
-            }
-            
-            .table tbody tr:hover {
-                background-color: rgba(31, 161, 161, 0.1);
-            }
-            
-            .placeholder-image {
-                background-color: #333;
-                color: #aaa;
-            }
-        }
+       /* Large devices (desktops) */
+/* Responsive styles that follow your existing design approach */
+@media (max-width: 1200px) {
+    .table-responsive {
+        left: 5%;
+        max-width: 90%;
+    }
+    
+    .table {
+        left: 15%;
+        width: 85%;
+    }
+    
+    .btn-success {
+        margin-left: 85%;
+        margin-top: 3%;
+    }
+}
+
+@media (max-width: 992px) {
+    .table-responsive {
+        left: 2%;
+        max-width: 95%;
+    }
+    
+    .table {
+        left: 10%;
+        width: 90%;
+    }
+    
+    .btn-success {
+        margin-left: 80%;
+        margin-top: 3%;
+    }
+    
+    .header1-buttons {
+        gap: 8px;
+    }
+    
+    .header1-buttons .btn {
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        left: 0;
+        max-width: 100%;
+    }
+    
+    .table {
+        left: 5%;
+        width: 95%;
+    }
+    
+    .container-fluid {
+        width: 100%;
+    }
+    
+    .btn-success {
+        margin-left: 70%;
+        margin-top: 3%;
+    }
+    
+    /* Hide date created column on tablets and below */
+    .table th:nth-child(5), 
+    .table td:nth-child(5) {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .table {
+        left: 0;
+        width: 100%;
+    }
+    
+    .btn-success {
+        margin-left: 60%;
+        margin-top: 10%;
+        margin-left: 70%;
+    }
+    
+    .table th, 
+    .table td {
+        padding: 10px 8px;
+    }
+    
+    .badge {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    
+    .action-buttons .btn {
+        padding: 4px 6px;
+    }
+    
+    .action-buttons .material-icons {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-success {
+        margin-left: 50%;
+        margin-top: 5%;
+    }
+    
+    /* Hide image column on very small screens */
+    .table th:nth-child(2), 
+    .table td:nth-child(2) {
+        display: none;
+    }
+    
+    .table th, 
+    .table td {
+        padding: 8px 5px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .btn-success {
+        margin-left: 30%;
+        margin-top: 5%;
+    }
+    
+    /* Hide ID column on extremely small screens */
+    .table th:nth-child(1), 
+    .table td:nth-child(1) {
+        display: none;
+    }
+}
     </style>
      <link rel="stylesheet" href="../../views/assets/css/category.css">
 </head>
 <body>
     <div class="container-fluid table-responsive">
         <!-- Header -->
-        <div class="header1">
-            <h1>User Management</h1>
-            <div class="header1-buttons">
-                <button class="btn" id="exportBtn">
-                    <i class="material-icons" style="font-size: 16px;">file_download</i>
-                    Export to Excel
-                </button>
-                <a href="/users/create" class="btn">
-                    <i class="material-icons" style="font-size: 16px;">add</i>
-                    Add New User
-                </a>
-            </div>
+          
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="/users/create" class="btn btn-success">+ Create User</a>
         </div>
-        
+    </div>
+
         <table class="table">
             <thead>
                 <tr>
@@ -581,7 +579,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 <?php endif; ?>
             </tbody>
         </table>
-    </div>
+ 
 
     <!-- Include SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
