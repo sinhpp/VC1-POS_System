@@ -37,10 +37,6 @@ if (isset($_SESSION['user_id'])) : ?>
             transition: all 0.3s ease;
             background:rgb(17, 110, 38);
         }
-      
-      
-        
-
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
         }
@@ -220,9 +216,9 @@ if (isset($_SESSION['user_id'])) : ?>
     display: flex;
     flex-direction: column;
    
-    width: 96%; /* Adjust width as needed */
+    width: 90%; /* Adjust width as needed */
  
-    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+   
     padding: 10%; /* Adds spacing */
 
     border-radius: 8px; /* Optional: Makes corners rounded */
