@@ -24,7 +24,7 @@ class OrderController extends BaseController {
         $mailer->Username = zenngii168@gmail.com; // Added quotes
         $mailer->Password = hdzj larg wckf ziyq; // Added quotes
         $mailer->setFrom('support@awesomestore.com', 'Awesome Store');
-        $mailer->addAddress($customer->email, $customer->name);
+        $mailer->addAddress($cashier->email, $cashier->name);
         $mailer->Subject = 'Order Confirmation - #' . $order->id;
         $mailer->isHTML(true);
         $mailer->Body = $emailBody;
