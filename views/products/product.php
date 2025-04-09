@@ -11,15 +11,6 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
-  <script>
-  tailwind.config = {
-    corePlugins: {
-      preflight: false
-    }
-  };
-</script>
-
-
 
     <style>
         /* General Styles */
@@ -221,9 +212,6 @@ if (isset($_SESSION['user_id'])) : ?>
             width: 100%; /* Make it full width */
    
    
-}
-.addProductBtn{
-    display: inline;
 }
 
 /* Adjust the table width */
@@ -427,7 +415,7 @@ td img {
 }
 
 .search, .filter {
-    padding: 5px ;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin: 5px;
@@ -458,12 +446,6 @@ button.filter-btn {
 button.filter-btn:hover {
     background-color: #0056b3;
 }
-/* Larger alert styling */
-.alert {
-    font-size: 1.25rem; /* Increase font size */
-    padding: 15px 20px; /* Increase padding */
-    border-radius: 8px; /* Slightly round corners */
-}
 .alert#toast {
     display: none;
     position: absolute;
@@ -476,20 +458,6 @@ button.filter-btn:hover {
     font-size: 14px;
     cursor: pointer;
     z-index: 100; /* Ensure it appears above other elements */
-
-    .grid {
-    margin-left: 0px !important;
-    margin-top: 4%;
-    display: grid
-;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 19.8px;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-.btn{
-    background color:  blue !important;
-}
 }
     </style>  
 </head>
@@ -534,33 +502,20 @@ $categories = $this->getCategories();
                 </select>
 
             
-                <button id="addProductBtn" class="btn btn-success">
+                <button id="addProductBtn" class="button">
                     Add Product
                 </button>
-           
-
             <!-- Modal -->
             <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-
-                      
-                       
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id="categoryContent" style="font-weight: bold;">
                             <!-- Modal content will be loaded here -->
-                        
-                    
                 </div>
             </div>
-
-
-
-    
             </div>
         </div>
-    
-
     <table>
         <thead>
             <tr>
@@ -569,7 +524,7 @@ $categories = $this->getCategories();
         <div class="alert" id="toast" style="display:none; position: absolute; bottom: 100%; left: 0; margin-bottom: 5px;">Delete all!</div>
         <input type="checkbox" onclick="toggleAllCheckboxes(this)">
     </div>
-</th>
+
                 <th>Image</th>
                 <th>Name</th>
                 <th>Code</th>

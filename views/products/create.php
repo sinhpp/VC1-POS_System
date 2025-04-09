@@ -43,7 +43,7 @@ if (isset($_SESSION['user_id'])) : ?>
         
         .form-header {
             margin-top:10%;
-            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            
             color: white;
             padding: 1.5rem;
             text-align: center;
@@ -137,7 +137,50 @@ if (isset($_SESSION['user_id'])) : ?>
             position: relative;
            
         }
-        
+        .productInfoSection{
+            max-width: 100%;
+        }
+        .mb-6{
+            background-color: #d3d3d3;
+            display: flex;
+            
+           
+        }     
+        /* Specific fix for the top buttons */
+        #showProductInfo, #showAdditionalDetails {
+           
+    padding: 10px 24px;
+    font-weight: 500;
+    border: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: 4px solid transparent;
+    color: #fff;
+    background-color: #d3d3d3;
+    width: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, border-bottom 0.3s;
+}
+
+.tab-active {
+    background-color: #4389c8 !important;
+    border-bottom: 4px solid white !important;
+}
+
+
+#showProductInfo {
+    width: 50%;
+    background-color: #d3d3d3;
+    color: #fff;
+  
+}
+
+#showAdditionalDetails {
+    width: 50%;
+    background-color: #d3d3d3;
+    color: black;
+}
+   
         /* Responsive styles */
         @media (max-width: 768px) {
             .form-container {
@@ -195,6 +238,7 @@ if (isset($_SESSION['user_id'])) : ?>
             background-color: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            width: 100%;
         }
         
         .form-section:hover {
@@ -212,204 +256,212 @@ if (isset($_SESSION['user_id'])) : ?>
             border-bottom: 2px solid #e5e7eb;
         }
     </style>
+    
 </head>
+<div class="form-header">
+        <h3 class="text-2xl font-bold">Create New Product</h3>
+    </div>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
     <div class="container mx-auto my-8 p-4">
         <!-- Layout 1: Modern Split Card -->
         <div id="addProductForm1" class="flex items-center justify-center min-h-screen animate-fade-in">
-            <div class="form-container">
-                <div class="form-header">
-                    <h3 class="text-2xl font-bold">Create New Product</h3>
+        <div class="form-container">
+    
+
+    <!-- Section Toggle Buttons -->
+    <div class="flex space-x-4 mb-6">
+    <button type="button" id="showProductInfo"
+        class="">
+        General Information
+    </button>
+    <button type="button" id="showAdditionalDetails"
+        class="">
+        Pricing and stocks
+    </button>
+</div>
+
+
+    <form id="addProductForm" action="/products/store" method="POST" enctype="multipart/form-data" class="p-6">
+        <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
+
+        <div class="flex space-x-6 form-flex-container">
+            <!-- Product Information Section -->
+            <div id="productInfoSection" class="w-1/2 space-y-5 form-section">
+                <h4 class="section-title">Product Information</h4>
+
+                <div>
+                    <label for="productName1" class="form-label">Product Name</label>
+                    <input id="productName1" type="text" placeholder="Enter product name" class="w-full px-3 py-2 border rounded-lg form-input" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
                 </div>
 
-                <form action="/products/store" method="POST" enctype="multipart/form-data" class="p-6">
-                    <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
+                <div>
+                    <label for="productSize" class="form-label">Size</label>
+                    <select name="size" id="productSize" class="w-full px-3 py-2 border rounded-lg form-input" required>
+                        <option value="">Select Size</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
 
-                    <div class="flex space-x-6 form-flex-container">
-                        <!-- Left Section -->
-                        <div class="w-1/2 space-y-5 form-section">
-                            <h4 class="section-title">Product Information</h4>
-                            
-                            <div>
-                                <label for="productName1" class="form-label">Product Name</label>
-                                <input id="productName1" type="text" placeholder="Enter product name" class="w-full px-3 py-2 border rounded-lg form-input" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
-                            </div>
+                <div>
+                    <label for="productStock1" class="form-label">Stock Quantity</label>
+                    <input id="productStock1" type="number" placeholder="Enter stock quantity" class="w-full px-3 py-2 border rounded-lg form-input" name="stock" required min="0" step="1">
+                </div>
 
-                            <div>
-                                <label for="productSize" class="form-label">Size</label>
-                                <select name="size" id="productSize" class="w-full px-3 py-2 border rounded-lg form-input" required>
-                                    <option value="">Select Size</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                    <option value="XXL">XXL</option>
-                                </select>
-                            </div>
+                <div>
+                    <label for="productBrand1" class="form-label">Brand</label>
+                    <input id="productBrand1" type="text" placeholder="Enter brand name" class="w-full px-3 py-2 border rounded-lg form-input" name="brand">
+                </div>
 
-                            <div>
-                                <label for="productStock1" class="form-label">Stock Quantity</label>
-                                <input id="productStock1" type="number" placeholder="Enter stock quantity" class="w-full px-3 py-2 border rounded-lg form-input" name="stock" required min="0" step="1">
-                            </div>
-                            <div>
-                                <label for="productBrand1" class="form-label">Brand</label>
-                                <input id="productBrand1" type="text" placeholder="Enter brand name" class="w-full px-3 py-2 border rounded-lg form-input" name="brand">
-                            </div>
-                            
-                            <div>
-                                <label for="productPrice1" class="form-label">Price</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
-                                    <input id="productPrice1" type="number" step="0.01" placeholder="0.00" class="w-full pl-8 px-3 py-2 border rounded-lg form-input" name="price" required min="0" step="0.01">
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label for="productCategory1" class="form-label">Category</label>
-                                <select id="productCategory1" class="w-full px-3 py-2 border rounded-lg form-input" name="category" required>
-                                    <option value="">Select Category</option>
-                                    <option value="T-shirt">T-shirt</option>
-                                    <option value="Uniform">Uniform</option>
-                                    <option value="Bag">Bag</option>
-                                    <option value="Pants">Pants</option>
-                                    <option value="Shoes">Shoes</option>
-                                    <option value="Jacket">Jacket</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="form-label">Product Image</label>
-                                <div class="flex space-x-2 mb-2">
-                                    <button type="button" id="toggleUrl1" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded toggle-button active">
-                                        <i class="fas fa-link mr-1"></i> URL
-                                    </button>
-                                    <button type="button" id="toggleFile1" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded toggle-button">
-                                        <i class="fas fa-upload mr-1"></i> Upload
-                                    </button>
-                                </div>
-                                <input id="productImageUrl1" type="text" name="image_url" placeholder="Enter image URL" class="w-full px-3 py-2 border rounded-lg form-input">
-
-                                <!-- File Input -->
-                                <input type="file" name="image" accept="image/*" id="imageInput1" class="hidden">
-
-                                <!-- Image Preview -->
-                                <div class="image-preview" id="imagePreview">
-                                    <img src="" alt="Product Image" id="previewImg1" style="display: none;">
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                        <!-- Right Section -->
-                        <div class="w-1/2 space-y-5 form-section">
-                            <h4 class="section-title">Additional Details</h4>
-                            
-                            <div>
-                                <label for="gender" class="form-label">Gender</label>
-                                <select name="gender" id="gender" class="w-full px-3 py-2 border rounded-lg form-input" required>
-                                    <option value="unisex">Unisex</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label for="productDescription1" class="form-label">Description</label>
-                                <textarea id="productDescription1" placeholder="Enter product description" class="w-full px-3 py-2 border rounded-lg form-input h-24" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?></textarea>
-                            </div>
-                            
-                            <div>
-                                <label for="productDiscount1" class="form-label">Discount</label>
-                                <input id="productDiscount1" type="number" step="0.01" placeholder="Enter discount amount" class="w-full px-3 py-2 border rounded-lg form-input" name="discount" min="0" step="0.01">
-                            </div>
-                    <div>
-                        <label for="productDiscountType1" class="form-label">Discount Type</label>
-                        <select id="productDiscountType1" class="w-full px-3 py-2 border rounded-lg form-input" name="discount_type">
-                            <option value="">Select Discount Type</option>
-                            <option value="percentage">Percentage (%)</option>
-                            <option value="fixed">Fixed Amount ($)</option> <!-- Fixed missing closing tag -->
-                            <option value="bogo">Buy One Get One</option>
-                            <option value="clearance">Clearance</option>
-                        </select>
+                <div>
+                    <label for="productPrice1" class="form-label">Price</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
+                        <input id="productPrice1" type="number" step="0.01" placeholder="0.00" class="w-full pl-8 px-3 py-2 border rounded-lg form-input" name="price" required min="0">
                     </div>
+                </div>
 
-                    <div>
-                        <label for="productBarcode1" class="relative">Barcode</label>
-                        <div class="relative">
-                     
+                <div>
+                    <label for="productCategory1" class="form-label">Category</label>
+                    <select id="productCategory1" class="w-full px-3 py-2 border rounded-lg form-input" name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="T-shirt">T-shirt</option>
+                        <option value="Uniform">Uniform</option>
+                        <option value="Bag">Bag</option>
+                        <option value="Pants">Pants</option>
+                        <option value="Shoes">Shoes</option>
+                        <option value="Jacket">Jacket</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="form-label">Product Image</label>
+                    <div class="flex space-x-2 mb-2">
+                        <button type="button" id="toggleUrl1" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded toggle-button active">
+                            <i class="fas fa-link mr-1"></i> URL
+                        </button>
+                        <button type="button" id="toggleFile1" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded toggle-button">
+                            <i class="fas fa-upload mr-1"></i> Upload
+                        </button>
+                    </div>
+                    <input id="productImageUrl1" type="text" name="image_url" placeholder="Enter image URL" class="w-full px-3 py-2 border rounded-lg form-input">
+                    <input type="file" name="image" accept="image/*" id="imageInput1" class="hidden">
+                    <div class="image-preview" id="imagePreview">
+                        <img src="" alt="Product Image" id="previewImg1" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Details Section -->
+            <div id="additionalDetailsSection" class="w-1/2 space-y-5 form-section hidden">
+                <h4 class="section-title">Additional Details</h4>
+
+                <div>
+                    <label for="gender" class="form-label">Gender</label>
+                    <select name="gender" id="gender" class="w-full px-3 py-2 border rounded-lg form-input" required>
+                        <option value="unisex">Unisex</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="productDescription1" class="form-label">Description</label>
+                    <textarea id="productDescription1" placeholder="Enter product description" class="w-full px-3 py-2 border rounded-lg form-input h-24" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?></textarea>
+                </div>
+
+                <div>
+                    <label for="productDiscount1" class="form-label">Discount</label>
+                    <input id="productDiscount1" type="number" step="0.01" placeholder="Enter discount amount" class="w-full px-3 py-2 border rounded-lg form-input" name="discount" min="0">
+                </div>
+
+                <div>
+                    <label for="productDiscountType1" class="form-label">Discount Type</label>
+                    <select id="productDiscountType1" class="w-full px-3 py-2 border rounded-lg form-input" name="discount_type">
+                        <option value="">Select Discount Type</option>
+                        <option value="percentage">Percentage (%)</option>
+                        <option value="fixed">Fixed Amount ($)</option>
+                        <option value="bogo">Buy One Get One</option>
+                        <option value="clearance">Clearance</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="productBarcode1" class="relative">Barcode</label>
+                    <div class="relative">
                         <input id="productBarcode" type="text" class="w-full px-3 py-2 border rounded-lg form-input" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
                         <button id="generateBarcodeButton" type="button" class="absolute right-2 top-2 text-blue-500 hover:text-blue-700">Generate Barcode</button>
-
-                        <div class="barcode-container">
-                            <canvas id="barcodeCanvas"></canvas>
-                            <div id="errorMessage" class="barcode-error" style="display: none;">Invalid barcode! Please try again.</div>
-                        </div>
-                       
-                        </div>
-
-                        <script>
-                            const barcodeInput = document.getElementById('productBarcode');
-                            const errorMessage = document.getElementById('errorMessage');
-                            const generateBarcodeButton = document.getElementById('generateBarcodeButton');
-                            const barcodeCanvas = document.getElementById('barcodeCanvas');
-                            const addProductForm = document.getElementById('addProductForm');
-
-                            // Generate Barcode Logic
-                            generateBarcodeButton.addEventListener('click', function () {
-                                const barcodeValue = barcodeInput.value.trim();
-                                if (barcodeValue) {
-                                    JsBarcode(barcodeCanvas, barcodeValue, {
-                                        format: "CODE128",
-                                        width: 2,
-                                        height: 40,
-                                        displayValue: true
-                                    });
-                                    errorMessage.style.display = 'none';
-                                } else {
-                                    errorMessage.style.display = 'block';
-                                }
-                            });
-
-                            // Save Product Logic
-                            addProductForm.addEventListener('submit', function (event) {
-                                event.preventDefault(); // Prevent default form submission for AJAX handling
-
-                                const formData = new FormData(addProductForm);
-
-                                // Submit the form data using Fetch API
-                                fetch('/products/store', {
-                                    method: 'POST',
-                                    body: formData
-                                })
-                                .then(response => response.json()) // Assuming your server returns JSON
-                                .then(data => {
-                                    if (data.success) {
-                                        // Handle successful product creation
-                                        alert('Product created successfully!'); // Notify success
-                                        addProductForm.reset();
-                                        barcodeCanvas.innerHTML = ''; // Clear barcode
-                                    } else {
-                                        // Handle errors
-                                        alert(data.message || 'Error creating product');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                });
-                            });
-                        </script>
-
-                        
                     </div>
 
-                    <div class="mt-8 flex space-x-4 form-actions justify-center">
-                        <button type="submit" id="saveProductButton1" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg form-button">
-                            <i class="fas fa-save"></i> Save Product
-                        </button>
-                        <a href="/products" id="cancelButton1" class="bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 px-6 py-3 rounded-lg form-button text-center">
-                            <i class="fas fa-times"></i> Cancel
-                        </a>
+                    <div class="barcode-container mt-2">
+                        <canvas id="barcodeCanvas"></canvas>
+                        <div id="errorMessage" class="barcode-error text-red-600 text-sm mt-1" style="display: none;">Invalid barcode! Please try again.</div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex space-x-4 form-actions justify-center">
+            <button type="submit" id="saveProductButton1" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg form-button">
+                <i class="fas fa-save"></i> Save Product
+            </button>
+            <a href="/products" id="cancelButton1" class="bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 px-6 py-3 rounded-lg form-button text-center">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+
+    <!-- JS Toggle + Barcode Script -->
+    <script>
+        // Toggle sections
+        const productInfoSection = document.getElementById('productInfoSection');
+        const additionalDetailsSection = document.getElementById('additionalDetailsSection');
+        const showProductInfo = document.getElementById('showProductInfo');
+        const showAdditionalDetails = document.getElementById('showAdditionalDetails');
+
+        showProductInfo.addEventListener('click', () => {
+            productInfoSection.classList.remove('hidden');
+            additionalDetailsSection.classList.add('hidden');
+        });
+
+        showAdditionalDetails.addEventListener('click', () => {
+            additionalDetailsSection.classList.remove('hidden');
+            productInfoSection.classList.add('hidden');
+        });
+
+        // Barcode logic
+        const barcodeInput = document.getElementById('productBarcode');
+        const errorMessage = document.getElementById('errorMessage');
+        const generateBarcodeButton = document.getElementById('generateBarcodeButton');
+        const barcodeCanvas = document.getElementById('barcodeCanvas');
+        const addProductForm = document.getElementById('addProductForm');
+
+        generateBarcodeButton.addEventListener('click', function () {
+            const barcodeValue = barcodeInput.value.trim();
+            if (barcodeValue) {
+                JsBarcode(barcodeCanvas, barcodeValue, {
+                    format: "CODE128",
+                    width: 2,
+                    height: 40,
+                    displayValue: true
+                });
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        addProductForm.addEventListener('submit', function (event) {
+            // Optionally enable AJAX here
+        });
+    </script>
+</div>
+
 
                     <script>
                         // Toggle functionality for URL and file input
