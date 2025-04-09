@@ -90,15 +90,23 @@ select {
 }
 
 @media (max-width: 768px) {
+    .container-checkout {
+        width: 80%;
+        padding: 10px;
+    }
     .order-summary h2 {
         font-size: 20px;
     }
+    
     .totals p, .total h3 {
         font-size: 16px;
     }
     .toggle-details, .place-order, .print-pdf {
         font-size: 14px;
         padding: 10px;
+    }
+    .place-order{
+        width: 50%;
     }
 }
 

@@ -88,11 +88,11 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                     <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
                     <input type="hidden" name="total" value="<?php echo $total; ?>">
                     <input type="hidden" name="paymentMethod" id="paymentMethodInput" value="<?php echo $paymentMethod; ?>">
-                    <div class="print-receipt d-flex">
+                    <div class="print-receipt d-flex"> 
                         <button type="submit" class="place-order">
-                            <i class="fas fa-shopping-cart"></i> Print Receipt
+                        <i class="fa-solid fa-print"></i> Print Receipt
                         </button>
-                        <button type="submit" class="place-order">
+                        <button class="place-order">
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
