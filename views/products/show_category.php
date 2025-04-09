@@ -101,71 +101,69 @@ if (isset($_SESSION['user_id'])) : ?>
         <div id="categoryFeedback" class="alert alert-success" style="display: none;"></div>
         <div class="grid">
             <!-- Card Template -->
-            <a href="/products/create" class="card">
-                <div class="icon clothes">👕</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Clothes</h3>
-                    <p class="text-sm">Fashion items, outfits, and more.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon bag">👜</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Bag</h3>
-                    <p class="text-sm">Handbags, backpacks, and travel bags.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon shoes">👟</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Shoes</h3>
-                    <p class="text-sm">Casual, formal, or sports footwear.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon toys">🧸</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Toys</h3>
-                    <p class="text-sm">Toys and games for all ages.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon student">🎒</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Student Material</h3>
-                    <p class="text-sm">Books, pens, and school items.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon jewelry">💍</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Jewelry</h3>
-                    <p class="text-sm">Rings, necklaces, and more.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon makeup">💄</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Make Up</h3>
-                    <p class="text-sm">Cosmetics and beauty products.</p>
-                </div>
-            </a>
-
-            <a href="/products/create" class="card">
-                <div class="icon other">📦</div>
-                <div>
-                    <h3 class="font-semibold text-lg">Other</h3>
-                    <p class="text-sm">Miscellaneous category items.</p>
-                </div>
-            </a>
-        </div>
+            <a href="/products/create?category=clothes" class="card">
+    <div class="icon clothes">👕</div>
+    <div>
+        <h3 class="font-semibold text-lg">Clothes</h3>
+        <p class="text-sm">Fashion items, outfits, and more.</p>
     </div>
+</a>
+
+<a href="/products/create?category=bag" class="card">
+    <div class="icon bag">👜</div>
+    <div>
+        <h3 class="font-semibold text-lg">Bag</h3>
+        <p class="text-sm">Handbags, backpacks, and travel bags.</p>
+    </div>
+</a>
+
+<a href="/products/create?category=shoes" class="card">
+    <div class="icon shoes">👟</div>
+    <div>
+        <h3 class="font-semibold text-lg">Shoes</h3>
+        <p class="text-sm">Casual, formal, or sports footwear.</p>
+    </div>
+</a>
+
+<a href="/products/create?category=toys" class="card">
+    <div class="icon toys">🧸</div>
+    <div>
+        <h3 class="font-semibold text-lg">Toys</h3>
+        <p class="text-sm">Toys and games for all ages.</p>
+    </div>
+</a>
+
+<a href="/products/create?category=student" class="card">
+    <div class="icon student">🎒</div>
+    <div>
+        <h3 class="font-semibold text-lg">Student Material</h3>
+        <p class="text-sm">Books, pens, and school items.</p>
+    </div>
+</a>
+
+<a href="/products/create?category=jewelry" class="card">
+    <div class="icon jewelry">💍</div>
+    <div>
+        <h3 class="font-semibold text-lg">Jewelry</h3>
+        <p class="text-sm">Rings, necklaces, and more.</p>
+    </div>
+</a>
+
+<a href="/products/create?category=makeup" class="card">
+    <div class="icon makeup">💄</div>
+    <div>
+        <h3 class="font-semibold text-lg">Make Up</h3>
+        <p class="text-sm">Cosmetics and beauty products.</p>
+    </div>
+</a>
+
+<a href="/products/create?category=other" class="card">
+    <div class="icon other">📦</div>
+    <div>
+        <h3 class="font-semibold text-lg">Other</h3>
+        <p class="text-sm">Miscellaneous category items.</p>
+    </div>
+</a>
 
 
     <script>

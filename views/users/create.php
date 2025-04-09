@@ -102,7 +102,7 @@ if (isset($_SESSION['user_id'])) : ?>
             box-shadow: 0px 0px 8px rgba(106, 17, 203, 0.5);
         }
 
-        .btn-primary {
+        .btn-primary1 {
             background-color: #6a11cb;
             color: white;
             border: none;
@@ -111,13 +111,14 @@ if (isset($_SESSION['user_id'])) : ?>
             border-radius: 5px;
         }
 
-        .btn-secondary {
+        .btn-secondary1 {
             background-color: #6c757d;
             color: white;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
+            text-decoration: none;
         }
 
         .error-message {
@@ -139,6 +140,16 @@ if (isset($_SESSION['user_id'])) : ?>
             display: none; /* Hidden by default */
             z-index: 1000; /* Ensure it's above other elements */
         }
+        .submit{
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-secondary1,
+        .btn-primary1 {
+            width: 30%;
+            text-align: center;
+        }
+
     </style>
     <script>
         let imageSelected = false;
@@ -247,8 +258,11 @@ if (isset($_SESSION['user_id'])) : ?>
             </div>
 
             <!-- Submit and Cancel Buttons -->
-            <button type="submit" class="btn-primary">Create Account</button>
-            <a href="/users" class="btn-secondary">Cancel</a>
+             <div class="submit">
+            <a href="/users" class="btn-secondary1">Cancel</a>
+            <button type="submit" class="btn-primary1">Create Account</button>
+            </div>
+            
         </div>
     </div>
 </form>

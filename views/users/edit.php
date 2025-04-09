@@ -86,6 +86,10 @@ if (isset($_SESSION['user_id'])) : ?>
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        .submit{
+            display: inline;
+           
+        }
         .update-btn {
             margin-top:20px;
             background-color: blueviolet;
@@ -94,7 +98,25 @@ if (isset($_SESSION['user_id'])) : ?>
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
+            position: relative;
+            left: 67%;
+          
+       
         }
+        .btn-secondary1 {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            position: relative;
+         
+            
+        }
+
+       
     </style>
   <script>
     function previewImage(event) {
@@ -162,10 +184,12 @@ if (isset($_SESSION['user_id'])) : ?>
                     <label>Address</label>
                     <input type="text" name="address" value="<?= htmlspecialchars($user['address']); ?>" required>
                 </div>
-                <div class="input-group">
-                <div class="input-group">
-            <button type="submit" class="update-btn">Update Info</button>
-                </form>
+                
+                <div class="submit">
+                <a href="/users" class="btn-secondary1">Cancel</a>
+                    <button type="submit" class="update-btn">Update Info</button>
+                    
+                </div>
             </div>
         </div>
     </div>

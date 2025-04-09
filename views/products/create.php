@@ -2,14 +2,17 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-if (isset($_SESSION['user_id'])) : ?>
+if (isset($_SESSION['user_id'])) : 
+    // Get the category from URL parameter
+    $selectedCategory = isset($_GET['category']) ? $_GET['category'] : '';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS Products</title>
+    <title>Add New Product</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <!-- Add Font Awesome for icons -->
@@ -20,581 +23,704 @@ if (isset($_SESSION['user_id'])) : ?>
         /* Base styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f3f4f6;
-        }
-        form-header{
-            position: relative;
-            top: 5%;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
         
-        /* Custom styles for Add Product forms and table */
-        .form-container {
+        .container {
+            width: 60%;
             margin: 0 auto;
-            background: linear-gradient(135deg, #ffffff, #f9fafb);
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 70%;
-            max-width: 1200px;
-            border-radius: 16px;
-            overflow: hidden;
+            padding: 2rem;
             position: relative;
+            top: 10%;
             left: 10%;
         }
         
-        .form-header {
-            margin-top:10%;
-            
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
+        h2 {
+            font-size: 1.8rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
         
-        .form-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 80%);
-            transform: rotate(30deg);
+        /* Form container styling */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .general-info {
+            margin-top:10%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        /* Form styling */
+        #addProductForm {
+            padding: 1.5rem;
+        }
+        
+        .form-flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
         }
         
         .form-input {
-            transition: all 0.3s ease-in-out;
-            border-color: #d1d5db;
-            border-radius: 8px;
+            width: 100%;
             padding: 0.75rem 1rem;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
         
         .form-input:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
         }
         
-        .form-label {
+        /* Toggle buttons styling */
+        .toggle-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
             font-weight: 500;
-            color: #4b5563;
-            margin-bottom: 0.5rem;
-            display: block;
-            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         
         .toggle-button.active {
-            background: linear-gradient(90deg, #3b82f6, #2563eb) !important;
-            color: white !important;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+            background-color: #3b82f6;
+            color: white;
         }
         
-        .toggle-button {
-            transition: all 0.3s ease-in-out;
-            border-radius: 8px;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-        }
-        
-        .form-button {
-            transition: all 0.3s ease-in-out;
-            font-weight: 600;
-            position: relative;
-            border-radius: 8px;
-            padding: 0.75rem 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .form-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .form-button i {
-            margin-right: 0.5rem;
-        }
-        
+        /* Image preview */
         .image-preview {
             margin-top: 1rem;
-            display: flex;
-            justify-content: center;
+            text-align: center;
         }
         
-        #previewImg1 {
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 200px;
-            max-height: 200px;
-            object-fit: contain;
-        }
-        .p-6{
-            padding: auto !important;
-            position: relative;
-           
-        }
-        .productInfoSection{
+        .image-preview img {
             max-width: 100%;
+            max-height: 200px;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .mb-6{
-            background-color: #d3d3d3;
+        
+        /* Barcode container */
+        .barcode-container {
+            margin-top: 1rem;
+            text-align: center;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+        }
+        
+        /* Action buttons */
+        .form-actions {
+            margin-top: 2rem;
             display: flex;
-            
-           
-        }     
-        /* Specific fix for the top buttons */
-        #showProductInfo, #showAdditionalDetails {
-           
-    padding: 10px 24px;
-    font-weight: 500;
-    border: none;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom: 4px solid transparent;
-    color: #fff;
-    background-color: #d3d3d3;
-    width: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s, border-bottom 0.3s;
-}
-
-.tab-active {
-    background-color: #4389c8 !important;
-    border-bottom: 4px solid white !important;
-}
-
-
-#showProductInfo {
-    width: 50%;
-    background-color: #d3d3d3;
-    color: #fff;
-  
-}
-
-#showAdditionalDetails {
-    width: 50%;
-    background-color: #d3d3d3;
-    color: black;
-}
-   
-        /* Responsive styles */
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .form-actions button, .form-actions a {
+            padding: 0.65rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Field visibility */
+        .field-hidden {
+            display: none;
+        }
+        
+        /* Section toggle buttons */
+        .section-toggle {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }       
+        .section-toggle button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 500px;
+        }
+        
+        .section-toggle button.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        /* Weight field styling */
+        .weight-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .weight-container input {
+            flex: 1;
+        }
+        
+        .weight-container select {
+            width: 100px;
+        }
+        
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .form-container {
-                width: 95%;
-                margin: 0 auto;
-            }
-            
             .form-flex-container {
                 flex-direction: column;
+                gap: 1.5rem;
             }
             
             .form-section {
-                width: 100% !important;
+                width: 100%;
+            }
+            
+            .section-toggle {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 0.5rem;
+            }
+            
+            .section-toggle button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
             }
             
             .form-actions {
                 flex-direction: column;
+                gap: 0.75rem;
             }
             
-            .form-actions .form-button,
-            .form-actions .form-input {
+            .form-actions button, .form-actions a {
                 width: 100%;
-                margin-bottom: 0.5rem;
+                justify-content: center;
+            }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1a1a;
+                color: #e0e0e0;
             }
             
-            .form-actions {
-                gap: 0.5rem;
+            .general-info {
+                background-color: #2a2a2a;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             }
-        }
-        
-        /* Animation effects */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        
-        /* Custom select styling */
-        select.form-input {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1rem;
-            padding-right: 2.5rem;
-        }
-        
-        /* Form section styling */
-        .form-section {
-            padding: 1.5rem;
-            border-radius: 12px;
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-        
-        .form-section:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        /* Section titles */
-        .section-title {
-            font-weight: 600;
-            color: #3b82f6;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb;
+            
+            .section-title {
+                color: #e0e0e0;
+                border-bottom-color: #3a3a3a;
+            }
+            
+            .form-label {
+                color: #c0c0c0;
+            }
+            
+            .form-input {
+                background-color: #333;
+                border-color: #444;
+                color: #e0e0e0;
+            }
+            
+            .form-input:focus {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+            }
+            
+            .section-toggle button {
+                background-color: #333;
+                color: #c0c0c0;
+            }
+            
+            .barcode-container {
+                background-color: #333;
+            }
         }
     </style>
-    
 </head>
-<div class="form-header">
-        <h3 class="text-2xl font-bold">Create New Product</h3>
-    </div>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-    <div class="container mx-auto my-8 p-4">
-        <!-- Layout 1: Modern Split Card -->
-        <div id="addProductForm1" class="flex items-center justify-center min-h-screen animate-fade-in">
-        <div class="form-container">
-    
+<body>
+<div class="container">
+    <h2>Add New Product</h2>
+    <main class="grid-container">
+        <section class="general-info">
+            <!-- Section Toggle Buttons -->
+            <div class="section-toggle">
+                <button type="button" id="showProductInfo" class="active">
+                    <i class="fas fa-info-circle mr-2"></i> Product Information
+                </button>
+                <button type="button" id="showAdditionalDetails">
+                    <i class="fas fa-cog mr-2"></i> Additional Details
+                </button>
+            </div>
+            
+            <form id="addProductForm" action="/products/store" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
+                <!-- Add hidden input for category if it was selected -->
+                <?php if ($selectedCategory): ?>
+                    <input type="hidden" name="selected_category" value="<?= htmlspecialchars($selectedCategory) ?>">
+                <?php endif; ?>
 
-    <!-- Section Toggle Buttons -->
-    <div class="flex space-x-4 mb-6">
-    <button type="button" id="showProductInfo"
-        class="">
-        General Information
-    </button>
-    <button type="button" id="showAdditionalDetails"
-        class="">
-        Pricing and stocks
-    </button>
+                <div class="form-flex-container">
+                    <!-- Product Information Section -->
+                    <div id="productInfoSection" class="form-section">
+                        <h4 class="section-title">Product Information</h4>
+
+                        <div class="mb-4">
+                            <label for="productName1" class="form-label">Product Name</label>
+                            <input id="productName1" type="text" placeholder="Enter product name" class="form-input" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
+                        </div>
+
+                        <!-- Size field - will be hidden for certain categories -->
+                        <div id="sizeField" class="mb-4 <?= in_array($selectedCategory, ['toys', 'student', 'jewelry', 'makeup', 'other']) ? 'field-hidden' : '' ?>">
+                            <label for="productSize" class="form-label">Size</label>
+                            <select name="size" id="productSize" class="form-input" <?= in_array($selectedCategory, ['toys', 'student', 'jewelry', 'makeup', 'other']) ? '' : 'required' ?>>
+                                <option value="">Select Size</option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productStock1" class="form-label">Stock Quantity</label>
+                            <input id="productStock1" type="number" placeholder="Enter stock quantity" class="form-input" name="stock" required min="0" step="1">
+                        </div>
+
+                        <!-- Weight field - new addition -->
+                        <div class="mb-4">
+                            <label for="productWeight" class="form-label">Weight</label>
+                            <div class="weight-container">
+                                <input id="productWeight" type="number" step="0.01" placeholder="Enter weight" class="form-input" name="weight" min="0">
+                                <select name="weight_unit" class="form-input">
+                                    <option value="g">Grams (g)</option>
+                                    <option value="kg">Kilograms (kg)</option>
+                                    <option value="oz">Ounces (oz)</option>
+                                    <option value="lb">Pounds (lb)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Brand field - will be hidden for certain categories -->
+                        <div id="brandField" class="mb-4 <?= in_array($selectedCategory, ['toys', 'student', 'jewelry', 'makeup', 'other']) ? 'field-hidden' : '' ?>">
+                            <label for="productBrand1" class="form-label">Brand</label>
+                            <input id="productBrand1" type="text" placeholder="Enter brand name" class="form-input" name="brand">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productPrice1" class="form-label">Price</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
+                                <input id="productPrice1" type="number" step="0.01" placeholder="0.00" class="form-input pl-8" name="price" required min="0">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productCategory1" class="form-label">Category</label>
+                            <select id="productCategory1" class="form-input" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="clothes" <?= $selectedCategory == 'clothes' ? 'selected' : '' ?>>Clothes</option>
+                                <option value="bag" <?= $selectedCategory == 'bag' ? 'selected' : '' ?>>Bag</option>
+                                <option value="shoes" <?= $selectedCategory == 'shoes' ? 'selected' : '' ?>>Shoes</option>
+                                <option value="toys" <?= $selectedCategory == 'toys' ? 'selected' : '' ?>>Toys</option>
+                                <option value="student" <?= $selectedCategory == 'student' ? 'selected' : '' ?>>Student Material</option>
+                                <option value="jewelry" <?= $selectedCategory == 'jewelry' ? 'selected' : '' ?>>Jewelry</option>
+                                <option value="makeup" <?= $selectedCategory == 'makeup' ? 'selected' : '' ?>>Make Up</option>
+                                <option value="other" <?= $selectedCategory == 'other' ? 'selected' : '' ?>>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Product Image</label>
+                            <div class="flex space-x-2 mb-2">
+                                <button type="button" id="toggleUrl1" class="toggle-button active">
+                                    <i class="fas fa-link mr-1"></i> URL
+                                </button>
+                                <button type="button" id="toggleFile1" class="toggle-button">
+                                    <i class="fas fa-upload mr-1"></i> Upload
+                                </button>
+                            </div>
+                            <input id="productImageUrl1" type="text" name="image_url" placeholder="Enter image URL" class="form-input">
+                            <input type="file" name="image" accept="image/*" id="imageInput1" class="hidden">
+                            <div class="image-preview" id="imagePreview">
+                                <img src="" alt="Product Image" id="previewImg1" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Details Section -->
+                    <div id="additionalDetailsSection" class="form-section hidden">
+                        <h4 class="section-title">Additional Details</h4>
+
+                        <div class="mb-4">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select name="gender" id="gender" class="form-input" required>
+                                <option value="unisex">Unisex</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productDescription1" class="form-label">Description</label>
+                            <textarea id="productDescription1" placeholder="Enter product description" class="form-input h-24" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productDiscount1" class="form-label">Discount</label>
+                            <input id="productDiscount1" type="number" step="0.01" placeholder="Enter discount amount" class="form-input" name="discount" min="0">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productDiscountType1" class="form-label">Discount Type</label>
+                            <select id="productDiscountType1" class="form-input" name="discount_type">
+                                <option value="">Select Discount Type</option>
+                                <option value="percentage">Percentage (%)</option>
+                                <option value="fixed">Fixed Amount ($)</option>
+                                <option value="bogo">Buy One Get One</option>
+                                <option value="clearance">Clearance</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="productBarcode1" class="form-label">Barcode</label>
+                            <div class="relative">
+                                <input id="productBarcode" type="text" class="form-input pr-32" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
+                                <button id="generateBarcodeButton" type="button" class="absolute right-2 top-2 text-blue-500 hover:text-blue-700">
+                                    Generate Barcode
+                                </button>
+                            </div>
+
+                            <div class="barcode-container mt-2">
+                                <canvas id="barcodeCanvas"></canvas>
+                                <div id="errorMessage" class="text-red-600 text-sm mt-1" style="display: none;">
+                                    Invalid barcode! Please try again.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Color options -->
+                        <div class="mb-4">
+                            <label class="form-label">Available Colors</label>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-red" name="colors[]" value="red" class="hidden">
+                                    <label for="color-red" class="inline-block w-8 h-8 rounded-full bg-red-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-blue" name="colors[]" value="blue" class="hidden">
+                                    <label for="color-blue" class="inline-block w-8 h-8 rounded-full bg-blue-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-green" name="colors[]" value="green" class="hidden">
+                                    <label for="color-green" class="inline-block w-8 h-8 rounded-full bg-green-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-yellow" name="colors[]" value="yellow" class="hidden">
+                                    <label for="color-yellow" class="inline-block w-8 h-8 rounded-full bg-yellow-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-purple" name="colors[]" value="purple" class="hidden">
+                                    <label for="color-purple" class="inline-block w-8 h-8 rounded-full bg-purple-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-pink" name="colors[]" value="pink" class="hidden">
+                                    <label for="color-pink" class="inline-block w-8 h-8 rounded-full bg-pink-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-black" name="colors[]" value="black" class="hidden">
+                                    <label for="color-black" class="inline-block w-8 h-8 rounded-full bg-black cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
+                                </div>
+                                <div class="color-option">
+                                    <input type="checkbox" id="color-white" name="colors[]" value="white" class="hidden">
+                                    <label for="color-white" class="inline-block w-8 h-8 rounded-full bg-white cursor-pointer border-2 border-gray-400 hover:border-gray-600"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="form-actions">
+                    <a href="/products" class="bg-gray-300 hover:bg-gray-400 text-gray-800">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" id="saveProductButton1" class="bg-blue-600 hover:bg-blue-700 text-white">
+                        <i class="fas fa-save"></i> Next
+                    </button>
+
+                </div>
+            </form>
+        </section>
+    </main>
 </div>
+<script>
+    // Add this JavaScript code to handle the multi-step form
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the Next button
+    const nextButton = document.getElementById('saveProductButton1');
+    
+    // Get the form sections
+    const productInfoSection = document.getElementById('productInfoSection');
+    const additionalDetailsSection = document.getElementById('additionalDetailsSection');
+    
+    // Get the section toggle buttons
+    const showProductInfoBtn = document.getElementById('showProductInfo');
+    const showAdditionalDetailsBtn = document.getElementById('showAdditionalDetails');
+    
+    // Modify the Next button to navigate between sections instead of submitting
+    nextButton.addEventListener('click', function(e) {
+        // If we're on the first section, go to the second section
+        if (!productInfoSection.classList.contains('hidden')) {
+            e.preventDefault(); // Prevent form submission
+            
+            // Validate required fields in the first section
+            const requiredFields = productInfoSection.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value) {
+                    isValid = false;
+                    field.classList.add('border-red-500');
+                } else {
+                    field.classList.remove('border-red-500');
+                }
+            });
+            
+            if (isValid) {
+                // Switch to the second section
+                productInfoSection.classList.add('hidden');
+                additionalDetailsSection.classList.remove('hidden');
+                
+                // Update the toggle buttons
+                showProductInfoBtn.classList.remove('active');
+                showAdditionalDetailsBtn.classList.add('active');
+                
+                // Change button text to "Save" on the last section
+                nextButton.innerHTML = '<i class="fas fa-save"></i> Save Product';
+            }
+        }
+        // If we're on the second section, let the form submit normally
+    });
+    
+    // Update the section toggle buttons to work with the multi-step form
+    showProductInfoBtn.addEventListener('click', function() {
+        productInfoSection.classList.remove('hidden');
+        additionalDetailsSection.classList.add('hidden');
+        showProductInfoBtn.classList.add('active');
+        showAdditionalDetailsBtn.classList.remove('active');
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i> Next';
+    });
+
+    showAdditionalDetailsBtn.addEventListener('click', function() {
+        productInfoSection.classList.add('hidden');
+        additionalDetailsSection.classList.remove('hidden');
+        showProductInfoBtn.classList.remove('active');
+        showAdditionalDetailsBtn.classList.add('active');
+        nextButton.innerHTML = '<i class="fas fa-save"></i> Save Product';
+    });
+});
 
 
-    <form id="addProductForm" action="/products/store" method="POST" enctype="multipart/form-data" class="p-6">
-        <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
+// JavaScript to handle category-specific field visibility
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the category select element
+    const categorySelect = document.getElementById('productCategory1');
+    const sizeField = document.getElementById('sizeField');
+    const brandField = document.getElementById('brandField');
+    
+    // Categories that don't need size and brand
+    const categoriesWithoutSizeAndBrand = ['toys', 'student', 'jewelry', 'makeup', 'other'];
+    
+    // Function to toggle fields based on selected category
+    function toggleFields() {
+        const selectedCategory = categorySelect.value;
+        
+        if (categoriesWithoutSizeAndBrand.includes(selectedCategory)) {
+            sizeField.classList.add('field-hidden');
+            brandField.classList.add('field-hidden');
+            // Remove required attribute from size field
+            document.getElementById('productSize').removeAttribute('required');
+        } else {
+            sizeField.classList.remove('field-hidden');
+            brandField.classList.remove('field-hidden');
+            // Add required attribute back to size field
+            document.getElementById('productSize').setAttribute('required', '');
+        }
+    }
+    
+    // Initial toggle based on pre-selected category (if any)
+    toggleFields();
+    
+    // Add event listener for category changes
+    categorySelect.addEventListener('change', toggleFields);
+    
+    // Section toggle functionality
+    const showProductInfoBtn = document.getElementById('showProductInfo');
+    const showAdditionalDetailsBtn = document.getElementById('showAdditionalDetails');
+    const productInfoSection = document.getElementById('productInfoSection');
+    const additionalDetailsSection = document.getElementById('additionalDetailsSection');
 
-        <div class="flex space-x-6 form-flex-container">
-            <!-- Product Information Section -->
-            <div id="productInfoSection" class="w-1/2 space-y-5 form-section">
-                <h4 class="section-title">Product Information</h4>
+    showProductInfoBtn.addEventListener('click', function() {
+        productInfoSection.classList.remove('hidden');
+        additionalDetailsSection.classList.add('hidden');
+        showProductInfoBtn.classList.add('active');
+        showAdditionalDetailsBtn.classList.remove('active');
+    });
 
-                <div>
-                    <label for="productName1" class="form-label">Product Name</label>
-                    <input id="productName1" type="text" placeholder="Enter product name" class="w-full px-3 py-2 border rounded-lg form-input" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
-                </div>
+    showAdditionalDetailsBtn.addEventListener('click', function() {
+        productInfoSection.classList.add('hidden');
+        additionalDetailsSection.classList.remove('hidden');
+        showProductInfoBtn.classList.remove('active');
+        showAdditionalDetailsBtn.classList.add('active');
+    });
 
-                <div>
-                    <label for="productSize" class="form-label">Size</label>
-                    <select name="size" id="productSize" class="w-full px-3 py-2 border rounded-lg form-input" required>
-                        <option value="">Select Size</option>
-                        <option value="XS">XS</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
-                    </select>
-                </div>
+    // Toggle between URL and file upload
+    const toggleUrlBtn = document.getElementById('toggleUrl1');
+    const toggleFileBtn = document.getElementById('toggleFile1');
+    const imageUrlInput = document.getElementById('productImageUrl1');
+    const fileInput = document.getElementById('imageInput1');
+    const previewImg = document.getElementById('previewImg1');
 
-                <div>
-                    <label for="productStock1" class="form-label">Stock Quantity</label>
-                    <input id="productStock1" type="number" placeholder="Enter stock quantity" class="w-full px-3 py-2 border rounded-lg form-input" name="stock" required min="0" step="1">
-                </div>
+    toggleUrlBtn.addEventListener('click', function() {
+        imageUrlInput.style.display = 'block';
+        fileInput.style.display = 'none';
+        toggleUrlBtn.classList.add('active');
+        toggleFileBtn.classList.remove('active');
+    });
 
-                <div>
-                    <label for="productBrand1" class="form-label">Brand</label>
-                    <input id="productBrand1" type="text" placeholder="Enter brand name" class="w-full px-3 py-2 border rounded-lg form-input" name="brand">
-                </div>
+    toggleFileBtn.addEventListener('click', function() {
+        imageUrlInput.style.display = 'none';
+        fileInput.style.display = 'block';
+        fileInput.click();
+        toggleUrlBtn.classList.remove('active');
+        toggleFileBtn.classList.add('active');
+    });
 
-                <div>
-                    <label for="productPrice1" class="form-label">Price</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
-                        <input id="productPrice1" type="number" step="0.01" placeholder="0.00" class="w-full pl-8 px-3 py-2 border rounded-lg form-input" name="price" required min="0">
-                    </div>
-                </div>
+    // Preview image when URL is entered
+    imageUrlInput.addEventListener('input', function() {
+        if (this.value) {
+            previewImg.src = this.value;
+            previewImg.style.display = 'block';
+        } else {
+            previewImg.style.display = 'none';
+        }
+    });
 
-                <div>
-                    <label for="productCategory1" class="form-label">Category</label>
-                    <select id="productCategory1" class="w-full px-3 py-2 border rounded-lg form-input" name="category" required>
-                        <option value="">Select Category</option>
-                        <option value="T-shirt">T-shirt</option>
-                        <option value="Uniform">Uniform</option>
-                        <option value="Bag">Bag</option>
-                        <option value="Pants">Pants</option>
-                        <option value="Shoes">Shoes</option>
-                        <option value="Jacket">Jacket</option>
-                    </select>
-                </div>
+    // Preview image when file is selected
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
 
-                <div>
-                    <label class="form-label">Product Image</label>
-                    <div class="flex space-x-2 mb-2">
-                        <button type="button" id="toggleUrl1" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded toggle-button active">
-                            <i class="fas fa-link mr-1"></i> URL
-                        </button>
-                        <button type="button" id="toggleFile1" class="flex-1 bg-gray-300 text-gray-700 px-3 py-2 rounded toggle-button">
-                            <i class="fas fa-upload mr-1"></i> Upload
-                        </button>
-                    </div>
-                    <input id="productImageUrl1" type="text" name="image_url" placeholder="Enter image URL" class="w-full px-3 py-2 border rounded-lg form-input">
-                    <input type="file" name="image" accept="image/*" id="imageInput1" class="hidden">
-                    <div class="image-preview" id="imagePreview">
-                        <img src="" alt="Product Image" id="previewImg1" style="display: none;">
-                    </div>
-                </div>
-            </div>
+    // Barcode generation
+    const generateBarcodeButton = document.getElementById('generateBarcodeButton');
+    const barcodeInput = document.getElementById('productBarcode');
+    const barcodeCanvas = document.getElementById('barcodeCanvas');
+    const errorMessage = document.getElementById('errorMessage');
 
-            <!-- Additional Details Section -->
-            <div id="additionalDetailsSection" class="w-1/2 space-y-5 form-section hidden">
-                <h4 class="section-title">Additional Details</h4>
+    generateBarcodeButton.addEventListener('click', function() {
+        try {
+            // Generate a random barcode if empty
+            if (!barcodeInput.value) {
+                barcodeInput.value = generateRandomBarcode();
+            }
+            
+            // Generate the barcode
+            JsBarcode(barcodeCanvas, barcodeInput.value, {
+                format: "CODE128",
+                lineColor: "#000",
+                width: 2,
+                height: 50,
+                displayValue: true
+            });
+            
+            errorMessage.style.display = 'none';
+        } catch (e) {
+            errorMessage.style.display = 'block';
+            console.error(e);
+        }
+    });
 
-                <div>
-                    <label for="gender" class="form-label">Gender</label>
-                    <select name="gender" id="gender" class="w-full px-3 py-2 border rounded-lg form-input" required>
-                        <option value="unisex">Unisex</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="productDescription1" class="form-label">Description</label>
-                    <textarea id="productDescription1" placeholder="Enter product description" class="w-full px-3 py-2 border rounded-lg form-input h-24" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?></textarea>
-                </div>
-
-                <div>
-                    <label for="productDiscount1" class="form-label">Discount</label>
-                    <input id="productDiscount1" type="number" step="0.01" placeholder="Enter discount amount" class="w-full px-3 py-2 border rounded-lg form-input" name="discount" min="0">
-                </div>
-
-                <div>
-                    <label for="productDiscountType1" class="form-label">Discount Type</label>
-                    <select id="productDiscountType1" class="w-full px-3 py-2 border rounded-lg form-input" name="discount_type">
-                        <option value="">Select Discount Type</option>
-                        <option value="percentage">Percentage (%)</option>
-                        <option value="fixed">Fixed Amount ($)</option>
-                        <option value="bogo">Buy One Get One</option>
-                        <option value="clearance">Clearance</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="productBarcode1" class="relative">Barcode</label>
-                    <div class="relative">
-                        <input id="productBarcode" type="text" class="w-full px-3 py-2 border rounded-lg form-input" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
-                        <button id="generateBarcodeButton" type="button" class="absolute right-2 top-2 text-blue-500 hover:text-blue-700">Generate Barcode</button>
-                    </div>
-
-                    <div class="barcode-container mt-2">
-                        <canvas id="barcodeCanvas"></canvas>
-                        <div id="errorMessage" class="barcode-error text-red-600 text-sm mt-1" style="display: none;">Invalid barcode! Please try again.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="mt-8 flex space-x-4 form-actions justify-center">
-            <button type="submit" id="saveProductButton1" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg form-button">
-                <i class="fas fa-save"></i> Save Product
-            </button>
-            <a href="/products" id="cancelButton1" class="bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 px-6 py-3 rounded-lg form-button text-center">
-                <i class="fas fa-times"></i> Cancel
-            </a>
-        </div>
-    </form>
-
-    <!-- JS Toggle + Barcode Script -->
-    <script>
-        // Toggle sections
-        const productInfoSection = document.getElementById('productInfoSection');
-        const additionalDetailsSection = document.getElementById('additionalDetailsSection');
-        const showProductInfo = document.getElementById('showProductInfo');
-        const showAdditionalDetails = document.getElementById('showAdditionalDetails');
-
-        showProductInfo.addEventListener('click', () => {
-            productInfoSection.classList.remove('hidden');
-            additionalDetailsSection.classList.add('hidden');
-        });
-
-        showAdditionalDetails.addEventListener('click', () => {
-            additionalDetailsSection.classList.remove('hidden');
-            productInfoSection.classList.add('hidden');
-        });
-
-        // Barcode logic
-        const barcodeInput = document.getElementById('productBarcode');
-        const errorMessage = document.getElementById('errorMessage');
-        const generateBarcodeButton = document.getElementById('generateBarcodeButton');
-        const barcodeCanvas = document.getElementById('barcodeCanvas');
-        const addProductForm = document.getElementById('addProductForm');
-
-        generateBarcodeButton.addEventListener('click', function () {
-            const barcodeValue = barcodeInput.value.trim();
-            if (barcodeValue) {
-                JsBarcode(barcodeCanvas, barcodeValue, {
-                    format: "CODE128",
-                    width: 2,
-                    height: 40,
-                    displayValue: true
-                });
-                errorMessage.style.display = 'none';
+    function generateRandomBarcode() {
+        let result = '';
+        const characters = '0123456789';
+        const length = 12;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+    
+    // Color selection functionality
+    const colorOptions = document.querySelectorAll('.color-option input');
+    colorOptions.forEach(option => {
+        option.addEventListener('change', function() {
+            if (this.checked) {
+                this.nextElementSibling.classList.remove('border-transparent', 'border-gray-400');
+                this.nextElementSibling.classList.add('border-blue-500', 'border-2');
             } else {
-                errorMessage.style.display = 'block';
+                this.nextElementSibling.classList.remove('border-blue-500');
+                this.nextElementSibling.classList.add('border-transparent');
             }
         });
-
-        addProductForm.addEventListener('submit', function (event) {
-            // Optionally enable AJAX here
-        });
-    </script>
-</div>
-
-
-                    <script>
-                        // Toggle functionality for URL and file input
-                        const toggleUrl1 = document.getElementById('toggleUrl1');
-                        const toggleFile1 = document.getElementById('toggleFile1');
-                        const productImageUrl1 = document.getElementById('productImageUrl1');
-                        const imageInput1 = document.getElementById('imageInput1');
-                        const previewImg1 = document.getElementById('previewImg1');
-
-                        toggleUrl1.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            toggleUrl1.classList.add('active');
-                            toggleFile1.classList.remove('active');
-                            productImageUrl1.classList.remove('hidden');
-                            imageInput1.classList.add('hidden');
-                            previewImg1.style.display = 'none'; // Hide preview when switching to URL
-                        });
-
-                        toggleFile1.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            toggleFile1.classList.add('active');
-                            toggleUrl1.classList.remove('active');
-                            productImageUrl1.classList.add('hidden');
-                            imageInput1.classList.remove('hidden');
-                            previewImg1.style.display = 'none'; // Hide preview when switching to file upload
-                        });
-
-                        // Handle file selection for preview
-                        imageInput1.addEventListener('change', function() {
-                            const file = this.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = function(e) {
-                                    previewImg1.src = e.target.result;
-                                    previewImg1.style.display = 'block'; // Show the image preview
-                                };
-                                reader.readAsDataURL(file); // Convert to base64 for direct display
-                            }
-                        });
-
-                        // Generate random barcode
-                        document.getElementById('generateBarcode').addEventListener('click', function() {
-                            const barcodeInput = document.getElementById('productBarcode1');
-                            // Generate a random 12-digit number for the barcode
-                            const randomBarcode = Math.floor(100000000000 + Math.random() * 900000000000).toString();
-                            barcodeInput.value = randomBarcode;
-                        });
-
-                        // Preview URL image when entered
-                        productImageUrl1.addEventListener('blur', function() {
-                            if (this.value) {
-                                previewImg1.src = this.value;
-                                previewImg1.style.display = 'block';
-                                previewImg1.onerror = function() {
-                                    // If image fails to load, hide the preview
-                                    this.style.display = 'none';
-                                    alert('Unable to load image from the provided URL. Please check the URL and try again.');
-                                };
-                            }
-                        });
-
-                        // Form validation
-                        document.querySelector('form').addEventListener('submit', function(e) {
-                            const requiredFields = this.querySelectorAll('[required]');
-                            let isValid = true;
-
-                            requiredFields.forEach(field => {
-                                if (!field.value.trim()) {
-                                    isValid = false;
-                                    field.classList.add('border-red-500');
-                                    
-                                    // Add error message if it doesn't exist
-                                    let errorMsg = field.nextElementSibling;
-                                    if (!errorMsg || !errorMsg.classList.contains('error-message')) {
-                                        errorMsg = document.createElement('p');
-                                        errorMsg.classList.add('error-message', 'text-red-500', 'text-xs', 'mt-1');
-                                        errorMsg.textContent = 'This field is required';
-                                        field.parentNode.insertBefore(errorMsg, field.nextSibling);
-                                    }
-                                } else {
-                                    field.classList.remove('border-red-500');
-                                    
-                                    // Remove error message if it exists
-                                    let errorMsg = field.nextElementSibling;
-                                    if (errorMsg && errorMsg.classList.contains('error-message')) {
-                                        errorMsg.remove();
-                                    }
-                                }
-                            });
-
-                            if (!isValid) {
-                                e.preventDefault();
-                                // Scroll to the first error
-                                const firstError = this.querySelector('.border-red-500');
-                                if (firstError) {
-                                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                    firstError.focus();
-                                }
-                            }
-                        });
-
-                        // Clear error styling on input
-                        document.querySelectorAll('.form-input').forEach(input => {
-                            input.addEventListener('input', function() {
-                                this.classList.remove('border-red-500');
-                                
-                                // Remove error message if it exists
-                                let errorMsg = this.nextElementSibling;
-                                if (errorMsg && errorMsg.classList.contains('error-message')) {
-                                    errorMsg.remove();
-                                }
-                            });
-                        });
-
-                        // Add animation to form sections on page load
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const sections = document.querySelectorAll('.form-section');
-                            sections.forEach((section, index) => {
-                                section.style.opacity = '0';
-                                section.style.transform = 'translateY(20px)';
-                                
-                                setTimeout(() => {
-                                    section.style.transition = 'all 0.5s ease-out';
-                                    section.style.opacity = '1';
-                                    section.style.transform = 'translateY(0)';
-                                }, 100 * (index + 1));
-                            });
-                        });
-                    </script>
+    });
+});
+</script>
 
 </body>
 </html>
+<?php else: $this->redirect("/"); endif; ?>
 
-<?php else: 
-    $this->redirect("/"); 
-endif; ?>
