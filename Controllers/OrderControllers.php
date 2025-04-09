@@ -16,7 +16,7 @@ class OrderController extends BaseController {
             'pdfDownloadLink' => $pdfDownloadLink
         ]);
 
-        // Send the email using a mailer library (e.g., PHPMailer)
+        // Send the email using a mailer library 
         $mailer = new \PHPMailer\PHPMailer\PHPMailer();
         $mailer->isSMTP();
         $mailer->Host = SMTP_HOST; // Use constant or config variable
