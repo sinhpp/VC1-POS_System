@@ -143,6 +143,7 @@ class ProductModel {
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
 
 
     //////////////////////////////
@@ -219,12 +220,18 @@ class ProductModel {
         return $stmt->execute();
     }
     public function getProductByBarcode($barcode) {
-        $query = "SELECT * FROM products WHERE barcode = :barcode LIMIT 1";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([':barcode' => $barcode]);
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Returns product as associative array or false if not found
+        try {
+            $query = "SELECT * FROM products WHERE barcode = :barcode";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([':barcode' => $barcode]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            error_log("[" . date('Y-m-d H:i:s') . "] Query executed for barcode '$barcode': " . ($result ? "Found" : "Not found"));
+            return $result;
+        } catch (PDOException $e) {
+            error_log("[" . date('Y-m-d H:i:s') . "] Database error for barcode '$barcode': " . $e->getMessage());
+            return false;
+        }
     }
-
     // Method to update stock
     public function updateStock($barcode, $quantity) {
         // First, start a transaction to ensure data consistency
@@ -267,7 +274,14 @@ class ProductModel {
         }
     }
     // Other methods remain unchanged...
-
+    public function restoreStock($barcode, $quantity) {
+        $query = "UPDATE products SET stock = stock + :quantity WHERE barcode = :barcode";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':barcode' => $barcode, ':quantity' => $quantity]);
+        $success = $stmt->rowCount() > 0;
+        error_log("Restore stock for '$barcode' by $quantity: " . ($success ? "success" : "failed"));
+        return $success;
+    }
 
     public function getLowStockProducts($threshold = 5) {
         try {

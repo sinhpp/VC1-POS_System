@@ -11,28 +11,27 @@ body {
 
 .container-order {
     /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  */
-    width: 90%;
+    width: 94%;
     margin: 20px auto;
     overflow: hidden;
-    
+   
     /* margin-left: 400px; */
 }
 
-.scanner-section {
+/* .scanner-section {
     float: left;
     width: 35%;
     padding: 15px;
-    
-    /* margin-left: 400px; */
     border: 1px solid #ccc;
-}
+    margin-top: 90px;
+} */
 
 .order-page {
     float: left;
-    width: 79%;
+    width: 80%;
     padding: 30px;
 
-    margin-left: 22.7%;
+    margin-left: 20%;
     margin-top: 20px;
     padding: 15px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -144,8 +143,8 @@ th {
     padding-left: 300px;
     margin: 50px auto;
     padding: 30px;
-    margin-top: 90px;
-    max-width: 1550px;
+    margin-top:200px;
+    max-width: 1600px;
     background-color: #FFF;
 
 
@@ -182,10 +181,10 @@ th {
 .scanner-section {
     /* background: #fff; */
     padding: 30px;
-    width: 79%;
-    margin-top: 30px;
-    margin-right: -130px;
-    margin-left: 300px;
+    width: 80%;
+    margin-top: 150px;
+    margin-right: -100px;
+    margin-left: 235px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -261,7 +260,18 @@ th {
     margin-top: 15px;
 
 }
-
+.input-group {
+    /* display: flex; */
+    /* gap: 10px; */
+    margin-top: 10px;
+    
+}
+.input-group input {
+    flex: 1;
+}
+#scanButton{
+    height: 7.8vh;
+}
 .card-img-top {
     width: 100%;
     height: auto;
@@ -359,25 +369,111 @@ th {
     color: #dc3545;
 }
 
-/* Responsive Design */
+/* General styling */
+.container-order {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.scanner-section, .order-page {
+    margin-bottom: 20px;
+}
+
+/* Make the input and button responsive */
+.input-group {
+   
+    flex-direction: row;
+   
+}
+
+.input-group input {
+    flex: 1;
+}
+
+/* Make table responsive */
+.order-table {
+    overflow-x: auto;
+}
+
+#orderTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#orderTable th, #orderTable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+#orderTable img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Mobile responsiveness */
 @media (max-width: 768px) {
-
-    .col-md-4,
-    .col-md-5 {
-        flex: 0 0 100%;
-        max-width: 100%;
-        margin-bottom: 20px;
+    .input-group {
+        flex-direction: column;
+    }
+ .scanner-section, .order-page{
+    margin-left: 91px;
+    
+    width: 89%;
+ }
+ .scanner-section{
+    margin-top: 90px;
+ }
+ #barcodeInput{
+    width: 100%;
+ }
+    .order-table {
+        overflow-x: scroll;
     }
 
-    .table {
-        font-size: 0.875rem;
+    #orderTable th, #orderTable td {
+        font-size: 12px;
+        padding: 6px;
     }
 
-    .table thead th {
-        padding: 8px;
+    #totalPriceContainer p {
+        font-size: 16px;
     }
 
-    .table tbody td {
-        padding: 8px;
+    .btn {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .scanner-section h4, .order-page h3 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .scanner-section h4, .order-page h3 {
+        font-size: 13px;
+        
+    }
+    .order-page{
+        width: 100%;
+        margin-left: -5px;
+    }
+    .scanner-section{
+        width: 100%;
+        margin-left: -2px;
+        margin-top: 90px;
+    }
+    #barcodeInput{
+        width: 100%;
+    }
+    .btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .input-group input, .input-group button {
+        width: 100%;
     }
 }
