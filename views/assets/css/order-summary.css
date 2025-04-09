@@ -226,7 +226,9 @@ th {
     background-color: #28a745;
     color: white;
 }
-
+#barcodeInput{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
 .btn-success:hover {
     background-color: #218838;
 }
