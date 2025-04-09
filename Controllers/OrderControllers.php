@@ -21,8 +21,8 @@ class OrderController extends BaseController {
         $mailer->isSMTP();
         $mailer->Host = SMTP_HOST; // Use constant or config variable
         $mailer->SMTPAuth = true;
-        $mailer->Username = zenngii168@gmail.com; // Use constant or config variable
-        $mailer->Password = hdzj larg wckf ziyq; // Use constant or config variable
+        $mailer->Username = zenngii168@gmail.com; // Added quotes
+        $mailer->Password = hdzj larg wckf ziyq; // Added quotes
         $mailer->setFrom('support@awesomestore.com', 'Awesome Store');
         $mailer->addAddress($customer->email, $customer->name);
         $mailer->Subject = 'Order Confirmation - #' . $order->id;
@@ -48,14 +48,23 @@ class OrderController extends BaseController {
 
         // Redirect or return response
         header('Location: /order/success');
+        exit(); // Added exit after redirect
     }
 
-    public function downloadInvoice($orderId) { // Fixed method name
+    public function downloadInvoice($orderId) {
         $orderModel = $this->model('OrderModel');
         $order = $orderModel->getOrder($orderId);
+        
+        if (!$order) {
+            // Handle case when order is not found
+            header('HTTP/1.0 404 Not Found');
+            echo "Order not found";
+            return;
+        }
+        
         $customer = $orderModel->getCustomer($order->customerId);
 
-        $pdfContent = $this->view->renderToString('receipts/invoice', [ // Fixed method name
+        $pdfContent = $this->view->renderToString('receipts/invoice', [
             'order' => $order,
             'customer' => $customer
         ]);
@@ -65,7 +74,8 @@ class OrderController extends BaseController {
         $dompdf->loadHtml($pdfContent);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        $dompdf->stream('invoice_' . $orderId . '.pdf', ['Attachment' => true]); // Fixed file extension
+        $dompdf->stream('invoice_' . $orderId . '.pdf', ['Attachment' => true]);
+        exit(); // Added exit to prevent further execution
     }
 
     public function viewOrders() {

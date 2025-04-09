@@ -8,14 +8,15 @@ class Order {
     private function __construct() {}
 
     // Initialize database connection
-    private static function initDb() {
-        if (!isset(self::$db)) {
-            self::$db = Database::getConnection();
+    private static function initDb(): PDO {
+        if (isset(self::$db)) {
+            // self::$db = Database::getConnection();
         }
         return self::$db;
     }
 
     public static function createOrder($userId, $cartItems) {
+        $db = null;
         try {
             $db = self::initDb();
             
@@ -58,7 +59,9 @@ class Order {
             $db->commit();
             return $orderId;
         } catch (PDOException $e) {
-            $db->rollBack();
+            if ($db && $db->inTransaction()) {
+                $db->rollBack();
+            }
             throw new Exception("Failed to create order: " . $e->getMessage());
         }
     }
@@ -111,11 +114,6 @@ class Order {
         } catch (PDOException $e) {
             throw new Exception("Failed to get orders: " . $e->getMessage());
         }
-    }
-    public static function getAllOrders() {
-        $db = new Database();
-        $query = "SELECT * FROM orders ORDER BY oreder_date DESC";
-        return $db->query($query)->fetchAll();
     }
 }
 ?>
