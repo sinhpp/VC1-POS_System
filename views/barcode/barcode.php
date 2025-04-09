@@ -1,33 +1,33 @@
 <?php
-require_once __DIR__.'/Database/Database.php';
-require_once __DIR__.'/Controllers/BarcodeController.php';
+// require_once __DIR__.'/Database/Database.php';
+// require_once __DIR__.'/Controllers/BarcodeController.php';
 
-$db = new Database(); // Your existing database class
-$controller = new BarcodeController($db);
+// $db = new Database(); // Your existing database class
+// $controller = new BarcodeController($db);
 
-$action = $_GET['action'] ?? '';
+// $action = $_GET['action'] ?? '';
 
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 
-switch ($action) {
-    case 'scan':
-        $barcode = $_GET['code'] ?? '';
-        echo json_encode($controller->scan($barcode));
-        break;
+// switch ($action) {
+//     case 'scan':
+//         $barcode = $_GET['code'] ?? '';
+//         echo json_encode($controller->scan($barcode));
+//         break;
         
-    case 'checkout':
-        $items = json_decode($_POST['items'], true);
-        $paymentType = $_POST['payment_type'] ?? '';
-        echo json_encode($controller->checkout($items, $paymentType));
-        break;
+//     case 'checkout':
+//         $items = json_decode($_POST['items'], true);
+//         $paymentType = $_POST['payment_type'] ?? '';
+//         echo json_encode($controller->checkout($items, $paymentType));
+//         break;
         
-    default:
-        echo json_encode(['success' => false, 'message' => 'Invalid action']);
-}
+//     default:
+//         echo json_encode(['success' => false, 'message' => 'Invalid action']);
+// }
 ?>
 
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,7 +45,7 @@ switch ($action) {
             </button>
         </div>
 
-        <!Barcode Input -->
+        <!--Barcode Input -->
         <div class="mb-4">
             <input id="barcodeInput" type="text" class="px-4 py-2 border border-gray-300 rounded w-full" placeholder="Scan or enter barcode" autofocus>
         </div>
