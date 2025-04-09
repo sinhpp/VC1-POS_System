@@ -1,87 +1,172 @@
 <?php
-class OrderController extends BaseController {
-    public function placeOrder($orderData) {
-        // Assume $orderData contains order details from the form
-        $orderModel = $this->model('OrderModel'); // Load the OrderModel
-        $order = $orderModel->createOrder($orderData); // Save order to database
-        $customer = $orderModel->getCustomer($order->customerId); // Fetch customer details
+require_once __DIR__ . '../../Controllers/BaseController.php';
+require_once __DIR__ . '../../Models/ProductModel.php';
+require_once __DIR__ . '../../vendor/autoload.php'; // Assuming you're using Composer for PHPMailer
 
-        // Generate PDF download link
-        $pdfDownloadLink = 'https://www.awesomestore.com/order/downloadInvoice/' . $order->id;
+class OrderController {
+    private $productModel;
 
-        // Render email template to string
-        $emailBody = $this->view->renderToString('order/confirmation', [
-            'order' => $order,
-            'customer' => $customer,
-            'pdfDownloadLink' => $pdfDownloadLink
-        ]);
-
-        // Send the email using a mailer library 
-        $mailer = new \PHPMailer\PHPMailer\PHPMailer();
-        $mailer->isSMTP();
-        $mailer->Host = SMTP_HOST; // Use constant or config variable
-        $mailer->SMTPAuth = true;
-        $mailer->Username = zenngii168@gmail.com; // Added quotes
-        $mailer->Password = hdzj larg wckf ziyq; // Added quotes
-        $mailer->setFrom('support@awesomestore.com', 'Awesome Store');
-        $mailer->addAddress($cashier->email, $cashier->name);
-        $mailer->Subject = 'Order Confirmation - #' . $order->id;
-        $mailer->isHTML(true);
-        $mailer->Body = $emailBody;
-
-        if (!$mailer->send()) {
-            // Handle error (e.g., log it)
-            error_log('Email sending failed: ' . $mailer->ErrorInfo);
-        }
-
-        // Send email to cashier
-        $cashierEmail = 'cashier@awesomestore.com'; // Replace with actual cashier email or fetch dynamically
-        $mailer->clearAddresses(); // Clear previous recipient
-        $mailer->addAddress($cashierEmail, 'Cashier');
-        $mailer->Subject = 'New Order Placed - #' . $order->id;
-        $mailer->Body = 'A new order has been placed. Order ID: #' . $order->id;
-
-        if (!$mailer->send()) {
-            // Handle error (e.g., log it)
-            error_log('Cashier email sending failed: ' . $mailer->ErrorInfo);
-        }
-
-        // Redirect or return response
-        header('Location: /order/success');
-        exit(); // Added exit after redirect
+    public function __construct() {
+        $this->productModel = new ProductModel();
     }
 
-    public function downloadInvoice($orderId) {
-        $orderModel = $this->model('OrderModel');
-        $order = $orderModel->getOrder($orderId);
-        
-        if (!$order) {
-            // Handle case when order is not found
-            header('HTTP/1.0 404 Not Found');
-            echo "Order not found";
-            return;
+    // Handle checkout and inventory update
+    public function checkout() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['order'])) {
+            $order = $_SESSION['order'];
+            $customerEmail = $_POST['email'] ?? ''; // Get customer email from form
+
+            try {
+                // Update stock for each item in the order
+                foreach ($order as $item) {
+                    $barcode = $item['barcode'];
+                    $quantitySold = $item['quantity'];
+                    $this->productModel->updateStock($barcode, $quantitySold);
+                }
+
+                // Generate PDF
+                $pdfContent = $this->generateOrderPDF($order, false); // Get PDF as string
+
+                // Send email with PDF attachment if email is provided
+                if (!empty($cashierEmail) && filter_var($cashierEmail, FILTER_VALIDATE_EMAIL)) {
+                    $this->sendOrderEmail($cashierEmail, $pdfContent, $order);
+                }
+
+                // Output PDF to browser
+                $this->outputPDF($pdfContent);
+
+                // Clear session order
+                unset($_SESSION['order']);
+
+                // Redirect to success page
+                header("Location: /order/success");
+                exit();
+            } catch (Exception $e) {
+                die("Error processing order: " . $e->getMessage());
+            }
         }
-        
-        $customer = $orderModel->getCustomer($order->customerId);
 
-        $pdfContent = $this->view->renderToString('receipts/invoice', [
-            'order' => $order,
-            'customer' => $customer
-        ]);
-
-        require_once 'vendor/autoload.php';
-        $dompdf = new \Dompdf\Dompdf();
-        $dompdf->loadHtml($pdfContent);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $dompdf->stream('invoice_' . $orderId . '.pdf', ['Attachment' => true]);
-        exit(); // Added exit to prevent further execution
+        // Load the checkout view if not a POST request
+        // require_once __DIR__ . '/../views/order/checkout.php';
     }
 
-    public function viewOrders() {
-        $orderModel = $this->model('OrderModel');
-        $orders = $orderModel->getAllOrders();
-        $this->view->render('dashboard/orders', ['orders' => $orders]);
+    // Generate PDF for the order and return as string if $output is false
+    private function generateOrderPDF($order, $output = true) {
+        ob_start();
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(0, 10, 'Order Summary', 0, 1, 'C');
+        $pdf->Ln(5);
+
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(100, 10, 'Customer Name: ' . ($_POST['customerName'] ?? 'N/A'));
+        $pdf->Ln();
+        $pdf->Cell(100, 10, 'Email: ' . ($_POST['email'] ?? 'N/A'));
+        $pdf->Ln();
+        $pdf->Cell(100, 10, 'Shipping Address: ' . ($_POST['shippingAddress'] ?? 'N/A'));
+        $pdf->Ln();
+        $pdf->Cell(100, 10, 'Billing Address: ' . ($_POST['billingAddress'] ?? 'N/A'));
+        $pdf->Ln();
+        $pdf->Cell(100, 10, 'Contact Details: ' . ($_POST['contactDetails'] ?? 'N/A'));
+        $pdf->Ln();
+        $pdf->Cell(100, 10, 'Payment Method: ' . ($_POST['paymentMethod'] ?? 'N/A'));
+        $pdf->Ln(10);
+
+        // Order Details Table
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(90, 10, 'Item', 1);
+        $pdf->Cell(30, 10, 'Quantity', 1);
+        $pdf->Cell(30, 10, 'Price', 1);
+        $pdf->Ln();
+
+        $totalPrice = 0;
+        $pdf->SetFont('Arial', '', 12);
+        foreach ($order as $item) {
+            $pdf->Cell(90, 10, $item['name'], 1);
+            $pdf->Cell(30, 10, $item['quantity'], 1);
+            $pdf->Cell(30, 10, '$' . number_format($item['price'] * $item['quantity'], 2), 1);
+            $pdf->Ln();
+            $totalPrice += $item['price'] * $item['quantity'];
+        }
+
+        $pdf->Ln(10);
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(100, 10, 'Total Price: $' . number_format($totalPrice, 2));
+
+        $pdfContent = $pdf->Output('S'); // Get PDF as string
+        
+        if ($output) {
+            ob_end_clean();
+            $pdf->Output('D', 'order_summary.pdf');
+            exit();
+        }
+        
+        return $pdfContent;
+    }
+
+    // Output PDF to browser
+    private function outputPDF($pdfContent) {
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="order_summary.pdf"');
+        header('Content-Length: ' . strlen($pdfContent));
+        echo $pdfContent;
+    }
+
+    // Send order confirmation email with PDF attachment
+    private function sendOrderEmail($toEmail, $pdfContent, $order) {
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host = 'smtp.example.com'; // Your SMTP server
+            $mail->SMTPAuth = true;
+            $mail->Username = 'zenngii168@gmail.com'; // SMTP username
+            $mail->Password = 'hdzj larg wckf ziyq'; // SMTP password
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Recipients
+            $mail->setFrom('your_email@example.com', 'ASIA Shop');
+            $mail->addAddress($toEmail);
+            $mail->addReplyTo('info@example.com', 'Information');
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Your Order Confirmation';
+            
+            // Calculate total
+            $totalPrice = 0;
+            foreach ($order as $item) {
+                $totalPrice += $item['price'] * $item['quantity'];
+            }
+            
+            // Email body
+            $mail->Body = '
+                <h2>Thank you for your order!</h2>
+                <p>Your order has been received and is being processed.</p>
+                <h3>Order Summary</h3>
+                <p><strong>Customer Name:</strong> ' . ($_POST['customerName'] ?? 'N/A') . '</p>
+                <p><strong>Total Amount:</strong> $' . number_format($totalPrice, 2) . '</p>
+                <p>Please find your order details attached as a PDF.</p>
+                <p>If you have any questions, please contact our support team.</p>
+            ';
+            
+            $mail->AltBody = 'Thank you for your order! Your order has been received and is being processed. Please check the attached PDF for order details.';
+
+            // Attach PDF
+            $mail->addStringAttachment($pdfContent, 'order_summary.pdf');
+
+            $mail->send();
+        } catch (Exception $e) {
+            // Log error but don't stop the process
+            error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        }
     }
 }
+
+// Instantiate and run the controller
+$controller = new OrderController();
+$controller->checkout();
 ?>
