@@ -83,9 +83,9 @@ $customerId = 1;
                     <option value="digital_wallet" <?php echo $paymentMethod === 'digital_wallet' ? 'selected' : ''; ?>>Digital Wallet</option>
                 </select>
 
-                <!-- ✅ FORM START -->
-                <form id="checkoutForm" action="/order/store" method="POST">
-                    <!-- ✅ CUSTOMER ID HIDDEN INPUT -->
+              
+                <form id="checkoutForm" action="/order/process-and-print" method="POST">
+                   
                     <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
 
                     <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
@@ -96,7 +96,7 @@ $customerId = 1;
                         <button type="submit" class="place-order">
                         <i class="fa-solid fa-print"></i> Print Receipt
                         </button>
-                        <button class="place-order">
+                        <button class="place-order" type="submit" method_exists>
                             <i class="fas fa-shopping-cart"></i> Place Order
                         </button>
                     </div>
