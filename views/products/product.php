@@ -23,9 +23,22 @@ if (isset($_SESSION['user_id'])) : ?>
             height: 100vh;
             background-color: #f4f4f4;
         }
-    
+        table {
+            width: 85%;
+            border-collapse: separate;
+            border-spacing: 0;
+            display: inline;
+            margin-left:5%;
+            justify-content: center;
+            align-items: center;
+          
+        }
 
-    
+        th, td {
+            padding:10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
         .btn-success {
             margin-top:2%;
             
@@ -33,13 +46,28 @@ if (isset($_SESSION['user_id'])) : ?>
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
-          
+            text-align: center;
             transition: all 0.3s ease;
-            background:rgb(17, 110, 38);
+            background: #26A142;
         }
+<<<<<<< HEAD
+
+        th {
+      
+            background-color: #007BFF;
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+=======
       
       
         
+>>>>>>> main
 
         .table-striped tbody tr:nth-child(odd) {
             background-color: #f9f9f9;
@@ -70,6 +98,7 @@ if (isset($_SESSION['user_id'])) : ?>
             padding-left: 0rem !important; }
 
         .btn {
+            padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
             margin-bottom: 2%;
@@ -91,7 +120,6 @@ if (isset($_SESSION['user_id'])) : ?>
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-      
 
         .product-image {
             width: 50px;
@@ -216,17 +244,28 @@ if (isset($_SESSION['user_id'])) : ?>
 
 /* Adjust the table width */
 .table-container {
+<<<<<<< HEAD
+    margin: 20px;
+    overflow: hidden;
+    border-radius: 18px;
+    margin-left:24%;
+    justify-content:center;
+    align-items:center;
+    margin-top:10%;
+    overflow-x: auto; /* Add horizontal scroll for smaller screens */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+=======
     margin: 20px auto; /* Centers the container horizontally */
     display: flex;
     flex-direction: column;
    
     width: 96%; /* Adjust width as needed */
  
+>>>>>>> main
     background: linear-gradient(145deg, #ffffff, #f9f9f9);
-    padding: 10%; /* Adds spacing */
-
-    border-radius: 8px; /* Optional: Makes corners rounded */
 }
+<<<<<<< HEAD
+=======
 
 .table{
     width: 80%;
@@ -239,6 +278,7 @@ if (isset($_SESSION['user_id'])) : ?>
 }
 
 
+>>>>>>> main
 .sidebar {
     display: none; /* Hide the sidebar */
 }
@@ -346,12 +386,16 @@ if (isset($_SESSION['user_id'])) : ?>
         .pagination{
 
             position: relative;
+<<<<<<< HEAD
+            left:40%;
+=======
             left:60%;
         }
         .button{
             width: auto;
             position: relative;
           
+>>>>>>> main
         }
         h2 {
     color: #333;
@@ -479,6 +523,30 @@ $categories = $this->getCategories();
 
 
 <div class="table-container">
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <a href="/products/create" class="btn btn-success">+ Add Product</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <div class="alert" id="toast" style="display:none;">Delete all!</div>
+                    <input type="checkbox" onclick="toggleAllCheckboxes(this)">
+                </th>
+                <th>Image</th>
+                <th>Name</th>
+                
+                <th>Code</th>
+                <th>Price
+
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
+                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                <input type="text" id="priceSearch" placeholder="Search price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+=======
+    
+=======
+>>>>>>> main
     <div class="table">
         <div class="container">
             <div class="filters">
@@ -523,11 +591,129 @@ $categories = $this->getCategories();
                 <th>Image</th>
                 <th>Name</th>
                 <th>Code</th>
+<<<<<<< HEAD
+                <th>Price
+
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleSortOptions(event)">		</i>
+                <div class="sort-options" id="sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+                <input type="text" id="priceSearch" placeholder="input price..." oninput="searchPrice()" style="margin-top:5px; padding: 5px; width: 100%;">
+>>>>>>> main
+                    <button onclick="sortPrice('high')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-down"></i> High</button>
+                    <button onclick="sortPrice('low')" style="display: block; width: 100%; text-align: left;"><i class="fas fa-arrow-up"></i> Low</button>
+                </div>
+                </th>
+
+                <th>Stock
+
+                    <i class="fa-solid fa-filter-circle-dollar" onclick="toggleStockSortOptions(event)"></i>
+                    <div class="sort-options" id="stock-sort-options" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 5px;">
+<<<<<<< HEAD
+                        <input type="text" id="stockSearch" placeholder="Search stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+=======
+                        <input type="text" id="stockSearch" placeholder="input stock..." oninput="searchStock()" style="margin-top:5px; padding: 5px; width: 100%;">
+>>>>>>> main
+                        <button onclick="sortStock('high')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-down"></i> High
+                        </button>
+                        <button onclick="sortStock('low')" style="display: block; width: 100%; text-align: left;">
+                            <i class="fas fa-arrow-up"></i> Low
+                        </button>
+                    </div>
+                </th>
+<<<<<<< HEAD
+
+                <th>Category</th>
+                <th>Created At</th>
+                <th>Action
+
+=======
+                <th>Category
+                <!-- Dropdown Icon -->
+                <i class="fa-solid fa-filter-circle-dollar" onclick="toggleCatSortOptions(event, this)" style="cursor: pointer;"></i>
+
+                <!-- Dropdown Menu -->
+                <div class="sort-options" id="cat-sort-options" style="display: none;">
+                    <input type="text" id="stockSearch" placeholder="Search categories..." oninput="searchCat()" style="margin-top: 5px; padding: 5px; width: calc(100% - 10px);">
+                    <div id="categoryList">
+                        <button onclick="selectCategory('Clothes', event)">Clothes</button>
+                        <button onclick="selectCategory('Bags', event)">Bags</button>
+                        <button onclick="selectCategory('Shoes', event)">Shoes</button>
+                        <button onclick="selectCategory('Accessories', event)">Accessories</button>
+                    </div>
+                </div>
+            </th>
+
+<script>
+    function toggleCatSortOptions(event) {
+        const sortOptions = document.getElementById('cat-sort-options');
+        sortOptions.style.display = sortOptions.style.display === 'block' ? 'none' : 'block';
+
+        // Position the dropdown menu correctly (if necessary)
+        const iconPos = event.target.getBoundingClientRect();
+        sortOptions.style.position = 'absolute'; // Use absolute positioning
+        sortOptions.style.top = `${iconPos.bottom + window.scrollY}px`;
+        sortOptions.style.left = `${iconPos.left}px`;
+    }
+
+    function searchCat() {
+        const input = document.getElementById('catSearch').value.toLowerCase();
+        const buttons = document.querySelectorAll('#categoryList button');
+
+        buttons.forEach(button => {
+            const text = button.textContent.toLowerCase();
+            button.style.display = text.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    function selectCategory(category) {
+        console.log('Selected category:', category);
+        document.getElementById('cat-sort-options').style.display = 'none'; // Hide dropdown after selection
+    }
+
+    // Close dropdown when clicking outside of it
+    window.onclick = function(event) {
+        const dropdown = document.getElementById('cat-sort-options');
+        if (!event.target.matches('.fa-filter-circle-dollar') && dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    };
+</script>
+
+<style>
+    .sort-options {
+        background: white; 
+        border: 1px solid #ccc; 
+        padding: 5px; 
+        z-index: 100; 
+        border-radius: 5px; 
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .sort-options button {
+        display: block;
+        width: 100%; 
+        text-align: left; 
+        margin: 5px 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    
+    .sort-options button:hover {
+        background-color: #f0f0f0; /* Highlight on hover */
+    }
+</style>
+                <th>Created At</th>
+                <th>Action
+
+>>>>>>> main
+=======
                 <th>Price</th>
                 <th>Stock</th>
                 <th>Category</th>
                 <th>Created At</th>
                 <th>Action
+>>>>>>> main
                 <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
                 </th>
             </tr>
@@ -546,8 +732,17 @@ $categories = $this->getCategories();
                         <td><?= htmlspecialchars($product['barcode']) ?></td>
                         <td>$<?= number_format($product['price'], 2) ?></td>
                         <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                        <td><?= htmlspecialchars($product['category']) ?></td>
+                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+=======
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td> <!-- This cell will be updated -->                        <td><?= htmlspecialchars($product['created_at']) ?></td>
+>>>>>>> main
+=======
                         <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td>
                         <td><?= htmlspecialchars($product['created_at']) ?></td>
+>>>>>>> main
                         <td class="action-icons">
                             <div class="dropdown">
                                 <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
@@ -565,11 +760,16 @@ $categories = $this->getCategories();
         </tbody>
     </table>
 
+<<<<<<< HEAD
+    <!-- Pagination Buttons (Now at the bottom) -->
+    <div class="pagination" id="pagination-buttons"></div>
+=======
     </div>
      <!-- Pagination Buttons (Now at the bottom) -->
      <div class="pagination" id="pagination-buttons"></div>
     </div>
    
+>>>>>>> main
 </div>
 
 <script>
