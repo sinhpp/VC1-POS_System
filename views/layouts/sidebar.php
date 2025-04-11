@@ -72,19 +72,20 @@
             font-weight: bold;
         }
 
-/* Improve touch scrolling on mobile */
-@media (hover: none) and (pointer: coarse) {
-    .dlabnav-scroll {
-        scroll-behavior: auto; /* Prevents scrolling bugs */
-    }
-}
+        .metismenu li a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
 
-/* Responsive improvements */
-@media (max-width: 768px) {
-    .dlabnav {
-        width: 220px; /* Slightly smaller sidebar for mobile */
-    }
-}
+        /* Hover effect for main menu items */
+        .metismenu li a:hover {
+            background-color: #e9ecef;
+        }
 
 /* User profile image styling */
 .user-profile-img {

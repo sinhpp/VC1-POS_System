@@ -13,11 +13,13 @@ $total = $subtotal + $shippingFee;
 
 $paymentMethod = isset($_POST['paymentMethod']) ? $_POST['paymentMethod'] : 'card';
 $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfirst($paymentMethod);
+
+// Simulate customer ID for now (replace with $_SESSION['user_id'] if using auth)
+$customerId = 1;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +27,6 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
     <link rel="stylesheet" href="/views/assets/css/checkout.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
-        /* Optional: Style adjustments for the new button */
         .view-details {
             background-color: #007bff;
             color: white;
@@ -34,17 +35,14 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
             cursor: pointer;
             margin-top: 10px;
         }
-
         .view-details:hover {
             background-color: #0056b3;
         }
-
         .order-items.hidden {
             display: none;
         }
     </style>
 </head>
-
 <body>
     <div class="container-checkout">
         <div class="checkout">
@@ -57,14 +55,14 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                 <div class="total">
                     <h3>Total: <span>$<?php echo number_format($total, 2); ?></span></h3>
                 </div>
-                <!-- Existing toggle button -->
+
                 <button class="toggle-details" onclick="toggleOrderDetails()">
                     Hide Order Details <i class="fas fa-chevron-up"></i>
                 </button>
-                <!-- New View Order Details button -->
                 <button class="view-details" onclick="toggleOrderDetails()">
                     View Order Details <i class="fas fa-eye"></i>
                 </button>
+
                 <div class="order-items visible" id="orderDetails">
                     <?php if (empty($order)): ?>
                         <p>No items in your order.</p>
@@ -77,13 +75,19 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
+
                 <label for="paymentMethod">Payment Method:</label>
                 <select id="paymentMethod" name="paymentMethod">
-                    <option value="card">Card (Mastercard/Visa)</option>
-                    <option value="cash">Cash</option>
-                    <option value="digital_wallet">Digital Wallet</option>
+                    <option value="card" <?php echo $paymentMethod === 'card' ? 'selected' : ''; ?>>Card (Mastercard/Visa)</option>
+                    <option value="cash" <?php echo $paymentMethod === 'cash' ? 'selected' : ''; ?>>Cash</option>
+                    <option value="digital_wallet" <?php echo $paymentMethod === 'digital_wallet' ? 'selected' : ''; ?>>Digital Wallet</option>
                 </select>
-                <form id="checkoutForm" action="/order/process-and-print" method="POST">
+
+                <!-- ✅ FORM START -->
+                <form id="checkoutForm" action="/order/store" method="POST">
+                    <!-- ✅ CUSTOMER ID HIDDEN INPUT -->
+                    <input type="hidden" name="customer_id" value="<?php echo $customerId; ?>">
+
                     <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($order)); ?>">
                     <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>">
                     <input type="hidden" name="total" value="<?php echo $total; ?>">
@@ -97,16 +101,36 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
                         </button>
                     </div>
                 </form>
+                <!-- ✅ FORM END -->
+
             </div>
         </div>
     </div>
+
     <script src="/views/assets/js/checkout.js"></script>
     <script>
-        document.getElementById('paymentMethod').addEventListener('change', function() {
+        function setFormAction(actionType) {
+            const form = document.getElementById('checkoutForm');
+            if (actionType === 'print') {
+                form.action = '/order/store';
+                const hiddenAction = document.createElement('input');
+                hiddenAction.type = 'hidden';
+                hiddenAction.name = 'action';
+                hiddenAction.value = 'print';
+                form.appendChild(hiddenAction);
+            }
+        }
+
+        document.getElementById('paymentMethod').addEventListener('change', function () {
             document.getElementById('paymentMethodInput').value = this.value;
         });
 
-        // Update button states based on visibility
+        function toggleOrderDetails() {
+            const orderDetails = document.getElementById('orderDetails');
+            orderDetails.classList.toggle('hidden');
+            updateButtonStates();
+        }
+
         function updateButtonStates() {
             const orderDetails = document.getElementById('orderDetails');
             const toggleButton = document.querySelector('.toggle-details');
@@ -121,9 +145,7 @@ $paymentMethodDisplay = $paymentMethod === 'card' ? 'Visa ending in 1234' : ucfi
             }
         }
 
-        // Call updateButtonStates on page load
         document.addEventListener('DOMContentLoaded', updateButtonStates);
     </script>
 </body>
-
 </html>

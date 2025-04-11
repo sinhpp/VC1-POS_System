@@ -57,6 +57,7 @@ class ListModel {
             throw new Exception("Error saving order: " . $e->getMessage());
         }
     }
+
     public function deleteOrder($order_id) {
         $query = "DELETE FROM orders WHERE id = :order_id";
         $stmt = $this->db->prepare($query);
