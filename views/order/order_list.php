@@ -1,137 +1,123 @@
-<!-- Ensure layout file exists -->
-<?php
-require_once __DIR__ . '../../layout.php';
-?>
+<?php require_once __DIR__ . '../../layout.php'; ?>
+<link rel="stylesheet" href="/views/assets/css/order-list.css">
+<!-- Include SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-gradient-primary text-white">
-                    <h2 class="text-center mb-0 py-3">
-                        <i class="material-icons align-middle me-2">receipt_long</i>
-                        Order Management
-                    </h2>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead class="bg-dark text-white">
-                                <tr>
-                                    <th class="px-4 py-3">Order ID</th>
-                                    <th class="px-4 py-3">Customer</th>
-                                    <th class="px-4 py-3">Total Amount</th>
-                                    <th class="px-4 py-3">Payment Status</th>
-                                    <th class="px-4 py-3">Created At</th>
-                                    <th class="px-4 py-3 text-center">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($completedOrders)): ?>
-                                    <?php foreach ($completedOrders as $order): ?>
-                                        <tr class="order-row">
-                                            <td class="px-4 py-3 fw-bold">#<?= htmlspecialchars($order["id"]); ?></td>
-                                            <td class="px-4 py-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-circle me-2 bg-<?= !empty($order["customer_name"]) ? 'primary' : 'secondary' ?>">
-                                                        <?= !empty($order["customer_name"]) ? strtoupper(substr($order["customer_name"], 0, 1)) : 'G' ?>
-                                                    </div>
-                                                    <span><?= !empty($order["customer_name"]) ? htmlspecialchars($order["customer_name"]) : "Guest"; ?></span>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3 fw-bold">$<?= number_format($order["total_amount"], 2); ?></td>
-                                            <td class="px-4 py-3">
-                                                <span class="badge bg-<?= ($order["payment_status"] === 'completed') ? 'success' : 'danger'; ?> px-3 py-2">
-                                                    <?= htmlspecialchars(ucfirst($order["payment_status"])); ?>
-                                                </span>
-                                            </td>
-                                            <td class="px-4 py-3 text-muted">
-                                                <i class="material-icons align-middle me-1" style="font-size: 16px;">calendar_today</i>
-                                                <?= htmlspecialchars($order["created_at"]); ?>
-                                            </td>
-                                            <td class="px-4 py-3 text-center">
-                                                <a href="view_order.php?id=<?= $order['id']; ?>" class="btn btn-sm btn-primary">
-                                                    <i class="material-icons align-middle">visibility</i>
-                                                    View Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="6" class="text-center py-5">
-                                            <div class="empty-state">
-                                                <i class="material-icons" style="font-size: 48px; color: #ccc;">receipt</i>
-                                                <p class="mt-3 text-muted">No orders found in the system.</p>
-                                                <a href="/order/new" class="btn btn-primary mt-2">Create New Order</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <?php if (isset($_SESSION['order']) && !empty($_SESSION['order'])): ?>
-                <div class="card mt-4 shadow-sm">
-                    <div class="card-body">
-                        <form action="/order/store" method="POST" class="d-flex justify-content-end">
-                            <input type="hidden" name="customer_id" value="<?php echo isset($customerId) ? $customerId : ''; ?>">
-                            <input type="hidden" name="order" value="<?php echo htmlentities(json_encode($_SESSION['order'])); ?>">
-                            <button type="submit" class="btn btn-lg btn-success">
-                                <i class="material-icons align-middle me-2">save</i>
-                                Store Current Order
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            <?php endif; ?>
+<div class="container-order-list mt-5">
+    <h2 class="text-center text-success mb-4">Order List</h2>
+
+    <!-- Controls -->
+    <div class="d-flex justify-content-between mb-3">
+        <input type="text" id="searchInput" class="form-control w-50" placeholder="Search by product name...">
+        <div>
+            <button id="sortPriceBtn" class="btn btn-outline-secondary me-2" onclick="sortByPrice()">Sort by Price ↓</button>
+            <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
         </div>
     </div>
+
+    <!-- Table -->
+    <div class="card shadow rounded">
+        <div class="card-body p-2">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="orderTable">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Product Name</th>
+                            <th>Total Amount</th>
+                            <th>Payment Status</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($completedOrders)): ?>
+                            <?php foreach ($completedOrders as $order): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($order["id"]); ?></td>
+                                    <td><?= !empty($order["name"]) ? htmlspecialchars($order["name"]) : "No Product"; ?></td>
+                                    <td><?= number_format($order["total_amount"], 2); ?></td>
+                                    <td>
+                                        <span class="badge bg-<?= $order["payment_status"] === 'completed' ? 'success' : 'danger'; ?>">
+                                            <?= ucfirst(htmlspecialchars($order["payment_status"])); ?>
+                                        </span>
+                                    </td>
+                                    <td><?= htmlspecialchars($order["created_at"]); ?></td>
+                                    <td>
+                                        <a href="view_order.php?id=<?= $order['id']; ?>" class="btn btn-sm btn-outline-primary me-2">View</a>
+                                        <!-- Delete Button Form -->
+                                        <form action="/order/delete" method="POST" class="delete-form" style="display:inline;">
+                                            <input type="hidden" name="order_id" value="<?= $order['id']; ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">No orders found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Form -->
+    <form action="/order/store" method="POST" class="mt-4">
+        <input type="hidden" name="customer_id" value="<?= $customerId; ?>">
+        <input type="hidden" name="order" value="<?= htmlentities(json_encode($_SESSION['order'])); ?>">
+    </form>
 </div>
 
-<style>
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-    }
-    
-    .avatar-circle {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-    
-    .order-row {
-        transition: all 0.2s ease;
-    }
-    
-    .order-row:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        z-index: 10;
-        position: relative;
-    }
-    
-    .empty-state {
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .table th {
-        font-weight: 600;
-        border-top: none;
-    }
-    
-    .table td {
-        vertical-align: middle;
-    }
-</style>
+<!-- Include SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="/views/assets/js/order_list.js"></script>
+
+
+<script>
+document.querySelectorAll('.delete-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to delete this order?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form via AJAX
+                fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'The order has been deleted.',
+                            icon: 'success',
+                            timer: 1500, // Auto-close after 1.5 seconds
+                            showConfirmButton: false
+                        });
+                        // Remove the row from the table
+                        this.closest('tr').remove();
+                    } else {
+                        Swal.fire('Error!', 'Failed to delete the order.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error!', 'An error occurred while deleting.', 'error');
+                });
+            }
+        });
+    });
+});
+</script>
