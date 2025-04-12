@@ -1,5 +1,4 @@
-
-<script src ="/views/assets/js/form.js"></script>
+<script src="/views/assets/js/form.js"></script>
 <!-- **********************************
         Scripts
     ***********************************-->
@@ -21,7 +20,9 @@
   <script src="/views/assets/js/demo.js"></script>
     <script src="/views/assets/js/styleSwitcher.js"></script>
 
-  <!-- order summary -->
-   <script src="/views/assets/js/order-summary.js"></script>
+	<!-- order summary -->
+	 <script src="/views/assets/js/order-summary.js"></script>
+
+	 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
