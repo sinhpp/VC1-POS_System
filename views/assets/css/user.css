@@ -6,15 +6,13 @@ body {
 
 .table-responsive {
     position: relative;
-    margin: 20px auto;
-    max-width: 90%;
+    left: 5%;
+    max-width: 80%;
     overflow: hidden;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    background: #ffffff;
-    margin-top: 2rem;
+    border-radius: 12px;
+    margin-top: 10%;
     padding: 0;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Smooth transitions when resizing */
 }
 
 [data-header-position="fixed"] .header {
@@ -71,7 +69,9 @@ body {
 }
 
 .table {
-    width: 100%;
+    position: relative;
+    left: 23%;
+    width: 80%;
     border-collapse: separate;
     border-spacing: 0;
     text-align: left;
@@ -88,12 +88,12 @@ body {
 }
 
 .table thead th {
-    background-color: #f8f9fa;
+    background-color: rgb(48, 48, 167);
     padding: 15px 20px;
     text-align: left;
     border-bottom: 1px solid #e9ecef;
     font-weight: 600;
-    color: #495057;
+    color: white;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -266,19 +266,52 @@ body {
     border-radius: 8px !important;
 }
 
-/* Responsive styles for tablet */
-@media (max-width: 992px) {
+.btn-success {
+    margin-top: 3%;
+    margin-left: 87%;
+}
+
+/* Enhanced Responsive Styles */
+/* Large devices (desktops) */
+@media (max-width: 1200px) {
     .table-responsive {
-        max-width: 95%;
-        margin-top: 1.5rem;
+        left: 4%;
+        max-width: 90%;
     }
     
-    .header1 {
-        padding: 15px 20px;
+    .table {
+        left: 18%;
+        width: 85%;
+    }
+    
+    .btn-success {
+        margin-left: 85%;
     }
     
     .header1 h1 {
         font-size: 20px;
+    }
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 992px) {
+    .table-responsive {
+        left: 2%;
+        max-width: 95%;
+        margin-top: 15%;
+    }
+    
+    .table {
+        left: 12%;
+        width: 90%;
+    }
+    
+    .btn-success {
+        margin-left: 80%;
+    }
+    
+    .header1 {
+        padding: 15px 20px;
     }
     
     .header1-buttons {
@@ -289,49 +322,95 @@ body {
         padding: 6px 12px;
         font-size: 0.9rem;
     }
+    
+    .table th, .table td {
+        padding: 12px 15px;
+    }
+    
+    /* For tablets: Show image, name, role, and action */
+    /* Hide ID and date created columns */
+    .column-id, 
+    .column-date {
+        display: none;
+    }
+    
+    /* Ensure image, name, role, and action columns remain visible */
+    .column-image, 
+    .column-name,
+    .column-role, 
+    .column-actions {
+        display: table-cell !important;
+    }
 }
 
-/* Responsive styles for mobile */
+/* Small devices (landscape phones) */
+/* Existing CSS remains the same until the mobile media queries */
+
+/* Small devices (landscape phones) */
+/* Existing CSS remains the same until the mobile media queries */
+
+/* Small devices (landscape phones) */
 @media (max-width: 768px) {
     .table-responsive {
+        left: 0;
         max-width: 100%;
-        margin: 0.5rem 0;
-        border-radius: 12px;
+        margin-top: 20%;
+        overflow-x: auto;
+    }
+    
+    .table {
+        left: 5%;
+        width: 95%;
+        min-width: 500px; /* Ensure table doesn't shrink too much */
+    }
+    
+    .container-fluid {
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .btn-success {
+        margin-left: 70%;
+        margin-top: 5%;
     }
     
     .header1 {
         flex-direction: column;
+        gap: 10px;
         align-items: flex-start;
-        gap: 12px;
-        padding: 15px;
     }
     
     .header1-buttons {
         width: 100%;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
     
-    .header1-buttons .btn {
-        font-size: 0.8rem;
-        padding: 6px 10px;
+    /* For phones: Show image, name, and action */
+    /* Hide ID, role, and date created columns */
+    .column-id, 
+    .column-role,
+    .column-date {
+        display: none;
     }
     
-    .table {
-        font-size: 0.85rem;
+    /* Ensure image, name, and action columns remain visible */
+    .column-image, 
+    .column-name,
+    .column-actions {
+        display: table-cell !important;
     }
     
-    .table th, .table td {
-        padding: 10px 12px;
+    /* Make text smaller on mobile */
+    .table th, 
+    .table td {
+        padding: 10px 8px;
+        font-size: 0.82rem;
     }
     
-    .badge {
-        padding: 4px 8px;
-        font-size: 0.7rem;
-    }
-    
+    /* Compact action buttons */
     .action-buttons {
-        flex-direction: row;
-        gap: 5px;
+        display: flex;
+        gap: 4px;
     }
     
     .action-buttons .btn {
@@ -343,61 +422,254 @@ body {
     }
 }
 
-/* Extra small devices */
+/* Extra small devices (phones) */
 @media (max-width: 576px) {
-    .table th:nth-child(5), .table td:nth-child(5) { /* Hide date column on very small screens */
-        display: none;
+    .table-responsive {
+        margin-top: 25%;
+        border-radius: 8px;
+    }
+    
+    .header1 {
+        border-radius: 8px;
+        padding: 12px 15px;
     }
     
     .header1 h1 {
         font-size: 18px;
     }
     
-    .header1-buttons {
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
+    .btn-success {
+        margin-left: 60%;
+        margin-top: 8%;
+        padding: 6px 12px;
+        font-size: 0.9rem;
     }
     
-    .header1-buttons .btn {
+    .table {
+        left: 0;
         width: 100%;
-        justify-content: center;
+        min-width: 400px;
     }
     
-    .table img, .placeholder-image {
-        width: 32px !important;
-        height: 32px !important;
+    .table th, 
+    .table td {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+    
+    .badge {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .action-buttons .btn {
+        padding: 3px 6px;
+    }
+    
+    .action-buttons .material-icons {
+        font-size: 13px !important;
+    }
+    
+    /* Optimize spacing for small screens */
+    .column-image {
+        padding-right: 4px;
+    }
+    
+    .column-name {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    
+    .column-actions {
+        padding-left: 4px;
     }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #121212;
-        color: #e0e0e0;
-    }
-    
+/* Very small devices */
+@media (max-width: 480px) {
     .table-responsive {
-        background: #1e1e1e;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        margin-top: 30%;
     }
     
-    .table thead th {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        border-bottom: 1px solid #333;
+    .header1-buttons .btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
     }
     
-    .table th, .table td {
-        border-bottom: 1px solid #333;
+    .btn-success {
+        margin-left: 50%;
+        margin-top: 10%;
+        font-size: 0.85rem;
     }
     
-    .table tbody tr:hover {
-        background-color: rgba(31, 161, 161, 0.1);
+    .table {
+        min-width: 350px;
+    }
+    
+    .table th, 
+    .table td {
+        padding: 6px 4px;
+        font-size: 0.75rem;
+    }
+    
+    .alert-small {
+        max-width: 250px;
+        top: 10px;
+        right: 10px;
+    }
+    
+    /* Make image smaller on very small screens */
+    .table img {
+        width: 28px !important;
+        height: 28px !important;
     }
     
     .placeholder-image {
-        background-color: #333;
-        color: #aaa;
+        width: 28px;
+        height: 28px;
+        font-size: 0.65rem;
+    }
+    
+    /* Optimize action buttons for very small screens */
+    .action-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+    }
+    
+    .action-buttons .btn {
+        padding: 2px 5px;
+    }
+    
+    .action-buttons .material-icons {
+        font-size: 12px !important;
+    }
+}
+
+/* Extremely small devices */
+@media (max-width: 400px) {
+    .table-responsive {
+        margin-top: 35%;
+    }
+    
+    .header1 h1 {
+        font-size: 16px;
+    }
+    
+    .header1-buttons {
+        gap: 5px;
+    }
+    
+    .header1-buttons .btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .btn-success {
+        margin-left: 40%;
+        margin-top: 12%;
+    }
+    
+    .table {
+        min-width: 320px;
+    }
+    
+    /* Further optimize for extremely small screens */
+    .table th, 
+    .table td {
+        padding: 5px 3px;
+        font-size: 0.7rem;
+    }
+    
+    /* Make name text smaller on extremely small screens */
+    .column-name {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    /* Ensure action buttons are usable on tiny screens */
+    .action-buttons .btn {
+        padding: 2px 4px;
+        margin: 0 1px;
+    }
+    
+    .action-buttons .material-icons {
+        font-size: 11px !important;
+    }
+    
+    /* Make image even smaller */
+    .table img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+    
+    .placeholder-image {
+        width: 25px;
+        height: 25px;
+        font-size: 0.6rem;
+    }
+}
+
+/* Special handling for tiny screens */
+@media (max-width: 350px) {
+    .table-responsive {
+        margin-top: 40%;
+    }
+    
+    .header1 h1 {
+        font-size: 14px;
+    }
+    
+    .btn-success {
+        margin-left: 30%;
+        margin-top: 15%;
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .table {
+        min-width: 280px;
+    }
+    
+    /* Extremely compact layout for tiny screens */
+    .table th, 
+    .table td {
+        padding: 4px 2px;
+        font-size: 0.65rem;
+    }
+    
+    /* Make image even smaller on tiny screens */
+    .table img {
+        width: 22px !important;
+        height: 22px !important;
+        border-width: 1px;
+    }
+    
+    .placeholder-image {
+        width: 22px;
+        height: 22px;
+        font-size: 0.55rem;
+    }
+    
+    /* Compact action buttons for tiny screens */
+    .action-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 2px;
+    }
+    
+    .action-buttons .btn {
+        padding: 1px 3px;
+        margin: 0;
+    }
+    
+    .action-buttons .material-icons {
+        font-size: 10px !important;
     }
 }
