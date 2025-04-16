@@ -350,326 +350,98 @@ body {
 /* Existing CSS remains the same until the mobile media queries */
 
 /* Small devices (landscape phones) */
-@media (max-width: 768px) {
-    .table-responsive {
-        left: 0;
-        max-width: 100%;
-        margin-top: 20%;
-        overflow-x: auto;
-    }
-    
-    .table {
-        left: 5%;
-        width: 95%;
-        min-width: 500px; /* Ensure table doesn't shrink too much */
-    }
-    
-    .container-fluid {
-        width: 100%;
-        padding: 0 10px;
-    }
-    
+@media screen and (max-width: 600px) {
     .btn-success {
-        margin-left: 70%;
-        margin-top: 5%;
+      margin-left: 50%;
+      margin-top: 10%;
     }
-    
-    .header1 {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
+  
+    .header1-buttons .btn {
+      padding: 6px 12px;
+      font-size: 0.5rem;
     }
-    
-    .header1-buttons {
-        width: 100%;
-        justify-content: flex-end;
+  
+    .table thead {
+      display: none;
     }
-    
-    /* For phones: Show image, name, and action */
-    /* Hide ID, role, and date created columns */
-    .column-id, 
-    .column-role,
-    .column-date {
-        display: none;
+  
+    .table {
+      margin-left: -23%;
+      width: 125%;
     }
-    
-    /* Ensure image, name, and action columns remain visible */
-    .column-image, 
+  
+    .table tbody {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .table tr {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* ✅ Center the user card content */
+      flex: 0 0 calc(50% - 10px);
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+      min-height: 180px;
+    }
+  
+    .table td {
+      display: flex;
+      justify-content: center; /* ✅ Center each row item */
+      text-align: center;       /* ✅ Text content centered */
+      padding: 6px 0;
+      width: 100%;
+      flex-direction: column;   /* Stack image/name/role/etc nicely */
+    }
+  
+    .column-id {
+      display: none !important; /* ✅ Hide ID column on mobile */
+    }
+  
+    .column-image,
     .column-name,
+    .column-role,
+    .column-date,
     .column-actions {
-        display: table-cell !important;
+      width: 100%;
     }
-    
-    /* Make text smaller on mobile */
-    .table th, 
-    .table td {
-        padding: 10px 8px;
-        font-size: 0.82rem;
+  
+    .column-actions {
+      justify-content: center;
     }
-    
-    /* Compact action buttons */
-    .action-buttons {
-        display: flex;
-        gap: 4px;
+  
+    .profile-image,
+    .placeholder-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 auto; /* ✅ center image */
     }
-    
-    .action-buttons .btn {
-        padding: 4px 8px;
+  
+    .placeholder-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e0e0e0;
+      font-weight: bold;
+      font-size: 18px;
     }
-    
-    .action-buttons .material-icons {
-        font-size: 14px !important;
-    }
-}
-
-/* Extra small devices (phones) */
-@media (max-width: 576px) {
-    .table-responsive {
-        margin-top: 25%;
-        border-radius: 8px;
-    }
-    
-    .header1 {
-        border-radius: 8px;
-        padding: 12px 15px;
-    }
-    
-    .header1 h1 {
-        font-size: 18px;
-    }
-    
-    .btn-success {
-        margin-left: 60%;
-        margin-top: 8%;
-        padding: 6px 12px;
-        font-size: 0.9rem;
-    }
-    
-    .table {
-        left: 0;
-        width: 100%;
-        min-width: 400px;
-    }
-    
-    .table th, 
-    .table td {
-        padding: 8px 6px;
-        font-size: 0.8rem;
-    }
-    
+  
     .badge {
-        padding: 4px 8px;
-        font-size: 0.7rem;
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      text-align: center;
+      margin: 0 auto; /* ✅ center badge */
     }
-    
-    .action-buttons {
-        flex-wrap: wrap;
-    }
-    
-    .action-buttons .btn {
-        padding: 3px 6px;
-    }
-    
-    .action-buttons .material-icons {
-        font-size: 13px !important;
-    }
-    
-    /* Optimize spacing for small screens */
-    .column-image {
-        padding-right: 4px;
-    }
-    
-    .column-name {
-        padding-left: 4px;
-        padding-right: 4px;
-    }
-    
-    .column-actions {
-        padding-left: 4px;
-    }
-}
-
-/* Very small devices */
-@media (max-width: 480px) {
-    .table-responsive {
-        margin-top: 30%;
-    }
-    
-    .header1-buttons .btn {
-        padding: 5px 10px;
-        font-size: 0.8rem;
-    }
-    
-    .btn-success {
-        margin-left: 50%;
-        margin-top: 10%;
-        font-size: 0.85rem;
-    }
-    
-    .table {
-        min-width: 350px;
-    }
-    
-    .table th, 
-    .table td {
-        padding: 6px 4px;
-        font-size: 0.75rem;
-    }
-    
-    .alert-small {
-        max-width: 250px;
-        top: 10px;
-        right: 10px;
-    }
-    
-    /* Make image smaller on very small screens */
-    .table img {
-        width: 28px !important;
-        height: 28px !important;
-    }
-    
-    .placeholder-image {
-        width: 28px;
-        height: 28px;
-        font-size: 0.65rem;
-    }
-    
-    /* Optimize action buttons for very small screens */
-    .action-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 3px;
-    }
-    
-    .action-buttons .btn {
-        padding: 2px 5px;
-    }
-    
-    .action-buttons .material-icons {
-        font-size: 12px !important;
-    }
-}
-
-/* Extremely small devices */
-@media (max-width: 400px) {
-    .table-responsive {
-        margin-top: 35%;
-    }
-    
-    .header1 h1 {
-        font-size: 16px;
-    }
-    
-    .header1-buttons {
-        gap: 5px;
-    }
-    
-    .header1-buttons .btn {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-    }
-    
-    .btn-success {
-        margin-left: 40%;
-        margin-top: 12%;
-    }
-    
-    .table {
-        min-width: 320px;
-    }
-    
-    /* Further optimize for extremely small screens */
-    .table th, 
-    .table td {
-        padding: 5px 3px;
-        font-size: 0.7rem;
-    }
-    
-    /* Make name text smaller on extremely small screens */
-    .column-name {
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    
-    /* Ensure action buttons are usable on tiny screens */
-    .action-buttons .btn {
-        padding: 2px 4px;
-        margin: 0 1px;
-    }
-    
-    .action-buttons .material-icons {
-        font-size: 11px !important;
-    }
-    
-    /* Make image even smaller */
-    .table img {
-        width: 25px !important;
-        height: 25px !important;
-    }
-    
-    .placeholder-image {
-        width: 25px;
-        height: 25px;
-        font-size: 0.6rem;
-    }
-}
-
-/* Special handling for tiny screens */
-@media (max-width: 350px) {
-    .table-responsive {
-        margin-top: 40%;
-    }
-    
-    .header1 h1 {
-        font-size: 14px;
-    }
-    
-    .btn-success {
-        margin-left: 30%;
-        margin-top: 15%;
-        padding: 4px 8px;
-        font-size: 0.75rem;
-    }
-    
-    .table {
-        min-width: 280px;
-    }
-    
-    /* Extremely compact layout for tiny screens */
-    .table th, 
-    .table td {
-        padding: 4px 2px;
-        font-size: 0.65rem;
-    }
-    
-    /* Make image even smaller on tiny screens */
-    .table img {
-        width: 22px !important;
-        height: 22px !important;
-        border-width: 1px;
-    }
-    
-    .placeholder-image {
-        width: 22px;
-        height: 22px;
-        font-size: 0.55rem;
-    }
-    
-    /* Compact action buttons for tiny screens */
-    .action-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 2px;
-    }
-    
-    .action-buttons .btn {
-        padding: 1px 3px;
-        margin: 0;
-    }
-    
-    .action-buttons .material-icons {
-        font-size: 10px !important;
-    }
-}
+  }
+  
+  
+  
