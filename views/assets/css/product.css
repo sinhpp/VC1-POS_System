@@ -112,3 +112,73 @@ body {
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
 }
+@media screen and (max-width: 768px) {
+    .table-container {
+      margin-left: -10%;
+      width: 120%;
+    }
+  
+    .table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+    }
+  
+    .table thead {
+      display: none;
+    }
+  
+    .table tbody {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+  
+    .table tr {
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 calc(50% - 10px); /* Two per row */
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      background-color: #fff;
+      min-height: 180px;
+      align-items: center;
+    }
+  
+    .table td {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      padding: 6px 0;
+    }
+  
+    /* Hide columns: barcode, price, stock, created_at, etc. */
+    .table td:nth-child(4), /* Barcode */
+    .table td:nth-child(5), /* Price */
+    .table td:nth-child(6), /* Stock */
+    .table td:nth-child(7)  /* Created At or extra */
+    {
+      display: none;
+    }
+  
+    /* Style for product image */
+    .product-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 8px;
+    }
+  
+    .table td:last-child {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+  }
+  

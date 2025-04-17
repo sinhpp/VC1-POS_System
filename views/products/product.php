@@ -275,203 +275,186 @@ if (isset($_SESSION['user_id'])) : ?>
         th {
             background-color: teal !important;
         }
-        @media (max-width: 1200px) {
-            .header {
-                margin-left: 0;
-                text-align: center;
-            }
+        /* Devices ≤ 1200px */
+@media (max-width: 1200px) {
+    .table-container {
+        width: 90%;
+        left: 5%;
+        top: 10%;
+        padding: 4%;
+    }
 
-            .table-container {
-                width: 90%;
-                left: 5%;
-                top: 10%;
-                padding: 4%;
-            }
+    .table {
+        margin-left: 0;
+    }
 
-            th, td {
-                padding: 8px;
-                font-size: 0.85rem;
-            }
-            
-            .table {
-                width: 100%;
-                margin-left: 0;
-                margin-top:3%;
-            margin-left:2%;
-            }
-            
-            .filters {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .search, .filter {
-                width: 45%;
-                margin: 5px;
-            }
-            
-            .button {
-                width: 100%;
-                margin-top: 10px;
-            }
-        }
-        @media (max-width: 992px) {
-            @media (max-width: 992px) {
-                .table-container {
-                    width: 95%;
-                    left: 2.5%;
-                    top: 8%;
-                    padding: 3%;
-                }
-                
-                .table {
-                    margin-top: 2%;
-                    margin-left: 1%;
-                }
-            }
-            .container {
-                max-width: 100%;
-                padding: 0;
-            }
-            
-            .filters {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-            
-            .search {
-                grid-column: span 2;
-                width: 100%;
-            }
-            
-            .filter, .button {
-                width: 100%;
-            }
-            
-            th, td {
-                padding: 8px 5px;
-                font-size: 0.8rem;
-            }
-            
-            .product-image {
-                width: 40px;
-                height: 40px;
-            }
-        }
+    th, td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .filters {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .search, .filter {
+        width: 48%;
+        margin: 5px 1%;
+    }
+}
+
+/* Devices ≤ 992px */
+@media (max-width: 992px) {
+    .table-container {
+        width: 95%;
+        left: 2.5%;
+        top: 8%;
+        padding: 3%;
+    }
+
+    .filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .search {
+        grid-column: span 2;
+    }
+
+    .product-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    th, td {
+        font-size: 0.8rem;
+    }
+}
+
+/* Devices ≤ 768px */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Hide columns for tablets */
+/* Hide Code and Stock columns on tablet (<= 768px) */
+/* Devices ≤ 768px */
+/* Add this updated CSS to your existing styles section */
+
+/* Base responsive table styles */
+@media (max-width: 992px) {
+    .table-container {
+        width: 95%;
+        left: 2.5%;
+        padding: 3%;
+    }
+    
+    .filters {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .search {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .product-image {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Tablet View (≤ 768px) */
+@media (max-width: 768px) {
+    /* Hide Code and Stock columns as requested */
+    .col-code, 
+    .col-stock {
+        display: none !important;
+    }
+    
+    .filters {
+        flex-direction: column;
+    }
+    
+    .filter, .button {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .table-container {
+        padding: 10px;
+        left: 0;
+        width: 100%;
+    }
+    
+    .pagination {
+        left: 0;
+        justify-content: center;
+    }
+}
+
+/* Mobile View (≤ 576px) */
+@media (max-width: 576px) {
+    /* Convert table to cards for better mobile experience */
+    .table thead {
+        display: none;
+    }
+    
+    .table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .table tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 5px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .table tbody td:last-child {
+        border-bottom: none;
+    }
+    
+    .table tbody td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+    }
+    
+    /* Adjust specific elements for mobile */
+    .product-image {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+    }
+    
+    .action-icons {
+        justify-content: flex-end;
+    }
+    
+    .dropdown-menu {
+        right: auto;
+        left: 0;
+    }
+    
+    /* Make buttons more touch-friendly */
+    .btn, .page-btn {
+        padding: 10px 15px;
+        margin: 5px 0;
+    }
+}
 
 
-        @media (max-width: 768px) {
-                    .table-container {
-                        width: 98%;
-                        left: 1%;
-                        top: 5%;
-                        padding: 2%;
-                    }
-                    
-                    .table {
-                        margin-top: 1.5%;
-                        margin-left: 0;
-                    }
-                
-
-            .filters {
-                grid-template-columns: 1fr;
-            }
-            
-            .search, .filter, .button {
-                grid-column: span 1;
-                width: 100%;
-                margin: 3px 0;
-            }
-
-            th, td {
-                padding: 6px 4px;
-                font-size: 0.75rem;
-            }
-
-            .btn {
-                padding: 4px 8px;
-                font-size: 0.75rem;
-            }
-
-            .material-icons {
-                font-size: 0.9rem;
-            }
-            
-            .product-image {
-                width: 35px;
-                height: 35px;
-            }
-            
-            /* Hide less important columns on mobile */
-            th:nth-child(4), td:nth-child(4), /* Code column */
-            th:nth-child(7), td:nth-child(7) /* Category column */ {
-                display: none;
-            }
-        }
-
-            .header-right {
-                font-size: 0rem;
-            }
-            
-        
-            @media (max-width: 576px) {
-            .table-container {
-                width: 100%;
-                left: 0;
-                top: 3%;
-                padding: 10px;
-                border-radius: 0;
-                margin: 10px 0;
-            }
-            
-            .table {
-                margin-top: 1%;
-                margin-left: 0;
-            }
-            th, td {
-                padding: 5px 3px;
-                font-size: 0.7rem;
-            }
-
-            .btn {
-                padding: 3px 6px;
-                font-size: 0.7rem;
-            }
-
-            .material-icons {
-                font-size: 0.8rem;
-            }
-
-            .header-right {
-                font-size: 0rem;
-            }
-            
-            .product-image {
-                width: 30px;
-                height: 30px;
-            }
-            
-            /* Hide more columns on very small screens */
-            th:nth-child(6), td:nth-child(6) /* Stock column */ {
-                display: none;
-            }
-            
-            .dropdown-menu {
-                width: 100px;
-            }
-            
-            .dropdown-menu a {
-                padding: 8px;
-                font-size: 0.7rem;
-            }
-            
-            .fa-ellipsis-vertical {
-                margin-left: 5px;
-            }
-        }
-        
         .pagination {
             position: relative;
             left: 0;
@@ -588,94 +571,7 @@ if (isset($_SESSION['user_id'])) : ?>
             z-index: 100; /* Ensure it appears above other elements */
         }
         
-        /* Optimize table for mobile view */
-        @media (max-width: 480px) {
-            .table-container {
-                padding: 5px;
-                top: 2%;
-            }
-
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-                
-            }
-            
-            th, td {
-                padding: 4px 2px;
-                font-size: 0.65rem; /* Even smaller font for very small screens */
-            }
-            
-            .product-image {
-                width: 25px;
-                height: 25px;
-            }
-            
-            .badge {
-                padding: 3px 5px;
-                font-size: 0.65rem;
-            }
-            
-            .action-icons i {
-                font-size: 14px;
-            }
-            
-            .pagination {
-                flex-wrap: wrap;
-                gap: 2px;
-            }
-            
-            .page-btn {
-                padding: 3px 6px;
-                font-size: 0.7rem;
-                margin: 2px;
-            }
-            
-            /* Show only essential columns on very small screens */
-            th:nth-child(1), td:nth-child(1), /* Checkbox column */
-            th:nth-child(2), td:nth-child(2), /* Image column */
-            th:nth-child(3), td:nth-child(3), /* Name column */
-            th:nth-child(5), td:nth-child(5), /* Price column */
-            th:nth-child(8), td:nth-child(8) /* Action column */ {
-                display: table-cell;
-            }
-            
-            th:nth-child(4), td:nth-child(4), /* Code column */
-            th:nth-child(6), td:nth-child(6), /* Stock column */
-            th:nth-child(7), td:nth-child(7) /* Category column */ {
-                display: none;
-            }
-        }
-        
-        /* Print styles - hide unnecessary elements when printing */
-        @media print {
-            .filters, .pagination, .action-icons, 
-            th:first-child, td:first-child, /* Hide checkbox column */
-            th:last-child, td:last-child /* Hide action column */ {
-                display: none;
-            }
-            
-            .table-container {
-                box-shadow: none;
-                margin: 0;
-                padding: 0;
-            }
-            
-            table {
-                width: 100%;
-            }
-            
-            body {
-                font-size: 10pt;
-                background: white;
-            }
-            
-            th, td {
-                padding: 5pt;
-                font-size: 9pt;
-            }
-        }
+      
 
         select.filter:focus {
             outline: none;
@@ -865,9 +761,9 @@ $categories = $this->getCategories();
 
                 <th>Image</th>
                 <th>Name</th>
-                <th>Code</th>
+                <th class="col-code">Code</th>
                 <th>Price</th>
-                <th>Stock</th>
+                <th class="col-stock" >Stock</th>
                 <th>Category</th>
                
                 <th>Action
@@ -876,36 +772,56 @@ $categories = $this->getCategories();
             </tr>
         </thead>
         <tbody id="product-list">
-            <?php if (empty($products)): ?>
-                <tr>
-                    <td colspan="9" class="text-center">No products available.</td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($products as $product): ?>
-                    <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
-                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
-                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
-                        <td class="product-name"><?= htmlspecialchars($product['name']) ?></td>
-                        <td><?= htmlspecialchars($product['barcode']) ?></td>
-                        <td>$<?= number_format($product['price'], 2) ?></td>
-                        <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
-                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td>
-                      
-                        <td class="action-icons">
-                            <div class="dropdown">
-                                <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
-                                <div class="dropdown-menu">
-                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
-                                    <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                                    <!-- Fixed link: Changed from product_detail to detail -->
-                                    <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
+    <?php if (empty($products)): ?>
+        <tr>
+            <td colspan="9" class="text-center">No products available.</td>
+        </tr>
+    <?php else: ?>
+        <?php foreach ($products as $product): ?>
+            <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
+                <td data-label="">
+                    <input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>">
+                </td>
+                <td data-label="Image">
+                    <img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image">
+                </td>
+                <td data-label="Name" class="product-name">
+                    <?= htmlspecialchars($product['name']) ?>
+                </td>
+                <td data-label="Code" class="col-code">
+                    <?= htmlspecialchars($product['barcode']) ?>
+                </td>
+                <td data-label="Price">
+                    $<?= number_format($product['price'], 2) ?>
+                </td>
+                <td data-label="Stock" class="col-stock">
+                    <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
+                        <?= htmlspecialchars($product['stock']) ?>
+                    </span>
+                </td>
+                <td data-label="Category" class="category-cell">
+                    <?= htmlspecialchars($product['category']) ?>
+                </td>
+                <td data-label="Action" class="action-icons">
+                    <div class="dropdown">
+                        <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </a>
+                            <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </a>
+                            <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item">
+                                <i class="fa-solid fa-eye"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</tbody>
     </table>
 
     </div>
@@ -1018,33 +934,37 @@ function renderProducts(page) {
             row.setAttribute('data-category', product.category);
             row.setAttribute('data-stock', product.stock);
             
-            row.innerHTML = `
-                <td><input type="checkbox" class="product-checkbox" value="${product.id}"></td>
-                <td><img src="/${product.image}" alt="Product Image" class="product-image"></td>
-                <td class="product-name">${product.name}</td>
-                <td>${product.barcode}</td>
-                <td>$${parseFloat(product.price).toFixed(2)}</td>
-                <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
-                <td class="category-cell">${product.category}</td>
-              
-                <td class="action-icons">
-                    <div class="dropdown">
-                        <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
-                        <div class="dropdown-menu">
-                            <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
-                            <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
-                            <!-- Fixed link: Changed from product_detail to detail -->
-                            <a href="/products/product_detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
-                        </div>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
+            <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
+    <td data-label="">
+        <input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>">
+    </td>
+    <td data-label="Image">
+        <img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image">
+    </td>
+    <td data-label="Name" class="product-name">
+        <?= htmlspecialchars($product['name']) ?>
+    </td>
+    <td data-label="Code" class="col-code">
+        <?= htmlspecialchars($product['barcode']) ?>
+    </td>
+    <td data-label="Price" data-label="Price">
+        $<?= number_format($product['price'], 2) ?>
+    </td>
+    <td data-label="Stock" class="col-stock">
+        <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
+            <?= htmlspecialchars($product['stock']) ?>
+        </span>
+    </td>
+    <td data-label="Category" class="category-cell">
+        <?= htmlspecialchars($product['category']) ?>
+    </td>
+    <td data-label="Action" class="action-icons">
+        <!-- Action buttons here -->
+    </td>
+</tr>
 
     renderPagination(); // Update pagination
-}
+
 
 function renderPagination() {
     const paginationDiv = document.getElementById('pagination-buttons');
