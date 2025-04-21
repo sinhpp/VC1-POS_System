@@ -11,8 +11,10 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
-    <link rel="stylesheet" href="../../views/assets/css/product.css">
-
+    <link rel="stylesheet" href="../../views/assets/css/product.css"> 
+</head>
+<body>
+</head>
 <body>
 <?php
 $categories = $this->getCategories(); 
@@ -39,7 +41,7 @@ $categories = $this->getCategories();
                 </select>
 
                 <select class="filter" id="category-filter">
-                    <option value="">All Categories</option>
+                    <option value="">Categories</option>
                     <?php if (isset($categories) && count($categories) > 0): ?>
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= htmlspecialchars($category['name']); ?>">
@@ -55,6 +57,7 @@ $categories = $this->getCategories();
                 <button id="addProductBtn" class="button">
                     Add Product
                 </button>
+                
             <!-- Modal -->
             <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -67,78 +70,57 @@ $categories = $this->getCategories();
             </div>
         </div>
     <table>
-        <thead>
-            <tr>
-            <th>
-    <div style="position: relative;">
-        <div class="alert" id="toast" style="display:none; position: absolute; bottom: 100%; left: 0; margin-bottom: 5px;">Delete all!</div>
-        <input type="checkbox" onclick="toggleAllCheckboxes(this)">
-    </div>
-
-                <th>Image</th>
-                <th>Name</th>
-                <th class="col-code">Code</th>
-                <th>Price</th>
-                <th class="col-stock" >Stock</th>
-                <th>Category</th>
-               
-                <th>Action
-                <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
-                </th>
-            </tr>
-        </thead>
-        <tbody id="product-list">
-    <?php if (empty($products)): ?>
-        <tr>
-            <td colspan="9" class="text-center">No products available.</td>
-        </tr>
-    <?php else: ?>
-        <?php foreach ($products as $product): ?>
-            <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
-    <td data-label="">
-        <input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>">
-    </td>
-    <td data-label="Image">
-        <img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image">
-    </td>
-    <td data-label="Name" class="product-name">
-        <?= htmlspecialchars($product['name']) ?>
-    </td>
-    <td data-label="Code" class="col-code">
-    <?= htmlspecialchars($product['barcode']) ?>
-    </td>
-    <td data-label="Price">
-        $<?= number_format($product['price'], 2) ?>
-    </td>
-    <td data-label="Stock" class="col-stock">
-    <span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>">
-        <?= htmlspecialchars($product['stock']) ?>
-    </span>
-</td>
-    <td data-label="Category" class="category-cell">
-        <?= htmlspecialchars($product['category']) ?>
-    </td>
-    <td data-label="Action" class="action-icons">
-        <div class="dropdown">
-            <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
-            <div class="dropdown-menu">
-                <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item">
-                    <i class="fa-solid fa-pen"></i> Edit
-                </a>
-                <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');">
-                    <i class="fa-solid fa-trash"></i> Delete
-                </a>
-                <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item">
-                    <i class="fa-solid fa-eye"></i> Detail
-                </a>
+    <thead>
+    <tr>
+        <th>
+            <div style="position: relative;">
+                <div class="alert" id="toast" style="display:none; position: absolute; bottom: 100%; left: 0; margin-bottom: 5px;">Delete all!</div>
+                <input type="checkbox" onclick="toggleAllCheckboxes(this)">
             </div>
-        </div>
-    </td>
-</tr>
+        </th>
+        <th>Image</th>
+        <th>Name</th>
+        <th class="col-code">Code</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Action
+            <i class="fa-solid fa-trash" id="delete-icon" onclick="handleDelete()" style="display: none;  cursor: pointer;"></i>
+        </th>
+    </tr>
+</thead>
 
-        <?php endforeach; ?>
-    <?php endif; ?>
-</tbody>
+        <tbody id="product-list">
+            <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="9" class="text-center">No products available.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($products as $product): ?>
+                    <tr class="product-row" data-category="<?= htmlspecialchars($product['category']); ?>" data-stock="<?= $product['stock']; ?>">
+                        <td><input type="checkbox" class="product-checkbox" value="<?= htmlspecialchars($product['id']) ?>"></td>
+                        <td><img src="/<?= htmlspecialchars($product['image']) ?>" alt="Product Image" class="product-image"></td>
+                        <td class="product-name"><?= htmlspecialchars($product['name']) ?></td>
+                        <td class="col-code"><?= htmlspecialchars($product['barcode']) ?></td>
+                        <td><span class="badge bg-<?= $product['stock'] > 0 ? 'success' : 'danger' ?>"><?= htmlspecialchars($product['stock']) ?></span></td>
+                        <td class="category-cell"><?= htmlspecialchars($product['category']) ?></td>
+                        <td>$<?= number_format($product['price'], 2) ?></td>
+                      
+                        <td class="action-icons">
+                            <div class="dropdown">
+                                <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                                <div class="dropdown-menu">
+                                    <a href="/products/edit_pro/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                                    <a href="/products/delete/<?= $product['id'] ?>" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    <!-- Fixed link: Changed from product_detail to detail -->
+                                    <a href="/products/product_detail/<?= $product['id'] ?>" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
     </table>
 
     </div>
@@ -234,31 +216,47 @@ function filterProducts() {
 }
 
 function renderProducts(page) {
-    // ...existing code...
-    
-    currentProducts.forEach(product => {
-        const row = document.createElement('tr');
-        row.className = 'product-row';
-        row.setAttribute('data-category', product.category);
-        row.setAttribute('data-stock', product.stock);
-        
-        row.innerHTML = `
-            <td><input type="checkbox" class="product-checkbox" value="${product.id}"></td>
-            <td data-label="Image"><img src="/${product.image}" alt="Product Image" class="product-image"></td>
-            <td data-label="Name" class="product-name">${product.name}</td>
-            <td data-label="Code" class="col-code">${product.barcode}</td>
-            <td data-label="Price">$${parseFloat(product.price).toFixed(2)}</td>
-            <td data-label="Stock" class="col-stock"><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
-            <td data-label="Category" class="category-cell">${product.category}</td>
-            <td data-label="Action" class="action-icons">
-                <!-- Action dropdown -->
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-    // ...rest of the function...
+    currentPage = page;
+    const start = (currentPage - 1) * productsPerPage;
+    const end = start + productsPerPage;
+    const currentProducts = filteredProducts.slice(start, end);
 
+    const tbody = document.getElementById('product-list');
+    tbody.innerHTML = '';
 
+    if (currentProducts.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No products match your filters.</td></tr>';
+    } else {
+        currentProducts.forEach(product => {
+            const row = document.createElement('tr');
+            row.className = 'product-row';
+            row.setAttribute('data-category', product.category);
+            row.setAttribute('data-stock', product.stock);
+            
+            row.innerHTML = `
+                <td><input type="checkbox" class="product-checkbox" value="${product.id}"></td>
+                <td><img src="/${product.image}" alt="Product Image" class="product-image"></td>
+                <td class="product-name">${product.name}</td>
+                <td class="col-code">${product.barcode}</td>
+                <td>$${parseFloat(product.price).toFixed(2)}</td>
+                <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
+                <td class="category-cell">${product.category}</td>
+              
+                <td class="action-icons">
+                    <div class="dropdown">
+                        <i class="fa-solid fa-ellipsis-vertical" onclick="toggleDropdown(this)"></i>
+                        <div class="dropdown-menu">
+                            <a href="/products/edit_pro/${product.id}" class="dropdown-item"><i class="fa-solid fa-pen"></i> Edit</a>
+                            <a href="/products/delete/${product.id}" class="dropdown-item text-danger" onclick="return confirm('Are you sure?');"><i class="fa-solid fa-trash"></i> Delete</a>
+                            <!-- Fixed link: Changed from product_detail to detail -->
+                            <a href="/products/product_detail/${product.id}" class="dropdown-item"><i class="fa-solid fa-eye"></i> Detail</a>
+                        </div>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
 
     renderPagination(); // Update pagination
 }
