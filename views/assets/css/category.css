@@ -1,27 +1,196 @@
-
-        
-body {
-    background-color: #f8f9fa;
+.category-container{
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
 }
-.card {
-    margin-top: 50px;
-    border: none;
+.container {
+    max-width: 70%;
+    margin: auto;
+    padding: 20px;
+  
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  
+    position: relative;
+    top: 20%;
+    left: 10%;
 }
-.card-header {
+
+
+/* Header styling */
+.category-header h4 {
+    color: #343a40;
+    font-weight: bold;
+    
+    padding-bottom: 10px;
+}
+
+/* Button styling */
+.create-btn {
     background-color: #007bff;
     color: white;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
-.form-container {
-    display: none; /* Initially hide the form */
-    margin-top: 10px;
-    border: 1px solid #ccc;
+
+.create-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Table styling */
+.category-table {
+  
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+   
     padding: 15px;
-    background-color: #f9f9f9;
+    text-align: left;
 }
-.dropdown-menu {
-    display: none; /* Initially hide the dropdown */
+
+.table th {
+   
+    color: white;
+}
+
+.table tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #5a6268;
+}
+
+.btn-edit {
+    background-color: #28a745;
+}
+
+.btn-edit:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: #dee2e6;
+}
+
+.empty-state p {
+    margin-top: 10px;
+    color: #6c757d;
+}
+
+/* Modal styling */
+.modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+}
+
+/* Responsive styling */
+@media (max-width: 1024px) {
+    .create-btn {
+        width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 5px 8px;
+    }
+
+    .empty-state i {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 15px;
+    }
+
+    .category-header h4 {
+        font-size: 18px;
+    }
+
+    .create-btn {
+        font-size: 14px;
+    }
+
+    .table th, .table td {
+        font-size: 12px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
 }

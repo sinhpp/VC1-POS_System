@@ -14,136 +14,30 @@ $pageTitle = "Categories";
 // Start output buffering to capture the content
 ob_start();
 ?>
+<script>
+function deleteCategory(id) {
+    if (confirm("Are you sure you want to delete this category?")) {
+        fetch(`/categories/delete/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the deleted row from the table or refresh the page
+                location.reload();
+            } else {
+                alert("Failed to delete category.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while deleting.");
+        });
+    }
+}
+</script>
 
-<!-- Custom CSS for enhanced UI -->
-<style>
-    .category-container {
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        padding: 25px;
-        margin-bottom: 30px;
-        margin-top:5%;
-        margin-left:10%;
-    }
-    
-    .category-header {
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: white;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .create-btn {
-        background: linear-gradient(to right, #11998e, #38ef7d);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        display: inline-block;
-        margin-bottom: 20px;
-        text-decoration: none;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .create-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-        color: white;
-    }
-    
-    .category-table {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    
-    .category-table thead {
-        background: linear-gradient(to right, #5e35b1, #3949ab);
-        color: white;
-    }
-    
-    .category-table th, .category-table td {
-        vertical-align: middle;
-    }
-    
-    .action-buttons .btn {
-        margin: 2px;
-        border-radius: 50px;
-        width: 38px;
-        height: 38px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-    }
-    
-    .action-buttons .btn:hover {
-        transform: scale(1.1);
-    }
-    
-    .btn-edit {
-        background-color: #ffc107;
-        border-color: #ffc107;
-        color: #212529;
-    }
-    
-    .btn-delete {
-        background-color: #dc3545;
-        border-color: #dc3545;
-        color: white;
-    }
-    
-    .empty-state {
-        padding: 30px;
-        text-align: center;
-        color: #6c757d;
-        font-style: italic;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .category-container {
-            padding: 15px;
-        }
-        
-        .category-header h1 {
-            font-size: 1.8rem;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-        }
-        
-        .create-btn {
-            width: 100%;
-            text-align: center;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .category-header h1 {
-            font-size: 1.5rem;
-        }
-        
-        .category-table th, .category-table td {
-            padding: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .action-buttons .btn {
-            width: 32px;
-            height: 32px;
-        }
-    }
-</style>
-
+<link rel="stylesheet" href="../../views/assets/css/category.css">
 <div class="container mt-4">
     <div class="category-container">
         <div class="category-header">
@@ -175,16 +69,17 @@ ob_start();
                                     <span class="fw-bold"><?= htmlspecialchars($category['name']); ?></span>
                                 </td>
                                 <td><?= htmlspecialchars($category['created_at']); ?></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button class="btn btn-delete" onclick="deleteCategory('<?= $category['id']; ?>')">
-                                            <i class="material-icons">delete</i>
-                                        </button>
-                                    </div>
-                                </td>
+                                                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                    <a href="/categories/delete/<?= $category['id']; ?>" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this category?')">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>

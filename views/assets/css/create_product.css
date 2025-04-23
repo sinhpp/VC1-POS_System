@@ -1,0 +1,262 @@
+ /* Base styles */
+ body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 72%;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    top: 10%;
+    left: 12%;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Form container styling */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.general-info {
+    margin-top:10%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Form styling */
+#addProductForm {
+    padding: 1.5rem;
+}
+
+.form-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.form-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Toggle buttons styling */
+.toggle-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-button.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Image preview */
+.image-preview {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Barcode container */
+.barcode-container {
+    margin-top: 1rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+}
+
+/* Action buttons */
+.form-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.showAdditionalDetails{
+    background: #000;
+}
+.form-actions button, .form-actions a {
+    padding: 0.65rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Field visibility */
+.field-hidden {
+    display: none;
+}
+
+/* Section toggle buttons */
+.section-toggle {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}       
+.section-toggle button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 500px;
+}
+
+.section-toggle button.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Weight field styling */
+.weight-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.weight-container input {
+    flex: 1;
+}
+
+.weight-container select {
+    width: 100px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-flex-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .form-section {
+        width: 100%;
+    }
+    
+    .section-toggle {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 0.5rem;
+    }
+    
+    .section-toggle button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .form-actions button, .form-actions a {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+    }
+    
+    .general-info {
+        background-color: #2a2a2a;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    .section-title {
+        color: #e0e0e0;
+        border-bottom-color: #3a3a3a;
+    }
+    
+    .form-label {
+        color: #c0c0c0;
+    }
+    
+    .form-input {
+        background-color: #333;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+    
+    .form-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+    }
+    
+    .section-toggle button {
+        background-color: #333;
+        color: #c0c0c0;
+    }
+    
+    .barcode-container {
+        background-color: #333;
+    }
+}

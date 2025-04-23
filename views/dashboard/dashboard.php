@@ -1,3 +1,16 @@
+<script>
+        function preventLoadingCSS() {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css';
+            document.head.appendChild(link);
+            // Uncomment the next line to load the CSS instead
+            // link.disabled = true; // Prevents the CSS from being applied
+        }
+
+        // Call the function to prevent loading
+        preventLoadingCSS();
+    </script>
 <!-- <style>
            
 		.success-alert {
