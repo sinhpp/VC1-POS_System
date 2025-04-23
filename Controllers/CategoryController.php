@@ -47,4 +47,9 @@ class CategoryController extends BaseController {
             echo "Error: Unable to find the categories view at " . $filePath; // Debugging message
         }
     }
+
+    public function showCategory() {
+        return view('show_category'); // make sure show_category.blade.php is in resources/views
+    }
+    
 }

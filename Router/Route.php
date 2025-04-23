@@ -49,6 +49,8 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 // Route for creating a category
 $route->post("/products/create-category", [CategoryController::class, 'createCategory']);
 $route->get("/products/category", [CategoryController::class, 'listCategories']); // Add a route to list categories
+$route->get("/categories/show", [CategoryController::class, 'showCategory']);
+
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);
 // Product Scanning Routes

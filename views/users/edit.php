@@ -18,84 +18,9 @@ if (isset($_SESSION['user_id'])) : ?>
     </script>
 </head>
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: block;
-
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-      
-        .container {
-            margin-left:20%;
-            display: flex;
-            
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(129, 75, 75, 0.1);
-            max-width: 100%;
-            width: 80%;
-        }
-        .profile-sidebar {
-            width: 30%;
-            
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            object-fit: cover;
-        }
-        .upload-btn {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        .profile-form {
-            width: 70%;
-            padding: 20px;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .role{
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .update-btn {
-            margin-top:20px;
-            background-color: blueviolet;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+       
     </style>
+    <link rel="stylesheet" href="../../views/assets/css/edit_user.css">
   <script>
     function previewImage(event) {
         const reader = new FileReader();
@@ -162,10 +87,12 @@ if (isset($_SESSION['user_id'])) : ?>
                     <label>Address</label>
                     <input type="text" name="address" value="<?= htmlspecialchars($user['address']); ?>" required>
                 </div>
-                <div class="input-group">
-                <div class="input-group">
-            <button type="submit" class="update-btn">Update Info</button>
-                </form>
+                
+                <div class="submit">
+                <a href="/users" class="btn-secondary1">Cancel</a>
+                    <button type="submit" class="update-btn">Update Info</button>
+                    
+                </div>
             </div>
         </div>
     </div>
