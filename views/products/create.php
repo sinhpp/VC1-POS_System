@@ -15,270 +15,12 @@ if (isset($_SESSION['user_id'])) :
     <title>Add New Product</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Add Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../views/assets/css/create_product.css">
     <style>
-        /* Base styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 60%;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            top: 10%;
-            left: 10%;
-        }
-        
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        /* Form container styling */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        
-        .general-info {
-            margin-top:10%;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        /* Form styling */
-        #addProductForm {
-            padding: 1.5rem;
-        }
-        
-        .form-flex-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-        
-        .form-section {
-            flex: 1;
-            min-width: 300px;
-        }
-        
-        .section-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        .form-label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #4b5563;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-        
-        .form-input:focus {
-            border-color: #3b82f6;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-        }
-        
-        /* Toggle buttons styling */
-        .toggle-button {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .toggle-button.active {
-            background-color: #3b82f6;
-            color: white;
-        }
-        
-        /* Image preview */
-        .image-preview {
-            margin-top: 1rem;
-            text-align: center;
-        }
-        
-        .image-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Barcode container */
-        .barcode-container {
-            margin-top: 1rem;
-            text-align: center;
-            padding: 1rem;
-            background-color: #f9fafb;
-            border-radius: 0.5rem;
-        }
-        
-        /* Action buttons */
-        .form-actions {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-        
-        .form-actions button, .form-actions a {
-            padding: 0.65rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        /* Field visibility */
-        .field-hidden {
+       .field-hidden {
             display: none;
-        }
-        
-        /* Section toggle buttons */
-        .section-toggle {
-            display: flex;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-        }       
-        .section-toggle button {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            background-color: #f1f5f9;
-            color: #64748b;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 500px;
-        }
-        
-        .section-toggle button.active {
-            background-color: #3b82f6;
-            color: white;
-        }
-        
-        /* Weight field styling */
-        .weight-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .weight-container input {
-            flex: 1;
-        }
-        
-        .weight-container select {
-            width: 100px;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .form-flex-container {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .form-section {
-                width: 100%;
-            }
-            
-            .section-toggle {
-                overflow-x: auto;
-                white-space: nowrap;
-                padding-bottom: 0.5rem;
-            }
-            
-            .section-toggle button {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-            
-            .form-actions button, .form-actions a {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #1a1a1a;
-                color: #e0e0e0;
-            }
-            
-            .general-info {
-                background-color: #2a2a2a;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            }
-            
-            .section-title {
-                color: #e0e0e0;
-                border-bottom-color: #3a3a3a;
-            }
-            
-            .form-label {
-                color: #c0c0c0;
-            }
-            
-            .form-input {
-                background-color: #333;
-                border-color: #444;
-                color: #e0e0e0;
-            }
-            
-            .form-input:focus {
-                border-color: #3b82f6;
-                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
-            }
-            
-            .section-toggle button {
-                background-color: #333;
-                color: #c0c0c0;
-            }
-            
-            .barcode-container {
-                background-color: #333;
-            }
         }
     </style>
 </head>
@@ -287,7 +29,6 @@ if (isset($_SESSION['user_id'])) :
     <h2>Add New Product</h2>
     <main class="grid-container">
         <section class="general-info">
-            <!-- Section Toggle Buttons -->
             <div class="section-toggle">
                 <button type="button" id="showProductInfo" class="active">
                     <i class="fas fa-info-circle mr-2"></i> Product Information
@@ -299,13 +40,11 @@ if (isset($_SESSION['user_id'])) :
             
             <form id="addProductForm" action="/products/store" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
-                <!-- Add hidden input for category if it was selected -->
                 <?php if ($selectedCategory): ?>
                     <input type="hidden" name="selected_category" value="<?= htmlspecialchars($selectedCategory) ?>">
                 <?php endif; ?>
 
                 <div class="form-flex-container">
-                    <!-- Product Information Section -->
                     <div id="productInfoSection" class="form-section">
                         <h4 class="section-title">Product Information</h4>
 
@@ -314,17 +53,24 @@ if (isset($_SESSION['user_id'])) :
                             <input id="productName1" type="text" placeholder="Enter product name" class="form-input" name="name" value="<?= isset($product) ? htmlspecialchars($product['name']) : '' ?>" required>
                         </div>
 
-                        <!-- Size field - will be hidden for certain categories -->
-                        <div id="sizeField" class="mb-4 <?= in_array($selectedCategory, ['toys', 'student', 'jewelry', 'makeup', 'other']) ? 'field-hidden' : '' ?>">
+                        <!-- Size field - hidden for bags and toys -->
+                        <div id="sizeField" class="mb-4 <?= in_array($selectedCategory, ['bag', 'toys']) ? 'field-hidden' : '' ?>">
                             <label for="productSize" class="form-label">Size</label>
-                            <select name="size" id="productSize" class="form-input" <?= in_array($selectedCategory, ['toys', 'student', 'jewelry', 'makeup', 'other']) ? '' : 'required' ?>>
+                            <select name="size" id="productSize" class="form-input" <?= in_array($selectedCategory, ['bag', 'toys']) ? '' : 'required' ?>>
                                 <option value="">Select Size</option>
-                                <option value="XS">XS</option>
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                                <option value="XL">XL</option>
-                                <option value="XXL">XXL</option>
+                                <?php if ($selectedCategory == 'shoes'): ?>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                <?php else: ?>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                <?php endif; ?>
                             </select>
                         </div>
 
@@ -333,21 +79,6 @@ if (isset($_SESSION['user_id'])) :
                             <input id="productStock1" type="number" placeholder="Enter stock quantity" class="form-input" name="stock" required min="0" step="1">
                         </div>
 
-                        <!-- Weight field - new addition -->
-                        <div class="mb-4">
-                            <label for="productWeight" class="form-label">Weight</label>
-                            <div class="weight-container">
-                                <input id="productWeight" type="number" step="0.01" placeholder="Enter weight" class="form-input" name="weight" min="0">
-                                <select name="weight_unit" class="form-input">
-                                    <option value="g">Grams (g)</option>
-                                    <option value="kg">Kilograms (kg)</option>
-                                    <option value="oz">Ounces (oz)</option>
-                                    <option value="lb">Pounds (lb)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Brand field - will be hidden for certain categories -->
                         <div id="brandField" class="mb-4 <?= in_array($selectedCategory, ['toys', 'student', 'jewelry', 'makeup', 'other']) ? 'field-hidden' : '' ?>">
                             <label for="productBrand1" class="form-label">Brand</label>
                             <input id="productBrand1" type="text" placeholder="Enter brand name" class="form-input" name="brand">
@@ -361,18 +92,14 @@ if (isset($_SESSION['user_id'])) :
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="productCategory1" class="form-label">Category</label>
-                            <select id="productCategory1" class="form-input" name="category" required>
-                                <option value="">Select Category</option>
-                                <option value="clothes" <?= $selectedCategory == 'clothes' ? 'selected' : '' ?>>Clothes</option>
-                                <option value="bag" <?= $selectedCategory == 'bag' ? 'selected' : '' ?>>Bag</option>
-                                <option value="shoes" <?= $selectedCategory == 'shoes' ? 'selected' : '' ?>>Shoes</option>
-                                <option value="toys" <?= $selectedCategory == 'toys' ? 'selected' : '' ?>>Toys</option>
-                                <option value="student" <?= $selectedCategory == 'student' ? 'selected' : '' ?>>Student Material</option>
-                                <option value="jewelry" <?= $selectedCategory == 'jewelry' ? 'selected' : '' ?>>Jewelry</option>
-                                <option value="makeup" <?= $selectedCategory == 'makeup' ? 'selected' : '' ?>>Make Up</option>
-                                <option value="other" <?= $selectedCategory == 'other' ? 'selected' : '' ?>>Other</option>
+                        <!-- Subcategory field -->
+                        <div id="subcategoryField" class="mb-4 <?= $selectedCategory == 'clothes' ? '' : 'field-hidden' ?>">
+                            <label for="productSubcategory" class="form-label">Category</label>
+                            <select name="subcategory" id="productSubcategory" class="form-input" <?= $selectedCategory == 'clothes' ? 'required' : 'disabled' ?>>
+                                <option value="">Category</option>
+                                <option value="uniform">Uniform</option>
+                                <option value="tshirt">T-Shirt</option>
+                                <option value="sport_clothes">Sport Clothes</option>
                             </select>
                         </div>
 
@@ -394,24 +121,20 @@ if (isset($_SESSION['user_id'])) :
                         </div>
                     </div>
 
-                    <!-- Additional Details Section -->
                     <div id="additionalDetailsSection" class="form-section hidden">
                         <h4 class="section-title">Additional Details</h4>
-
-                        <div class="mb-4">
+                        <div class="mb-4" id="genderField">  <!-- Correct ID -->
                             <label for="gender" class="form-label">Gender</label>
-                            <select name="gender" id="gender" class="form-input" required>
+                            <select name="gender" id="gender" class="form-input">
                                 <option value="unisex">Unisex</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
                         </div>
-
                         <div class="mb-4">
                             <label for="productDescription1" class="form-label">Description</label>
                             <textarea id="productDescription1" placeholder="Enter product description" class="form-input h-24" name="descriptions" required><?= isset($product) ? htmlspecialchars($product['descriptions']) : '' ?></textarea>
                         </div>
-
                         <div class="mb-4">
                             <label for="productDiscount1" class="form-label">Discount</label>
                             <input id="productDiscount1" type="number" step="0.01" placeholder="Enter discount amount" class="form-input" name="discount" min="0">
@@ -419,13 +142,7 @@ if (isset($_SESSION['user_id'])) :
 
                         <div class="mb-4">
                             <label for="productDiscountType1" class="form-label">Discount Type</label>
-                            <select id="productDiscountType1" class="form-input" name="discount_type">
-                                <option value="">Select Discount Type</option>
-                                <option value="percentage">Percentage (%)</option>
-                                <option value="fixed">Fixed Amount ($)</option>
-                                <option value="bogo">Buy One Get One</option>
-                                <option value="clearance">Clearance</option>
-                            </select>
+                            <input id="productDiscountType1" type="text" placeholder="Enter discount type" class="form-input" name="discount_type" value="<?= isset($product) ? htmlspecialchars($product['discount_type']) : '' ?>" required>
                         </div>
 
                         <div class="mb-4">
@@ -444,49 +161,9 @@ if (isset($_SESSION['user_id'])) :
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Color options -->
-                        <div class="mb-4">
-                            <label class="form-label">Available Colors</label>
-                            <div class="flex flex-wrap gap-2 mt-2">
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-red" name="colors[]" value="red" class="hidden">
-                                    <label for="color-red" class="inline-block w-8 h-8 rounded-full bg-red-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-blue" name="colors[]" value="blue" class="hidden">
-                                    <label for="color-blue" class="inline-block w-8 h-8 rounded-full bg-blue-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-green" name="colors[]" value="green" class="hidden">
-                                    <label for="color-green" class="inline-block w-8 h-8 rounded-full bg-green-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-yellow" name="colors[]" value="yellow" class="hidden">
-                                    <label for="color-yellow" class="inline-block w-8 h-8 rounded-full bg-yellow-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-purple" name="colors[]" value="purple" class="hidden">
-                                    <label for="color-purple" class="inline-block w-8 h-8 rounded-full bg-purple-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-pink" name="colors[]" value="pink" class="hidden">
-                                    <label for="color-pink" class="inline-block w-8 h-8 rounded-full bg-pink-500 cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-black" name="colors[]" value="black" class="hidden">
-                                    <label for="color-black" class="inline-block w-8 h-8 rounded-full bg-black cursor-pointer border-2 border-transparent hover:border-gray-400"></label>
-                                </div>
-                                <div class="color-option">
-                                    <input type="checkbox" id="color-white" name="colors[]" value="white" class="hidden">
-                                    <label for="color-white" class="inline-block w-8 h-8 rounded-full bg-white cursor-pointer border-2 border-gray-400 hover:border-gray-600"></label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="form-actions">
                     <a href="/products" class="bg-gray-300 hover:bg-gray-400 text-gray-800">
                         <i class="fas fa-times"></i> Cancel
@@ -494,176 +171,154 @@ if (isset($_SESSION['user_id'])) :
                     <button type="submit" id="saveProductButton1" class="bg-blue-600 hover:bg-blue-700 text-white">
                         <i class="fas fa-save"></i> Next
                     </button>
-
                 </div>
             </form>
         </section>
     </main>
 </div>
+
 <script>
-    // Add this JavaScript code to handle the multi-step form
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the Next button
-    const nextButton = document.getElementById('saveProductButton1');
-    
-    // Get the form sections
-    const productInfoSection = document.getElementById('productInfoSection');
-    const additionalDetailsSection = document.getElementById('additionalDetailsSection');
-    
-    // Get the section toggle buttons
-    const showProductInfoBtn = document.getElementById('showProductInfo');
-    const showAdditionalDetailsBtn = document.getElementById('showAdditionalDetails');
-    
-    // Modify the Next button to navigate between sections instead of submitting
-    nextButton.addEventListener('click', function(e) {
-        // If we're on the first section, go to the second section
-        if (!productInfoSection.classList.contains('hidden')) {
-            e.preventDefault(); // Prevent form submission
-            
-            // Validate required fields in the first section
-            const requiredFields = productInfoSection.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value) {
-                    isValid = false;
-                    field.classList.add('border-red-500');
-                } else {
-                    field.classList.remove('border-red-500');
-                }
-            });
-            
-            if (isValid) {
-                // Switch to the second section
-                productInfoSection.classList.add('hidden');
-                additionalDetailsSection.classList.remove('hidden');
-                
-                // Update the toggle buttons
-                showProductInfoBtn.classList.remove('active');
-                showAdditionalDetailsBtn.classList.add('active');
-                
-                // Change button text to "Save" on the last section
-                nextButton.innerHTML = '<i class="fas fa-save"></i> Save Product';
-            }
-        }
-        // If we're on the second section, let the form submit normally
-    });
-    
-    // Update the section toggle buttons to work with the multi-step form
-    showProductInfoBtn.addEventListener('click', function() {
-        productInfoSection.classList.remove('hidden');
-        additionalDetailsSection.classList.add('hidden');
-        showProductInfoBtn.classList.add('active');
-        showAdditionalDetailsBtn.classList.remove('active');
-        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i> Next';
-    });
-
-    showAdditionalDetailsBtn.addEventListener('click', function() {
-        productInfoSection.classList.add('hidden');
-        additionalDetailsSection.classList.remove('hidden');
-        showProductInfoBtn.classList.remove('active');
-        showAdditionalDetailsBtn.classList.add('active');
-        nextButton.innerHTML = '<i class="fas fa-save"></i> Save Product';
-    });
-});
-
-
-// JavaScript to handle category-specific field visibility
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the category select element
+function toggleFields() {
     const categorySelect = document.getElementById('productCategory1');
     const sizeField = document.getElementById('sizeField');
-    const brandField = document.getElementById('brandField');
-    
-    // Categories that don't need size and brand
-    const categoriesWithoutSizeAndBrand = ['toys', 'student', 'jewelry', 'makeup', 'other'];
-    
-    // Function to toggle fields based on selected category
-    function toggleFields() {
-        const selectedCategory = categorySelect.value;
-        
-        if (categoriesWithoutSizeAndBrand.includes(selectedCategory)) {
-            sizeField.classList.add('field-hidden');
-            brandField.classList.add('field-hidden');
-            // Remove required attribute from size field
-            document.getElementById('productSize').removeAttribute('required');
-        } else {
-            sizeField.classList.remove('field-hidden');
-            brandField.classList.remove('field-hidden');
-            // Add required attribute back to size field
-            document.getElementById('productSize').setAttribute('required', '');
-        }
-    }
-    
-    // Initial toggle based on pre-selected category (if any)
-    toggleFields();
-    
-    // Add event listener for category changes
-    categorySelect.addEventListener('change', toggleFields);
-    
-    // Section toggle functionality
-    const showProductInfoBtn = document.getElementById('showProductInfo');
-    const showAdditionalDetailsBtn = document.getElementById('showAdditionalDetails');
-    const productInfoSection = document.getElementById('productInfoSection');
-    const additionalDetailsSection = document.getElementById('additionalDetailsSection');
+    const genderField = document.getElementById('genderField');
+    const subcategoryField = document.getElementById('subcategoryField');
 
-    showProductInfoBtn.addEventListener('click', function() {
-        productInfoSection.classList.remove('hidden');
-        additionalDetailsSection.classList.add('hidden');
-        showProductInfoBtn.classList.add('active');
-        showAdditionalDetailsBtn.classList.remove('active');
+    if (categorySelect.value === 'bag') {
+        sizeField.classList.add('field-hidden');
+        document.getElementById('productSize').removeAttribute('required');
+        
+        subcategoryField.classList.add('field-hidden');
+        genderField.classList.add('field-hidden');  // Hide gender field
+        genderField.querySelector('select').removeAttribute('required');  // Remove required attribute
+    } else if (categorySelect.value === 'clothes') {
+        sizeField.classList.remove('field-hidden');
+        document.getElementById('productSize').setAttribute('required', '');
+        subcategoryField.classList.remove('field-hidden');
+        genderField.classList.remove('field-hidden'); // Show gender field
+        genderField.querySelector('select').setAttribute('required', ''); // Enable required for gender
+    } else if (categorySelect.value === 'shoes') {
+        sizeField.classList.remove('field-hidden');
+        document.getElementById('productSize').setAttribute('required', '');
+        document.getElementById('productSize').innerHTML = `
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+        `;
+        subcategoryField.classList.add('field-hidden');
+        genderField.classList.remove('field-hidden'); // Show gender field
+        genderField.querySelector('select').setAttribute('required', ''); // Enable required for gender
+    } else if (categorySelect.value === 'toys') {
+        sizeField.classList.add('field-hidden'); // Hide size field
+        document.getElementById('productSize').removeAttribute('required');
+        genderField.classList.add('field-hidden'); // Hide gender field
+        genderField.querySelector('select').removeAttribute('required'); // Remove required attribute for gender
+    } else {
+        sizeField.classList.remove('field-hidden');
+        document.getElementById('productSize').setAttribute('required', '');
+        subcategoryField.classList.add('field-hidden');
+        genderField.classList.remove('field-hidden'); // Show gender field
+        genderField.querySelector('select').setAttribute('required', ''); // Enable required for gender
+    }
+}
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleFields(); // Initial call to set visibility based on pre-selected category
     });
 
-    showAdditionalDetailsBtn.addEventListener('click', function() {
-        productInfoSection.classList.add('hidden');
-        additionalDetailsSection.classList.remove('hidden');
-        showProductInfoBtn.classList.remove('active');
-        showAdditionalDetailsBtn.classList.add('active');
+    // Multi-step form handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const nextButton = document.getElementById('saveProductButton1');
+        const productInfoSection = document.getElementById('productInfoSection');
+        const additionalDetailsSection = document.getElementById('additionalDetailsSection');
+        const showProductInfoBtn = document.getElementById('showProductInfo');
+        const showAdditionalDetailsBtn = document.getElementById('showAdditionalDetails');
+
+        nextButton.addEventListener('click', function(e) {
+            if (!productInfoSection.classList.contains('hidden')) {
+                e.preventDefault();
+                const requiredFields = productInfoSection.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        isValid = false;
+                        field.classList.add('border-red-500');
+                    } else {
+                        field.classList.remove('border-red-500');
+                    }
+                });
+                
+                if (isValid) {
+                    productInfoSection.classList.add('hidden');
+                    additionalDetailsSection.classList.remove('hidden');
+                    showProductInfoBtn.classList.remove('active');
+                    showAdditionalDetailsBtn.classList.add('active');
+                    nextButton.innerHTML = '<i class="fas fa-save"></i> Save Product';
+                }
+            }
+        });
+
+        showProductInfoBtn.addEventListener('click', function() {
+            productInfoSection.classList.remove('hidden');
+            additionalDetailsSection.classList.add('hidden');
+            showProductInfoBtn.classList.add('active');
+            showAdditionalDetailsBtn.classList.remove('active');
+            nextButton.innerHTML = '<i class="fas fa-arrow-right"></i> Next';
+        });
+
+        showAdditionalDetailsBtn.addEventListener('click', function() {
+            productInfoSection.classList.add('hidden');
+            additionalDetailsSection.classList.remove('hidden');
+            showProductInfoBtn.classList.remove('active');
+            showAdditionalDetailsBtn.classList.add('active');
+            nextButton.innerHTML = '<i class="fas fa-save"></i> Save Product';
+        });
     });
 
     // Toggle between URL and file upload
-    const toggleUrlBtn = document.getElementById('toggleUrl1');
-    const toggleFileBtn = document.getElementById('toggleFile1');
-    const imageUrlInput = document.getElementById('productImageUrl1');
-    const fileInput = document.getElementById('imageInput1');
-    const previewImg = document.getElementById('previewImg1');
+const toggleUrlBtn = document.getElementById('toggleUrl1');
+const toggleFileBtn = document.getElementById('toggleFile1');
+const imageUrlInput = document.getElementById('productImageUrl1');
+const fileInput = document.getElementById('imageInput1');
+const previewImg = document.getElementById('previewImg1');
 
-    toggleUrlBtn.addEventListener('click', function() {
-        imageUrlInput.style.display = 'block';
-        fileInput.style.display = 'none';
-        toggleUrlBtn.classList.add('active');
-        toggleFileBtn.classList.remove('active');
-    });
+toggleUrlBtn.addEventListener('click', function() {
+    imageUrlInput.style.display = 'block';
+    fileInput.style.display = 'none';
+    toggleUrlBtn.classList.add('active');
+    toggleFileBtn.classList.remove('active');
+});
 
-    toggleFileBtn.addEventListener('click', function() {
-        imageUrlInput.style.display = 'none';
-        fileInput.style.display = 'block';
-        fileInput.click();
-        toggleUrlBtn.classList.remove('active');
-        toggleFileBtn.classList.add('active');
-    });
+toggleFileBtn.addEventListener('click', function() {
+    imageUrlInput.style.display = 'none';
+    fileInput.style.display = 'block';
+    fileInput.click();
+    toggleUrlBtn.classList.remove('active');
+    toggleFileBtn.classList.add('active');
+});
 
-    // Preview image when URL is entered
-    imageUrlInput.addEventListener('input', function() {
-        if (this.value) {
-            previewImg.src = this.value;
+// Preview image when URL is entered
+imageUrlInput.addEventListener('input', function() {
+    if (this.value) {
+        previewImg.src = this.value;
+        previewImg.style.display = 'block';
+    } else {
+        previewImg.style.display = 'none';
+    }
+});
+
+// Preview image when file is selected
+fileInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
             previewImg.style.display = 'block';
-        } else {
-            previewImg.style.display = 'none';
-        }
-    });
-
-    // Preview image when file is selected
-    fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewImg.style.display = 'block';
-            };
-            reader.readAsDataURL(this.files[0]);
-        }
-    });
+        };
+        reader.readAsDataURL(this.files[0]);
+    }
+});
 
     // Barcode generation
     const generateBarcodeButton = document.getElementById('generateBarcodeButton');
@@ -703,24 +358,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return result;
     }
-    
-    // Color selection functionality
-    const colorOptions = document.querySelectorAll('.color-option input');
-    colorOptions.forEach(option => {
-        option.addEventListener('change', function() {
-            if (this.checked) {
-                this.nextElementSibling.classList.remove('border-transparent', 'border-gray-400');
-                this.nextElementSibling.classList.add('border-blue-500', 'border-2');
-            } else {
-                this.nextElementSibling.classList.remove('border-blue-500');
-                this.nextElementSibling.classList.add('border-transparent');
-            }
-        });
-    });
-});
 </script>
 
 </body>
 </html>
 <?php else: $this->redirect("/"); endif; ?>
-

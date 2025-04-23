@@ -238,9 +238,10 @@ function renderProducts(page) {
                 <td><img src="/${product.image}" alt="Product Image" class="product-image"></td>
                 <td class="product-name">${product.name}</td>
                 <td class="col-code">${product.barcode}</td>
-                <td>$${parseFloat(product.price).toFixed(2)}</td>
+                
                 <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
                 <td class="category-cell">${product.category}</td>
+                <td>$${parseFloat(product.price).toFixed(2)}</td>
               
                 <td class="action-icons">
                     <div class="dropdown">
