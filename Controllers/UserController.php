@@ -64,7 +64,7 @@ class UserController extends BaseController {
                           $this->redirect("/dashboard");
                           break;
                       case 'stock_manager':
-                          $this->redirect("/stock/inventory");
+                          $this->redirect("/dashboard");
                           break;
                       default:
                           $this->redirect("/dashboard");

@@ -129,6 +129,7 @@ if (isset($_SESSION['user_id'])) : ?>
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+            margin-left:10%;
         }
         
         .card {
