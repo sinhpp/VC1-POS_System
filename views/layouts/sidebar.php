@@ -128,7 +128,7 @@
                     </div>
                 </a>
             </li>
-            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
+            <?php if(!isset($_SESSION['user_role']) || ($_SESSION['user_role'] !== 'stock_manager' && $_SESSION['user_role'] !== 'cashier')): ?>
             <li><a href="/dashboard" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
                     <span class="nav-text">Dashboard</span>
@@ -147,11 +147,13 @@
                 </a>
             </li>
             <?php endif; ?>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'cashier'): ?>
             <li><a href="/product/low_stock_alert" aria-expanded="false">
                     <i class="flaticon-050-info"></i>
                     <span class="nav-text">Low Stocks</span>
                 </a>
             </li>
+            <?php endif; ?>
             <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/order" class="ai-icon" aria-expanded="false">
                 <i class="fa-solid fa-barcode"></i>
@@ -159,6 +161,7 @@
                 </a>
             </li>
             <?php endif; ?>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'cashier'): ?>
             <li class="dropdown">
                 <a href="javascript:void(0);" aria-expanded="false" class="products-list" onclick="toggleDropdown()">
                     <i class="flaticon-045-heart"></i>
@@ -169,13 +172,16 @@
                     <li><a href="/products/category" id="openCategory">Category</a></li>
                 </ul>
             </li>
+            <?php endif; ?>
             
-            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
+            <?php if(!isset($_SESSION['user_role']) || ($_SESSION['user_role'] !== 'stock_manager' && $_SESSION['user_role'] !== 'cashier')): ?>
             <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
                     <i class="fa-solid fa-window-maximize"></i>
                     <span class="nav-text">Expenses</span>
                 </a>
             </li>
+            <?php endif; ?>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
                     <i class="material-symbols-outlined"></i>
                     <span class="nav-text">Order</span>
