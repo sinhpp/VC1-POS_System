@@ -140,11 +140,13 @@
                 </a>
             </li>
             <?php endif; ?>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/order/order_list" aria-expanded="false">
                     <i class="flaticon-041-graph"></i>
                     <span class="nav-text">Order List</span>
                 </a>
             </li>
+            <?php endif; ?>
             <li><a href="/product/low_stock_alert" aria-expanded="false">
                     <i class="flaticon-050-info"></i>
                     <span class="nav-text">Low Stocks</span>
@@ -168,6 +170,7 @@
                 </ul>
             </li>
             
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
                     <i class="fa-solid fa-window-maximize"></i>
                     <span class="nav-text">Expenses</span>
@@ -178,6 +181,7 @@
                     <span class="nav-text">Order</span>
                 </a>
             </li>
+            <?php endif; ?>
             
             <li><a href="/" aria-expanded="false">
                     <i class="fa-solid fa-right-from-bracket"></i>
