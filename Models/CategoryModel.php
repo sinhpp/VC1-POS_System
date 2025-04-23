@@ -27,4 +27,10 @@ class CategoryModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // Return an array of categories
     }
+    // CategoryModel.php
+public function deleteCat($id) {
+    $stmt = $this->db->prepare("DELETE FROM categories WHERE id = :id");
+    return $stmt->execute([':id' => $id]);
+}
+
 }

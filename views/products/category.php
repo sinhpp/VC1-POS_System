@@ -14,13 +14,29 @@ $pageTitle = "Categories";
 // Start output buffering to capture the content
 ob_start();
 ?>
+<script>
+function deleteCategory(id) {
+    if (confirm("Are you sure you want to delete this category?")) {
+        fetch(`/categories/delete/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove the deleted row from the table or refresh the page
+                location.reload();
+            } else {
+                alert("Failed to delete category.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while deleting.");
+        });
+    }
+}
+</script>
 
-<!-- Custom CSS for enhanced UI -->
-<style>
-/* Container styling */
-
-
-</style>
 <link rel="stylesheet" href="../../views/assets/css/category.css">
 <div class="container mt-4">
     <div class="category-container">
@@ -53,16 +69,17 @@ ob_start();
                                     <span class="fw-bold"><?= htmlspecialchars($category['name']); ?></span>
                                 </td>
                                 <td><?= htmlspecialchars($category['created_at']); ?></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
-                                            <i class="material-icons">edit</i>
-                                        </button>
-                                        <button class="btn btn-delete" onclick="deleteCategory('<?= $category['id']; ?>')">
-                                            <i class="material-icons">delete</i>
-                                        </button>
-                                    </div>
-                                </td>
+                                                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                    <a href="/categories/delete/<?= $category['id']; ?>" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this category?')">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
