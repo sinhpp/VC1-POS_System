@@ -1,5 +1,6 @@
 <?php
 require_once "Models/UserModel.php";
+require_once "Middleware/AuthMiddleware.php";
 
 class UserController extends BaseController {
     private $users;
@@ -9,11 +10,17 @@ class UserController extends BaseController {
     }
 
     public function index() {
+        // Only admin can access users list
+        AuthMiddleware::checkAccess(['admin']);
+        
         $users = $this->users->getUsers();
         $this->view("users/user", ['users' => $users]); // Ensure 'users/user.php' exists
     }
 
     public function showUser($id) {
+        // Only admin can access user details
+        AuthMiddleware::checkAccess(['admin']);
+        
         $user = $this->users->getUserById($id);
         $this->view("users/user_details", ['user' => $user]);
     }
@@ -64,8 +71,11 @@ class UserController extends BaseController {
                           $this->redirect("/dashboard");
                           break;
                       case 'stock_manager':
-                          $this->redirect("/stock/inventory");
+                          $this->redirect("/product/low_stock_alert");
                           break;
+                        case 'cashier':
+                            $this->redirect("/order");
+                            break;
                       default:
                           $this->redirect("/dashboard");
                   }
@@ -75,6 +85,8 @@ class UserController extends BaseController {
               }
           }
     public function delete($id) {
+        AuthMiddleware::checkAccess(['admin']);
+        
         $this->users->deleteUser($id);
         header("Location: /users");
     }
@@ -93,10 +105,13 @@ class UserController extends BaseController {
     }
 
     public function createuser() {
+        AuthMiddleware::checkAccess(['admin']);
         $this->view("users/create");  // This should point to 'views/users/create_user.php'
     }
 
     public function storeuser() {
+        AuthMiddleware::checkAccess(['admin']);
+        
         if (!isset($_POST['name'], $_POST['email'], $_POST['password'], $_POST['role'], $_POST['phone'], $_POST['address'])) {
             die("Missing required fields.");
         }
@@ -132,6 +147,8 @@ class UserController extends BaseController {
     }
 
     public function edit($id) {
+        AuthMiddleware::checkAccess(['admin']);
+        
         $user = $this->users->getUserById($id); // Fetch user details from model
         if (!$user) {
             die("User not found");
@@ -140,6 +157,8 @@ class UserController extends BaseController {
     }
 
     public function update($id) {
+        AuthMiddleware::checkAccess(['admin']);
+        
         $name = htmlspecialchars($_POST['name']);
         $email = htmlspecialchars($_POST['email']);
         $role = htmlspecialchars($_POST['role']);
@@ -191,6 +210,8 @@ class UserController extends BaseController {
     }
     
     public function detail($id) {
+        AuthMiddleware::checkAccess(['admin']);
+        
         $user = $this->users->user_detail($id);
         if ($user) {
             // Ensure this path matches the actual file structure

@@ -89,7 +89,23 @@ class Router
                 $function = $route['action'][1];
 
                 $controller = new $controllerClass();
-                $controller->$function(...$matches); // Pass extracted parameters
+                if (method_exists($controller, $function)) {
+                    if (empty($matches)) {
+                        $controller->$function();
+                    } else {
+                        call_user_func_array([$controller, $function], $matches);
+                    }
+                } else {
+                    // Handle the case where method doesn't exist
+                    // Either call a default method or show a 404 page
+                    if (method_exists($controller, 'index')) {
+                        $controller->index();
+                    } else {
+                        // Show 404 page or redirect
+                        header("HTTP/1.0 404 Not Found");
+                        echo "404 - Page not found";
+                    }
+                }
                 exit;
             }
         }

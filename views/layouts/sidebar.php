@@ -128,6 +128,7 @@
                     </div>
                 </a>
             </li>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/dashboard" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
                     <span class="nav-text">Dashboard</span>
@@ -138,6 +139,7 @@
                     <span class="nav-text">User</span>
                 </a>
             </li>
+            <?php endif; ?>
             <li><a href="/order/order_list" aria-expanded="false">
                     <i class="flaticon-041-graph"></i>
                     <span class="nav-text">Order List</span>
