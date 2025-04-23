@@ -150,11 +150,13 @@
                     <span class="nav-text">Low Stocks</span>
                 </a>
             </li>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/order" class="ai-icon" aria-expanded="false">
                 <i class="fa-solid fa-barcode"></i>
                     <span class="nav-text">Order Scan</span>
                 </a>
             </li>
+            <?php endif; ?>
             <li class="dropdown">
                 <a href="javascript:void(0);" aria-expanded="false" class="products-list" onclick="toggleDropdown()">
                     <i class="flaticon-045-heart"></i>
