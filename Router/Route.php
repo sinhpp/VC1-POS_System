@@ -50,6 +50,8 @@ $route->delete("/products/delete/{id}", [ProductController::class, 'delete']);
 $route->post("/products/create-category", [CategoryController::class, 'createCategory']);
 $route->get("/products/category", [CategoryController::class, 'listCategories']); // Add a route to list categories
 $route->get("/categories/show", [CategoryController::class, 'showCategory']);
+$route->delete("/categories/delete/{id}", [CategoryController::class, 'delete']);
+
 
 // Corrected this line
 $route->post("/products/delete_all", [ProductController::class, 'deleteAllProducts']);

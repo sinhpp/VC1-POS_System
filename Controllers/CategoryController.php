@@ -51,5 +51,13 @@ class CategoryController extends BaseController {
     public function showCategory() {
         return view('show_category'); // make sure show_category.blade.php is in resources/views
     }
+
+   // CategoryController.php
+public function delete($id) {
+    $this->categories->deleteCat($id);
+   
+    exit;
+}
+
     
 }
