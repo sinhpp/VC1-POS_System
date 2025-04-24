@@ -1,59 +1,290 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const scanForm = document.getElementById('scanForm');
     const barcodeInput = document.getElementById('barcodeInput');
-    let scanBuffer = '';
-    let lastKeyTime = Date.now();
+    const scanButton = document.getElementById('scanButton');
+    const orderProducts = document.getElementById('orderProducts');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const orderTableContainer = document.getElementById('orderTableContainer');
+    const noItemsMessage = document.getElementById('noItemsMessage');
+    const totalPriceContainer = document.getElementById('totalPriceContainer');
 
-    // Listen for keypresses anywhere on the page
-    document.addEventListener('keydown', function(event) {
-        const currentTime = Date.now();
-        const timeDiff = currentTime - lastKeyTime;
+    // Focus input
+    barcodeInput.focus();
+    let isTyping = false;
+    let isProcessing = false; // Prevent double processing
 
-        // If keys are pressed quickly (scanner-like behavior, < 50ms between keys)
-        if (timeDiff < 50 && event.key !== 'Enter') {
-            scanBuffer += event.key;
-        } else if (event.key === 'Enter' && scanBuffer.length > 0) {
-            // Scanner typically ends with Enter key
-            barcodeInput.value = scanBuffer; // Populate the input field
-            scanBuffer = ''; // Clear the buffer
-
-            // Prevent default Enter behavior if a form is focused elsewhere
-            event.preventDefault();
-
-            // Validate and submit the form
-            if (barcodeInput.value.trim() === '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Input',
-                    text: 'Please scan a valid barcode!',
-                    confirmButtonText: 'OK'
-                });
-            } else {
-                scanForm.submit(); // Submit the form programmatically
-            }
-        } else {
-            // Reset buffer if too much time has passed (not a scanner)
-            scanBuffer = '';
+    // Detect manual typing
+    barcodeInput.addEventListener('keydown', function(event) {
+        if (event.key !== 'Enter' && event.key.length === 1) {
+            isTyping = true;
+            console.log('Typing detected');
         }
-
-        lastKeyTime = currentTime;
     });
 
-    // Optional: Keep input focused if you still want manual entry
-    barcodeInput.focus();
+    // Debounce function to prevent double calls
+    function debounce(func, wait) {
+        let timeout;
+        return function(args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
 
-    // Handle manual form submission
-    scanForm.addEventListener('submit', function(event) {
-        if (!barcodeInput.value.trim()) {
+    // Automatic scanning
+    const debouncedAddProduct = debounce(function(barcode) {
+        if (isProcessing) {
+            console.log('Scan ignored: already processing');
+            return;
+        }
+        isProcessing = true;
+        console.log('Scanner detected, submitting:', barcode);
+        addProductToOrder(barcode);
+    }, 3000); // Increased debounce time to 500ms
+
+    barcodeInput.addEventListener('input', function() {
+        const barcode = barcodeInput.value.trim();
+        console.log('Raw input received:', barcode);
+        if (barcode !== '' && !isTyping) {
+            debouncedAddProduct(barcode);
+        }
+    });
+
+    // Enter key for scanner or manual
+    barcodeInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
             event.preventDefault();
+            const barcode = barcodeInput.value.trim();
+            if (barcode !== '') {
+                if (isProcessing) {
+                    console.log('Enter ignored: already processing');
+                    return;
+                }
+                isProcessing = true;
+                console.log('Enter pressed, submitting:', barcode);
+                addProductToOrder(barcode);
+                isTyping = false;
+            }
+        }
+    });
+
+    // Manual Scan button
+    scanButton.addEventListener('click', function() {
+        const barcode = barcodeInput.value.trim();
+        if (barcode !== '') {
+            if (isProcessing) {
+                console.log('Scan button ignored: already processing');
+                return;
+            }
+            isProcessing = true;
+            console.log('Scan button clicked, submitting:', barcode);
+            addProductToOrder(barcode);
+            isTyping = false;
+        } else {
             Swal.fire({
+                title: 'Error',
+                text: 'Please enter a barcode!',
                 icon: 'error',
-                title: 'Invalid Input',
-                text: 'Please enter or scan a barcode!',
-                confirmButtonText: 'OK'
+                toast: true,
+                position: 'bottom-end',  // Position set to bottom-right
+                showConfirmButton: false,
+                timer: 3000,
+                customClass: {
+                    popup: 'small-swal'
+                }
             });
         }
     });
 
+    // Add product with AJAX
+    function addProductToOrder(barcode) {
+        console.log('Sending to server:', barcode);
+        fetch('/productDetails', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `scan=1&barcode=${encodeURIComponent(barcode)}`
+        })
+        .then(response => {
+            if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data);
+            if (data.status === 'success') {
+                updateOrderList(data.order, data.updatedStock);
+                barcodeInput.value = '';
+                barcodeInput.focus();
+                isTyping = false;
+                isProcessing = false;
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: data.message || 'Unknown error',
+                    icon: 'error',
+                    toast: true,
+                    position: 'bottom-end',  // Position set to bottom-right
+                    showConfirmButton: false,
+                    timer: 3000,
+                    customClass: {
+                        popup: 'small-swal'
+                    }
+                });
+                barcodeInput.value = '';
+                barcodeInput.focus();
+                isTyping = false;
+                isProcessing = false;
+            }
+        })
+        .catch(error => {
+            console.error('AJAX error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Server issue: ' + error.message,
+                icon: 'error',
+                toast: true,
+                position: 'bottom-end',  // Position set to bottom-right
+                showConfirmButton: false,
+                timer: 3000,
+                customClass: {
+                    popup: 'small-swal'
+                }
+            });
+            barcodeInput.value = '';
+            barcodeInput.focus();
+            isTyping = false;
+            isProcessing = false;
+        });
+    }
+
+    // Update order list in real-time
+    function updateOrderList(order, updatedStock = {}) {
+        if (!orderProducts) {
+            console.error('orderProducts element not found');
+            Swal.fire({
+                title: 'Error',
+                text: 'UI error: Order list not found',
+                icon: 'error',
+                toast: true,
+                position: 'bottom-end',  // Position set to bottom-right
+                showConfirmButton: false,
+                timer: 3000,
+                customClass: {
+                    popup: 'small-swal'
+                }
+            });
+            return;
+        }
+
+        orderProducts.innerHTML = '';
+        if (order.length === 0) {
+            orderTableContainer.style.display = 'none';
+            totalPriceContainer.style.display = 'none';
+            noItemsMessage.style.display = 'block';
+        } else {
+            orderTableContainer.style.display = 'block';
+            totalPriceContainer.style.display = 'block';
+            noItemsMessage.style.display = 'none';
+
+            let totalPrice = 0;
+            order.forEach((product, index) => {
+                totalPrice += product.price * product.quantity;
+                const stockToShow = updatedStock[product.barcode] !== undefined ? updatedStock[product.barcode] : product.stock;
+                const row = document.createElement('tr');
+                row.dataset.index = index;
+                row.innerHTML = `
+                    <td><img src="${product.image || ''}" width="50" alt="${product.name}"></td>
+                    <td>${product.name}</td>
+                    <td>${product.barcode}</td>
+                    <td>$${Number(product.price).toFixed(2)}</td>
+                    <td>${product.quantity}</td>
+                    <td class="stock-value">${stockToShow}</td>
+                    <td>${new Date().toISOString().split('T')[0]}</td>
+                    <td><button class="btn btn-danger btn-sm delete-btn" data-index="${index}" data-barcode="${product.barcode}" data-quantity="${product.quantity}">Cancel</button></td>
+                `;
+                orderProducts.appendChild(row);
+            });
+            totalPriceSpan.textContent = totalPrice.toFixed(2);
+            document.querySelector('input[name="order"]').value = JSON.stringify(order);
+            document.querySelector('input[name="totalPrice"]').value = totalPrice;
+        }
+        attachDeleteListeners();
+    }
+
     
+    
+
+    // Handle delete with stock restoration
+    function attachDeleteListeners() {
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const index = this.dataset.index;
+                const barcode = this.dataset.barcode;
+                const quantity = parseInt(this.dataset.quantity);
+                console.log('Canceling:', { index, barcode, quantity });
+
+                fetch('/product/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `delete=1&index=${index}&barcode=${barcode}&quantity=${quantity}`
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Delete response:', data);
+                    if (data.status === 'success') {
+                        updateOrderList(data.order, data.updatedStock);
+                        Swal.fire({
+                            title: 'Canceled',
+                            text: 'Item removed and stock updated!',
+                            icon: 'success',
+                            toast: true,
+                            position: 'bottom-end',  // Position set to bottom-right
+                            showConfirmButton: false,
+                            timer: 3000,
+                            customClass: {
+                                popup: 'small-swal'
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message || 'Unknown error',
+                            icon: 'error',
+                            toast: true,
+                            position: 'bottom-end',  // Position set to bottom-right
+                            showConfirmButton: false,
+                            timer: 3000,
+                            customClass: {
+                                popup: 'small-swal'
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Delete AJAX error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Cancel failed: ' + error.message,
+                        icon: 'error',
+                        toast: true,
+                        position: 'bottom-end',  // Position set to bottom-right
+                        showConfirmButton: false,
+                        timer: 3000,
+                        customClass: {
+                            popup: 'small-swal'
+                        }
+                    });
+                });
+            });
+        });
+    }
+    attachDeleteListeners();
+
+    // // Keep focus
+    // setInterval(() => {
+    //     if (document.activeElement !== barcodeInput) {
+    //         barcodeInput.focus();
+    //         console.log('Refocused input');
+    //     }
+    // }, 500);
 });

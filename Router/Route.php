@@ -72,7 +72,9 @@ $route->get("/order/process-and-print", [ProductScanController::class, 'processA
 // $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
 
 $route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
-$route->post("/order/store", [OrderListController::class, 'storeOrder']); 
+$route->post("/order/store", [OrderListController::class, 'storeOrder']);
+
+
 $route->post("/order/delete", [OrderListController::class, 'delete']);
 
 

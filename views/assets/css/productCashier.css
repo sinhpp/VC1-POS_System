@@ -1,13 +1,62 @@
-/* body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-} */
 .container {
     padding: 74px;
     max-width: 100%;
     margin: auto;
+}
+.info{
+    margin-left: 200px;
+    margin-top: 120px;
+    color: #333;
+}
+.info p{
+    font-size: 18px;
+}
+.search-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+.scan-button {
+    /* padding: 1px 2px; */
+    border: solid 1px #999;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #555;
+    width: 100px;
+}
+.fa-qrcode{
+    margin-left: -96px;
+    margin-top: 16px;
+    color: #555;
+}
+.search-button {
+    /* padding: 4px 8px; */
+    border: solid 1px #999;
+    border-radius: 8px;
+    /* cursor: pointer; */
+    font-size: 16px;
+    color: #555;
+    width: 180px;
+}
+.fa-magnifying-glass {
+    color: #aaa;
+    position: absolute;
+    color: #999;
+    margin-left: 150px;
+    margin-top: 16px;
+}
+h5 {
+    margin: 0;
+}
+.div-container{
+    margin-left: 10px;
 }
 
 .size-cart-container {
@@ -23,6 +72,22 @@
     width: 60%;
     padding: 4px;
     height: 28px;
+}
+.size-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.size-button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.size-button:hover {
+    background-color: #e0e0e0;
 }
 
 .header {
@@ -43,18 +108,15 @@
     margin: auto;
 }
 
-#search {
-    padding: 10px 30px 10px 10px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 16px;
-    width: 450px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+#searchInput {
+    border-radius: 50px;
+    margin-left: 98px;
+    width: 280px;
 }
 
-#search:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+#searchInput:focus {
+    border-color: #0D6EFD;
+    box-shadow: 0 0 5px #0a57cb;
     outline: none;
 }
 
@@ -70,7 +132,7 @@
     margin-left: 15px;
     font-size: 20px;
     cursor: pointer;
-    color: #007bff;
+    color: #0D6EFD;
     position: relative;
 }
 
@@ -79,7 +141,7 @@
     cursor: pointer;
     top: -18px;
     right: -14px;
-    background-color: #6610F2;
+    background-color: #0D6EFD;
     color: white;
     border: solid 2px #E8EAEC;
     border-radius: 50%;
@@ -93,18 +155,18 @@
     cursor: pointer;
 }
 
-.filter {
-    margin-bottom: 24px;
-    margin-top: 6%;
+/* .filter {
+    margin-bottom: 140px;
     margin-left: 360px;
     display: flex;
     gap: 10px;
-}
+} */
 
 .filter button {
-    background-color: #6610F2;
+    background-color: #0D6EFD;
     color: white;
     border: none;
+    margin-top: 60px;
     padding: 6px 20px;
     border-radius: 25px;
     cursor: pointer;
@@ -114,7 +176,7 @@
 }
 
 .filter button:hover {
-    background-color: #570dce;
+    background-color: #0D6EFD;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -122,19 +184,16 @@
 .filter button.active {
     background-color: #fff;
     font-weight: bold;
-    box-shadow: 0 1px 6px #6610F2;
-    border: 2px solid #6610F2;
-    color: #6610F2;
+    box-shadow: 0 1px 6px #0D6EFD;
+    border: 2px solid #0D6EFD;
+    color: #0D6EFD;
 }
 
 .grid {
-    margin-left: 360px;
-    margin-top: 4%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 19.8px;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    gap: 20px; /* Add gap for space between items */
+    margin-top: 20px;
 }
 
 .product-card {
@@ -145,7 +204,8 @@
     color: #000;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* transition: transform 0.3s, box-shadow 0.3s; */
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: 15px; /* Increased margin for more space */
 }
 
 .product-card label {
@@ -173,12 +233,12 @@
 
 .product-price {
     font-size: 18px;
-    color: #6a0dfe;
+    color: #0D6EFD;
     font-weight: bold;
 }
 
 .add-to-cart {
-    background-color: #6610F2;
+    background-color: #0D6EFD;
     color: white;
     border: none;
     padding: 2px;
@@ -190,7 +250,7 @@
 }
 
 .add-to-cart:hover {
-    background-color: #510dbd;
+    background-color: #0D6EFD;
     transform: scale(1.05);
 }
 
@@ -313,14 +373,10 @@
 }
 
 
-@media (max-width: 1440px) {
 
-    /* .container {
-        margin-right: 100px;
-        padding: 74px;
-        max-width: 90%;
-        margin: auto;
-    } */
+
+@media (max-width: 1920px) {
+
     .search-container {
         margin: auto;
     }
@@ -329,7 +385,8 @@
         width: 350px;
         margin-left: 24%;
     }
-    .cart-count{
+
+    .cart-count {
         padding: 8px;
         font-size: 10px;
         height: 28px;
@@ -342,7 +399,7 @@
 
     .grid {
         margin-left: 310px;
-        margin-top: 4%;
+        margin-top: 20px;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 19.8px;
@@ -356,7 +413,7 @@
     .size-selector {
         margin-left: 34px;
         /* Space between select and button */
-        width: 110px;
+        width: 20px;
         /* padding: 2px; */
         height: 28px;
     }
@@ -366,5 +423,250 @@
         width: 94%;
         height: 34px;
         /* transition: background-color 0.3s, transform 0.2s; */
+
+        background-color: #0D6EFD;
+        color: white;
+        border: none;
+        padding: 2px;
+        width: 94%;
+        height: 34px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .add-to-cart:hover {
+        background-color: #0D6EFD;
+        /* transform: scale(1.05); */
+    }
+}
+
+/* Add these new styles */
+.filter-container {
+    position: relative;
+    margin-bottom: 24px;
+    margin-top: 6%;
+}
+
+.filter-toggle-icon {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #0D6EFD;
+    margin-left: 20px;
+}
+
+/* Update existing filter styles */
+.filter {
+    margin-bottom: 24px;
+    margin-top: 6%;
+    margin-left: 360px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Add media query for mobile */
+@media (max-width: 768px) {
+    .container {
+        padding: 30%;
+    }
+
+    .info{
+        margin-left: 20px;
+        margin-top: 90px;
+        color: #333;
+    }
+    .info p{
+        font-size: 18px;
+    }
+    .search-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+    
+    .buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .scan-button {
+        /* padding: 1px 2px; */
+        border: solid 1px #999;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #555;
+        width: 100px;
+    }
+    .fa-qrcode{
+        margin-left: -96px;
+        margin-top: 16px;
+        color: #555;
+    }
+    .search-button {
+        /* padding: 4px 8px; */
+        border: solid 1px #999;
+        border-radius: 8px;
+        /* cursor: pointer; */
+        font-size: 16px;
+        color: #555;
+        width: 180px;
+    }
+    .fa-magnifying-glass {
+        color: #aaa;
+        position: absolute;
+        color: #999;
+        margin-left: 150px;
+        margin-top: 16px;
+    }
+
+    .div-container {
+        margin-left: -110px;
+    }
+
+    /* Filter Toggle Icon */
+    .filter-toggle-icon {
+        display: block;
+        top: 100px;
+        left: 20px;
+        /* z-index: 100; */
+    }
+
+    /* Filter Menu */
+    .filter {
+        display: none;
+        position: fixed;
+        top: 60px;
+        right: 168px;
+        background-color: white;
+        width: 200px;
+        padding: 15px;
+        border-radius: 0 0 10px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        margin-top: 110px;
+    }
+
+    .filter.show {
+        display: flex;
+    }
+
+    .filter button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin: 5px 0;
+        padding: 10px 15px;
+        font-size: 16px;
+        background: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #000;
+        transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .filter button:hover {
+        background-color: #e0e0e0;
+        /* Light hover effect */
+    }
+
+    .filter-mobile-toggle {
+        margin-left: 18px;
+    }
+
+    #filter-toggle {
+        border-radius: 8px;
+        color: #fff;
+        padding: 14px;
+        background: #0D6EFD;
+        border: 2px solid transparent;
+        cursor: pointer;
+        margin-top: -10px;
+        margin-left: 90px;
+    }
+
+    #filter-toggle:hover {
+        border-color: #0f63df;
+        /* Hover border color */
+    }
+
+    /* Grid Layout */
+    .grid {
+        padding: 18%;
+        margin: auto;
+        margin-top: -60px;
+        margin-left: 90px;
+    }
+
+    /* Product Card */
+    .product-card {
+        display: flex;
+        margin-left: -66px;
+        width: 350px;
+    }
+
+    .product-card img {
+        width: 120px;
+        height: 140px;
+    }
+
+    /* Size Selector */
+    .size-selector {
+        width: 54px;
+    }
+
+    /* Add to Cart Button */
+    .add-to-cart {
+        margin-top: 6px;
+        width: 50%;
+    }
+
+    /* Miscellaneous styles */
+    .nav-header {
+        margin-top: 14px;
+        margin-left: 14px;
+        width: 54px;
+        height: 54px;
+    }
+
+    .logo-abbr {
+        margin-bottom: 8px;
+    }
+
+    .brand-logo {
+        width: 14px;
+        height: 14px;
+    }
+
+    .btn-primary {
+        margin: 54px auto;
+        /* Centered */
+        height: 24px;
+    }
+
+    #searchInput {
+        border-radius: 50px;
+        margin-left: -20px;
+        width: 118px;
+    }
+
+    .fa-shopping {
+        margin: 8px;
+        height: 8px;
+        background: #000;
+    }
+
+    .fa-bars {
+        padding: 24px;
+        margin-left: -88px;
+        font-size: 24px;
+        color: #000;
+        cursor: pointer;
+    }
+
+    .cart-item-info{
+        font-size: 15px;
     }
 }

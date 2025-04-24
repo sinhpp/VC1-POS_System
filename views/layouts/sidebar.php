@@ -1,101 +1,108 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
 <style>
     /* Sidebar container */
-.dlabnav {
-    height: 80%vh; /* Full viewport height */
-    position: fixed; /* Fixed to the left */
-    display: flex;
-    flex-direction: column;
+    .dlabnav {
+        height: 80%; /* Full viewport height */
+        position: fixed; /* Fixed to the left */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Scrollable section */
+    .dlabnav-scroll {
+        flex: 1; /* Allows content to expand */
+        overflow-y: auto; /* Enables vertical scrolling */
+        padding: 10px 8px; /* Add some padding for better spacing */
+        
+        /* Hide scrollbar */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        -webkit-overflow-scrolling: touch; /* Momentum scrolling on mobile */
+        scroll-behavior: smooth; /* Smooth scrolling effect */
+        overscroll-behavior: contain; /* Prevents bounce effect */
+    }
+
+    /* Hide scrollbar for Chrome, Safari, Edge */
+    .dlabnav-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Better spacing for menu items */
+    .metismenu li {
+        padding: 5px 10px;
+        list-style: none;
+    }
+
+    .metismenu li a {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        color: #6c757d;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Hover effect for main menu items */
+    .metismenu li a:hover {
+        background-color: #e9ecef;
+    }
+
+    /* Dropdown-specific styles */
+    .dropdown ul {
+        display: none;
+        position: relative;
+        padding: 0;
+        margin: 0;
+        background-color: #f8f9fa;
+    }
+
+    /* Show dropdown on hover */
+    .dropdown:hover > ul {
+        display: block;
+    }
+
+    /* Modal styles */
+    .modal {
+        z-index: 1050; /* Ensure modal is above sidebar */
+    }
+
+    .modal-content {
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+/* Improve touch scrolling on mobile */
+@media (hover: none) and (pointer: coarse) {
+    .dlabnav-scroll {
+        scroll-behavior: auto; /* Prevents scrolling bugs */
+    }
 }
 
-        /* Scrollable section */
-        .dlabnav-scroll {
-            flex: 1; /* Allows content to expand */
-            overflow-y: auto; /* Enables vertical scrolling */
-            padding: 10px 8px; /* Add some padding for better spacing */
-        }
-
-        /* Remove hide scrollbar */
-        .dlabnav-scroll::-webkit-scrollbar {
-            display: none; 
-        } 
-
-        /* Better spacing for menu items */
-        .metismenu li {
-            padding: 5px 10px;
-            list-style: none;
-        }
-        .metismenu li a {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            color: #6c757d;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        /* Hover effect for main menu items */
-        .metismenu li a:hover {
-            background-color: #e9ecef;
-        }
-
-        /* Dropdown-specific styles */
-        .dropdown ul {
-            display: none;
-            position: relative;
-            padding: 0;
-            margin: 0;
-            background-color: #f8f9fa;
-        }
-
-        /* Show dropdown on hover */
-        .dropdown:hover > ul {
-            display: block;
-        }
-
-        /* Modal styles */
-        .modal {
-            z-index: 1050; /* Ensure modal is above sidebar */
-        }
-
-        .modal-content {
-            padding: 20px;
-            border-radius: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-        }
-
-        .metismenu li a {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            color: #6c757d;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        /* Hover effect for main menu items */
-        .metismenu li a:hover {
-            background-color: #e9ecef;
-        }
-
-/* User profile image styling */
-.user-profile-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .dlabnav {
+        width: 220px; /* Slightly smaller sidebar for mobile */
+    }
 }
+
+    /* User profile image styling */
+    .user-profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 </style>
 <!--**********************************
     Sidebar start
@@ -121,6 +128,7 @@
                     </div>
                 </a>
             </li>
+            <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/dashboard" aria-expanded="false">
                     <i class="flaticon-025-dashboard"></i>
                     <span class="nav-text">Dashboard</span>
@@ -131,6 +139,7 @@
                     <span class="nav-text">User</span>
                 </a>
             </li>
+            <?php endif; ?>
             <li><a href="/order/order_list" aria-expanded="false">
                     <i class="flaticon-041-graph"></i>
                     <span class="nav-text">Order List</span>

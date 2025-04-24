@@ -1,0 +1,64 @@
+.container-order-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    top: 10%;
+    margin-left: 350px;
+}
+
+/* Input styling */
+#searchInput {
+    max-width: 200px;
+}
+
+/* Table styling */
+#orderTable {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 15px;
+}
+
+#orderTable th,
+#orderTable td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+#orderTable thead th {
+    background-color: #0d6efd;
+    color: white;
+    text-align: left;
+    border-bottom: 2px solid #388e3c;
+}
+
+/* Hover effect for rows */
+#orderTable tbody tr:hover {
+    background-color: #f1f8e9;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Badge styling */
+.badge-success {
+    background-color: #4CAF50 !important;
+}
+
+.badge-danger {
+    background-color: #f44336 !important;
+}
+
+/* Buttons */
+button.btn {
+    font-size: 14px;
+}
+
+/* Responsive spacing on small devices */
+@media (max-width: 768px) {
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #searchInput {
+        width: 100%;
+    }
+}
