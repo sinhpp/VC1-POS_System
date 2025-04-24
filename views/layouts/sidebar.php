@@ -142,7 +142,7 @@
             <?php endif; ?>
             <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/order/order_list" aria-expanded="false">
-                    <i class="flaticon-041-graph"></i>
+            <i class="fa-solid fa-clipboard"></i>
                     <span class="nav-text">Order List</span>
                 </a>
             </li>
@@ -183,7 +183,7 @@
             <?php endif; ?>
             <?php if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'stock_manager'): ?>
             <li><a href="/product_cashier/product" class="ai-icon" aria-expanded="false">
-                    <i class="material-symbols-outlined"></i>
+            <i class="fas fa-shopping-cart"></i>
                     <span class="nav-text">Order</span>
                 </a>
             </li>
