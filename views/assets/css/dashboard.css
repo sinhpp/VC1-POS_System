@@ -3473,7 +3473,9 @@ textarea.form-control {
   flex-wrap: nowrap;
   justify-content: flex-start; }
   .navbar-expand .navbar-nav {
-    flex-direction: row; }
+    flex-direction: row; 
+    margin-left: 78vh;
+  }
     .navbar-expand .navbar-nav .dropdown-menu {
       position: absolute; }
     .navbar-expand .navbar-nav .nav-link {
