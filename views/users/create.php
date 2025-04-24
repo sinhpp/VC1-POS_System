@@ -211,12 +211,14 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 
     .upload-section {
+        margin-top: 16%;
         width: 100%;
         border-right: none;
         border-bottom: 1px solid #ddd;
     }
 
     .detail {
+   
         width: 100%;
         padding: 15px 0;
     }
