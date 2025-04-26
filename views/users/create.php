@@ -5,6 +5,10 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_SESSION['user_id'])) : ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .error {
+            color: red;
+            display: none;
+        }
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
@@ -241,11 +245,11 @@ if (isset($_SESSION['user_id'])) : ?>
         top: 10px;
         font-size: 14px;
     }
+ 
 }
 
 </style>
-
-    <script>
+<script>
         let imageSelected = false;
 
         function previewImage(event) {
@@ -253,9 +257,9 @@ if (isset($_SESSION['user_id'])) : ?>
             reader.onload = function() {
                 const img = document.getElementById("profile-pic");
                 img.src = reader.result;
-                img.style.display = 'block'; // Show the image after selection
-                document.getElementById("upload-button").textContent = "Change Image"; // Change button text
-                imageSelected = true; // Set flag to true
+                img.style.display = 'block';
+                document.getElementById("upload-button").textContent = "Change Image";
+                imageSelected = true;
             }
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -267,11 +271,29 @@ if (isset($_SESSION['user_id'])) : ?>
 
             if (password !== confirmPassword) {
                 errorMessage.style.display = "block";
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
+                return false; // Prevent submission
             } else {
                 errorMessage.style.display = "none";
-                showSuccessAlert();
             }
+            return true; // Allow submission
+        }
+
+        function validatePhone(event) {
+            const phoneInput = document.querySelector('input[name="phone"]');
+            const errorMessage = document.getElementById("error-message");
+            const phoneValue = phoneInput.value;
+
+            // Clear previous error message
+            errorMessage.style.display = 'none';
+
+            // Check if the phone number is exactly 12 digits
+            if (!/^\d{10}$/.test(phoneValue)) {
+                errorMessage.style.display = 'block';
+                event.preventDefault(); // Prevent form submission
+                return false; // Indicate validation failure
+            }
+            return true; // Indicate validation success
         }
 
         function showSuccessAlert() {
@@ -279,7 +301,16 @@ if (isset($_SESSION['user_id'])) : ?>
             alert.style.display = "block";
             setTimeout(() => {
                 alert.style.display = "none";
-            }, 3000); // Hide the alert after 3 seconds
+            }, 3000);
+        }
+
+        function validateAndSubmit(event) {
+            const isFormValid = validateForm(event);
+            const isPhoneValid = validatePhone(event);
+
+            if (isFormValid && isPhoneValid) {
+                showSuccessAlert(); // Show success alert if all validations pass
+            }
         }
     </script>
     
@@ -289,74 +320,64 @@ if (isset($_SESSION['user_id'])) : ?>
     User created successfully!
 </div>
 
-<form action="/users/storeuser" method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
+<form action="/users/storeuser" method="post" enctype="multipart/form-data" onsubmit="validateAndSubmit(event)">
     <div class="container">
-        <!-- Left Column: Image Upload -->
         <div class="upload-section">
             <h2>Upload Profile Picture</h2>
             <img id="profile-pic" class="profile-pic" src="#" alt="Profile Picture" />
             <div class="input-group">
                 <input id="file-input" type="file" name="image" accept="image/*" onchange="previewImage(event)" style="display: none;">
-                <button type="button" id="file-input" class="btn-upload" onclick="document.getElementById('file-input').click();">Upload Image</button>
+                <button type="button" class="btn-upload" onclick="document.getElementById('file-input').click();">Upload Image</button>
             </div>
         </div>
 
-        <!-- Right Column: User Details Form -->
         <div class="detail">
-            <!-- Name Field -->
             <div class="input-group">
                 <label>Full Name</label>
                 <input type="text" name="name" placeholder="Enter your full name" required>
             </div>
 
-            <!-- Email Field -->
             <div class="input-group">
                 <label>Email Address</label>
                 <input type="email" name="email" placeholder="Enter your email" required>
             </div>
 
-            <!-- Role Field -->
             <div class="input-group">
                 <label>Role</label>
                 <select name="role" required>
                     <option value="" disabled selected>Select Role</option>
                     <option value="admin">Admin</option>
                     <option value="cashier">Cashier</option>
-                    <option value="stock_manager">Stock Manager</option> <!-- FIXED -->
+                    <option value="stock_manager">Stock Manager</option>
                 </select>
             </div>
 
-            
-            <!-- Phone Field -->
             <div class="input-group">
                 <label>Phone</label>
                 <input type="text" name="phone" placeholder="Enter your phone number" required>
+                <div class="error" id="error-message">Please enter exactly 12 digits.</div>
             </div>
 
-            <!-- Address Field -->
             <div class="input-group">
                 <label>Address</label>
                 <input type="text" name="address" placeholder="Enter your address" required>
             </div>
-            <!-- Password Field -->
+
             <div class="input-group">
                 <label>Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter password" required>
             </div>
 
-            <!-- Confirm Password Field -->
             <div class="input-group">
                 <label>Confirm Password</label>
                 <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
                 <div id="password-error" class="error-message">Passwords do not match. Please try again.</div>
             </div>
 
-            <!-- Submit and Cancel Buttons -->
-             <div class="submit">
-            <a href="/users" class="btn-secondary1">Cancel</a>
-            <button type="submit" class="btn-primary1">Create Account</button>
+            <div class="submit">
+                <a href="/users" class="btn-secondary1">Cancel</a>
+                <button type="submit" class="btn-primary1">Create Account</button>
             </div>
-            
         </div>
     </div>
 </form>

@@ -127,40 +127,8 @@ if (isset($_SESSION['user_id'])) : ?>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td class="column-id">2</td>
-                    <td class="column-image">
-                        <div class="user-info">
-                            <div class="placeholder-image">P</div>
-                        </div>
-                    </td>
-                    <td class="column-name">Paula Wilson</td>
-                    <td class="column-role"><span class="badge role-publisher">Publisher</span></td>
-                    <td class="column-date">05/08/2023</td>
-                    <td class="column-actions">
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm"><i class="material-icons">edit</i></button>
-                            <button class="btn btn-danger btn-sm"><i class="material-icons">delete</i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="column-id">3</td>
-                    <td class="column-image">
-                        <div class="user-info">
-                            <div class="placeholder-image">A</div>
-                        </div>
-                    </td>
-                    <td class="column-name">Antonio Moreno</td>
-                    <td class="column-role"><span class="badge role-cashier">Cashier</span></td>
-                    <td class="column-date">11/05/2023</td>
-                    <td class="column-actions">
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm"><i class="material-icons">edit</i></button>
-                            <button class="btn btn-danger btn-sm"><i class="material-icons">delete</i></button>
-                        </div>
-                    </td>
-                </tr>
+               
+              
                 <?php endif; ?>
             </tbody>
         </table>
