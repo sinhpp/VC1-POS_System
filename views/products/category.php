@@ -15,7 +15,7 @@ $pageTitle = "Categories";
 ob_start();
 ?>
 <script>
-function deleteCategory(id) {
+function deleteCategory(id, row) {
     if (confirm("Are you sure you want to delete this category?")) {
         fetch(`/categories/delete/${id}`, {
             method: 'DELETE',
@@ -23,8 +23,10 @@ function deleteCategory(id) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Remove the deleted row from the table or refresh the page
-                location.reload();
+                // Remove the row from the table
+                row.remove();
+                alert("Category deleted successfully.");
+                updateRowNumbers();
             } else {
                 alert("Failed to delete category.");
             }
@@ -34,6 +36,96 @@ function deleteCategory(id) {
             alert("An error occurred while deleting.");
         });
     }
+}
+
+function openCategoryModal() {
+    // Reset form when opening for creation
+    document.getElementById('createCategoryForm').reset();
+    document.getElementById('categoryId').value = '';
+    document.getElementById('categoryModalLabel').textContent = 'Create Category';
+    document.getElementById('categoryFeedback').innerHTML = '';
+
+    // Show the modal using Bootstrap 5 syntax
+    var myModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+    myModal.show();
+}
+
+function editCategory(id, name) {
+    document.getElementById('categoryId').value = id;
+    document.getElementById('categoryName').value = name;
+    document.getElementById('categoryModalLabel').textContent = 'Edit Category';
+    document.getElementById('categoryFeedback').innerHTML = '';
+
+    // Show the modal using Bootstrap 5 syntax
+    var myModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+    myModal.show();
+}
+
+// Handle form submission
+document.getElementById('createCategoryForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(this);
+    const categoryId = document.getElementById('categoryId').value;
+
+    // Determine if this is a create or update operation
+    const url = categoryId ? '/products/update-category' : '/products/create-category';
+
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        const feedbackDiv = document.getElementById('categoryFeedback');
+
+        if (data.success) {
+            feedbackDiv.innerHTML = '<div class="alert alert-success">' + 
+                (categoryId ? 'Category updated successfully!' : 'Category created successfully!') + '</div>';
+
+            // Show success alert
+            alert(categoryId ? 'Category updated successfully!' : 'Category created successfully!');
+
+            if (!categoryId) { // If it's a new category
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td></td>
+                    <td><span class="fw-bold">${data.category.name}</span></td>
+                    <td>${new Date().toLocaleString()}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-edit" onclick="editCategory('${data.category.id}', '${data.category.name}')">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteCategory('${data.category.id}', this.closest('tr'))">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                `;
+                document.querySelector('tbody').appendChild(newRow);
+                updateRowNumbers();
+            } else {
+                // Update the existing row if it's an edit
+                const row = document.querySelector(`tr[data-id="${categoryId}"]`);
+                row.querySelector('td:nth-child(2) span').textContent = data.category.name;
+                updateRowNumbers();
+            }
+
+            bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+        } else {
+            feedbackDiv.innerHTML = '<div class="alert alert-danger">' + 
+                (data.message || 'An error occurred') + '</div>';
+        }
+    });
+});
+
+// Function to update row numbers
+function updateRowNumbers() {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach((row, index) => {
+        row.querySelector('td:first-child').textContent = index + 1;
+    });
 }
 </script>
 
@@ -46,7 +138,7 @@ function deleteCategory(id) {
         
         <div class="d-flex justify-content-end">
             <a href="javascript:void(0);" class="create-btn" id="openCategory" onclick="openCategoryModal()">
-                <i class="material-icons me-2" style="vertical-align: middle;"> Create Category
+                <i class="material-icons me-2"> Create Category
             </a>
         </div>
         
@@ -63,23 +155,22 @@ function deleteCategory(id) {
                 <tbody>
                     <?php if (isset($categories) && count($categories) > 0): ?>
                         <?php foreach ($categories as $index => $category): ?>
-                            <tr>
+                            <tr data-id="<?= $category['id']; ?>">
                                 <td><?= $index + 1; ?></td>
                                 <td>
                                     <span class="fw-bold"><?= htmlspecialchars($category['name']); ?></span>
                                 </td>
                                 <td><?= htmlspecialchars($category['created_at']); ?></td>
-                                                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
-                                        <i class="material-icons">edit</i>
-                                    </button>
-                                    <a href="/categories/delete/<?= $category['id']; ?>" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this category?')">
-                                        <i class="fa-solid fa-trash"></i> Delete
-                                    </a>
-                                </div>
-                            </td>
-
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-edit" onclick="editCategory('<?= $category['id']; ?>', '<?= htmlspecialchars($category['name']); ?>')">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button class="btn btn-delete" onclick="deleteCategory('<?= $category['id']; ?>', this.closest('tr'))">
+                                            <i class="fa-solid fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -125,7 +216,7 @@ require_once __DIR__ . '/../layout.php';
                     </div>
                     <input type="hidden" id="categoryId" name="categoryId" value="">
                     <button type="submit" class="btn btn-primary w-100 py-2">
-                        <i class="material-icons me-2" style="vertical-align: middle;">save</i> Save Category
+                         Save Category
                     </button>
                 </form>
                 <div id="categoryFeedback" class="mt-3"></div>
@@ -136,92 +227,4 @@ require_once __DIR__ . '/../layout.php';
 
 <!-- Include jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-function openCategoryModal() {
-    // Reset form when opening for creation
-    document.getElementById('createCategoryForm').reset();
-    document.getElementById('categoryId').value = '';
-    document.getElementById('categoryModalLabel').textContent = 'Create Category';
-    document.getElementById('categoryFeedback').innerHTML = '';
-    
-    // Show the modal using Bootstrap 5 syntax
-    var myModal = new bootstrap.Modal(document.getElementById('categoryModal'));
-    myModal.show();
-}
-
-function editCategory(id, name) {
-    document.getElementById('categoryId').value = id;
-    document.getElementById('categoryName').value = name;
-    document.getElementById('categoryModalLabel').textContent = 'Edit Category';
-    document.getElementById('categoryFeedback').innerHTML = '';
-    
-    // Show the modal using Bootstrap 5 syntax
-    var myModal = new bootstrap.Modal(document.getElementById('categoryModal'));
-    myModal.show();
-}
-
-function deleteCategory(id) {
-    if (confirm('Are you sure you want to delete this category?')) {
-        fetch('/products/delete-category', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ categoryId: id }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Refresh the page to show updated list
-                location.reload();
-            } else {
-                alert(data.message || 'Error deleting category');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while deleting the category');
-        });
-    }
-}
-
-
-// Handle form submission
-document.getElementById('createCategoryForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const formData = new FormData(this);
-    const categoryId = document.getElementById('categoryId').value;
-    
-    // Determine if this is a create or update operation
-    const url = categoryId ? '/products/update-category' : '/products/create-category';
-
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-    const feedbackDiv = document.getElementById('categoryFeedback');
-    
-    if (data.success) {
-        feedbackDiv.innerHTML = '<div class="alert alert-success">' + 
-            (categoryId ? 'Category updated' : 'Category created') + ' successfully!</div>';
-        
-        // Hide the modal after a short delay
-        setTimeout(() => {
-            bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
-            // Refresh the page to show the updated list
-            location.reload();
-        }, 1500);
-    } else {
-        feedbackDiv.innerHTML = '<div class="alert alert-danger">' + 
-            (data.message || 'An error occurred') + '</div>';
-    }
-})
-
-});
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

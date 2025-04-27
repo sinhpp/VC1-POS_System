@@ -13,32 +13,86 @@ if (session_status() == PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .profile-card {
-            border-radius: 10px;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        body {
-            background-color: #f8f9fa;
-        }
+    .profile-card {
+        border-radius: 10px;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        margin-top: 8% !important;
+        margin-left: 28%;
+        width: 70%;
+    }
+    .star-icon {
+        font-size: 1.5rem;
+        color: gray;
+        cursor: pointer;
+    }
+    .star-icon.selected {
+        color: gold;
+    }
+    h5 {
+        padding: 16px;
+    }
+
+    /* ----------- Responsive Styles ----------- */
+
+    @media (max-width: 991.98px) { /* Tablet */
         .container {
-            margin-top: 8% !important;
-            margin-left: 28%;
-            width: 70%;
+            margin-left: 10%;
+            margin-right: auto;
+            width: 90%;
+            margin-top: 10%;
         }
+    }
+
+    @media (max-width: 767.98px) { /* Mobile */
+        .container {
+            margin-top: 100px !important;
+            margin-left: auto;
+            margin-right: auto;
+            width: 95%;
+            padding: 0 10px;
+        }
+
+        .row {
+            flex-direction: column;
+        }
+
+        .col-md-4, .col-md-8, .col-md-6 {
+            width: 100% !important;
+            max-width: 100%;
+            flex: 0 0 100%;
+        }
+
+        .profile-card {
+            margin-bottom: 20px;
+         
+        }
+
+        h5 {
+            padding: 8px 0;
+            font-size: 16px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        h6 {
+            font-size: 16px;
+        }
+
         .star-icon {
-            font-size: 1.5rem;
-            color: gray; /* Default color */
-            cursor: pointer;
+            font-size: 1.3rem;
         }
-        .star-icon.selected {
-            color: gold; /* Selected color */
-        }
-        h5{
-            padding: 16px;
-        }
-    </style>
+    }
+</style>
+
 </head>
 <body>
     <div class="container mt-5">

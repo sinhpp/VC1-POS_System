@@ -85,14 +85,14 @@
 }
 
 .table th, .table td {
-   
+
     padding: 15px;
     text-align: left;
 }
 
 .table th {
-   
-    color: white;
+    background: #1772d4 !important;
+    color: white !important;
 }
 
 .table tr {

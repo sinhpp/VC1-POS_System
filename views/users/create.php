@@ -4,11 +4,21 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['user_id'])) : ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         .error {
             color: red;
             display: none;
         }
+        body {
+            font-family: Arial, sans-serif;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
@@ -17,92 +27,99 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 
     .container {
-        margin: 10% auto;
-        margin-left: 29%;
-        display: flex;
-        flex-direction: row;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(126, 54, 54, 0.1);
-        max-width: 1000px;
-       
-    }
+            margin-top:10%;
+            display: flex;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(126, 54, 54, 0.1);
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            left:10%;
+        }
 
-    .upload-section {
-        width: 30%;
-        text-align: center;
-        padding: 20px;
-        border-right: 1px solid #ddd;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
-    .upload-section h2 {
-        margin-bottom: 20px;
-        font-size: 1.5em;
-        color: #6a11cb;
-    }
+        .upload-section {
+            width: 30%;
+            text-align: center;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+        }
 
-    .profile-pic {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #6a11cb;
-        margin-bottom: 10px;
-        display: none;
-    }
 
-    .detail {
-        width: 70%;
-        padding: 20px;
-    }
+        .upload-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #6a11cb;
+        }
 
-    .input-group {
-        margin-bottom: 15px;
-    }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #6a11cb;
+            margin-bottom: 10px;
+            display: none; /* Initially hidden */
+        }
 
-    .input-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+        .detail {
+            width: 70%;
+            padding: 20px;
+        }
 
-    .btn-upload {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #6a11cb;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-    }
 
-    .btn-upload:hover {
-        background-color: #2575fc;
-        transform: scale(1.05);
-    }
+        .input-group {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    margin-bottom: 15px;
+}
 
-    .input-group input,
-    .input-group select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-    }
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; /* Make label full width */
+}
 
-    .input-group input:focus,
-    .input-group select:focus {
-        border-color: #6a11cb;
-        box-shadow: 0px 0px 8px rgba(106, 17, 203, 0.5);
-    }
+        .btn-upload {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 10px; /* Add margin for spacing */
+        }
+
+        .btn-upload:hover {
+            background-color: #2575fc;
+            transform: scale(1.05);
+        }
+        .input-group input,
+.input-group select {
+    width: 100%;
+    padding: 10px; /* a little more padding for better look */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #6a11cb;
+            box-shadow: 0px 0px 8px rgba(106, 17, 203, 0.5);
+        }
+
 
     .btn-primary1,
     .btn-secondary1 {
@@ -156,48 +173,44 @@ if (isset($_SESSION['user_id'])) : ?>
 
     
 /* Tablet Devices (768px - 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (max-width: 768px) {
     .container {
-        flex-direction: row;
-        width: 95%;
-        margin: 40px auto;
-        padding: 15px;
+        flex-direction: column; /* Stack upload section and details vertically */
+        margin-top: 5%;
+        left: 0;
+        max-width: 90%;
+    }
+
+    .upload-section, 
+    .detail {
+        width: 100%; /* Full width on mobile */
+        padding: 10px;
+        border: none; /* Remove border between sections */
     }
 
     .upload-section {
-        width: 35%;
-        padding: 15px;
-    }
-
-    .upload-section h2 {
-        font-size: 1.3em;
-    }
-
-    .profile-pic {
-        width: 100px;
-        height: 100px;
-    }
-
-    .detail {
-        width: 65%;
-        padding: 15px;
+        border-bottom: 1px solid #ddd; /* Instead of side border */
+        margin-bottom: 20px;
     }
 
     .input-group input,
     .input-group select {
-        font-size: 15px;
+        font-size: 14px;
+        padding: 8px;
     }
 
     .btn-primary1,
     .btn-secondary1 {
-        padding: 10px 18px;
-        font-size: 15px;
-        width: 45%;
+        width: 100%; /* Full width buttons */
     }
 
     .submit {
-        justify-content: flex-end;
+        flex-direction: column; /* Stack buttons vertically */
         gap: 10px;
+    }
+
+    h2 {
+        font-size: 1.2em;
     }
 }
 
