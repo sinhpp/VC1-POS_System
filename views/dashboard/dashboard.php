@@ -1,3 +1,10 @@
+<UPDATED_CODE><!-- Add this at the top of the dashboard.php file, after any opening PHP tags -->
+<?php if (isset($error)): ?>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error!</strong> <?php echo htmlspecialchars($error); ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<?php endif; ?>
 <?php
 // Check for database connection errors
 $hasError = isset($error);
@@ -11,7 +18,7 @@ $hasError = isset($error);
         width: 100%;
         background-color: rgba(0, 139, 5, 0.87);
         color: white;
-        padding: 5px;
+        padding: 10px;
         border-radius: 5px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.21);
         display: none;
@@ -42,6 +49,149 @@ $hasError = isset($error);
         position: relative;
         height: 300px;
         width: 100%;
+    }
+    
+    .quick-action-link {
+        text-decoration: none;
+    }
+    
+    .quick-action-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        height: 100px;
+    }
+    
+    .quick-action-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .quick-action-box span {
+        margin-top: 5px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    
+    .timeline-list {
+        position: relative;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .timeline-item {
+        display: flex;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .timeline-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .timeline-content {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        flex-grow: 1;
+    }
+    
+    .timeline-content h6 {
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+    
+    .timeline-content p {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    
+    .timeline-content small {
+        font-size: 12px;
+    }
+    
+    .refresh-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        display: none;
+        z-index: 1000;
+    }
+    
+    .performance-metric {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .performance-metric h3 {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 10px 0;
+    }
+    
+    .ytd-stat {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .system-activity-item {
+        display: flex;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .system-activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .system-activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .system-activity-content {
+        flex-grow: 1;
+    }
+    
+    .system-activity-content h6 {
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+    
+    .system-activity-content p {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    
+    .system-activity-content small {
+        font-size: 12px;
     }
 </style>
 
@@ -186,6 +336,72 @@ $hasError = isset($error);
                 </div>
             </div>
         </div>
+
+        <!-- Add this after the existing row with charts -->
+        <div class="row">
+            <!-- Sales by Category Chart -->
+            <div class="col-xl-6 col-xxl-6">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <h4 class="card-title">Sales by Category</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Customer Activity -->
+            <div class="col-xl-6 col-xxl-6">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <h4 class="card-title">Recent Customer Activity</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="customerActivityContainer">
+                            <div class="text-center p-3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading customer activity...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Top Categories by Revenue -->
+            <div class="col-xl-6 col-xxl-6">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <h4 class="card-title">Top Categories by Revenue</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="topCategoriesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Stock Status Chart -->
+            <div class="col-xl-6 col-xxl-6">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <h4 class="card-title">Product Stock Status</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="stockStatusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="row">
             <!-- Top Selling Products -->
@@ -240,6 +456,271 @@ $hasError = isset($error);
                 </div>
             </div>
         </div>
+        
+        <!-- Add this after the existing rows -->
+        <div class="row">
+            <!-- Today's Top Selling Products -->
+            <div class="col-xl-6 col-xxl-6">
+                <div class="card">
+                    <div class="card-header border-0 pb-0 d-flex justify-content-between">
+                        <h4 class="card-title">Today's Top Selling Products</h4>
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="topProductsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Today
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="topProductsDropdown">
+                                <li><a class="dropdown-item active" href="javascript:void(0);" data-period="today">Today</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-period="week">This Week</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-period="month">This Month</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-responsive-md card-table transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Sold</th>
+                                        <th>Revenue</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topProductsTable">
+                                    <?php if (isset($todayTopProducts) && !empty($todayTopProducts)): ?>
+                                        <?php foreach ($todayTopProducts as $product): ?>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <?php if (!empty($product['image'])): ?>
+                                                        <img src="<?= htmlspecialchars($product['image']) ?>" class="rounded-circle" width="40" alt="">
+                                                    <?php else: ?>
+                                                        <div class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+                                                            <i class="fas fa-box text-primary"></i>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0 fs-14"><?= htmlspecialchars($product['name']) ?></h6>
+                                                        <span class="fs-12 text-muted"><?= htmlspecialchars($product['category']) ?></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>$<?= number_format($product['price'], 2) ?></td>
+                                            <td><?= $product['quantity_sold'] ?></td>
+                                            <td>$<?= number_format($product['revenue'], 2) ?></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center">No products sold today</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent System Activity -->
+            <div class="col-xl-6 col-xxl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Recent System Activity</h4>
+                    </div>
+                    <div class="card-body" id="systemActivityContainer">
+                        <?php if (isset($recentActivity) && !empty($recentActivity)): ?>
+                            <div class="system-activity-list">
+                                <?php foreach ($recentActivity as $activity): ?>
+                                    <?php
+                                        $iconClass = '';
+                                        $bgClass = '';
+                                        
+                                        switch($activity['type']) {
+                                            case 'login':
+                                                $iconClass = 'fa-sign-in-alt';
+                                                $bgClass = 'bg-primary';
+                                                break;
+                                            case 'product':
+                                                $iconClass = 'fa-box';
+                                                $bgClass = 'bg-success';
+                                                break;
+                                            case 'order':
+                                                $iconClass = 'fa-shopping-cart';
+                                                $bgClass = 'bg-warning';
+                                                break;
+                                            case 'user':
+                                                $iconClass = 'fa-user';
+                                                $bgClass = 'bg-info';
+                                                break;
+                                            case 'setting':
+                                                $iconClass = 'fa-cog';
+                                                $bgClass = 'bg-secondary';
+                                                break;
+                                            default:
+                                                $iconClass = 'fa-info-circle';
+                                                $bgClass = 'bg-dark';
+                                        }
+                                    ?>
+                                    <div class="system-activity-item">
+                                        <div class="system-activity-icon <?php echo $bgClass; ?>">
+                                            <i class="fas <?php echo $iconClass; ?>"></i>
+                                        </div>
+                                        <div class="system-activity-content">
+                                            <h6 class="mb-1"><?php echo $activity['title']; ?></h6>
+                                            <p class="mb-0"><?php echo $activity['description']; ?></p>
+                                            <small class="text-muted"><?php echo $activity['time_ago']; ?> by <?php echo $activity['user']; ?></small>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="text-center p-3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading system activity...</p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Store Performance -->
+            <div class="col-xl-8 col-xxl-8">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <h4 class="card-title">Store Performance</h4>
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="performanceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                This Month
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="performanceDropdown">
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-period="week">This Week</a></li>
+                                <li><a class="dropdown-item active" href="javascript:void(0);" data-period="month">This Month</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-period="quarter">This Quarter</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" data-period="year">This Year</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="performance-metric">
+                                    <h6 class="text-muted">Total Sales</h6>
+                                    <h3 class="mb-0">$<?= isset($performanceMetrics['totalSales']) ? number_format($performanceMetrics['totalSales'], 2) : '0.00' ?></h3>
+                                    <span class="<?= isset($performanceMetrics['salesGrowth']) && $performanceMetrics['salesGrowth'] >= 0 ? 'text-success' : 'text-danger' ?>">
+                                        <i class="fas fa-<?= isset($performanceMetrics['salesGrowth']) && $performanceMetrics['salesGrowth'] >= 0 ? 'arrow-up' : 'arrow-down' ?>"></i>
+                                        <?= isset($performanceMetrics['salesGrowth']) ? abs($performanceMetrics['salesGrowth']) : '0' ?>%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="performance-metric">
+                                    <h6 class="text-muted">Total Orders</h6>
+                                    <h3 class="mb-0"><?= isset($performanceMetrics['totalOrders']) ? $performanceMetrics['totalOrders'] : '0' ?></h3>
+                                    <span class="<?= isset($performanceMetrics['ordersGrowth']) && $performanceMetrics['ordersGrowth'] >= 0 ? 'text-success' : 'text-danger' ?>">
+                                        <i class="fas fa-<?= isset($performanceMetrics['ordersGrowth']) && $performanceMetrics['ordersGrowth'] >= 0 ? 'arrow-up' : 'arrow-down' ?>"></i>
+                                        <?= isset($performanceMetrics['ordersGrowth']) ? abs($performanceMetrics['ordersGrowth']) : '0' ?>%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="performance-metric">
+                                    <h6 class="text-muted">Avg. Order Value</h6>
+                                    <h3 class="mb-0">$<?= isset($performanceMetrics['avgOrderValue']) ? number_format($performanceMetrics['avgOrderValue'], 2) : '0.00' ?></h3>
+                                    <span class="<?= isset($performanceMetrics['aovGrowth']) && $performanceMetrics['aovGrowth'] >= 0 ? 'text-success' : 'text-danger' ?>">
+                                        <i class="fas fa-<?= isset($performanceMetrics['aovGrowth']) && $performanceMetrics['aovGrowth'] >= 0 ? 'arrow-up' : 'arrow-down' ?>"></i>
+                                        <?= isset($performanceMetrics['aovGrowth']) ? abs($performanceMetrics['aovGrowth']) : '0' ?>%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="performance-metric">
+                                    <h6 class="text-muted">Profit Margin</h6>
+                                    <h3 class="mb-0"><?= isset($performanceMetrics['profitMargin']) ? $performanceMetrics['profitMargin'] : '0' ?>%</h3>
+                                    <span class="<?= isset($performanceMetrics['marginGrowth']) && $performanceMetrics['marginGrowth'] >= 0 ? 'text-success' : 'text-danger' ?>">
+                                        <i class="fas fa-<?= isset($performanceMetrics['marginGrowth']) && $performanceMetrics['marginGrowth'] >= 0 ? 'arrow-up' : 'arrow-down' ?>"></i>
+                                        <?= isset($performanceMetrics['marginGrowth']) ? abs($performanceMetrics['marginGrowth']) : '0' ?>%
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="col-xl-4 col-xxl-4">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <h4 class="card-title">Year-to-Date Stats</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="ytd-stat">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">Total Revenue</span>
+                                <span class="fs-14 font-w600">$<?= isset($ytdStats['revenue']) ? number_format($ytdStats['revenue'], 2) : '0.00' ?></span>
+                            </div>
+                            <div class="progress mb-3" style="height:8px;">
+                                <div class="progress-bar bg-primary" style="width: <?= isset($ytdStats['revenueProgress']) ? $ytdStats['revenueProgress'] : '0' ?>%; height:8px;" role="progressbar"></div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted"><?= isset($ytdStats['revenueProgress']) ? $ytdStats['revenueProgress'] : '0' ?>% of annual target</small>
+                                <small class="text-muted">Target: $<?= isset($ytdStats['revenueTarget']) ? number_format($ytdStats['revenueTarget'], 2) : '0.00' ?></small>
+                            </div>
+                        </div>
+                        
+                        <div class="ytd-stat mt-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">Total Orders</span>
+                                <span class="fs-14 font-w600"><?= isset($ytdStats['orders']) ? $ytdStats['orders'] : '0' ?></span>
+                            </div>
+                            <div class="progress mb-3" style="height:8px;">
+                                <div class="progress-bar bg-success" style="width: <?= isset($ytdStats['ordersProgress']) ? $ytdStats['ordersProgress'] : '0' ?>%; height:8px;" role="progressbar"></div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted"><?= isset($ytdStats['ordersProgress']) ? $ytdStats['ordersProgress'] : '0' ?>% of annual target</small>
+                                <small class="text-muted">Target: <?= isset($ytdStats['ordersTarget']) ? $ytdStats['ordersTarget'] : '0' ?></small>
+                            </div>
+                        </div>
+                        
+                        <div class="ytd-stat mt-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">New Customers</span>
+                                <span class="fs-14 font-w600"><?= isset($ytdStats['newCustomers']) ? $ytdStats['newCustomers'] : '0' ?></span>
+                            </div>
+                            <div class="progress mb-3" style="height:8px;">
+                                <div class="progress-bar bg-info" style="width: <?= isset($ytdStats['customersProgress']) ? $ytdStats['customersProgress'] : '0' ?>%; height:8px;" role="progressbar"></div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted"><?= isset($ytdStats['customersProgress']) ? $ytdStats['customersProgress'] : '0' ?>% of annual target</small>
+                                <small class="text-muted">Target: <?= isset($ytdStats['customersTarget']) ? $ytdStats['customersTarget'] : '0' ?></small>
+                            </div>
+                        </div>
+                        
+                        <div class="ytd-stat mt-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fs-14">Profit</span>
+                                <span class="fs-14 font-w600">$<?= isset($ytdStats['profit']) ? number_format($ytdStats['profit'], 2) : '0.00' ?></span>
+                            </div>
+                            <div class="progress mb-3" style="height:8px;">
+                                <div class="progress-bar bg-warning" style="width: <?= isset($ytdStats['profitProgress']) ? $ytdStats['profitProgress'] : '0' ?>%; height:8px;" role="progressbar"></div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted"><?= isset($ytdStats['profitProgress']) ? $ytdStats['profitProgress'] : '0' ?>% of annual target</small>
+                                <small class="text-muted">Target: $<?= isset($ytdStats['profitTarget']) ? number_format($ytdStats['profitTarget'], 2) : '0.00' ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!--**********************************
@@ -251,217 +732,104 @@ $hasError = isset($error);
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Sales Chart
-        const salesCtx = document.getElementById('salesChart').getContext('2d');
-        const salesLabels = <?php echo json_encode(isset($salesLastSevenDays) ? $salesLastSevenDays['labels'] : []); ?>;
-        const salesData = <?php echo json_encode(isset($salesLastSevenDays) ? $salesLastSevenDays['data'] : []); ?>;
+        // Initialize all charts
+        initPerformanceChart();
+        initCategoryChart();
+        initSalesExpensesChart();
+        initStockStatusChart();
+        initTopCategoriesChart();
         
-        const salesChart = new Chart(salesCtx, {
-            type: 'line',
-            data: {
-                labels: salesLabels,
-                datasets: [{
-                    label: 'Sales ($)',
-                    data: salesData,
-                    backgroundColor: 'rgba(43, 193, 85, 0.2)',
-                    borderColor: 'rgba(43, 193, 85, 1)',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return '$' + context.parsed.y;
-                            }
-                        }
-                    }
-                }
-            }
+        // Handle performance period change
+        document.querySelectorAll('#performanceDropdown + .dropdown-menu .dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const period = this.getAttribute('data-period');
+                document.getElementById('performanceDropdown').textContent = 
+                    period === 'week' ? 'This Week' : 
+                    period === 'month' ? 'This Month' : 
+                    period === 'quarter' ? 'This Quarter' : 'This Year';
+                
+                // Update active state
+                document.querySelectorAll('#performanceDropdown + .dropdown-menu .dropdown-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Load data for selected period
+                loadPerformanceData(period);
+            });
         });
         
-        // Expenses Chart
-        const expensesCtx = document.getElementById('expensesChart').getContext('2d');
-        const expensesLabels = <?php echo json_encode(isset($expensesLastSevenDays) ? $expensesLastSevenDays['labels'] : []); ?>;
-        const expensesData = <?php echo json_encode(isset($expensesLastSevenDays) ? $expensesLastSevenDays['data'] : []); ?>;
-        
-        const expensesChart = new Chart(expensesCtx, {
-            type: 'bar',
-            data: {
-                labels: expensesLabels,
-                datasets: [{
-                    label: 'Expenses ($)',
-                    data: expensesData,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value;
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return '$' + context.parsed.y;
-                            }
-                        }
-                    }
-                }
-            }
+        // Handle top products period change
+        document.querySelectorAll('#topProductsDropdown + .dropdown-menu .dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const period = this.getAttribute('data-period');
+                document.getElementById('topProductsDropdown').textContent = 
+                    period === 'today' ? 'Today' : 
+                    period === 'week' ? 'This Week' : 'This Month';
+                
+                // Update active state
+                document.querySelectorAll('#topProductsDropdown + .dropdown-menu .dropdown-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Load data for selected period
+                loadTopProducts(period);
+            });
         });
         
-        // Load recent orders via AJAX
-        loadRecentOrders();
+        // Handle sales vs expenses period change
+        document.querySelectorAll('#salesExpensesDropdown + .dropdown-menu .dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const period = this.getAttribute('data-period');
+                document.getElementById('salesExpensesDropdown').textContent = 
+                    period === '3' ? 'Last 3 Months' : 
+                    period === '6' ? 'Last 6 Months' : 'Last 12 Months';
+                
+                // Update active state
+                document.querySelectorAll('#salesExpensesDropdown + .dropdown-menu .dropdown-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Load data for selected period
+                loadSalesExpensesData(period);
+            });
+        });
         
-        // Refresh dashboard data every 5 minutes
-        setInterval(refreshDashboardData, 300000);
+        // Handle load more activity button
+        document.getElementById('loadMoreActivity').addEventListener('click', function() {
+            const currentCount = document.querySelectorAll('.system-activity-item').length;
+            loadMoreActivity(currentCount);
+        });
     });
     
-    function loadRecentOrders() {
-        fetch('/order/getRecentOrders')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                displayRecentOrders(data);
-            })
-            .catch(error => {
-                document.getElementById('recentOrdersContainer').innerHTML = `
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle"></i> Failed to load recent orders: ${error.message}
-                    </div>
-                `;
-            });
-    }
-    
-    function displayRecentOrders(orders) {
-        const container = document.getElementById('recentOrdersContainer');
+    // Performance Chart
+    function initPerformanceChart() {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
         
-        if (!orders || orders.length === 0) {
-            container.innerHTML = '<div class="alert alert-info">No recent orders found.</div>';
-            return;
-        }
+        // Create gradient for sales
+        const salesGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        salesGradient.addColorStop(0, 'rgba(54, 162, 235, 0.6)');
+        salesGradient.addColorStop(1, 'rgba(54, 162, 235, 0.1)');
         
-        let html = `
-            <div class="table-responsive">
-                <table class="table table-responsive-md">
-                    <thead>
-                        <tr>
-                            <th><strong>Order ID</strong></th>
-                            <th><strong>Customer</strong></th>
-                            <th><strong>Amount</strong></th>
-                            <th><strong>Status</strong></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
+        // Create gradient for expenses
+        const expensesGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        expensesGradient.addColorStop(0, 'rgba(255, 99, 132, 0.6)');
+        expensesGradient.addColorStop(1, 'rgba(255, 99, 132, 0.1)');
         
-        orders.forEach(order => {
-            let statusClass = '';
-            switch(order.status) {
-                case 'completed':
-                    statusClass = 'badge badge-success';
-                    break;
-                case 'pending':
-                    statusClass = 'badge badge-warning';
-                    break;
-                case 'cancelled':
-                    statusClass = 'badge badge-danger';
-                    break;
-                default:
-                    statusClass = 'badge badge-info';
-            }
-            
-            html += `
-                <tr>
-                    <td>#${order.id}</td>
-                    <td>${order.customer_name || 'Walk-in Customer'}</td>
-                    <td>$${parseFloat(order.total_amount).toFixed(2)}</td>
-                    <td><span class="${statusClass}">${order.status}</span></td>
-                </tr>
-            `;
-        });
+        // Create gradient for profit
+        const profitGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        profitGradient.addColorStop(0, 'rgba(75, 192, 192, 0.6)');
+        profitGradient.addColorStop(1, 'rgba(75, 192, 192, 0.1)');
         
-        html += `
-                    </tbody>
-                </table>
-            </div>
-        `;
-        
-        container.innerHTML = html;
-    }
-    
-    function refreshDashboardData() {
-        fetch('/dashboard/getDashboardData')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Update summary cards
-                document.querySelector('.bg-success .invoice-num').textContent = '$' + parseFloat(data.totalSalesToday).toFixed(2);
-                document.querySelector('.bg-info .invoice-num').textContent = data.ordersToday;
-                document.querySelector('.bg-danger .invoice-num').textContent = data.lowStockCount;
-                document.querySelector('.bg-secondary .invoice-num').textContent = '$' + parseFloat(data.expensesToday).toFixed(2);
-                
-                // Update charts
-                if (window.salesChart) {
-                    window.salesChart.data.labels = data.salesLastSevenDays.labels;
-                    window.salesChart.data.datasets[0].data = data.salesLastSevenDays.data;
-                    window.salesChart.update();
-                }
-                
-                if (window.expensesChart) {
-                    window.expensesChart.data.labels = data.expensesLastSevenDays.labels;
-                    window.expensesChart.data.datasets[0].data = data.expensesLastSevenDays.data;
-                    window.expensesChart.update();
-                }
-                
-                // Reload recent orders
-                loadRecentOrders();
-            })
-            .catch(error => {
-                console.error('Error refreshing dashboard data:', error);
-            });
-    }
-</script>
+        window.performanceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode(isset($performanceMetrics['chartData']['labels']) ? $performanceMetrics['chartData']['labels'] : []); ?>,
+                datasets: [
+                    {
+                        label: 'Sales',
+                        data: <?php echo json_encode(isset($performanceMetrics['chartData']['sales']) ? $performanceMetrics['chartData']['sales'] : []); ?>,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: salesGradient,
