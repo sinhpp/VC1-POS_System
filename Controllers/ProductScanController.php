@@ -285,7 +285,7 @@ class ProductScanController
         $pdf = new FPDF('P', 'mm', 'A4');
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(0, 10, 'SREYTOCH SHOP', 0, 1, 'C');
+        $pdf->Cell(0, 10, 'ASIA SHOP', 0, 1, 'C');
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(0, 6, '271, Street Number 06/B, Sen Sok, Teuktha, KH', 0, 1, 'C');
         $pdf->Cell(0, 6, 'Tel: (+855) 16 872 177', 0, 1, 'C');
