@@ -87,12 +87,62 @@ if (isset($_SESSION['user_id'])) : ?>
         .makeup { background-color: #f8bbd0; color: #d81b60; }
         .other { background-color: #cfd8dc; color: #607d8b; }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            h2 {
-                font-size: 2rem;
-            }
-        }
+        .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    left: 0;
+}
+
+.card {
+    flex-direction: row;
+}
+
+@media (max-width: 992px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .card {
+        flex-direction: row;
+        padding: 20px;
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
+    .font-semibold {
+        font-size: 13px;
+    }
+
+    .text-sm {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 576px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .icon {
+        margin: 0 0 10px 0;
+    }
+}
+
+        
     </style>
 </head>
 <div class="container">

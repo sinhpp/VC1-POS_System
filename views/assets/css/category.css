@@ -1,3 +1,35 @@
+.footer {
+    padding-left: 17.1875rem;
+    background-color: #f6f6f6;
+    font-size: 13px; }
+    .footer .copyright {
+      padding: 0.9375rem; }
+      .footer .copyright p {
+        text-align: center;
+        margin: 0; }
+      .footer .copyright a {
+        color: var(--primary); }
+  
+  [data-sidebar-style="mini"] .nav-control,
+  [data-layout="horizontal"] .nav-control {
+    display: none; }
+[data-header-position="fixed"] .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.header1 {
+    background: linear-gradient(135deg, #1FA1A1, #17807f);
+    padding: 20px 25px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
 .category-container{
     margin-top: 10%;
     margin-left: 5%;
@@ -53,14 +85,14 @@
 }
 
 .table th, .table td {
-   
+
     padding: 15px;
     text-align: left;
 }
 
 .table th {
-   
-    color: white;
+    background: #1772d4 !important;
+    color: white !important;
 }
 
 .table tr {
@@ -139,58 +171,70 @@
 .input-group-text {
     background-color: #f8f9fa;
 }
-
-/* Responsive styling */
-@media (max-width: 1024px) {
-    .create-btn {
-        width: 100%;
-    }
-
-    .action-buttons {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-}
-
+/* Responsive layout for table on small screens */
 @media (max-width: 768px) {
-    .table th, .table td {
-        padding: 10px;
-        font-size: 14px;
-    }
 
-    .btn {
-        padding: 5px 8px;
-    }
-
-    .empty-state i {
-        font-size: 36px;
-    }
-}
-
-@media (max-width: 576px) {
     .container {
-        padding: 15px;
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+      
+        border-radius: 10px;
+      
+        position: relative;
+        top: 20%;
+        left: 0px !important;
+    }
+    .table-responsive {
+        overflow-x: unset;
     }
 
-    .category-header h4 {
-        font-size: 18px;
-    }
-
-    .create-btn {
-        font-size: 14px;
-    }
-
-    .table th, .table td {
-        font-size: 12px;
-    }
-
-    .btn {
+    .table {
+        display: block;
         width: 100%;
-        margin-bottom: 5px;
     }
 
+    .table thead {
+        display: none;
+    }
+
+    .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .table td {
+        text-align: left;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        border: none;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .table td:last-child {
+        border-bottom: none;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #495057;
+    }
+
+    /* Action buttons spacing */
     .action-buttons {
-        flex-direction: column;
         gap: 5px;
+        margin-top: 10px;
     }
 }

@@ -4,7 +4,21 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (isset($_SESSION['user_id'])) : ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
+        .error {
+            color: red;
+            display: none;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
@@ -13,92 +27,99 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 
     .container {
-        margin: 10% auto;
-        margin-left: 29%;
-        display: flex;
-        flex-direction: row;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(126, 54, 54, 0.1);
-        max-width: 1000px;
-       
-    }
+            margin-top:10%;
+            display: flex;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(126, 54, 54, 0.1);
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            left:10%;
+        }
 
-    .upload-section {
-        width: 30%;
-        text-align: center;
-        padding: 20px;
-        border-right: 1px solid #ddd;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
-    .upload-section h2 {
-        margin-bottom: 20px;
-        font-size: 1.5em;
-        color: #6a11cb;
-    }
+        .upload-section {
+            width: 30%;
+            text-align: center;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+        }
 
-    .profile-pic {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #6a11cb;
-        margin-bottom: 10px;
-        display: none;
-    }
 
-    .detail {
-        width: 70%;
-        padding: 20px;
-    }
+        .upload-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #6a11cb;
+        }
 
-    .input-group {
-        margin-bottom: 15px;
-    }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #6a11cb;
+            margin-bottom: 10px;
+            display: none; /* Initially hidden */
+        }
 
-    .input-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+        .detail {
+            width: 70%;
+            padding: 20px;
+        }
 
-    .btn-upload {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #6a11cb;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-    }
 
-    .btn-upload:hover {
-        background-color: #2575fc;
-        transform: scale(1.05);
-    }
+        .input-group {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    margin-bottom: 15px;
+}
 
-    .input-group input,
-    .input-group select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-    }
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block; /* Make label full width */
+}
 
-    .input-group input:focus,
-    .input-group select:focus {
-        border-color: #6a11cb;
-        box-shadow: 0px 0px 8px rgba(106, 17, 203, 0.5);
-    }
+        .btn-upload {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 10px; /* Add margin for spacing */
+        }
+
+        .btn-upload:hover {
+            background-color: #2575fc;
+            transform: scale(1.05);
+        }
+        .input-group input,
+.input-group select {
+    width: 100%;
+    padding: 10px; /* a little more padding for better look */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #6a11cb;
+            box-shadow: 0px 0px 8px rgba(106, 17, 203, 0.5);
+        }
+
 
     .btn-primary1,
     .btn-secondary1 {
@@ -152,48 +173,44 @@ if (isset($_SESSION['user_id'])) : ?>
 
     
 /* Tablet Devices (768px - 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (max-width: 768px) {
     .container {
-        flex-direction: row;
-        width: 95%;
-        margin: 40px auto;
-        padding: 15px;
+        flex-direction: column; /* Stack upload section and details vertically */
+        margin-top: 5%;
+        left: 0;
+        max-width: 90%;
+    }
+
+    .upload-section, 
+    .detail {
+        width: 100%; /* Full width on mobile */
+        padding: 10px;
+        border: none; /* Remove border between sections */
     }
 
     .upload-section {
-        width: 35%;
-        padding: 15px;
-    }
-
-    .upload-section h2 {
-        font-size: 1.3em;
-    }
-
-    .profile-pic {
-        width: 100px;
-        height: 100px;
-    }
-
-    .detail {
-        width: 65%;
-        padding: 15px;
+        border-bottom: 1px solid #ddd; /* Instead of side border */
+        margin-bottom: 20px;
     }
 
     .input-group input,
     .input-group select {
-        font-size: 15px;
+        font-size: 14px;
+        padding: 8px;
     }
 
     .btn-primary1,
     .btn-secondary1 {
-        padding: 10px 18px;
-        font-size: 15px;
-        width: 45%;
+        width: 100%; /* Full width buttons */
     }
 
     .submit {
-        justify-content: flex-end;
+        flex-direction: column; /* Stack buttons vertically */
         gap: 10px;
+    }
+
+    h2 {
+        font-size: 1.2em;
     }
 }
 
@@ -211,12 +228,14 @@ if (isset($_SESSION['user_id'])) : ?>
     }
 
     .upload-section {
+        margin-top: 16%;
         width: 100%;
         border-right: none;
         border-bottom: 1px solid #ddd;
     }
 
     .detail {
+   
         width: 100%;
         padding: 15px 0;
     }
@@ -239,11 +258,11 @@ if (isset($_SESSION['user_id'])) : ?>
         top: 10px;
         font-size: 14px;
     }
+ 
 }
 
 </style>
-
-    <script>
+<script>
         let imageSelected = false;
 
         function previewImage(event) {
@@ -251,9 +270,9 @@ if (isset($_SESSION['user_id'])) : ?>
             reader.onload = function() {
                 const img = document.getElementById("profile-pic");
                 img.src = reader.result;
-                img.style.display = 'block'; // Show the image after selection
-                document.getElementById("upload-button").textContent = "Change Image"; // Change button text
-                imageSelected = true; // Set flag to true
+                img.style.display = 'block';
+                document.getElementById("upload-button").textContent = "Change Image";
+                imageSelected = true;
             }
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -265,11 +284,29 @@ if (isset($_SESSION['user_id'])) : ?>
 
             if (password !== confirmPassword) {
                 errorMessage.style.display = "block";
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
+                return false; // Prevent submission
             } else {
                 errorMessage.style.display = "none";
-                showSuccessAlert();
             }
+            return true; // Allow submission
+        }
+
+        function validatePhone(event) {
+            const phoneInput = document.querySelector('input[name="phone"]');
+            const errorMessage = document.getElementById("error-message");
+            const phoneValue = phoneInput.value;
+
+            // Clear previous error message
+            errorMessage.style.display = 'none';
+
+            // Check if the phone number is exactly 12 digits
+            if (!/^\d{10}$/.test(phoneValue)) {
+                errorMessage.style.display = 'block';
+                event.preventDefault(); // Prevent form submission
+                return false; // Indicate validation failure
+            }
+            return true; // Indicate validation success
         }
 
         function showSuccessAlert() {
@@ -277,7 +314,16 @@ if (isset($_SESSION['user_id'])) : ?>
             alert.style.display = "block";
             setTimeout(() => {
                 alert.style.display = "none";
-            }, 3000); // Hide the alert after 3 seconds
+            }, 3000);
+        }
+
+        function validateAndSubmit(event) {
+            const isFormValid = validateForm(event);
+            const isPhoneValid = validatePhone(event);
+
+            if (isFormValid && isPhoneValid) {
+                showSuccessAlert(); // Show success alert if all validations pass
+            }
         }
     </script>
     
@@ -287,74 +333,64 @@ if (isset($_SESSION['user_id'])) : ?>
     User created successfully!
 </div>
 
-<form action="/users/storeuser" method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
+<form action="/users/storeuser" method="post" enctype="multipart/form-data" onsubmit="validateAndSubmit(event)">
     <div class="container">
-        <!-- Left Column: Image Upload -->
         <div class="upload-section">
             <h2>Upload Profile Picture</h2>
             <img id="profile-pic" class="profile-pic" src="#" alt="Profile Picture" />
             <div class="input-group">
                 <input id="file-input" type="file" name="image" accept="image/*" onchange="previewImage(event)" style="display: none;">
-                <button type="button" id="file-input" class="btn-upload" onclick="document.getElementById('file-input').click();">Upload Image</button>
+                <button type="button" class="btn-upload" onclick="document.getElementById('file-input').click();">Upload Image</button>
             </div>
         </div>
 
-        <!-- Right Column: User Details Form -->
         <div class="detail">
-            <!-- Name Field -->
             <div class="input-group">
                 <label>Full Name</label>
                 <input type="text" name="name" placeholder="Enter your full name" required>
             </div>
 
-            <!-- Email Field -->
             <div class="input-group">
                 <label>Email Address</label>
                 <input type="email" name="email" placeholder="Enter your email" required>
             </div>
 
-            <!-- Role Field -->
             <div class="input-group">
                 <label>Role</label>
                 <select name="role" required>
                     <option value="" disabled selected>Select Role</option>
                     <option value="admin">Admin</option>
                     <option value="cashier">Cashier</option>
-                    <option value="stock_manager">Stock Manager</option> <!-- FIXED -->
+                    <option value="stock_manager">Stock Manager</option>
                 </select>
             </div>
 
-            
-            <!-- Phone Field -->
             <div class="input-group">
                 <label>Phone</label>
                 <input type="text" name="phone" placeholder="Enter your phone number" required>
+                <div class="error" id="error-message">Please enter exactly 12 digits.</div>
             </div>
 
-            <!-- Address Field -->
             <div class="input-group">
                 <label>Address</label>
                 <input type="text" name="address" placeholder="Enter your address" required>
             </div>
-            <!-- Password Field -->
+
             <div class="input-group">
                 <label>Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter password" required>
             </div>
 
-            <!-- Confirm Password Field -->
             <div class="input-group">
                 <label>Confirm Password</label>
                 <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm password" required>
                 <div id="password-error" class="error-message">Passwords do not match. Please try again.</div>
             </div>
 
-            <!-- Submit and Cancel Buttons -->
-             <div class="submit">
-            <a href="/users" class="btn-secondary1">Cancel</a>
-            <button type="submit" class="btn-primary1">Create Account</button>
+            <div class="submit">
+                <a href="/users" class="btn-secondary1">Cancel</a>
+                <button type="submit" class="btn-primary1">Create Account</button>
             </div>
-            
         </div>
     </div>
 </form>

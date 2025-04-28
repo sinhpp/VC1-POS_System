@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) :
             <form id="addProductForm" action="/products/store" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= isset($product) ? htmlspecialchars($product['id']) : '' ?>">
                 <?php if ($selectedCategory): ?>
-                    <input type="hidden" name="selected_category" value="<?= htmlspecialchars($selectedCategory) ?>">
+                    <input type="hidden" name="category" value="<?= htmlspecialchars($selectedCategory) ?>">
                 <?php endif; ?>
 
                 <div class="form-flex-container">
