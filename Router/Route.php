@@ -63,21 +63,15 @@ $route->post("/product/process-checkout", [ProductScanController::class, 'proces
 $route->post("/productDetails", [ProductScanController::class, 'scan']); // For scanning
 $route->post("/order/add", [ProductScanController::class, 'add']); // Already correct
 $route->post("/product/delete", [ProductScanController::class, 'delete']); // Already correct
-// $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
-// $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
+
+// order
 $route->post("/order/process-and-print", [ProductScanController::class, 'processAndPrint']);
 $route->get("/order/process-and-print", [ProductScanController::class, 'processAndPrint']);
-
-// $route->get("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
-// $route->post("/order/print-receipt", [ProductScanController::class, 'printReceipt']);
-
 $route->get("/order/order_list", [OrderListController::class, 'displayOrders']);
 $route->post("/order/store", [OrderListController::class, 'storeOrder']);
-
-
 $route->post("/order/delete", [OrderListController::class, 'delete']);
-
-
+$route->get("/order/view/{id}", [OrderListController::class, 'viewOrder']);
+$route->get("/order/get_products", [OrderListController::class, 'getProductsForOrder']); 
 
 // Product Cashier
 $route->get("/product_cashier/product", [ProductCashierController::class, 'index']);
