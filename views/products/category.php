@@ -31,10 +31,7 @@ function deleteCategory(id, row) {
                 alert("Failed to delete category.");
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("An error occurred while deleting.");
-        });
+        
     }
 }
 
