@@ -194,37 +194,114 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <label class="form-label">Size</label>
-                    <div class="btn-group w-100" role="group">
-                        <input type="radio" class="btn-check" name="size" id="size-s" value="S" <?= isset($product) && $product['size'] == 'S' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="size-s">S</label>
-                        
-                        <input type="radio" class="btn-check" name="size" id="size-m" value="M" <?= isset($product) && $product['size'] == 'M' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="size-m">M</label>
-                        
-                        <input type="radio" class="btn-check" name="size" id="size-l" value="L" <?= isset($product) && $product['size'] == 'L' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="size-l">L</label>
-                        
-                        <input type="radio" class="btn-check" name="size" id="size-xl" value="XL" <?= isset($product) && $product['size'] == 'XL' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="size-xl">XL</label>
-                        
-                        <input type="radio" class="btn-check" name="size" id="size-xxl" value="XXL" <?= isset($product) && $product['size'] == 'XXL' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="size-xxl">XXL</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Gender</label>
-                    <div class="btn-group w-100" role="group">
-                        <input type="radio" class="btn-check" name="gender" id="gender-men" value="Men" <?= isset($product) && $product['gender'] == 'Men' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="gender-men">Men</label>
-                        
-                        <input type="radio" class="btn-check" name="gender" id="gender-women" value="Women" <?= isset($product) && $product['gender'] == 'Women' ? 'checked' : '' ?>>
-                        <label class="btn btn-outline-primary" for="gender-women">Women</label>
-                    </div>
-                </div>
-            </div>
+    <div class="col-md-6">
+        <label class="form-label">Size</label>
+        <div class="btn-group w-100" role="group">
+            <?php
+            $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+            foreach ($sizes as $size) {
+                // Check if this size matches the product's size
+                $isSelected = isset($product) && $product['size'] == $size;
+                // Apply btn-success class if selected, otherwise btn-outline-primary
+                $btnClass = $isSelected ? 'btn-success' : 'btn-outline-primary';
+            ?>
+                <input type="radio" class="btn-check" name="size" id="size-<?= strtolower($size) ?>" value="<?= $size ?>" <?= $isSelected ? 'checked' : '' ?>>
+                <label class="btn <?= $btnClass ?>" for="size-<?= strtolower($size) ?>"><?= $size ?></label>
+            <?php } ?>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+    <label class="form-label">Gender</label>
+    
+    <?php
+    // Get the current gender value that we know works
+    $currentGender = isset($product) ? htmlspecialchars($product['gender']) : 'N/A';
+    // For debugging (can be removed later)
+    // echo "<!-- Current gender from DB: '" . $currentGender . "' -->";
+    ?>
+    
+    <div class="btn-group w-100" role="group">
+        <!-- Men option -->
+        <input type="radio" class="btn-check" name="gender" id="gender-men" value="Men" 
+               <?= (strtolower($currentGender) == 'men') ? 'checked' : '' ?>>
+        <label class="btn <?= (strtolower($currentGender) == 'men') ? 'btn-success' : 'btn-outline-primary' ?>" 
+               for="gender-men">Men</label>
+        
+        <!-- Women option -->
+        <input type="radio" class="btn-check" name="gender" id="gender-women" value="Women" 
+               <?= (strtolower($currentGender) == 'women') ? 'checked' : '' ?>>
+        <label class="btn <?= (strtolower($currentGender) == 'women') ? 'btn-success' : 'btn-outline-primary' ?>" 
+               for="gender-women">Women</label>
+    </div>
+</div>
+
+<script>
+// Make sure this script runs after the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle gender selection
+    const genderRadios = document.querySelectorAll('input[name="gender"]');
+    genderRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Reset all gender buttons
+            document.querySelectorAll('label[for^="gender-"]').forEach(label => {
+                label.classList.remove('btn-success');
+                label.classList.add('btn-outline-primary');
+            });
             
+            // Set the selected button to green
+            const selectedLabel = document.querySelector(`label[for="${this.id}"]`);
+            if (selectedLabel) {
+                selectedLabel.classList.remove('btn-outline-primary');
+                selectedLabel.classList.add('btn-success');
+            }
+        });
+    });
+});
+</script>
+
+
+
+<script>
+// Add this script to change button colors when options are selected
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle size selection
+    document.querySelectorAll('input[name="size"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Reset all size buttons to outline style
+            document.querySelectorAll('label[for^="size-"]').forEach(label => {
+                label.classList.remove('btn-success');
+                label.classList.add('btn-outline-primary');
+            });
+            
+            // Set the selected button to success (green)
+            const selectedLabel = document.querySelector(`label[for="size-${this.value.toLowerCase()}"]`);
+            if (selectedLabel) {
+                selectedLabel.classList.remove('btn-outline-primary');
+                selectedLabel.classList.add('btn-success');
+            }
+        });
+    });
+    
+    // Handle gender selection - exactly the same approach as size
+    document.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Reset all gender buttons to outline style
+            document.querySelectorAll('label[for^="gender-"]').forEach(label => {
+                label.classList.remove('btn-success');
+                label.classList.add('btn-outline-primary');
+            });
+            
+            // Set the selected button to success (green)
+            const selectedLabel = document.querySelector(`label[for="gender-${this.value.toLowerCase()}"]`);
+            if (selectedLabel) {
+                selectedLabel.classList.remove('btn-outline-primary');
+                selectedLabel.classList.add('btn-success');
+            }
+        });
+    });
+});
+</script>
             <div class="mt-3">
                 <label class="form-label">Product Image</label>
                 <div class="image-preview card mb-2" id="imagePreview">
