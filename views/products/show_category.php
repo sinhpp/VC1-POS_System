@@ -7,74 +7,81 @@ if (isset($_SESSION['user_id'])) : ?>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/views/assets/js/product.js"></script>
-  <script>
-  tailwind.config = {
-    corePlugins: {
-      preflight: false
-    }
-  };
-</script>
+    <script>
+      tailwind.config = {
+        corePlugins: {
+          preflight: false
+        }
+      };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f7fafc; /* Light gray background */
-            font-family: Arial, sans-serif; /* Font styling */
-            color: #333; /* Darker text color */
+            background-color: #f7fafc;
+            font-family: Arial, sans-serif;
+            color: #333;
         }
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: auto;
-            padding: 15px;
+            padding: 10px;
         }
         h2 {
             text-align: center;
-            font-size: 0.5rem;
-            margin-bottom: 20px;
-            color: #2c3e50; /* Darker color for the header */
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
         }
-        .text-sm{
-          font-size: 12px;
+        .text-sm {
+            font-size: 10px;
+            line-height: 1.2;
         }
         .alert {
-            font-size: 1.25rem; /* Larger font size */
-            padding: 10px 15px; /* Increased padding */
-            margin-bottom: 20px; /* Spacing below the alert */
+            font-size: 1rem;
+            padding: 8px 12px;
+            margin-bottom: 15px;
         }
         .grid {
-          position: relative;
-          left: -10%;
             display: grid;
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 0 auto;
+            width: 50%;
         }
         .card {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            text-align: center;
+            height: 100px;
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .icon {
-            width: 50px;
-            height: 50px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            font-size: 24px;
-            margin-right: 15px;
+            font-size: 16px;
+            margin-bottom: 8px;
         }
-        .font-semibold{
-          font-size: 14px;
+        .font-semibold {
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px 0;
         }
        
         /* Icon color classes */
@@ -87,62 +94,20 @@ if (isset($_SESSION['user_id'])) : ?>
         .makeup { background-color: #f8bbd0; color: #d81b60; }
         .other { background-color: #cfd8dc; color: #607d8b; }
 
-        .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-    left: 0;
-}
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
 
-.card {
-    flex-direction: row;
-}
-
-@media (max-width: 992px) {
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    .card {
-        flex-direction: row;
-        padding: 20px;
-    }
-
-    .icon {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-        margin-right: 10px;
-    }
-
-    .font-semibold {
-        font-size: 13px;
-    }
-
-    .text-sm {
-        font-size: 11px;
-    }
-}
-
-@media (max-width: 576px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .card {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        padding: 15px;
-    }
-
-    .icon {
-        margin: 0 0 10px 0;
-    }
-}
-
-        
+        @media (max-width: 576px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card {
+                height: 90px;
+            }
+        }
     </style>
 </head>
 <div class="container">
