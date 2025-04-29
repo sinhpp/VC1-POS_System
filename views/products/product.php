@@ -131,7 +131,6 @@ $categories = $this->getCategories();
 </div>
 
 <script>
-
 ////alert category/////////////////////////////////////////////////////////////////
 
 const addProductBtn = document.getElementById("addProductBtn");
@@ -169,11 +168,12 @@ function showAlert(message, type) {
     </div>`;
 }
 /////////////////////////////end alert category/////////////////////////////////////////////////////////
+
 const products = <?= json_encode($products); ?>; // Convert PHP array to JavaScript
+let filteredProducts = [...products]; // Initialize filtered products with all products
 const productsPerPage = 10;
 let currentPage = 1;
-let filteredProducts = [...products]; // Create a copy of the products array
-let totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+let totalPages = Math.ceil(products.length / productsPerPage);
 
 // Filter products based on category, stock, and search term
 function filterProducts() {
@@ -241,7 +241,7 @@ function renderProducts(page) {
                 
                 <td><span class="badge bg-${product.stock > 0 ? 'success' : 'danger'}">${product.stock}</span></td>
                 <td class="category-cell">${product.category}</td>
-                <td>$${parseFloat(product.price).toFixed(2)}</td>
+                <td>${parseFloat(product.price).toFixed(2)}</td>
               
                 <td class="action-icons">
                     <div class="dropdown">
@@ -260,65 +260,112 @@ function renderProducts(page) {
     }
 
     renderPagination(); // Update pagination
+    
+    // Re-attach event listeners to checkboxes
+    document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateDeleteIcon);
+    });
 }
 
 function renderPagination() {
     const paginationDiv = document.getElementById('pagination-buttons');
     paginationDiv.innerHTML = ''; // Clear previous pagination buttons
-
-    // Only show pagination if we have more than one page
+    
+    // Add previous button
     if (totalPages > 1) {
-        for (let i = 1; i <= Math.min(5, totalPages); i++) {
-            const button = document.createElement('button');
-            button.classList.add('page-btn');
-            button.textContent = i;
-            button.onclick = function () {
-                renderProducts(i);
-                updateActivePage(i);
-            };
-
-            if (i === currentPage) {
-                button.classList.add('active'); // Highlight active page
+        const prevButton = document.createElement('button');
+        prevButton.classList.add('page-btn', 'prev-btn');
+        prevButton.innerHTML = '&laquo;';
+        prevButton.disabled = currentPage === 1;
+        prevButton.onclick = function() {
+            if (currentPage > 1) {
+                renderProducts(currentPage - 1);
             }
-
-            paginationDiv.appendChild(button);
-        }
+        };
+        paginationDiv.appendChild(prevButton);
     }
-}
-
-// Highlight active page button
-function updateActivePage(page) {
-    const buttons = document.querySelectorAll('.page-btn');
-    buttons.forEach(button => {
-        button.classList.remove('active');
-        if (parseInt(button.textContent) === page) {
+    
+    // Calculate which page buttons to show
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    
+    // Adjust if we're near the end
+    if (endPage - startPage < 4 && startPage > 1) {
+        startPage = Math.max(1, endPage - 4);
+    }
+    
+    // Add page number buttons
+    for (let i = startPage; i <= endPage; i++) {
+        const button = document.createElement('button');
+        button.classList.add('page-btn');
+        button.textContent = i;
+        button.onclick = function() {
+            renderProducts(i);
+        };
+        
+        if (i === currentPage) {
             button.classList.add('active');
         }
-    });
+        
+        paginationDiv.appendChild(button);
+    }
+    
+    // Add next button
+    if (totalPages > 1) {
+        const nextButton = document.createElement('button');
+        nextButton.classList.add('page-btn', 'next-btn');
+        nextButton.innerHTML = '&raquo;';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.onclick = function() {
+            if (currentPage < totalPages) {
+                renderProducts(currentPage + 1);
+            }
+        };
+        paginationDiv.appendChild(nextButton);
+    }
+    
+    // Add page counter if there are pages
+    if (totalPages > 0) {
+        const pageInfo = document.createElement('span');
+        pageInfo.classList.add('page-info');
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        paginationDiv.appendChild(pageInfo);
+    }
 }
 
 // Initial load - Now only 10 products will show on page 1
 function init() {
-    // Add event listeners for filters
+    // Connect filter events
     document.getElementById('category-filter').addEventListener('change', filterProducts);
     document.getElementById('stock-filter').addEventListener('change', filterProducts);
     document.getElementById('product-search').addEventListener('input', filterProducts);
     
-    // Initial render
     renderProducts(1);
 }
 
 // Call init when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', function() {
+    init();
+    
+    // Add event listeners to all checkboxes
+    document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateDeleteIcon);
+    });
+});
 </script>
-
 
 <style>
 /* Pagination Button Styling */
 .pagination {
+    margin-left: -55%;
     margin-top: 10px;
-    text-align: center;
     padding: 10px 0;
+    display: flex;
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+    gap: 5px;
+    width: 100%; /* Ensures the container takes full width */
 }
 
 .page-btn {
@@ -328,6 +375,8 @@ document.addEventListener('DOMContentLoaded', init);
     margin: 2px;
     cursor: pointer;
     border-radius: 4px;
+    min-width: 40px; /* Ensures consistent button width */
+    text-align: center; /* Centers text within buttons */
 }
 
 .page-btn:hover {
@@ -340,10 +389,19 @@ document.addEventListener('DOMContentLoaded', init);
     border-color: #007bff;
 }
 
-/* Highlight search matches */
-.highlight {
-    background-color: yellow;
+.prev-btn, .next-btn {
     font-weight: bold;
+}
+
+.page-info {
+    margin: 0 10px;
+    color: white;
+    text-align: center; /* Centers the page info text */
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 </style>
 
@@ -440,5 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <?php else: $this->redirect("/"); endif; ?>

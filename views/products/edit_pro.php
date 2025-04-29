@@ -17,245 +17,134 @@
   });
 </script>
 
-<?php
-// if (session_status() == PHP_SESSION_NONE) {
-//     session_start();
-// }
-if (isset($_SESSION['user_id'])) : ?>
+<?php if (isset($_SESSION['user_id'])) : ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Edit Product</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-         body {
+        body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
             color: #333;
-            display: block;
-            height: 100vh;
-            position: relative;
-         }   
-        .table th, .table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
         }
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .table-dark {
-            background-color: #343a40;
-            color: white;
-        }
-        .badge.bg-success { background-color: #28a745; color: white; }
-        .badge.bg-danger { background-color: #dc3545; color: white; }
-        .btn {
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .btn-warning { background-color: #ffc107; color: black; }
-        .btn-danger { background-color: #dc3545; color: white; }
-        .btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .barcode-container {
-            margin-top: 20px;
-            text-align: center;
+        .container {
+            max-width: 88%;
             padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .barcode-error {
-            color: #dc3545;
-            display: none;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-        
-        /* Animation for page load */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        
-        /* Responsive styles */
         .grid-container {
+            margin-top: 10%;
+            margin-left: 24%;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-left:10%;
+         
         }
-        
         .card {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            transition: transform 0.2s ease;
         }
-        
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
         }
-        
         .card-header {
             background: linear-gradient(135deg, #2087F7 0%, #1a6fc7 100%);
             color: white;
             font-weight: 600;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            border-radius: 8px 8px 0 0;
+        }
+        .card-body {
             padding: 15px;
         }
-        
-        .text-gradient {
-            background: linear-gradient(135deg, #F868D4 0%, #c44da6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
+        .form-group {
+            margin-bottom: 12px;
         }
-        
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        .input-group {
+            margin-bottom: 8px;
+        }
+        .input-group-text {
+            padding: 0.3rem 0.5rem;
+        }
+        .form-control, .form-select {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.85rem;
+        }
+        .btn {
+            padding: 0.3rem 0.7rem;
+            font-size: 0.85rem;
+        }
+        .btn-group .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        .text-muted {
+            font-size: 0.75rem;
+        }
+        .barcode-container {
+            margin-top: 10px;
+            text-align: center;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
         .actions button {
-            height: 50px;
+            height: 40px;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            transition: all 0.3s ease;
         }
-        
-        .actions button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        }
-        
         .add {
             background: linear-gradient(135deg, #28a745 0%, #218838 100%);
             border: none;
             color: white;
-            border-radius: 8px;
+            border-radius: 6px;
         }
-        
-        /* Media queries for responsiveness */
-        @media (max-width: 992px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .container {
-                max-width: 95% !important;
-                margin: 0 auto;
-            }
-            
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .breadcrumb {
-                margin-top: 10px;
-            }
+        .breadcrumb {
+            font-size: 0.8rem;
+            padding: 5px 0;
+        }
+        .page-header {
+            margin-bottom: 15px;
+        }
+        .text-gradient {
+            font-size: 1.2rem;
         }
         
         @media (max-width: 768px) {
-            .size-gender {
-                flex-direction: column;
-            }
-            
-            .size, .gender {
-                width: 100%;
-                margin-bottom: 15px;
-            }
-            
-            .actions button {
-                width: 100%;
-            }
-            
-            .card-header {
-                font-size: 1.1rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            body {
-                font-size: 14px;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            .btn-group {
-                flex-wrap: wrap;
-            }
-            
-            .btn-group .btn {
-                flex: 1 0 auto;
-                margin-bottom: 5px;
+            .grid-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
-
-
 </head>
 <body>
- 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
        
-<div class="container fade-in">
-    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+<div class="container">
+    <div class="page-header d-flex justify-content-between align-items-center mb-3">
         <h4 class="text-gradient"><i class="fas fa-edit me-2"></i>Edit Product</h4>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="/products">Products</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                <li class="breadcrumb-item active">Edit</li>
             </ol>
         </nav>
     </div>
@@ -267,7 +156,7 @@ if (isset($_SESSION['user_id'])) : ?>
             
         <h5 class="card-header"><i class="fas fa-info-circle me-2"></i>General Information</h5>
         <div class="card-body">
-            <div class="form-group mb-3">
+            <div class="form-group">
                 <label class="form-label">Product Name</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-tag"></i></span>
@@ -275,23 +164,28 @@ if (isset($_SESSION['user_id'])) : ?>
                 </div>
             </div>
 
-            <div class="form-group mb-3">
-                <label class="form-label">Base Pricing</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                    <input type="number" class="form-control" placeholder="0.00" name="price" value="<?= htmlspecialchars($product['price']) ?>" required min="0" step="0.01">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Base Pricing</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                            <input type="number" class="form-control" placeholder="0.00" name="price" value="<?= htmlspecialchars($product['price']) ?>" required min="0" step="0.01">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label class="form-label">Stock</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-boxes"></i></span>
-                    <input type="number" id="stockInput" class="form-control" placeholder="Enter stock quantity" name="stock" value="<?= htmlspecialchars($product['stock']) ?>" required min="0" step="1">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Stock</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-boxes"></i></span>
+                            <input type="number" id="stockInput" class="form-control" placeholder="Enter stock" name="stock" value="<?= htmlspecialchars($product['stock']) ?>" required min="0" step="1">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group">
                 <label class="form-label">Description</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-align-left"></i></span>
@@ -299,113 +193,166 @@ if (isset($_SESSION['user_id'])) : ?>
                 </div>
             </div>
 
-            <div class="size-gender row">
-                <div class="size col-md-6 mb-3">
-                    <label class="form-label">Size</label>
-                    <div class="size-options btn-group w-100">
-                        <button type="button" class="btn btn-outline-primary" onclick="selectSize(this, 'S')">S</button>
-                        <button type="button" class="btn btn-outline-primary" onclick="selectSize(this, 'M')">M</button>
-                        <button type="button" class="btn btn-outline-primary selected" onclick="selectSize(this, 'L')">L</button>
-                        <button type="button" class="btn btn-outline-primary" onclick="selectSize(this, 'XL')">XL</button>
-                        <button type="button" class="btn btn-outline-primary" onclick="selectSize(this, 'XXL')">XXL</button>
-                    </div>
-                    <input type="hidden" name="size" id="size" value="L"> <!-- Default value -->
-                </div>
-                <div class="gender col-md-6 mb-3">
-                    <label class="form-label">Gender</label>
-                    <div class="gender-options btn-group w-100">
-                        <button type="button" class="btn btn-outline-primary selected" onclick="selectGender(this, 'Men')">Men</button>
-                        <button type="button" class="btn btn-outline-primary" onclick="selectGender(this, 'Women')">Women</button>
-                    </div>
-                    <input type="hidden" name="gender" id="gender" value="Men"> <!-- Default value -->
-                </div>
-            </div>
+            <div class="row">
+    <div class="col-md-6">
+        <label class="form-label">Size</label>
+        <div class="btn-group w-100" role="group">
+            <?php
+            $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+            foreach ($sizes as $size) {
+                // Check if this size matches the product's size
+                $isSelected = isset($product) && $product['size'] == $size;
+                // Apply btn-success class if selected, otherwise btn-outline-primary
+                $btnClass = $isSelected ? 'btn-success' : 'btn-outline-primary';
+            ?>
+                <input type="radio" class="btn-check" name="size" id="size-<?= strtolower($size) ?>" value="<?= $size ?>" <?= $isSelected ? 'checked' : '' ?>>
+                <label class="btn <?= $btnClass ?>" for="size-<?= strtolower($size) ?>"><?= $size ?></label>
+            <?php } ?>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+    <label class="form-label">Gender</label>
+    
+    <?php
+    // Get the current gender value that we know works
+    $currentGender = isset($product) ? htmlspecialchars($product['gender']) : 'N/A';
+    // For debugging (can be removed later)
+    // echo "<!-- Current gender from DB: '" . $currentGender . "' -->";
+    ?>
+    
+    <div class="btn-group w-100" role="group">
+        <!-- Men option -->
+        <input type="radio" class="btn-check" name="gender" id="gender-men" value="Men" 
+               <?= (strtolower($currentGender) == 'men') ? 'checked' : '' ?>>
+        <label class="btn <?= (strtolower($currentGender) == 'men') ? 'btn-success' : 'btn-outline-primary' ?>" 
+               for="gender-men">Men</label>
+        
+        <!-- Women option -->
+        <input type="radio" class="btn-check" name="gender" id="gender-women" value="Women" 
+               <?= (strtolower($currentGender) == 'women') ? 'checked' : '' ?>>
+        <label class="btn <?= (strtolower($currentGender) == 'women') ? 'btn-success' : 'btn-outline-primary' ?>" 
+               for="gender-women">Women</label>
+    </div>
+</div>
+
+<script>
+// Make sure this script runs after the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle gender selection
+    const genderRadios = document.querySelectorAll('input[name="gender"]');
+    genderRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Reset all gender buttons
+            document.querySelectorAll('label[for^="gender-"]').forEach(label => {
+                label.classList.remove('btn-success');
+                label.classList.add('btn-outline-primary');
+            });
             
-            <h5 class="mt-4 mb-3"><i class="fas fa-image me-2"></i>Product Image</h5>
-            <div class="image-preview card mb-3" id="imagePreview">
-                <img src="<?= !empty($product['image']) ? '/' . htmlspecialchars($product['image']) : '' ?>" alt="Product Image" id="previewImg" class="card-img-top" style="max-height: 200px; object-fit: contain; <?= empty($product['image']) ? 'display: none;' : '' ?>">
-            </div>
+            // Set the selected button to green
+            const selectedLabel = document.querySelector(`label[for="${this.id}"]`);
+            if (selectedLabel) {
+                selectedLabel.classList.remove('btn-outline-primary');
+                selectedLabel.classList.add('btn-success');
+            }
+        });
+    });
+});
+</script>
+
+
+
+<script>
+// Add this script to change button colors when options are selected
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle size selection
+    document.querySelectorAll('input[name="size"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Reset all size buttons to outline style
+            document.querySelectorAll('label[for^="size-"]').forEach(label => {
+                label.classList.remove('btn-success');
+                label.classList.add('btn-outline-primary');
+            });
             
-            <div class="upload-img mb-3">
+            // Set the selected button to success (green)
+            const selectedLabel = document.querySelector(`label[for="size-${this.value.toLowerCase()}"]`);
+            if (selectedLabel) {
+                selectedLabel.classList.remove('btn-outline-primary');
+                selectedLabel.classList.add('btn-success');
+            }
+        });
+    });
+    
+    // Handle gender selection - exactly the same approach as size
+    document.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Reset all gender buttons to outline style
+            document.querySelectorAll('label[for^="gender-"]').forEach(label => {
+                label.classList.remove('btn-success');
+                label.classList.add('btn-outline-primary');
+            });
+            
+            // Set the selected button to success (green)
+            const selectedLabel = document.querySelector(`label[for="gender-${this.value.toLowerCase()}"]`);
+            if (selectedLabel) {
+                selectedLabel.classList.remove('btn-outline-primary');
+                selectedLabel.classList.add('btn-success');
+            }
+        });
+    });
+});
+</script>
+            <div class="mt-3">
+                <label class="form-label">Product Image</label>
+                <div class="image-preview card mb-2" id="imagePreview">
+                    <img src="<?= !empty($product['image']) ? '/' . htmlspecialchars($product['image']) : '' ?>" alt="Product Image" id="previewImg" class="card-img-top" style="max-height: 150px; object-fit: contain; <?= empty($product['image']) ? 'display: none;' : '' ?>">
+                </div>
+                
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-upload"></i></span>
                     <input type="file" class="form-control" id="fileUpload" name="image" accept="image/*">
                 </div>
-                <small class="text-muted">Recommended size: 800x800px, Max size: 2MB</small>
+                <small class="text-muted">Recommended: 800x800px, Max: 2MB</small>
             </div>
         </div>
         </section>
         
-        <script>
-            function selectSize(button, size) {
-                // Remove 'selected' class from all size buttons
-                document.querySelectorAll('.size-options button').forEach(btn => {
-                    btn.classList.remove('selected');
-                    btn.classList.remove('btn-primary');
-                    btn.classList.add('btn-outline-primary');
-                });
-
-                // Add 'selected' class
-                                    // Add 'selected' class to the clicked button
-                button.classList.add('selected');
-                button.classList.remove('btn-outline-primary');
-                button.classList.add('btn-primary');
-
-                // Update the hidden input value
-                document.getElementById('size').value = size;
-                console.log('Selected Size:', size); // Debugging
-            }
-
-            function selectGender(button, gender) {
-                // Remove 'selected' class from all gender buttons
-                document.querySelectorAll('.gender-options button').forEach(btn => {
-                    btn.classList.remove('selected');
-                    btn.classList.remove('btn-primary');
-                    btn.classList.add('btn-outline-primary');
-                });
-
-                // Add 'selected' class to the clicked button
-                button.classList.add('selected');
-                button.classList.remove('btn-outline-primary');
-                button.classList.add('btn-primary');
-
-                // Update the hidden input value
-                document.getElementById('gender').value = gender;
-                console.log('Selected Gender:', gender); // Debugging
-            }
-        </script>
-
         <section class="pricing-stock card">
             <h5 class="card-header"><i class="fas fa-tags me-2"></i>Pricing And Stocks</h5>
             <div class="card-body">
-                <div class="form-group mb-3">
-                    <label class="form-label">Discount</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-percent"></i></span>
-                        <input type="number" class="form-control" placeholder="Enter discount" name="discount" value="<?= htmlspecialchars($product['discount'] ?? '') ?>" min="0" step="0.01">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Discount</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-percent"></i></span>
+                                <input type="number" class="form-control" placeholder="Enter discount" name="discount" value="<?= htmlspecialchars($product['discount'] ?? '') ?>" min="0" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Discount Type</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                                <input type="text" class="form-control" placeholder="Enter discount type" name="discount_type" value="<?= htmlspecialchars($product['discount_type'] ?? '') ?>">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label class="form-label">Discount Type</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                        <input type="text" class="form-control" placeholder="Enter discount type" name="discount_type" value="<?= htmlspecialchars($product['discount_type'] ?? '') ?>">
-                    </div>
-                </div>
-
-                <div class="category mb-3">
+                <div class="form-group">
                     <label class="form-label">Category</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-folder"></i></span>
                         <select id="categorySelect" class="form-select" name="category" required>
-                            <!-- General Categories -->
                             <option value="Uniform" <?= isset($product) && $product['category'] == 'Uniform' ? 'selected' : '' ?>>Uniform</option>
                             <option value="T-shirt" <?= isset($product) && $product['category'] == 'T-shirt' ? 'selected' : '' ?>>T-shirt</option>
                             <option value="Sport Clothes" <?= isset($product) && $product['category'] == 'Sport Clothes' ? 'selected' : '' ?>>Sport Clothes</option>
                             <option value="Clothes" <?= isset($product) && $product['category'] == 'Clothes' ? 'selected' : '' ?>>Clothes</option>
                             <option value="Shoes" <?= isset($product) && $product['category'] == 'Shoes' ? 'selected' : '' ?>>Shoes</option>
                             <option value="Bag" <?= isset($product) && $product['category'] == 'Bag' ? 'selected' : '' ?>>Bag</option>
+                            <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt
                             <option value="Shirt" <?= isset($product) && $product['category'] == 'Shirt' ? 'selected' : '' ?>>Shirt</option>
                             <option value="Nightwear" <?= isset($product) && $product['category'] == 'Nightwear' ? 'selected' : '' ?>>Nightwear</option>
                             
@@ -418,13 +365,13 @@ if (isset($_SESSION['user_id'])) : ?>
                     </div>
                 </div>
                 
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <label class="form-label">Barcode</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                         <input id="productBarcode" type="text" class="form-control" name="barcode" value="<?= isset($product) ? htmlspecialchars($product['barcode']) : '' ?>"/>
-                        <button id="generateBarcodeButton" type="button" class="btn btn-warning">
-                            <i class="fas fa-sync-alt me-1"></i> Generate
+                        <button id="generateBarcodeButton" type="button" class="btn btn-warning btn-sm">
+                            <i class="fas fa-sync-alt"></i> Generate
                         </button>
                     </div>
                     <small class="text-muted">Enter a barcode or generate a new one</small>
@@ -432,13 +379,13 @@ if (isset($_SESSION['user_id'])) : ?>
 
                 <div class="barcode-container">
                     <canvas id="barcodeCanvas"></canvas>
-                    <div id="errorMessage" class="barcode-error">
+                    <div id="errorMessage" class="barcode-error text-danger" style="display: none; font-size: 0.8rem;">
                         <i class="fas fa-exclamation-triangle me-1"></i> Invalid barcode! Please try again.
                     </div>
                 </div>
 
                 <!-- Additional Dropdown for Student Material (hidden by default) -->
-                <div id="studentMaterialOptions" class="form-group mb-3" style="display: none;">
+                <div id="studentMaterialOptions" class="form-group" style="display: none;">
                     <label class="form-label">Student Material Type</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-book"></i></span>
@@ -451,7 +398,7 @@ if (isset($_SESSION['user_id'])) : ?>
                 </div>
 
                 <!-- Input for "Other" Category (hidden by default) -->
-                <div id="otherCategoryInput" class="form-group mb-3" style="display: none;">
+                <div id="otherCategoryInput" class="form-group" style="display: none;">
                     <label class="form-label">Please specify:</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-edit"></i></span>
@@ -474,12 +421,12 @@ if (isset($_SESSION['user_id'])) : ?>
                     try {
                         JsBarcode(barcodeCanvas, barcodeValue, {
                             format: "CODE128",
-                            width: 2,
-                            height: 40,
-                            displayValue: true
+                            width: 1.5,
+                            height: 30,
+                            displayValue: true,
+                            fontSize: 10
                         });
                         errorMessage.style.display = 'none';
-                        // Add animation effect
                         barcodeCanvas.classList.add('fade-in');
                         setTimeout(() => barcodeCanvas.classList.remove('fade-in'), 500);
                     } catch (e) {
@@ -492,12 +439,12 @@ if (isset($_SESSION['user_id'])) : ?>
                     barcodeInput.value = randomBarcode;
                     JsBarcode(barcodeCanvas, randomBarcode.toString(), {
                         format: "CODE128",
-                        width: 2,
-                        height: 40,
-                        displayValue: true
+                        width: 1.5,
+                        height: 30,
+                        displayValue: true,
+                        fontSize: 10
                     });
                     errorMessage.style.display = 'none';
-                    // Add animation effect
                     barcodeCanvas.classList.add('fade-in');
                     setTimeout(() => barcodeCanvas.classList.remove('fade-in'), 500);
                 }
@@ -511,14 +458,14 @@ if (isset($_SESSION['user_id'])) : ?>
 
                 // Show or hide options based on selected category
                 if (selectedCategory === "Student Material") {
-                    studentMaterialOptions.style.display = "block"; // Show the sub-options
-                    otherCategoryInput.style.display = "none"; // Hide the "Other" input field
+                    studentMaterialOptions.style.display = "block";
+                    otherCategoryInput.style.display = "none";
                 } else if (selectedCategory === "Other") {
-                    studentMaterialOptions.style.display = "none"; // Hide the sub-options for student material
-                    otherCategoryInput.style.display = "block"; // Show the input field for "Other"
+                    studentMaterialOptions.style.display = "none";
+                    otherCategoryInput.style.display = "block";
                 } else {
-                    studentMaterialOptions.style.display = "none"; // Hide the sub-options
-                    otherCategoryInput.style.display = "none"; // Hide the "Other" input field
+                    studentMaterialOptions.style.display = "none";
+                    otherCategoryInput.style.display = "none";
                 }
             });
 
@@ -535,9 +482,6 @@ if (isset($_SESSION['user_id'])) : ?>
                     reader.onload = function(e) {
                         previewImg.src = e.target.result;
                         previewImg.style.display = 'block';
-                        // Add animation effect
-                        previewImg.classList.add('fade-in');
-                        setTimeout(() => previewImg.classList.remove('fade-in'), 500);
                     };
                     reader.readAsDataURL(file);
                 } else {
@@ -552,9 +496,10 @@ if (isset($_SESSION['user_id'])) : ?>
                     try {
                         JsBarcode(barcodeCanvas, barcodeValue, {
                             format: "CODE128",
-                            width: 2,
-                            height: 40,
-                            displayValue: true
+                            width: 1.5,
+                            height: 30,
+                            displayValue: true,
+                            fontSize: 10
                         });
                     } catch (e) {
                         // Silent fail
@@ -563,8 +508,8 @@ if (isset($_SESSION['user_id'])) : ?>
             });
         </script>
 
-        <div class="actions mt-4">
-            <button type="submit" class="add btn btn-lg w-100">
+        <div class="actions mt-3">
+            <button type="submit" class="add btn w-100">
                 <i class="fas <?= isset($product) ? 'fa-save' : 'fa-plus-circle' ?> me-2"></i>
                 <?= isset($product) ? 'Update Product' : 'Add Product' ?>
             </button>
@@ -575,9 +520,8 @@ if (isset($_SESSION['user_id'])) : ?>
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom script for form validation -->
+<!-- Form validation script -->
 <script>
-    // Form validation
     document.querySelector('form').addEventListener('submit', function(event) {
         let isValid = true;
         const requiredFields = this.querySelectorAll('[required]');
@@ -587,11 +531,10 @@ if (isset($_SESSION['user_id'])) : ?>
                 isValid = false;
                 field.classList.add('is-invalid');
                 
-                // Create error message if it doesn't exist
                 if (!field.nextElementSibling || !field.nextElementSibling.classList.contains('invalid-feedback')) {
                     const feedback = document.createElement('div');
                     feedback.classList.add('invalid-feedback');
-                    feedback.textContent = 'This field is required';
+                    feedback.textContent = 'Required';
                     field.parentNode.appendChild(feedback);
                 }
             } else {
@@ -601,7 +544,6 @@ if (isset($_SESSION['user_id'])) : ?>
         
         if (!isValid) {
             event.preventDefault();
-            // Scroll to the first invalid field
             const firstInvalid = this.querySelector('.is-invalid');
             if (firstInvalid) {
                 firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -609,7 +551,6 @@ if (isset($_SESSION['user_id'])) : ?>
         }
     });
     
-    // Clear validation on input
     document.querySelectorAll('input, select, textarea').forEach(element => {
         element.addEventListener('input', function() {
             this.classList.remove('is-invalid');
@@ -618,8 +559,4 @@ if (isset($_SESSION['user_id'])) : ?>
 </script>
 </div>
 
-<?php 
-else: 
-    $this->redirect("/"); 
-endif;   
-?>
+<?php else: $this->redirect("/"); endif; ?>
