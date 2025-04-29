@@ -15,6 +15,7 @@
               margin-left: 250px; /* Width of sidebar */
               transition: margin-left 0.3s;
               padding: 20px;
+              padding-left: 100px;
               width: calc(100% - 250px);
           }
         
