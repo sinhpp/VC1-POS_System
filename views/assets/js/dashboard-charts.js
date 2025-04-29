@@ -117,6 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initSalesChart();
     fetchSalesChartData();
     
-    // Refresh chart data every 5 minutes
-    setInterval(fetchSalesChartData, 5 * 60 * 1000);
+    // Refresh chart data every 1 minute
+    setInterval(fetchSalesChartData, 1 * 60 * 1000);
 });

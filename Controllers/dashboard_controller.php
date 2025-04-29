@@ -54,3 +54,36 @@ public function getOrderDataForChart() {
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
 }
+
+public function getOrdersCountToday() {
+    // Ensure the request is AJAX
+    if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+        http_response_code(403);
+        echo json_encode(['error' => 'Forbidden']);
+        return;
+    }
+    
+    try {
+        // Get count of orders for today
+        $db = new Database();
+        $conn = $db->getConnection();
+        
+        $query = "SELECT COUNT(*) as order_count 
+                  FROM orders 
+                  WHERE DATE(created_at) = CURDATE()";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        echo json_encode([
+            'success' => true,
+            'ordersToday' => $result['order_count']
+        ]);
+        
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+    }
+}

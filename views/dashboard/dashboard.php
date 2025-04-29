@@ -193,6 +193,16 @@ $hasError = isset($error);
     .system-activity-content small {
         font-size: 12px;
     }
+    
+    @keyframes highlight-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(13, 202, 240, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(13, 202, 240, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(13, 202, 240, 0); }
+    }
+    
+    .highlight-update {
+        animation: highlight-pulse 2s ease-out;
+    }
 </style>
 
 <div id="success-alert" class="success-alert">
@@ -229,6 +239,12 @@ $hasError = isset($error);
 <div class="content-body">
     <!-- row -->
     <div class="container-fluid">
+        <div class="d-flex justify-content-end mb-3">
+            <button id="refreshDashboardData" class="btn btn-sm btn-outline-primary" title="Refresh dashboard data">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+        </div>
+        
         <?php if ($hasError): ?>
             <div class="error-message">
                 <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
@@ -735,6 +751,7 @@ $hasError = isset($error);
 
 <!-- Add this before the closing </body> tag, after the Chart.js script -->
 <script src="/views/assets/js/dashboard-charts.js"></script>
+<script src="/views/assets/js/dashboard-data.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -820,17 +837,4 @@ $hasError = isset($error);
         salesGradient.addColorStop(1, 'rgba(54, 162, 235, 0.1)');
         
         // Create gradient for expenses
-        const expensesGradient = ctx.createLinearGradient(0, 0, 0, 400);
-        expensesGradient.addColorStop(0, 'rgba(255, 99, 132, 0.6)');
-        expensesGradient.addColorStop(1, 'rgba(255, 99, 132, 0.1)');
-        
-        // Create gradient for profit
-        const profitGradient = ctx.createLinearGradient(0, 0, 0, 400);
-        profitGradient.addColorStop(0, 'rgba(75, 192, 192, 0.6)');
-        profitGradient.addColorStop(1, 'rgba(75, 192, 192, 0.1)');
-        
-        window.performanceChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?php echo json_encode(isset($performanceMetrics['chartData']['labels']) ? $performanceMetrics['chartData']['labels'] : []
-                ); ?>,
+        const expensesGradient = ctx.createLinearGradient(0,
