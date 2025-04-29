@@ -81,6 +81,9 @@ $route->get("/product_cashier/product", [ProductCashierController::class, 'index
 //LOw Stock Alert
 $route->get("/product/low_stock_alert", [ProductController::class, 'lowStockAlert']);
 
+// Add this with your other routes
+$router->get('/dashboard/chart-data', 'DashboardController@getOrderDataForChart');
+
 
 // Call the route method to process the request
 $route->route();

@@ -311,8 +311,11 @@ $hasError = isset($error);
             <!-- Sales Chart for Last 7 Days -->
             <div class="col-xl-8 col-xxl-8">
                 <div class="card">
-                    <div class="card-header border-0 pb-0">
+                    <div class="card-header border-0 pb-0 d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Sales Overview (Last 7 Days)</h4>
+                        <button id="refreshSalesChart" class="btn btn-sm btn-outline-primary" title="Refresh data">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -730,6 +733,9 @@ $hasError = isset($error);
 <!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- Add this before the closing </body> tag, after the Chart.js script -->
+<script src="/views/assets/js/dashboard-charts.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize all charts
@@ -826,10 +832,5 @@ $hasError = isset($error);
         window.performanceChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: <?php echo json_encode(isset($performanceMetrics['chartData']['labels']) ? $performanceMetrics['chartData']['labels'] : []); ?>,
-                datasets: [
-                    {
-                        label: 'Sales',
-                        data: <?php echo json_encode(isset($performanceMetrics['chartData']['sales']) ? $performanceMetrics['chartData']['sales'] : []); ?>,
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        backgroundColor: salesGradient,
+                labels: <?php echo json_encode(isset($performanceMetrics['chartData']['labels']) ? $performanceMetrics['chartData']['labels'] : []
+                ); ?>,
