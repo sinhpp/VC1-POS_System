@@ -293,7 +293,7 @@ INSERT INTO `products` (`id`, `name`, `barcode`, `price`, `stock`, `created_at`,
 (92, 'kikii', 'dsaf', '23', 43, '2025-03-31 08:02:03', 'Bag', 'https://static.vecteezy.com/system/resources/previews/024/176/721/non_2x/colorful-soft-3d-halftone-wave-effect-simple-gradient-abstract-background-suitable-for-landing-page-and-computer-desktop-wallpaper-vector.jpg', 'M', 'dsa', 233, 'female', NULL, 1, 1),
 (93, 'zaaa', 'saf', '43', 23, '2025-03-31 08:02:38', 'Bag', 'https://static.vecteezy.com/system/resources/previews/024/176/721/non_2x/colorful-soft-3d-halftone-wave-effect-simple-gradient-abstract-background-suitable-for-landing-page-and-computer-desktop-wallpaper-vector.jpg', 'S', 'sda', 11, 'female', NULL, 1, 1),
 (94, 'bag', '12344', '12', 21, '2025-04-02 12:20:36', 'Bag', 'uploads/WIN_20250329_08_34_56_Pro.jpg', 'L', 'good', 11, 'Men', 'khmer now year', 1, 1),
-(95, 'zaa', '111', '11', 7, '2025-04-02 12:30:16', 'Uniform', 'uploads/67ed2e12ca8b7-WIN_20250329_08_34_56_Pro.jpg', 'L', 'good', 11, 'Men', 'don\'t knoe', 1, 1);
+
 
 -- --------------------------------------------------------
 

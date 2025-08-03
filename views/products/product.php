@@ -191,8 +191,8 @@ function filterProducts() {
         if (stockFilter) {
             const stock = parseInt(product.stock);
             if (stockFilter === 'low' && stock <= 10) stockMatch = true;
-            else if (stockFilter === 'medium' && stock > 10 && stock <= 50) stockMatch = true;
-            else if (stockFilter === 'high' && stock > 50) stockMatch = true;
+            else if (stockFilter === 'medium' && stock > 10 && stock <= 20) stockMatch = true;
+            else if (stockFilter === 'high' && stock > 20) stockMatch = true;
             else stockMatch = false;
         }
         
